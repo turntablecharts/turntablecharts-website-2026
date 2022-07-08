@@ -78,7 +78,8 @@ const Home: React.FC<{
               fontType="SFProText"
               style={{ letterSpacing: "1px" }}
             >
-              Thousands of songs carefully curated, just for you.
+              Thousands of songs tracked weekly across radio and streaming
+              platforms in Nigeria, just for you.
             </Typography.Text>
           </div>
           <div className="hero_left-cta">
@@ -104,7 +105,7 @@ const Home: React.FC<{
               fontSize: Theme.fontSizes.xxlarge,
             }}
           >
-            Charts
+            This Week&apos;s Top10
           </Typography.Heading>
           <Link href="/charts">
             <a className="yellow">
@@ -196,6 +197,12 @@ const IndexStyling = styled.div`
     width: 95%;
     margin: 0 auto;
     margin-bottom: 100px;
+
+    &.charts {
+      ${media.mobileLarge`
+        margin-top: 70px;
+      `}
+    }
 
     .section_title {
       display: flex;

@@ -12,6 +12,7 @@ type WrappedResult = {
   images: string;
   songs: string[];
   artists: string[];
+  genre: string;
 };
 
 const MyTurnTable = () => {
@@ -74,7 +75,9 @@ const MyTurnTable = () => {
   return (
     <MyTurnTableStyling>
       <div className="page_header">
-        <Typography.Title>#myTurnTable</Typography.Title>
+        <Typography.Title style={{ fontSize: "64px" }}>
+          #myTurnTable
+        </Typography.Title>
       </div>
       {stage === 1 && (
         <div className="page_content">
@@ -199,6 +202,14 @@ const MyTurnTable = () => {
             <div className="images">
               <img src="/assets/wrapped.png" alt="wrapped" />
             </div>
+            <Typography.Text
+              fontType="SFProText"
+              weight="medium"
+              style={{ lineHeight: "24px" }}
+              level="large"
+            >
+              Here&apos;s how your top songs & artistes ranked in H1 2022
+            </Typography.Text>
             <div className="results">
               <div className="top_songs">
                 <Typography.Heading
@@ -263,6 +274,21 @@ const MyTurnTable = () => {
                   ))}
               </div>
             </div>
+            <div style={{ textAlign: "left" }} className="genre">
+              <Typography.Heading
+                fontType="Mermaid"
+                style={{
+                  color: Theme.colorPalette.ttcYellow,
+                  fontSize: Theme.fontSizes.xlarge,
+                }}
+                level={3}
+              >
+                Genre Share of H1
+              </Typography.Heading>
+              <Typography.Text fontType="SFProText" weight="bold" level="large">
+                {wrappedResults?.genre}
+              </Typography.Text>
+            </div>
             <div className="random_fact">
               <Typography.Heading
                 fontType="Mermaid"
@@ -309,6 +335,13 @@ const MyTurnTableStyling = styled.div`
   .page_header {
     padding: 7vh 0;
     text-align: center;
+
+    ${media.mobileLarge`
+    h1 {
+        font-size: 50px;
+
+      }
+    `}
   }
 
   .page_content {

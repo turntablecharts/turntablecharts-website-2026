@@ -87,7 +87,7 @@ const TextHeading: TextHeadingsComponent = ({ children, level, ...rest }) => {
 
 const TextTitle: TextComponent = ({ children, text }) => {
   return (
-    <TextHeading fontType="Mermaid" style={{ fontSize: "64px" }} level={1}>
+    <TextHeading fontType="Mermaid" level={1}>
       {text || children}
     </TextHeading>
   );

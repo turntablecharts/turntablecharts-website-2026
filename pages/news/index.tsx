@@ -31,7 +31,9 @@ const News: React.FC<{ topNews: NewsItem[] }> = ({ topNews }) => {
         <meta name="description" content="TurnTable Charts - News This Week" />
       </Head>
       <div className="page_header">
-        <Typography.Title>News This Week</Typography.Title>
+        <Typography.Title style={{ fontSize: "64px" }}>
+          News This Week
+        </Typography.Title>
       </div>
       <div className="page_article_cards">
         {topNews.map((item) => (
@@ -52,6 +54,13 @@ const NewsPageStyling = styled.div`
   .page_header {
     padding: 7vh 0;
     text-align: center;
+
+    ${media.mobileLarge`
+      h1 {
+        font-size: 50px;
+
+      }
+    `}
   }
 
   .page_article_cards {
