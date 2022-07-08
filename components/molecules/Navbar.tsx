@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import TTCLogo from "assets/icons/ttc-logo.svg";
 import TTCIconInsta from "assets/icons/ttc-insta.svg";
 import TTCIconTwiter from "assets/icons/ttc-twitter.svg";
@@ -13,7 +13,7 @@ const Navbar = () => {
   const router = useRouter();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   return (
-    <NavbarStyling>
+    <NavbarStyling pathname={router.pathname}>
       <div className="logo">
         <Link href="/">
           <a>
@@ -32,11 +32,11 @@ const Navbar = () => {
             <Typography.Text fontType="Fontastique">News</Typography.Text>
           </a>
         </Link>
-        <Link className="menus_menu" href="/photos">
+        {/* <Link className="menus_menu" href="/photos">
           <a className={router.pathname === "/photos" ? "active" : ""}>
             <Typography.Text fontType="Fontastique">Photos</Typography.Text>
           </a>
-        </Link>
+        </Link> */}
       </nav>
       <div className={`mobile_menus ${isMobileNavOpen ? "open" : ""}`}>
         <nav className="menuContainer">
@@ -54,13 +54,13 @@ const Navbar = () => {
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/photos">
+          {/* <Link className="mobile_menu" href="/photos">
             <a className={router.pathname === "/photos" ? "active" : ""}>
               <Typography.Text level="xlarge" fontType="Fontastique">
                 Photos
               </Typography.Text>
             </a>
-          </Link>
+          </Link> */}
         </nav>
         <div className="mobile_socials">
           <a
@@ -112,7 +112,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-const NavbarStyling = styled.div`
+const NavbarStyling = styled.div<{ pathname: string }>`
   padding: 20px 80px;
   display: flex;
   align-items: center;
@@ -120,6 +120,13 @@ const NavbarStyling = styled.div`
   position: sticky;
   top: 0;
   background-color: ${Theme.colorPalette.black};
+
+  ${({ pathname }) =>
+    pathname === "/myTurnTable" &&
+    css`
+      background: transparent;
+      position: relative;
+    `}
   .menus {
     display: flex;
     gap: 67px;

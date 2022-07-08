@@ -6,6 +6,7 @@ import Typography from "./typography";
 import UpTrendIcon from "assets/icons/upTrend.svg";
 import DownTrendIcon from "assets/icons/downTrend.svg";
 import NoTrendIcon from "assets/icons/neutralTrend.svg";
+import Theme from "constants/Theme";
 
 const RankPlusTrend = ({ song }: { song: ChartItem }) => {
   return (
@@ -13,7 +14,29 @@ const RankPlusTrend = ({ song }: { song: ChartItem }) => {
       <Typography.Text fontType="Montserrat" weight="semiBold" level="xlarge">
         {song.rank}
       </Typography.Text>
-      {song.rank < song.lastPosition ? (
+      {song.lastPosition === 0 ? (
+        <div style={{ padding: "4px 8px", backgroundColor: "#0F8F491A" }}>
+          <Typography.Text
+            style={{ color: Theme.colorPalette.ttcGreen }}
+            level="medium"
+            weight="semiBold"
+            fontType="Montserrat"
+          >
+            NEW
+          </Typography.Text>
+        </div>
+      ) : song.lastPosition === -1 ? (
+        <div style={{ padding: "4px 8px", backgroundColor: "#F1A01F1A" }}>
+          <Typography.Text
+            style={{ color: Theme.colorPalette.ttcYellow }}
+            level="medium"
+            weight="semiBold"
+            fontType="Montserrat"
+          >
+            RE-ENTRY
+          </Typography.Text>
+        </div>
+      ) : song.rank < song.lastPosition ? (
         <UpTrendIcon />
       ) : song.rank > song.lastPosition ? (
         <DownTrendIcon />

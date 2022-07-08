@@ -38,7 +38,8 @@ export default Footer;
 const FooterStyling = styled.footer`
   max-width: 1200px;
   width: 95%;
-  margin: 50px auto;
+  margin: 50px auto 0px auto;
+  padding-bottom: 50px;
   display: flex;
   justify-content: space-between;
 

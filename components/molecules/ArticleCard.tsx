@@ -18,9 +18,9 @@ const ArticleCard: React.FC<{ newsItem: NewsItem }> = ({ newsItem }) => {
             <img
               src={newsItem.headerImageUri}
               alt="article img"
-              onError={(e) =>
-                (e.currentTarget.src = "assets/icons/ttc-logo.svg")
-              }
+              // onError={(e) =>
+              //   (e.currentTarget.src = "../../assets/icons/ttc-logo.svg")
+              // }
             />
           </a>
         </Link>

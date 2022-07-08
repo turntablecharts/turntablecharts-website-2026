@@ -1,3 +1,5 @@
+import html2canvas from "html2canvas";
+
 /**
  * Creates separators with coma in thousands
  * @param {number} num - number to be formatted
@@ -55,3 +57,34 @@ export const calculateReadingTime = (lengthOfText: number) => {
 //         .map(key => enumeration[key])
 //         .filter(val => typeof val === "number" || typeof val === "string");
 // }
+
+export const downloadDivToImg = (divName: string, pdfName: string) => {
+  const input = document.getElementById(divName);
+  html2canvas(input!, {
+    useCORS: true,
+    logging: true,
+    proxy: "",
+  }).then((canvas) => {
+    const imgData = canvas.toDataURL("image/jpeg");
+    saveAs(imgData, pdfName);
+  });
+};
+
+function saveAs(uri: any, filename: string) {
+  const link = document.createElement("a");
+  if (typeof link.download === "string") {
+    link.href = uri;
+    link.download = filename;
+
+    //Firefox requires the link to be in the body
+    document.body.appendChild(link);
+
+    //simulate click
+    link.click();
+
+    //remove the link when done
+    document.body.removeChild(link);
+  } else {
+    window.open(uri);
+  }
+}

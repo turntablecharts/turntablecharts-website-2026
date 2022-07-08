@@ -1,5 +1,6 @@
 import Typography from "components/atoms/typography";
 import ArticleCard from "components/molecules/ArticleCard";
+import WantUpdates from "components/molecules/WantUpdates";
 import media from "constants/MediaQuery";
 
 import Head from "next/head";
@@ -37,6 +38,7 @@ const News: React.FC<{ topNews: NewsItem[] }> = ({ topNews }) => {
           <ArticleCard key={item.id} newsItem={item} />
         ))}
       </div>
+      <WantUpdates />
     </NewsPageStyling>
   );
 };
@@ -56,6 +58,7 @@ const NewsPageStyling = styled.div`
     display: grid;
     gap: 20px;
     row-gap: 40px;
+    margin-bottom: 100px;
     grid-template-columns: repeat(4, minmax(200px, 1fr));
 
     ${media.smallDesktop`

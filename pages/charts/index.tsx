@@ -84,7 +84,14 @@ const Charts: React.FC<{
     (cur) => ({
       rank: <RankPlusTrend song={cur} />,
       entry: <SongEntry song={cur} />,
-      lastWeek: cur.lastPosition ? cur.lastPosition : <NewEntryIcon />,
+      lastWeek:
+        cur.lastPosition > 0 ? (
+          cur.lastPosition
+        ) : cur.lastPosition < 0 ? (
+          "*"
+        ) : (
+          <NewEntryIcon />
+        ),
       peak: cur.highestPosition,
     })
   );

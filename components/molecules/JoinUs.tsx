@@ -17,7 +17,7 @@ const JoinUs = () => {
           level={2}
           style={{ fontSize: Theme.fontSizes.extralarge, marginBottom: "10px" }}
         >
-          Join the Club
+          #myTurnTable
         </Typography.Heading>
         <Typography.Text
           fontType="SFProText"
@@ -25,11 +25,12 @@ const JoinUs = () => {
           style={{ marginBottom: "40px" }}
           weight="semiBold"
         >
-          Get the latest and exclusive news
-          <br /> about Nigerian music you love.
+          How does your listening choices compare with the rest of Nigeria?
+          <br /> Find out and more on #myTurnTable
+          {/* <br /> about Nigerian music you love. */}
         </Typography.Text>
       </div>
-      <CTAButton label="Join the Club" to="" />
+      <CTAButton label="Get Started" to="/myTurnTable" />
     </JoinUsStyling>
   );
 };

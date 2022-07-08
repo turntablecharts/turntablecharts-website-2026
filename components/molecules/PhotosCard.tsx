@@ -11,7 +11,9 @@ const PhotosCard: React.FC<{ photoItem: PhotoItem }> = ({ photoItem }) => {
         <img
           src={photoItem.headerImage}
           alt="photo img"
-          onError={(e) => (e.currentTarget.src = "assets/icons/ttc-logo.svg")}
+          // onError={(e) =>
+          //   (e.currentTarget.src = "../../assets/icons/ttc-logo.svg")
+          // }
         />
       </div>
       <div className="photo_title">

@@ -7,10 +7,11 @@ import Container from "components/layouts/Container";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { queryClient } from "lib/react-query";
+import AppContainer from "components/layouts/AppContainer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <AppContainer>
       <Head>
         <title>TurnTable Charts - Music Charts, Insights & Analytics</title>
         <meta
@@ -27,7 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Footer />
         <ReactQueryDevtools />
       </QueryClientProvider>
-    </>
+    </AppContainer>
   );
 }
 

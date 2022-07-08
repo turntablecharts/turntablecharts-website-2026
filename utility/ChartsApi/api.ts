@@ -1,3 +1,4 @@
+import axios from "axios";
 import TTCRequest from "lib/axios";
 import {
   ChartCategoryType,
@@ -27,5 +28,14 @@ export const getChartById = async (id: number) => {
   const response = await TTCRequest.get<ChartsByCategoryResponse>(
     `/api/author/chart/${id}`
   );
+  return response;
+};
+
+export const sendWrappedRequest = async (data: { [key: string]: string[] }) => {
+  const response = await axios.post(
+    "https://wrappedapi.azurewebsites.net/api/wrap/create",
+    data
+  );
+
   return response;
 };

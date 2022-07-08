@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Typography from "components/atoms/typography";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
@@ -16,6 +17,7 @@ import { getNewsByPageNumber } from "utility/NewsApi/api";
 import { NewsItem } from "utility/NewsApi/types";
 import { getPhotosByPageNumber } from "utility/PhotosApi/api";
 import { PhotoItem } from "utility/PhotosApi/types";
+import CardStack from "components/molecules/HeroCards";
 
 export async function getStaticProps() {
   const chartResponse = await getLatestChartsByCategory(
@@ -84,6 +86,12 @@ const Home: React.FC<{
           </div>
         </div>
         <div className="hero_right">
+          {/* <CardStack /> */}
+          <img
+            style={{ width: "400px" }}
+            src="/assets/stackedhero.png"
+            alt="hero"
+          />
           {/* <Image className="hero_right-img" /> */}
         </div>
       </HeroStyling>
@@ -157,7 +165,7 @@ const Home: React.FC<{
           >
             Photos
           </Typography.Heading>
-          <Link href="/photos">
+          {/* <Link href="/photos">
             <a className="yellow">
               <Typography.Text
                 fontType="SFProText"
@@ -167,7 +175,7 @@ const Home: React.FC<{
                 See All
               </Typography.Text>
             </a>
-          </Link>
+          </Link> */}
         </div>
         <div className="section_cards">
           {topPhoto.map((item) => (
