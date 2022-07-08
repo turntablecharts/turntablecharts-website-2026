@@ -203,12 +203,12 @@ const MyTurnTable = () => {
               <img src="/assets/wrapped.png" alt="wrapped" />
             </div>
             <Typography.Text
-              fontType="SFProText"
+              fontType="Montserrat"
               weight="medium"
               style={{ lineHeight: "24px" }}
               level="large"
             >
-              Here&apos;s how your top songs & artistes ranked in H1 2022
+              Here&apos;s how your favourite songs & artistes ranked in H1 2022
             </Typography.Text>
             <div className="results">
               <div className="top_songs">
@@ -233,7 +233,7 @@ const MyTurnTable = () => {
                         {"0" + (i + 1).toString()}
                       </Typography.Text> */}
                       <Typography.Text
-                        fontType="SFProText"
+                        fontType="Montserrat"
                         weight="bold"
                         level="large"
                       >
@@ -264,7 +264,7 @@ const MyTurnTable = () => {
                         {"0" + (i + 1).toString()}
                       </Typography.Text> */}
                       <Typography.Text
-                        fontType="SFProText"
+                        fontType="Montserrat"
                         weight="bold"
                         level="large"
                       >
@@ -285,7 +285,11 @@ const MyTurnTable = () => {
               >
                 Genre Share of H1
               </Typography.Heading>
-              <Typography.Text fontType="SFProText" weight="bold" level="large">
+              <Typography.Text
+                fontType="Montserrat"
+                weight="bold"
+                level="large"
+              >
                 {wrappedResults?.genre}
               </Typography.Text>
             </div>
@@ -301,7 +305,7 @@ const MyTurnTable = () => {
                 Fun Fact
               </Typography.Heading>
               <Typography.Text
-                fontType="SFProText"
+                fontType="Montserrat"
                 weight="medium"
                 style={{ lineHeight: "24px" }}
                 level="large"
