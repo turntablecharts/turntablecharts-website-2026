@@ -42,8 +42,8 @@ const MyTurnTable = () => {
   const handleCreateWrapped = () => {
     setLoading(true);
     sendWrappedRequest({
-      songs: Object.values(formSongs),
-      artists: Object.values(formArtistes),
+      songs: Object.values(formSongs).map((song) => song.trim()),
+      artists: Object.values(formArtistes).map((artist) => artist.trim()),
     }).then((res) => {
       setLoading(false);
 
