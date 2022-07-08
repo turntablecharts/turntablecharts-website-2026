@@ -15,7 +15,7 @@ type WrappedResult = {
 };
 
 const MyTurnTable = () => {
-  const [stage, setStage] = useState(2);
+  const [stage, setStage] = useState(1);
   const [formSongs, setFormSongs] = useState<{ [key: string]: string }>({});
   const [formArtistes, setFormArtistes] = useState<{ [key: string]: string }>(
     {}
@@ -372,6 +372,12 @@ const MyTurnTableStyling = styled.div`
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
+      ${media.tablet`
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    `}
     }
     .input {
       display: flex;
@@ -387,7 +393,7 @@ const MyTurnTableStyling = styled.div`
         font-weight: ${Theme.fontWeights.semiBold};
         font-family: ${Theme.typography.extra};
         padding: 10px;
-        width: 330px;
+        max-width: 330px;
         outline: none;
       }
     }

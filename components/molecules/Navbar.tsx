@@ -41,14 +41,24 @@ const Navbar = () => {
       <div className={`mobile_menus ${isMobileNavOpen ? "open" : ""}`}>
         <nav className="menuContainer">
           <Link className="mobile_menu" href="/charts">
-            <a className={router.pathname === "/charts" ? "active" : ""}>
+            <a
+              onClick={() => {
+                setIsMobileNavOpen(false);
+              }}
+              className={router.pathname === "/charts" ? "active" : ""}
+            >
               <Typography.Text level="xlarge" fontType="Fontastique">
                 Chart
               </Typography.Text>
             </a>
           </Link>
           <Link className="mobile_menu" href="/news">
-            <a className={router.pathname === "/news" ? "active" : ""}>
+            <a
+              onClick={() => {
+                setIsMobileNavOpen(false);
+              }}
+              className={router.pathname === "/news" ? "active" : ""}
+            >
               <Typography.Text level="xlarge" fontType="Fontastique">
                 News
               </Typography.Text>
