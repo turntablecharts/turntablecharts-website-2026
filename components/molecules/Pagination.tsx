@@ -1,6 +1,7 @@
 import Theme from "constants/Theme";
 import styled from "styled-components";
 import ReactPaginate from "react-paginate";
+import media from "constants/MediaQuery";
 
 const Pagination: React.FC<{
   totalElements: number;
@@ -23,7 +24,7 @@ const Pagination: React.FC<{
         pageRangeDisplayed={3}
         marginPagesDisplayed={1}
         pageCount={totalPages}
-        previousLabel="PREVIOUS"
+        previousLabel="PREV"
         pageClassName="pageBtn"
         pageLinkClassName="pageLink"
         previousClassName="btn prev"
@@ -51,6 +52,9 @@ const PaginationStyling = styled.div`
     justify-content: center;
     gap: 45px;
     margin: 0;
+    ${media.mobileLarge`
+      gap: 20px;
+    `}
   }
 
   /* .link {
@@ -63,6 +67,11 @@ const PaginationStyling = styled.div`
     font-family: ${Theme.typography.primary};
     font-weight: ${Theme.fontWeights.semiBold};
     cursor: pointer;
+
+    ${media.mobileLarge`
+      font-size: 0.813rem;
+
+    `}
 
     &.disabled {
       color: ${Theme.colorPalette.textGrey};
@@ -79,6 +88,9 @@ const PaginationStyling = styled.div`
   .pageBtnContainer {
     display: flex;
     gap: 37px;
+    ${media.mobileLarge`
+      gap: 20px;
+    `}
   }
 
   .page-item {
@@ -98,6 +110,13 @@ const PaginationStyling = styled.div`
     font-family: ${Theme.typography.primary};
     font-weight: ${Theme.fontWeights.semiBold};
     cursor: pointer;
+
+    ${media.mobileLarge`
+      height: 30px;
+      width: 30px;
+      font-size: 0.813rem;
+
+    `}
 
     &:hover {
       border: 1px solid ${Theme.colorPalette.ttcGreen};
@@ -124,5 +143,9 @@ const PaginationStyling = styled.div`
     border-radius: 50%;
     display: grid;
     place-items: center;
+    ${media.mobileLarge`
+      height: 30px;
+      width: 30px;
+    `}
   }
 `;
