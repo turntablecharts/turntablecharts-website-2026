@@ -19,11 +19,16 @@ const WantUpdates = () => {
         <Typography.Heading
           fontType="Mermaid"
           level={2}
-          style={{ fontSize: Theme.fontSizes.extralarge, marginBottom: "20px" }}
+          className="header"
+          style={{ marginBottom: "20px" }}
         >
           Want updates straight into your Inbox?
         </Typography.Heading>
-        <Typography.Text fontType="Montserrat" level="xlarge" weight="semiBold">
+        <Typography.Text
+          fontType="Montserrat"
+          className="body"
+          weight="semiBold"
+        >
           Enter your name and email to get the latest news from the TurnTable
           team, and in-depth knowledge into music and the numbers behind them.
         </Typography.Text>
@@ -61,6 +66,20 @@ const WantUpdatesStyling = styled.div`
     max-width: 790px;
     width: 95%;
     margin: 0 auto 70px;
+
+    .header {
+      font-size: ${Theme.fontSizes.extralarge};
+      ${media.mobileLarge`
+      font-size: 24px;
+    `}
+    }
+
+    .body {
+      font-size: ${Theme.fontSizes.xlarge};
+      ${media.mobileLarge`
+      font-size: 16px;
+    `}
+    }
   }
 
   form {

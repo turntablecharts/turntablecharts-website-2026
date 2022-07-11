@@ -142,6 +142,7 @@ const NavbarStyling = styled.div<{ pathname: string }>`
   position: sticky;
   top: 0;
   background-color: ${Theme.colorPalette.black};
+  z-index: 10;
 
   ${({ pathname }) =>
     pathname === "/myTurnTable" &&

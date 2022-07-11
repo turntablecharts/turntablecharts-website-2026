@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Typography from "components/atoms/typography";
 import Link from "next/link";
 import { NewsSummary } from "utility/NewsApi/types";
+import Theme from "constants/Theme";
+import media from "constants/MediaQuery";
 
 const NewsCard: React.FC<{ newsItem: NewsSummary }> = ({ newsItem }) => {
   return (
@@ -11,20 +13,16 @@ const NewsCard: React.FC<{ newsItem: NewsSummary }> = ({ newsItem }) => {
       <div className="news_card-img">
         <Link href={`/news/${newsItem.id}`}>
           <a>
-            <img
-              src={newsItem.headerImageUri}
-              alt="news img"
-              // onError={(e) =>
-              //   (e.currentTarget.src = "../../assets/icons/ttc-logo.svg")
-              // }
-            />
+            <object data={newsItem.headerImageUri} type="image/png">
+              <img src="/assets/ttcBgWhite.png" alt="fallback" />
+            </object>
           </a>
         </Link>
       </div>
       <div className="news_card-title">
         <Typography.Text
           fontType="Mermaid"
-          level="xlarge"
+          // level="xlarge"
           style={{
             marginTop: "20px",
           }}
@@ -32,18 +30,10 @@ const NewsCard: React.FC<{ newsItem: NewsSummary }> = ({ newsItem }) => {
           {newsItem.title}
         </Typography.Text>
       </div>
-      {/* <div className="article_summary">
-        <Typography.Text fontType="Montserrat" level="large">
-          Kelvin Egonu&apos;s foray into music is born out of a need to escape
-          the life he was born into, he hopes hi...
-        </Typography.Text>
-      </div> */}
       <div className="article_link yellow">
         <Link href={`/news/${newsItem.id}`}>
           <a>
-            <Typography.Text fontType="Montserrat" level="large">
-              Read more
-            </Typography.Text>
+            <Typography.Text fontType="Montserrat">Read more</Typography.Text>
           </a>
         </Link>
       </div>
@@ -69,7 +59,8 @@ const NewsCardStyling = styled.div`
       height: 100%;
       width: 100%;
     }
-    img {
+    img,
+    object {
       width: 100%;
       /* height: auto; */
       height: 100%;
@@ -79,13 +70,20 @@ const NewsCardStyling = styled.div`
     }
 
     &:hover {
-      img {
+      img,
+      object {
         transform: scale(1.05);
       }
     }
   }
 
   .news_card-title {
+    p {
+      font-size: ${Theme.fontSizes.xlarge};
+      ${media.mobileLarge`
+      font-size: 1rem;
+    `}
+    }
     flex: 1;
   }
 
@@ -94,6 +92,12 @@ const NewsCardStyling = styled.div`
     -webkit-line-clamp: 3;
   }
   .article_link {
+    p {
+      font-size: ${Theme.fontSizes.large};
+      ${media.mobileLarge`
+      font-size: 12px;
+    `}
+    }
     &:hover {
       text-decoration: underline;
     }

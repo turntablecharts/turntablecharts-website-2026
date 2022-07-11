@@ -1,12 +1,8 @@
 import CTAButton from "components/atoms/ctaButton";
 import Typography from "components/atoms/typography";
+import media from "constants/MediaQuery";
 import Theme from "constants/Theme";
 import styled from "styled-components";
-
-// import dynamic from "next/dynamic";
-// const CTAButton = dynamic(() => import("components/atoms/ctaButton"), {
-//   ssr: false,
-// });
 
 const JoinUs = () => {
   return (
@@ -14,14 +10,15 @@ const JoinUs = () => {
       <div className="join_texts">
         <Typography.Heading
           fontType="Mermaid"
+          className="header"
           level={2}
-          style={{ fontSize: Theme.fontSizes.extralarge, marginBottom: "10px" }}
+          style={{ marginBottom: "10px" }}
         >
           #myTurnTable
         </Typography.Heading>
         <Typography.Text
           fontType="SFProText"
-          level="xlarge"
+          className="body"
           style={{ marginBottom: "40px" }}
           weight="semiBold"
         >
@@ -43,4 +40,18 @@ const JoinUsStyling = styled.div`
   text-align: center;
   padding: 100px 0;
   /* width: 100vw; */
+
+  .header {
+    font-size: ${Theme.fontSizes.extralarge};
+    ${media.mobileLarge`
+      font-size: 24px;
+    `}
+  }
+
+  .body {
+    font-size: ${Theme.fontSizes.xlarge};
+    ${media.mobileLarge`
+      font-size: 16px;
+    `}
+  }
 `;

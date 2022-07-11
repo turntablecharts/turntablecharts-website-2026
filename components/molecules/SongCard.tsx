@@ -11,7 +11,9 @@ const SongCard: React.FC<{ songItem: ChartItem }> = ({ songItem }) => {
   return (
     <SongCardStyling>
       <div className="img">
-        <img src={songItem.imageUri} alt="song img" />
+        <object data={songItem.imageUri} type="image/png">
+          <img src="/assets/ttcBgWhite.png" alt="fallback" />
+        </object>
       </div>
       <div className="details">
         <div className="rank">
@@ -67,7 +69,8 @@ const SongCardStyling = styled.div`
     align-items: center;
   }
 
-  img {
+  img,
+  object {
     max-width: 100%;
     height: auto;
   }

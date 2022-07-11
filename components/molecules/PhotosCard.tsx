@@ -3,23 +3,21 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "components/atoms/typography";
 import { PhotoItem } from "utility/PhotosApi/types";
+import Theme from "constants/Theme";
+import media from "constants/MediaQuery";
 
 const PhotosCard: React.FC<{ photoItem: PhotoItem }> = ({ photoItem }) => {
   return (
     <PhotosCardStyling>
       <div className="photo_img">
-        <img
-          src={photoItem.headerImage}
-          alt="photo img"
-          // onError={(e) =>
-          //   (e.currentTarget.src = "../../assets/icons/ttc-logo.svg")
-          // }
-        />
+        <object data={photoItem.headerImage} type="image/png">
+          <img src="/assets/ttcBgWhite.png" alt="fallback" />
+        </object>
       </div>
       <div className="photo_title">
         <Typography.Text
           fontType="Mermaid"
-          level="xlarge"
+          className="photo_title-text"
           style={{
             marginTop: "20px",
           }}
@@ -44,7 +42,15 @@ const PhotosCardStyling = styled.div`
     justify-content: center;
   }
 
-  img {
+  .photo_title-text {
+    font-size: ${Theme.fontSizes.xlarge};
+    ${media.mobileLarge`
+      font-size: 1rem;
+    `}
+  }
+
+  img,
+  object {
     max-width: 100%;
     height: auto;
   }

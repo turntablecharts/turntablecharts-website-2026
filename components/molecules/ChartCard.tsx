@@ -12,6 +12,9 @@ const ChartCard: React.FC<{ category: ChartCategory }> = ({ category }) => {
     Theme.colorPalette.ttcGreen,
     "#EF5DA8",
     "#5D5FEF",
+    "#8F540F",
+    "#8F0F73",
+    "#0F8F80",
   ];
 
   const randomBg = Math.floor(Math.random() * cardColors.length);

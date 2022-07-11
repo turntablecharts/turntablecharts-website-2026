@@ -28,7 +28,7 @@ export async function getStaticProps() {
   return {
     props: {
       topChart: chartResponse.data.chartItems.slice(0, 10),
-      topNews: newsResponse.data.news,
+      topNews: newsResponse.data.news.slice(0, 10),
       topPhoto: photoResponse.data.filter((item) => !item.isDeleted),
     },
     // Next.js will attempt to re-generate the page:
@@ -60,20 +60,16 @@ const Home: React.FC<{
             <Typography.Heading
               fontType="Mermaid"
               level={1}
-              style={{
-                fontSize: Theme.fontSizes.extralarge,
-                lineHeight: "60px",
-              }}
+              className="heading"
             >
               TurnTable Charts brings to you the best performing{" "}
               <span className="yellow">artistes</span> and{" "}
               <span className="yellow">songs</span> every week
             </Typography.Heading>
             <Typography.Text
-              level="xlarge"
               weight="semiBold"
+              className="subheading"
               fontType="SFProText"
-              style={{ letterSpacing: "1px" }}
             >
               Thousands of songs tracked weekly across radio and streaming
               platforms in Nigeria, just for you.
@@ -98,9 +94,7 @@ const Home: React.FC<{
           <Typography.Heading
             fontType="Mermaid"
             level={3}
-            style={{
-              fontSize: Theme.fontSizes.xxlarge,
-            }}
+            className="section_title-header"
           >
             This Week&apos;s Top10
           </Typography.Heading>
@@ -121,6 +115,19 @@ const Home: React.FC<{
             <SongCard key={item.id} songItem={item} />
           ))}
         </div>
+        <span className="mobile_action">
+          <Link href="/charts/1">
+            <a className="yellow">
+              <Typography.Text
+                fontType="SFProText"
+                weight="medium"
+                level="medium"
+              >
+                See Full Chart
+              </Typography.Text>
+            </a>
+          </Link>
+        </span>
       </section>
       <JoinUs />
       <section className="featured" style={{ marginTop: "100px" }}>
@@ -128,9 +135,7 @@ const Home: React.FC<{
           <Typography.Heading
             fontType="Mermaid"
             level={3}
-            style={{
-              fontSize: Theme.fontSizes.xxlarge,
-            }}
+            className="section_title-header"
           >
             Featured News Article
           </Typography.Heading>
@@ -151,15 +156,26 @@ const Home: React.FC<{
             <NewsCard key={item.id} newsItem={item} />
           ))}
         </div>
+        <span className="mobile_action">
+          <Link href="/news">
+            <a className="yellow">
+              <Typography.Text
+                fontType="SFProText"
+                weight="medium"
+                level="medium"
+              >
+                See All
+              </Typography.Text>
+            </a>
+          </Link>
+        </span>
       </section>
       <section className="photos">
         <div className="section_title">
           <Typography.Heading
             fontType="Mermaid"
             level={3}
-            style={{
-              fontSize: Theme.fontSizes.xxlarge,
-            }}
+            className="section_title-header"
           >
             Photos
           </Typography.Heading>
@@ -206,6 +222,14 @@ const IndexStyling = styled.div`
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+
+      &-header {
+        font-size: ${Theme.fontSizes.xxlarge};
+
+        ${media.mobileLarge`
+        font-size: 1.25rem;
+      `}
+      }
     }
 
     .section_cards {
@@ -224,6 +248,23 @@ const IndexStyling = styled.div`
       grid-template-columns: repeat(2, minmax(180px, 1fr));
     `}
     }
+
+    .mobile_action {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0px;
+      a {
+        display: none;
+        padding: 12px 16px;
+        border-radius: 20px;
+        border: 1px solid ${Theme.colorPalette.ttcYellow};
+
+        ${media.mobileLarge`
+          display: inline-block;
+          justify-content: center;
+        `}
+      }
+    }
   }
 `;
 
@@ -235,6 +276,12 @@ const HeroStyling = styled.div`
   display: flex;
   align-items: center;
   gap: 150px;
+
+  ${media.mobileLarge`
+  min-height: 40vh;
+
+        `}
+
   .hero_left {
     flex: 1;
     &-cta {
@@ -250,6 +297,25 @@ const HeroStyling = styled.div`
         gap: 10px;
         cursor: pointer;
       }
+    }
+
+    .heading {
+      font-size: ${Theme.fontSizes.extralarge};
+      line-height: 60px;
+      ${media.mobileLarge`
+      font-size: 24px;
+      line-height: 28px;
+
+        `}
+    }
+    .subheading {
+      font-size: ${Theme.fontSizes.xlarge};
+      letter-spacing: 1px;
+      ${media.mobileLarge`
+      font-size: 16px;
+      margin-top: 10px;
+
+        `}
     }
   }
 

@@ -12,7 +12,7 @@ const CTAButton: React.FC<{ label: string; to: string }> = ({ label, to }) => {
   const router = useRouter();
   return (
     <CTAButtonStyling onClick={() => router.push(to)}>
-      <Typography.Text level="xlarge" weight="semiBold" fontType="SFProText">
+      <Typography.Text weight="semiBold" fontType="SFProText">
         {label}
       </Typography.Text>
       <CTAArrow style={{ width: "50px" }} />
@@ -32,8 +32,10 @@ const CTAButtonStyling = styled.div`
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  font-size: ${Theme.fontSizes.xlarge};
 
   ${media.mobileLarge`
   padding: 14px 24px;
+  font-size: 14px;
     `}
 `;

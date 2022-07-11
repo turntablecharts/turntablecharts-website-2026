@@ -15,13 +15,9 @@ const ArticleCard: React.FC<{ newsItem: NewsItem }> = ({ newsItem }) => {
       <div className="article_card-img">
         <Link href={`/news/${newsItem.id}`}>
           <a>
-            <img
-              src={newsItem.headerImageUri}
-              alt="article img"
-              // onError={(e) =>
-              //   (e.currentTarget.src = "../../assets/icons/ttc-logo.svg")
-              // }
-            />
+            <object data={newsItem.headerImageUri} type="image/png">
+              <img src="/assets/ttcBgWhite.png" alt="fallback" />
+            </object>
           </a>
         </Link>
       </div>
@@ -72,14 +68,22 @@ const ArticleCardStyling = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    img {
+    img, object {
       max-width: 100%;
       height: auto;
       transition: transform 1s;
-    }
+
+      &:before {
+      content: ' ';
+      display: block;
+      position: absolute;
+      height: 50px;
+      width: 50px;
+      background-image: url('/assets/ttcBgWhite.png');
+      }
 
     &:hover {
-      img {
+      img, object {
         transform: scale(1.05);
       }
     }
