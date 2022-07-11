@@ -24,17 +24,21 @@ const Navbar = () => {
       <nav className="menus">
         <Link className="menus_menu" href="/charts">
           <a className={router.pathname === "/charts" ? "active" : ""}>
-            <Typography.Text fontType="Fontastique">Chart</Typography.Text>
+            <Typography.Text fontType="SFProText" weight="semiBold">
+              Chart
+            </Typography.Text>
           </a>
         </Link>
         <Link className="menus_menu" href="/news">
           <a className={router.pathname === "/news" ? "active" : ""}>
-            <Typography.Text fontType="Fontastique">News</Typography.Text>
+            <Typography.Text fontType="SFProText" weight="semiBold">
+              News
+            </Typography.Text>
           </a>
         </Link>
         {/* <Link className="menus_menu" href="/photos">
           <a className={router.pathname === "/photos" ? "active" : ""}>
-            <Typography.Text fontType="Fontastique">Photos</Typography.Text>
+            <Typography.Text fontType="SFProText" weight="semiBold">Photos</Typography.Text>
           </a>
         </Link> */}
       </nav>
@@ -47,7 +51,11 @@ const Navbar = () => {
               }}
               className={router.pathname === "/charts" ? "active" : ""}
             >
-              <Typography.Text level="xlarge" fontType="Fontastique">
+              <Typography.Text
+                level="xlarge"
+                fontType="SFProText"
+                weight="semiBold"
+              >
                 Chart
               </Typography.Text>
             </a>
@@ -59,14 +67,18 @@ const Navbar = () => {
               }}
               className={router.pathname === "/news" ? "active" : ""}
             >
-              <Typography.Text level="xlarge" fontType="Fontastique">
+              <Typography.Text
+                level="xlarge"
+                fontType="SFProText"
+                weight="semiBold"
+              >
                 News
               </Typography.Text>
             </a>
           </Link>
           {/* <Link className="mobile_menu" href="/photos">
             <a className={router.pathname === "/photos" ? "active" : ""}>
-              <Typography.Text level="xlarge" fontType="Fontastique">
+              <Typography.Text level="xlarge" fontType="SFProText" weight="semiBold">
                 Photos
               </Typography.Text>
             </a>

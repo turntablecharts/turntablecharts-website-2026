@@ -12,6 +12,49 @@ import { format } from "date-fns";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
 import ArticleCard from "components/molecules/ArticleCard";
+import NewsCard from "components/molecules/NewsCard";
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const newsId = context.params?.id;
+
+  const newsResponse = await getNewsByPageNumber(1);
+
+  if (typeof newsId === "string") {
+    const news = await getSingleNewsById(newsId);
+
+    if (news.status === 200) {
+      return {
+        props: {
+          selectedNews: news.data,
+          relatedNews: newsResponse.data.news
+            .filter((news) => news.id.toString() !== newsId)
+            .slice(0, 5),
+        },
+        revalidate: 7200,
+      };
+    }
+
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    notFound: true,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const newsList = await getNewsByPageNumber(1);
+
+  const paths = newsList.data.news.map((news) => ({
+    params: { id: news.id.toString() },
+  }));
+
+  return {
+    paths: paths,
+    fallback: "blocking",
+  };
+};
 
 const SingleArticlePage: React.FC<{
   selectedNews: NewsItem;
@@ -67,7 +110,7 @@ const SingleArticlePage: React.FC<{
         </div>
         <div className="section_cards">
           {relatedNews.map((item) => (
-            <ArticleCard key={item.id} newsItem={item} />
+            <NewsCard key={item.id} newsItem={item} />
           ))}
         </div>
       </section>
@@ -76,48 +119,6 @@ const SingleArticlePage: React.FC<{
 };
 
 export default SingleArticlePage;
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const newsId = context.params?.id;
-
-  const newsResponse = await getNewsByPageNumber(1);
-
-  if (typeof newsId === "string") {
-    const news = await getSingleNewsById(newsId);
-
-    if (news.status === 200) {
-      return {
-        props: {
-          selectedNews: news.data,
-          relatedNews: newsResponse.data
-            .filter((item) => item.id.toString() !== newsId)
-            .slice(0, 5),
-        },
-        revalidate: 7200,
-      };
-    }
-
-    return {
-      notFound: true,
-    };
-  }
-  return {
-    notFound: true,
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const newsList = await getNewsByPageNumber(1);
-
-  const paths = newsList.data.map((news) => ({
-    params: { id: news.id.toString() },
-  }));
-
-  return {
-    paths: paths,
-    fallback: "blocking",
-  };
-};
 
 const SingleArticlePageStyling = styled.div`
   .article_img {

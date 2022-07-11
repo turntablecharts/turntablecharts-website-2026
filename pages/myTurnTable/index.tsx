@@ -75,9 +75,7 @@ const MyTurnTable = () => {
   return (
     <MyTurnTableStyling>
       <div className="page_header">
-        <Typography.Title style={{ fontSize: "64px" }}>
-          #myTurnTable
-        </Typography.Title>
+        <Typography.Title>#myTurnTable</Typography.Title>
       </div>
       {stage === 1 && (
         <div className="page_content">
@@ -340,6 +338,9 @@ const MyTurnTableStyling = styled.div`
     padding: 7vh 0;
     text-align: center;
 
+    h1 {
+      font-size: 64px;
+    }
     ${media.mobileLarge`
     h1 {
         font-size: 50px;

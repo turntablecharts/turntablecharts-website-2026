@@ -19,3 +19,17 @@ type TTCUser = {
   id: number;
   lastName: string;
 };
+
+export type NewsSummary = {
+  id: number;
+  title: string;
+  dateCreated: string;
+  headerImageUri: string;
+};
+
+export interface NewsResponsePaginated {
+  news: NewsSummary[];
+  totalItems: number;
+  currentPage: number;
+  pageSize: number;
+}

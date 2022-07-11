@@ -45,19 +45,6 @@ export const calculateReadingTime = (lengthOfText: number) => {
   return 1;
 };
 
-// type NonFunctional<T> = T extends Function ? never : T;
-
-// /**
-//  * Helper to produce an array of enum values.
-//  * @param enumeration Enumeration object.
-//  */
-// export function enumToArray<T>(enumeration: T): NonFunctional<T[keyof T]>[] {
-//     return Object.keys(enumeration)
-//         .filter(key => isNaN(Number(key)))
-//         .map(key => enumeration[key])
-//         .filter(val => typeof val === "number" || typeof val === "string");
-// }
-
 export const downloadDivToImg = (divName: string, pdfName: string) => {
   const input = document.getElementById(divName);
   html2canvas(input!, {
@@ -88,3 +75,9 @@ function saveAs(uri: any, filename: string) {
     window.open(uri);
   }
 }
+
+export const truncateString = (text: string, numberOfcharacter: number) => {
+  return text && text.length > numberOfcharacter
+    ? `${text.substring(0, numberOfcharacter)}...`
+    : text;
+};

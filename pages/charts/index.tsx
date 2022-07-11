@@ -6,8 +6,12 @@ import { format, subDays } from "date-fns";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { getTop50ChartWithPrevInfoByCategpry } from "utility/ChartsApi/api";
 import {
+  getChartCategories,
+  getTop50ChartWithPrevInfoByCategpry,
+} from "utility/ChartsApi/api";
+import {
+  ChartCategory,
   ChartCategoryType,
   Top50ChartsWithPrevInfoResponse,
 } from "utility/ChartsApi/types";
@@ -15,6 +19,8 @@ import { resolveUserTypeToTableData } from "utility/helpers";
 import NewEntryIcon from "assets/icons/newEntry.svg";
 import Head from "next/head";
 import RankPlusTrend from "components/atoms/RankPlusTrend";
+import ChartCard from "components/molecules/ChartCard";
+import media from "constants/MediaQuery";
 
 const CHART_HEADER = {
   rank: {
@@ -40,12 +46,10 @@ const CHART_HEADER = {
 };
 
 export async function getStaticProps() {
-  const chartResponse = await getTop50ChartWithPrevInfoByCategpry(
-    ChartCategoryType.TurnTableTop50
-  );
+  const chartCategories = await getChartCategories();
   return {
     props: {
-      chartInfo: chartResponse.data,
+      chartCategories: chartCategories.data,
     },
     // Next.js will attempt to re-generate the page:
     // - When a request comes in
@@ -55,105 +59,43 @@ export async function getStaticProps() {
 }
 
 const Charts: React.FC<{
-  chartInfo: Top50ChartsWithPrevInfoResponse;
-}> = ({ chartInfo }) => {
-  const [activeChartMenu, setActiveChartMenu] = useState<ChartCategoryType>(
-    chartInfo.result.category
-  );
+  chartCategories: ChartCategory[];
+}> = ({ chartCategories }) => {
+  let sortedCategories: { [key: string]: ChartCategory[] } = {};
 
-  const [isQueryEnabled, setIsQueryEnabled] = useState<boolean>(false);
-
-  const { data } = useQuery(
-    ["top50Charts", activeChartMenu],
-    () =>
-      getTop50ChartWithPrevInfoByCategpry(activeChartMenu).then(
-        (res) => res.data
-      ),
-    {
-      enabled: isQueryEnabled,
-      staleTime: 60 * 60 * 1000,
-      cacheTime: 60 * 60 * 1000,
+  chartCategories.forEach((category) => {
+    if (!sortedCategories[category.heading]) {
+      sortedCategories[category.heading] = [category];
+    } else {
+      sortedCategories = {
+        ...sortedCategories,
+        [category.heading]: [...sortedCategories[category.heading], category],
+      };
     }
+  });
+
+  const [activeCategory, setActiveCategory] = useState(
+    Object.keys(sortedCategories)[0]
   );
-
-  const activeChartInfo = data || chartInfo;
-
-  const charts = Object.values(ChartCategoryType);
-  const tableData = resolveUserTypeToTableData(
-    activeChartInfo.result.chartItems.sort((a, b) => a.rank - b.rank),
-    (cur) => ({
-      rank: <RankPlusTrend song={cur} />,
-      entry: <SongEntry song={cur} />,
-      lastWeek:
-        cur.lastPosition > 0 ? (
-          cur.lastPosition
-        ) : cur.lastPosition < 0 ? (
-          "*"
-        ) : (
-          <NewEntryIcon />
-        ),
-      peak: cur.highestPosition,
-    })
-  );
-
-  const splittedYoutubeUrl = activeChartInfo.result.headerVideoUrl!.split("/");
-  const videoId = splittedYoutubeUrl[splittedYoutubeUrl.length - 1];
+  // console.log(sortedCategories);
 
   return (
     <ChartPageStyling>
-      <Head>
-        <title>{`TurnTable Charts | ${activeChartMenu}`}</title>
-        <meta
-          name="description"
-          content={`TurnTable Charts | ${activeChartMenu}`}
-        />
-      </Head>
-      <div className="charts_menu">
-        {charts.map((chart) => (
+      <div className="chart_tabs">
+        {Object.keys(sortedCategories).map((header) => (
           <button
-            key={chart}
-            className={`menu ${chart === activeChartMenu ? "active" : ""}`}
-            onClick={() => {
-              setIsQueryEnabled(true);
-              setActiveChartMenu(chart);
-            }}
+            key={header}
+            onClick={() => setActiveCategory(header)}
+            className={`chart_tab ${activeCategory === header ? "active" : ""}`}
           >
-            <Typography.Text
-              fontType="Montserrat"
-              level="large"
-              weight="semiBold"
-            >
-              {chart}
-            </Typography.Text>
+            {header}
           </button>
         ))}
       </div>
-      <div className="page_header">
-        <Typography.Title>{activeChartInfo.result.category}</Typography.Title>
-        <Typography.Text
-          style={{ color: Theme.colorPalette.ttcYellow, marginTop: "16px" }}
-          fontType="Montserrat"
-          level="large"
-          weight="semiBold"
-        >
-          {`${format(
-            subDays(new Date(activeChartInfo.result.dateCreated), 6),
-            "PPP"
-          )} - ${format(new Date(activeChartInfo.result.dateCreated), "PPP")}`}
-        </Typography.Text>
-      </div>
-      {activeChartInfo.result.headerVideoUrl! && (
-        <div className="page_iframe">
-          <iframe
-            width="690"
-            height="390"
-            src={`${activeChartInfo.result
-              .headerVideoUrl!}?playlist=${videoId}&controls=0&loop=1`}
-          ></iframe>
-        </div>
-      )}
-      <div className="page_table">
-        <TableContentLayout columns={CHART_HEADER} data={tableData} />
+      <div className="chart_categories">
+        {sortedCategories[activeCategory].map((category) => (
+          <ChartCard key={category.id} category={category} />
+        ))}
       </div>
     </ChartPageStyling>
   );
@@ -166,46 +108,49 @@ const ChartPageStyling = styled.div`
   width: 95%;
   margin: 0 auto;
 
-  .charts_menu {
+  .chart_tabs {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 50px;
-    margin-top: 5px;
+    gap: 70px;
+    margin: 50px 0;
 
-    .menu {
-      padding: 7px 15px;
-      border: 2px solid transparent;
-      outline: none;
-      color: ${Theme.colorPalette.textGrey};
-      background: none;
+    ${media.tablet`
+      justify-content: space-around;
+      gap: 0px;
+    `}
+
+    .chart_tab {
+      all: unset;
       cursor: pointer;
-
-      &:hover {
-        color: ${Theme.colorPalette.ttcYellow};
-      }
+      font-family: ${Theme.typography.extra};
+      font-size: ${Theme.fontSizes.large};
+      font-weight: ${Theme.fontWeights.medium};
+      position: relative;
 
       &.active {
         color: ${Theme.colorPalette.ttcYellow};
-        border-bottom: 2px solid ${Theme.colorPalette.ttcYellow};
+        &::after {
+          content: " ";
+          position: absolute;
+          height: 3px;
+          width: 3px;
+          border-radius: 50%;
+          background-color: ${Theme.colorPalette.ttcYellow};
+          bottom: -8px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
       }
     }
   }
-  .page_header {
-    padding: 7vh 0;
-    text-align: center;
-  }
 
-  .page_iframe {
+  .chart_categories {
     display: grid;
-    place-items: center;
+    gap: 32px;
+    margin-bottom: 100px;
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
 
-    iframe {
-      border: 1px solid transparent;
-      max-width: 690px;
-      width: 90%;
-      aspect-tatio: 16/9;
-      /* border-bottom: 3px solid ${Theme.colorPalette.ttcYellow}; */
-    }
+    ${media.tablet`
+      grid-template-columns: repeat(1, minmax(200px, 1fr));
+    `}
   }
 `;

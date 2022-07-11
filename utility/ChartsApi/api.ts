@@ -1,6 +1,7 @@
 import axios from "axios";
 import TTCRequest from "lib/axios";
 import {
+  ChartCategory,
   ChartCategoryType,
   ChartsByCategoryResponse,
   Top50ChartsWithPrevInfoResponse,
@@ -24,9 +25,16 @@ export const getTop50ChartWithPrevInfoByCategpry = async (
   return response;
 };
 
-export const getChartById = async (id: number) => {
+export const getChartById = async (id: number | string) => {
   const response = await TTCRequest.get<ChartsByCategoryResponse>(
-    `/api/author/chart/${id}`
+    `/api/chart/${id}`
+  );
+  return response;
+};
+
+export const getChartCategories = async () => {
+  const response = await TTCRequest.get<ChartCategory[]>(
+    "/api/chart/categories"
   );
   return response;
 };

@@ -7,22 +7,19 @@ import styled from "styled-components";
 import CTAButton from "components/atoms/ctaButton";
 import WantUpdates from "components/molecules/WantUpdates";
 import Link from "next/link";
-import ArticleCard from "components/molecules/ArticleCard";
 import PhotosCard from "components/molecules/PhotosCard";
 import SongCard from "components/molecules/SongCard";
 import JoinUs from "components/molecules/JoinUs";
-import { getLatestChartsByCategory } from "utility/ChartsApi/api";
-import { ChartCategoryType, ChartItem } from "utility/ChartsApi/types";
+import { getChartById } from "utility/ChartsApi/api";
+import { ChartItem } from "utility/ChartsApi/types";
 import { getNewsByPageNumber } from "utility/NewsApi/api";
-import { NewsItem } from "utility/NewsApi/types";
+import { NewsSummary } from "utility/NewsApi/types";
 import { getPhotosByPageNumber } from "utility/PhotosApi/api";
 import { PhotoItem } from "utility/PhotosApi/types";
-import CardStack from "components/molecules/HeroCards";
+import NewsCard from "components/molecules/NewsCard";
 
 export async function getStaticProps() {
-  const chartResponse = await getLatestChartsByCategory(
-    ChartCategoryType.TurnTableTop50
-  );
+  const chartResponse = await getChartById(1);
 
   const newsResponse = await getNewsByPageNumber(1);
 
@@ -30,8 +27,8 @@ export async function getStaticProps() {
 
   return {
     props: {
-      topChart: chartResponse.data.chartItems,
-      topNews: newsResponse.data.filter((item) => !item.isDeleted),
+      topChart: chartResponse.data.chartItems.slice(0, 10),
+      topNews: newsResponse.data.news,
       topPhoto: photoResponse.data.filter((item) => !item.isDeleted),
     },
     // Next.js will attempt to re-generate the page:
@@ -43,7 +40,7 @@ export async function getStaticProps() {
 
 const Home: React.FC<{
   topChart: ChartItem[];
-  topNews: NewsItem[];
+  topNews: NewsSummary[];
   topPhoto: PhotoItem[];
 }> = ({ topChart, topNews, topPhoto }) => {
   return (
@@ -151,7 +148,7 @@ const Home: React.FC<{
         </div>
         <div className="section_cards">
           {topNews.map((item) => (
-            <ArticleCard key={item.id} newsItem={item} />
+            <NewsCard key={item.id} newsItem={item} />
           ))}
         </div>
       </section>

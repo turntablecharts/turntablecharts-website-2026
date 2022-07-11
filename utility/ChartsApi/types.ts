@@ -35,6 +35,24 @@ export interface ChartsByCategoryResponse {
   isDeleted: boolean;
 }
 
+export type ChartCategory = {
+  id: number;
+  name: string;
+  description: string;
+  heading: string;
+  topSong: {
+    rank: number;
+    title: string;
+    artiste: string;
+    imageUri: string;
+    lastPosition: string;
+    highestPosition: null | string;
+    musicLink: string;
+    weeksOnChart: number;
+    producedBy: string;
+  };
+};
+
 export interface Top50ChartsWithPrevInfoResponse {
   chartDates: ChartDate[];
   result: ChartsByCategoryResponse;

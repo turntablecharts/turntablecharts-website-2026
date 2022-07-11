@@ -1,20 +1,22 @@
 import Typography from "components/atoms/typography";
-import ArticleCard from "components/molecules/ArticleCard";
+import NewsCard from "components/molecules/NewsCard";
+import Pagination from "components/molecules/Pagination";
 import WantUpdates from "components/molecules/WantUpdates";
 import media from "constants/MediaQuery";
 
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getNewsByPageNumber } from "utility/NewsApi/api";
-import { NewsItem } from "utility/NewsApi/types";
+import { NewsResponsePaginated, NewsSummary } from "utility/NewsApi/types";
 
 export async function getStaticProps() {
   const newsResponse = await getNewsByPageNumber(1);
 
   return {
     props: {
-      topNews: newsResponse.data.filter((item) => !item.isDeleted),
+      newsPage: newsResponse.data,
     },
     // Next.js will attempt to re-generate the page:
     // - When a request comes in
@@ -23,7 +25,22 @@ export async function getStaticProps() {
   };
 }
 
-const News: React.FC<{ topNews: NewsItem[] }> = ({ topNews }) => {
+const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
+  const [page, setPage] = useState(1);
+
+  const { data: paginatedNews } = useQuery(
+    ["newsPage", page],
+    () => getNewsByPageNumber(page).then((res) => res.data),
+    {
+      enabled: page !== 1,
+      staleTime: 60 * 60 * 1000,
+      cacheTime: 60 * 60 * 1000,
+      keepPreviousData: true,
+    }
+  );
+
+  const newsData = page === 1 || !paginatedNews ? newsPage : paginatedNews;
+
   return (
     <NewsPageStyling>
       <Head>
@@ -31,15 +48,14 @@ const News: React.FC<{ topNews: NewsItem[] }> = ({ topNews }) => {
         <meta name="description" content="TurnTable Charts - News This Week" />
       </Head>
       <div className="page_header">
-        <Typography.Title style={{ fontSize: "64px" }}>
-          News This Week
-        </Typography.Title>
+        <Typography.Title>News This Week</Typography.Title>
       </div>
       <div className="page_article_cards">
-        {topNews.map((item) => (
-          <ArticleCard key={item.id} newsItem={item} />
+        {newsData?.news.map((item) => (
+          <NewsCard key={item.id} newsItem={item} />
         ))}
       </div>
+      <Pagination totalElements={newsData?.totalItems!} setPage={setPage} />
       <WantUpdates />
     </NewsPageStyling>
   );
@@ -55,7 +71,10 @@ const NewsPageStyling = styled.div`
     padding: 7vh 0;
     text-align: center;
 
-    ${media.mobileLarge`
+    h1 {
+      font-size: 64px;
+    }
+    ${media.tabletMin`
       h1 {
         font-size: 50px;
 
