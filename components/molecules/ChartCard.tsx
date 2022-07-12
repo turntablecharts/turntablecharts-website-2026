@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Typography from "components/atoms/typography";
 import Theme from "constants/Theme";
+import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 import { ChartCategory } from "utility/ChartsApi/types";
@@ -25,53 +26,55 @@ const ChartCard: React.FC<{ category: ChartCategory }> = ({ category }) => {
         backgroundColor: cardColors[randomBg],
       }}
     >
-      <a href={`/charts/${category.id}`}>
-        <Typography.Heading
-          style={{ fontSize: "40px", marginBottom: "10px" }}
-          fontType="Mermaid"
-          level={1}
-        >
-          {category.name}
-        </Typography.Heading>
-        <Typography.Text
-          style={{ fontSize: Theme.fontSizes.medium, maxWidth: "460px" }}
-          weight="medium"
-          fontType="Montserrat"
-        >
-          {category.description}
-        </Typography.Text>
-        {category.topSong && (
-          <div className="chart_topper">
-            <div className="chart_topper-img">
-              <img src={category.topSong.imageUri} alt="" />
+      <Link href={`/charts/${category.id}`}>
+        <a>
+          <Typography.Heading
+            style={{ fontSize: "40px", marginBottom: "10px" }}
+            fontType="Mermaid"
+            level={1}
+          >
+            {category.name}
+          </Typography.Heading>
+          <Typography.Text
+            style={{ fontSize: Theme.fontSizes.medium, maxWidth: "460px" }}
+            weight="medium"
+            fontType="Montserrat"
+          >
+            {category.description}
+          </Typography.Text>
+          {category.topSong && (
+            <div className="chart_topper">
+              <div className="chart_topper-img">
+                <img src={category.topSong.imageUri} alt="" />
+              </div>
+              <div className="chart_topper-details">
+                <Typography.Text
+                  fontType="Montserrat"
+                  level="xlarge"
+                  weight="bold"
+                  style={{ marginBottom: "15px" }}
+                >
+                  01
+                </Typography.Text>
+                <Typography.Text
+                  fontType="Montserrat"
+                  level="xlarge"
+                  weight="semiBold"
+                >
+                  {truncateString(category.topSong.artiste, 25)}
+                </Typography.Text>
+                <Typography.Text
+                  fontType="Montserrat"
+                  level="large"
+                  weight="medium"
+                >
+                  {category.topSong.title}
+                </Typography.Text>
+              </div>
             </div>
-            <div className="chart_topper-details">
-              <Typography.Text
-                fontType="Montserrat"
-                level="xlarge"
-                weight="bold"
-                style={{ marginBottom: "15px" }}
-              >
-                01
-              </Typography.Text>
-              <Typography.Text
-                fontType="Montserrat"
-                level="xlarge"
-                weight="semiBold"
-              >
-                {truncateString(category.topSong.artiste, 25)}
-              </Typography.Text>
-              <Typography.Text
-                fontType="Montserrat"
-                level="large"
-                weight="medium"
-              >
-                {category.topSong.title}
-              </Typography.Text>
-            </div>
-          </div>
-        )}
-      </a>
+          )}
+        </a>
+      </Link>
     </ChartCardStyling>
   );
 };
