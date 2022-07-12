@@ -3,14 +3,32 @@ import Theme from "constants/Theme";
 import { FormEvent, useState } from "react";
 import media from "constants/MediaQuery";
 import styled from "styled-components";
+import TTCRequest from "lib/axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const WantUpdates = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  const handleWantUpdatesSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const signUp = TTCRequest.post("/api/author/subscribe", {
+    name: name.trim(),
+    email: email.trim(),
+  });
+
+  const handleWantUpdatesSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(name, email);
+
+    if (!name.trim() || !email.trim()) return;
+
+    const response = await toast.promise(signUp, {
+      pending: "Signing you up... ⏳",
+      success: "Successfully signed up ✅",
+      error: "Something went wrong",
+    });
+
+    setName("");
+    setEmail("");
   };
 
   return (
@@ -48,6 +66,7 @@ const WantUpdates = () => {
         />
         <button type="submit">Subscribe</button>
       </form>
+      <ToastContainer />
     </WantUpdatesStyling>
   );
 };
@@ -100,6 +119,11 @@ const WantUpdatesStyling = styled.div`
       align-self: stretch;
       font-family: inherit;
       font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        border: 1px solid ${Theme.colorPalette.ttcYellow};
+      }
     }
     input {
       border: 1px solid transparent;
@@ -109,6 +133,7 @@ const WantUpdatesStyling = styled.div`
       width: 280px;
       color: #000;
       font-family: inherit;
+      outline: 1px solid ${Theme.colorPalette.ttcYellow};
     }
 
     ${media.tablet`
