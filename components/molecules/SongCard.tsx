@@ -6,6 +6,7 @@ import { ChartItem } from "utility/ChartsApi/types";
 import UpTrendIcon from "assets/icons/upTrend.svg";
 import DownTrendIcon from "assets/icons/downTrend.svg";
 import NoTrendIcon from "assets/icons/neutralTrend.svg";
+import Theme from "constants/Theme";
 
 const SongCard: React.FC<{ songItem: ChartItem }> = ({ songItem }) => {
   return (
@@ -24,7 +25,29 @@ const SongCard: React.FC<{ songItem: ChartItem }> = ({ songItem }) => {
           >
             {songItem.rank}
           </Typography.Text>
-          {songItem.rank < songItem.lastPosition ? (
+          {songItem.lastPosition === 0 ? (
+            <div style={{ padding: "4px 8px", backgroundColor: "#0F8F491A" }}>
+              <Typography.Text
+                style={{ color: Theme.colorPalette.ttcGreen }}
+                level="medium"
+                weight="semiBold"
+                fontType="Montserrat"
+              >
+                NEW
+              </Typography.Text>
+            </div>
+          ) : songItem.lastPosition === -1 ? (
+            <div style={{ padding: "4px 8px", backgroundColor: "#F1A01F1A" }}>
+              <Typography.Text
+                style={{ color: Theme.colorPalette.ttcYellow }}
+                level="medium"
+                weight="semiBold"
+                fontType="Montserrat"
+              >
+                RE-ENTRY
+              </Typography.Text>
+            </div>
+          ) : songItem.rank < songItem.lastPosition ? (
             <UpTrendIcon />
           ) : songItem.rank > songItem.lastPosition ? (
             <DownTrendIcon />
@@ -76,16 +99,17 @@ const SongCardStyling = styled.div`
   }
 
   .details {
-    display: flex;
-    align-items: center;
+    /* display: flex; */
+    /* align-items: center; */
     margin-top: 10px;
-    gap: 15px;
+    /* gap: 15px; */
 
     .rank {
       /* padding: 5px; */
       gap: 7px;
       display: flex;
       align-items: center;
+      margin-bottom: 15px;
     }
 
     .name {

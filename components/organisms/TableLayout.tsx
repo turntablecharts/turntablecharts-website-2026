@@ -70,7 +70,7 @@ export const TableContentLayout: React.FC<TableProps> = ({
 const Table = styled.table<{ rowStyle: any }>`
   width: 100%;
   border-collapse: collapse;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   overflow: auto;
   /* ******************** */
   /* .table-header {
@@ -107,17 +107,28 @@ const Th = styled.th`
 
   :first-child {
     padding-left: 53px;
-    ${media.mobileLarge`
-    padding-left: 20px;
+    ${media.tablet`
+    padding-left: 10px;
+  `}
+  }
+  :last-child {
+    padding-left: 53px;
+    ${media.tablet`
+    padding: 0px;
   `}
   }
   :not(:first-child) {
     padding-top: 19px;
     padding-bottom: 19px;
     padding-right: 20px;
+    ${media.tablet`
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+     `}
   }
-  ${media.mobileLarge`
+  ${media.tablet`
   line-height: 12px;
-  padding: 12px 12px;
+  /* padding: 12px 12px; */
   `}
 `;

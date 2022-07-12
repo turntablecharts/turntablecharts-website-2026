@@ -81,10 +81,14 @@ const Td = styled.td`
     padding-left: 20px;
     padding-right: 0;
 
-    ${media.mobileLarge`
-    padding-left: 20px;
+    ${media.tablet`
+    padding: 0px;
+    font-size: 14px;
   `}
   }
+  ${media.tablet`
+font-size: 14px;
+`}
 
   ${media.mobileLarge`
     padding: 15px 12px;
