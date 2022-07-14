@@ -41,22 +41,17 @@ const CHART_HEADER = {
 export const getStaticProps: GetStaticProps = async (context) => {
   const chartId = context.params?.chartId;
 
-  if (typeof chartId === "string") {
-    const response = await getChartById(chartId);
+  const response = await getChartById(chartId as string);
 
-    if (response.status === 200) {
-      return {
-        props: {
-          chartData: response.data,
-        },
-        revalidate: 7200,
-      };
-    }
-
+  if (response.data) {
     return {
-      notFound: true,
+      props: {
+        chartData: response.data,
+      },
+      revalidate: 7200,
     };
   }
+
   return {
     notFound: true,
   };

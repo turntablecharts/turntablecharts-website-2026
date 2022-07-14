@@ -18,25 +18,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const newsResponse = await getNewsByPageNumber(1);
 
-  if (typeof newsId === "string") {
-    const news = await getSingleNewsById(newsId);
+  const news = await getSingleNewsById(newsId as string);
 
-    if (news.status === 200) {
-      return {
-        props: {
-          selectedNews: news.data,
-          relatedNews: newsResponse.data.news
-            .filter((news) => news.id.toString() !== newsId)
-            .slice(0, 5),
-        },
-        revalidate: 7200,
-      };
-    }
-
+  if (news.data) {
     return {
-      notFound: true,
+      props: {
+        selectedNews: news.data,
+        relatedNews: newsResponse.data.news
+          .filter((news) => news.id.toString() !== newsId)
+          .slice(0, 5),
+      },
+      revalidate: 7200,
     };
   }
+
   return {
     notFound: true,
   };
