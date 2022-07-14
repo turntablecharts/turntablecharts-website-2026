@@ -11,7 +11,6 @@ import { NewsItem } from "utility/NewsApi/types";
 import { format } from "date-fns";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
-import ArticleCard from "components/molecules/ArticleCard";
 import NewsCard from "components/molecules/NewsCard";
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -68,6 +67,15 @@ const SingleArticlePage: React.FC<{
           name="description"
           content={`TurnTable News | ${selectedNews.title}`}
         />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@TurntableCharts" />
+        <meta
+          property="og:url"
+          content={`https://www.turntablecharts.com/news/${selectedNews.id.toString()}`}
+        />
+        <meta property="og:title" content={`${selectedNews.category}`} />
+        <meta property="og:description" content={`${selectedNews.title}`} />
+        <meta property="og:image" content={`${selectedNews.headerImageUri}`} />
       </Head>
       <div className="article_img">
         <img src={selectedNews.headerImageUri} alt="article" />
