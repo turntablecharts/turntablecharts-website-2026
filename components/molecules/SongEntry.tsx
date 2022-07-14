@@ -10,7 +10,10 @@ const SongEntry = ({ song }: { song: ChartItem }) => {
   return (
     <SongEntryStyling>
       <div className="entry_image">
-        <img loading="lazy" src={song.imageUri} alt={song.title} />
+        {/* <img loading="lazy" src={song.imageUri} alt={song.title} /> */}
+        <object data={song.imageUri} type="image/png">
+          <img src="/assets/ttcBgWhite.png" alt="fallback" />
+        </object>
       </div>
       <div className="entry_name">
         <Typography.Text
@@ -51,7 +54,7 @@ const SongEntryStyling = styled.div`
     height: 50px;
     width: 50px;
       `}
-    img {
+    img, object {
       max-width: 100%;
       height: auto;
     }

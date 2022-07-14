@@ -6,7 +6,6 @@ import React from "react";
 import styled from "styled-components";
 import { format, subDays } from "date-fns";
 import Theme from "constants/Theme";
-import media from "constants/MediaQuery";
 import { getChartById, getChartCategories } from "utility/ChartsApi/api";
 import { ChartsByCategoryResponse } from "utility/ChartsApi/types";
 import { resolveUserTypeToTableData } from "utility/helpers";
@@ -90,8 +89,10 @@ const SingleChartPage: React.FC<{
     })
   );
 
-  const splittedYoutubeUrl = chartData.headerVideoUrl!.split("/");
-  const videoId = splittedYoutubeUrl[splittedYoutubeUrl.length - 1];
+  const videosToPlay = chartData.chartItems.slice(0, 10);
+  const videoToPlayIds = videosToPlay.map(
+    (video) => video.musicLink.split("v=")[1].split("&")[0]
+  );
 
   return (
     <SingleChartPageStyling>
@@ -121,7 +122,7 @@ const SingleChartPage: React.FC<{
           <iframe
             width="690"
             height="390"
-            src={`${chartData.headerVideoUrl!}?playlist=${videoId}&controls=0&loop=1`}
+            src={`${chartData.headerVideoUrl!}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`}
           ></iframe>
         </div>
       )}
