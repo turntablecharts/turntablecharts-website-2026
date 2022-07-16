@@ -28,11 +28,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
           .filter((news) => news.id.toString() !== newsId)
           .slice(0, 5),
       },
-      revalidate: 7200,
+      revalidate: 3600,
     };
   }
 
   return {
+    revalidate: 3600,
     notFound: true,
   };
 };

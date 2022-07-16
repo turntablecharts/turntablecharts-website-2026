@@ -47,12 +47,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
       props: {
         chartData: response.data,
       },
-      revalidate: 7200,
+      revalidate: 3600,
     };
   }
 
   return {
     notFound: true,
+    revalidate: 3600,
   };
 };
 
