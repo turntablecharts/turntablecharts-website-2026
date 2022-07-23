@@ -50,7 +50,6 @@ export const downloadDivToImg = (divName: string, pdfName: string) => {
   html2canvas(input!, {
     useCORS: true,
     logging: true,
-    proxy: "",
   }).then((canvas) => {
     const imgData = canvas.toDataURL("image/jpeg");
     saveAs(imgData, pdfName);

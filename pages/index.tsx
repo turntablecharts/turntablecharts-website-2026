@@ -80,13 +80,11 @@ const Home: React.FC<{
           </div>
         </div>
         <div className="hero_right">
-          {/* <CardStack /> */}
           <img
-            style={{ width: "400px" }}
+            // style={{ width: "250px" }}
             src="/assets/stackedhero.png"
             alt="hero"
           />
-          {/* <Image className="hero_right-img" /> */}
         </div>
       </HeroStyling>
       <section className="charts">
@@ -320,7 +318,10 @@ const HeroStyling = styled.div`
   }
 
   .hero_right {
-    flex: 1;
+    /* flex: 1; */
+    img {
+      width: 400px;
+    }
   }
 
   ${media.smallDesktop`
@@ -328,7 +329,10 @@ const HeroStyling = styled.div`
       flex: 3;
     }
     .hero_right {
-      flex: 2;
+      /* flex: 2; */
+      img {
+        width: 250px;
+      }
     }
   `}
   ${media.tablet`
