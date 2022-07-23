@@ -8,6 +8,11 @@ const nextConfig = {
     });
     return config;
   },
+  compiler: {
+    styledComponents: true,
+    ssr: true,
+    displayName: true,
+  },
 };
 
 module.exports = nextConfig;
