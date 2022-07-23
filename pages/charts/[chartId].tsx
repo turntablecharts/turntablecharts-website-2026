@@ -13,6 +13,7 @@ import RankPlusTrend from "components/atoms/RankPlusTrend";
 import SongEntry from "components/molecules/SongEntry";
 import NewEntryIcon from "assets/icons/newEntry.svg";
 import { TableContentLayout } from "components/organisms/TableLayout";
+import MyDatePicker from "components/atoms/datePicker";
 
 const CHART_HEADER = {
   rank: {
@@ -89,6 +90,14 @@ const SingleChartPage: React.FC<{
       peak: cur.highestPosition,
     })
   );
+  const [value, setValue] = React.useState<Date | null>(
+    new Date(chartData.dateCreated)
+  );
+
+  const handleChange = (newValue: Date | null) => {
+    setValue(newValue);
+    console.log(newValue);
+  };
 
   const videosToPlay = chartData.chartItems.slice(0, 10);
   const videoToPlayIds = videosToPlay.map(
@@ -106,17 +115,20 @@ const SingleChartPage: React.FC<{
       </Head>
       <div className="page_header">
         <Typography.Title>{chartData.category}</Typography.Title>
-        <Typography.Text
-          style={{ color: Theme.colorPalette.ttcYellow, marginTop: "16px" }}
-          fontType="Montserrat"
-          level="large"
-          weight="semiBold"
-        >
-          {`${format(
-            subDays(new Date(chartData.dateCreated), 6),
-            "PPP"
-          )} - ${format(new Date(chartData.dateCreated), "PPP")}`}
-        </Typography.Text>
+        <div className="date_container">
+          <Typography.Text
+            style={{ color: Theme.colorPalette.white }}
+            fontType="Montserrat"
+            level="large"
+            weight="semiBold"
+          >
+            {`${format(
+              subDays(new Date(chartData.dateCreated), 6),
+              "PPP"
+            )} - ${format(new Date(chartData.dateCreated), "PPP")}`}
+          </Typography.Text>
+          <MyDatePicker value={value} handleChange={handleChange} />
+        </div>
       </div>
       {chartData.headerVideoUrl! && (
         <div className="page_iframe">
@@ -167,6 +179,17 @@ const SingleChartPageStyling = styled.div`
   .page_header {
     padding: 7vh 0;
     text-align: center;
+
+    .date_container {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid ${Theme.colorPalette.ttcYellow};
+      border-radius: 60px;
+      padding: 10px 5px 10px 15px;
+      .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+        height: 30px;
+      }
+    }
   }
 
   .page_iframe {
