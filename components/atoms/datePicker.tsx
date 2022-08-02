@@ -90,7 +90,8 @@ export default function CustomDay({
         renderInput={(params) => (
           <TextField className="date-text" {...params} />
         )}
-        inputFormat="'Week of' MMM d"
+        // inputFormat="'Week of' MMM d"
+        // mask=""
       />
     </LocalizationProvider>
   );

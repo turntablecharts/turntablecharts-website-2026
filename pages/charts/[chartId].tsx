@@ -4,7 +4,7 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import Head from "next/head";
 import React from "react";
 import styled from "styled-components";
-import { format, subDays } from "date-fns";
+import { format, subDays, getWeek } from "date-fns";
 import Theme from "constants/Theme";
 import { getChartById, getChartCategories } from "utility/ChartsApi/api";
 import { ChartsByCategoryResponse } from "utility/ChartsApi/types";
@@ -96,7 +96,9 @@ const SingleChartPage: React.FC<{
 
   const handleChange = (newValue: Date | null) => {
     setValue(newValue);
-    console.log(newValue);
+    if (newValue) {
+      console.log(getWeek(newValue, { weekStartsOn: 5 }));
+    }
   };
 
   const videosToPlay = chartData.chartItems.slice(0, 10);

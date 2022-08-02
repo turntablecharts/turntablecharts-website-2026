@@ -1,49 +1,10 @@
-import Typography from "components/atoms/typography";
-import SongEntry from "components/molecules/SongEntry";
-import { TableContentLayout } from "components/organisms/TableLayout";
 import Theme from "constants/Theme";
-import { format, subDays } from "date-fns";
 import React, { useState } from "react";
-import { useQuery } from "react-query";
 import styled from "styled-components";
-import {
-  getChartCategories,
-  getTop50ChartWithPrevInfoByCategpry,
-} from "utility/ChartsApi/api";
-import {
-  ChartCategory,
-  ChartCategoryType,
-  Top50ChartsWithPrevInfoResponse,
-} from "utility/ChartsApi/types";
-import { resolveUserTypeToTableData } from "utility/helpers";
-import NewEntryIcon from "assets/icons/newEntry.svg";
-import Head from "next/head";
-import RankPlusTrend from "components/atoms/RankPlusTrend";
+import { getChartCategories } from "utility/ChartsApi/api";
+import { ChartCategory } from "utility/ChartsApi/types";
 import ChartCard from "components/molecules/ChartCard";
 import media from "constants/MediaQuery";
-
-const CHART_HEADER = {
-  rank: {
-    key: "rank",
-    label: "Rank",
-    active: true,
-  },
-  entry: {
-    key: "entry",
-    label: "Entry",
-    active: true,
-  },
-  lastWeek: {
-    key: "lastWeek",
-    label: "Last Week",
-    active: true,
-  },
-  peak: {
-    key: "peak",
-    label: "Peak",
-    active: true,
-  },
-};
 
 export async function getStaticProps() {
   const chartCategories = await getChartCategories();
