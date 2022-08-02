@@ -69,8 +69,11 @@ const SingleArticlePage: React.FC<{
           property="og:url"
           content={`https://www.turntablecharts.com/news/${selectedNews.id.toString()}`}
         />
-        <meta property="og:title" content={`${selectedNews.category}`} />
-        <meta property="og:description" content={`${selectedNews.title}`} />
+        <meta property="og:title" content={`${selectedNews.title}`} />
+        <meta
+          property="og:description"
+          content={`${selectedNews.description}`}
+        />
         <meta property="og:image" content={`${selectedNews.headerImageUri}`} />
       </Head>
       <div className="article_img">

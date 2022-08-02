@@ -3,9 +3,13 @@ import Typography from "components/atoms/typography";
 import Theme from "constants/Theme";
 import styled from "styled-components";
 import media from "constants/MediaQuery";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { sendWrappedRequest } from "utility/ChartsApi/api";
 import { downloadDivToImg } from "utility/helpers";
+import TTCIconLoading from "assets/icons/rollingAnimated.svg";
+import CTAArrow from "assets/icons/ctaArrow.svg";
+import { searchArtisteByQuery, searchSongByQuery } from "utility/SearchApi/api";
+import { DebounceInput } from "react-debounce-input";
 
 type WrappedResult = {
   randomFact: string;
@@ -17,10 +21,12 @@ type WrappedResult = {
 
 const MyTurnTable = () => {
   const [stage, setStage] = useState(1);
-  const [formSongs, setFormSongs] = useState<{ [key: string]: string }>({});
-  const [formArtistes, setFormArtistes] = useState<{ [key: string]: string }>(
-    {}
-  );
+  const [formSongs, setFormSongs] = useState<{
+    [key: string]: { value: string; loading: boolean; results: string[] };
+  }>({});
+  const [formArtistes, setFormArtistes] = useState<{
+    [key: string]: { value: string; loading: boolean; results: string[] };
+  }>({});
   const [wrappedResults, setWrappedResults] = useState<WrappedResult>();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -28,22 +34,47 @@ const MyTurnTable = () => {
 
   const handleSongsChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    setFormSongs((prevFormSongs) => ({ ...prevFormSongs, [name]: value }));
+    setFormSongs((prevFormSongs) => ({
+      ...prevFormSongs,
+      [name]: { value, loading: true, results: [] },
+    }));
+
+    searchSongByQuery(value.trim()).then(({ data }) => {
+      setFormSongs((prevFormSongs) => ({
+        ...prevFormSongs,
+        [name]: {
+          ...prevFormSongs[name],
+          loading: false,
+          results: data.data,
+        },
+      }));
+    });
   };
 
   const handleArtistesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setFormArtistes((prevFormArtistes) => ({
       ...prevFormArtistes,
-      [name]: value,
+      [name]: { value, loading: true, results: [] },
     }));
+
+    searchArtisteByQuery(value.trim()).then(({ data }) => {
+      setFormArtistes((prevFormArtistes) => ({
+        ...prevFormArtistes,
+        [name]: {
+          ...prevFormArtistes[name],
+          loading: false,
+          results: data.data,
+        },
+      }));
+    });
   };
 
   const handleCreateWrapped = () => {
     setLoading(true);
     sendWrappedRequest({
-      songs: Object.values(formSongs).map((song) => song.trim()),
-      artists: Object.values(formArtistes).map((artist) => artist.trim()),
+      songs: Object.values(formSongs).map((song) => song.value.trim()),
+      artists: Object.values(formArtistes).map((artist) => artist.value.trim()),
     }).then((res) => {
       setLoading(false);
 
@@ -119,82 +150,186 @@ const MyTurnTable = () => {
         </div>
       )}
       {stage === 2 && (
-        <div className="form_content">
-          <div className="form_wrapper">
-            <div className="top_songs">
-              <Typography.Text
-                fontType="Mermaid"
-                level="xxlarge"
-                style={{
-                  color: Theme.colorPalette.ttcYellow,
-                  marginBottom: "26px",
-                }}
-              >
-                Enter Your Top Songs
-              </Typography.Text>
-              {count.map((item) => (
-                <div key={item + "songs"} className="input">
-                  <Typography.Text
-                    fontType="SFProText"
-                    weight="semiBold"
-                    level="xlarge"
-                  >
-                    {item}
-                  </Typography.Text>
-                  <input
-                    onChange={handleSongsChange}
-                    name={item}
-                    value={formSongs[item] || ""}
-                    type="text"
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="top_artists">
-              <Typography.Text
-                fontType="Mermaid"
-                level="xxlarge"
-                style={{
-                  color: Theme.colorPalette.ttcYellow,
-                  marginBottom: "26px",
-                }}
-              >
-                Enter Your Top Artistes
-              </Typography.Text>
-              {count.map((item) => (
-                <div key={item + "artistes"} className="input">
-                  <Typography.Text
-                    fontType="SFProText"
-                    weight="semiBold"
-                    level="xlarge"
-                  >
-                    {item}
-                  </Typography.Text>
-                  <input
-                    name={item}
-                    value={formArtistes[item] || ""}
-                    onChange={handleArtistesChange}
-                    type="text"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="myTurnTableCta">
-            <button
-              onClick={() => {
-                setStage(3);
-                handleCreateWrapped();
+        <>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              marginBottom: "20px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setStage(stage - 1);
+            }}
+          >
+            <CTAArrow
+              style={{
+                width: "30px",
+                stroke: "white",
+                transform: "rotate(180deg)",
               }}
-              className="btn begin"
-            >
-              Create My TurnTable
-            </button>
+            />
+            <Typography.Text fontType="SFProText">Back</Typography.Text>
           </div>
-        </div>
+          <div className="form_content">
+            <div className="form_wrapper">
+              <div className="top_songs">
+                <Typography.Text
+                  fontType="Mermaid"
+                  level="xxlarge"
+                  style={{
+                    color: Theme.colorPalette.ttcYellow,
+                    marginBottom: "26px",
+                  }}
+                >
+                  Enter Your Top Songs
+                </Typography.Text>
+                {count.map((item) => (
+                  <div key={item + "songs"} className="input">
+                    <Typography.Text
+                      fontType="SFProText"
+                      weight="semiBold"
+                      level="xlarge"
+                    >
+                      {item}
+                    </Typography.Text>
+                    <DebounceInput
+                      debounceTimeout={700}
+                      value={formSongs[item]?.value || ""}
+                      name={item}
+                      onChange={handleSongsChange}
+                    />
+                    {formSongs[item]?.loading && (
+                      <TTCIconLoading className="search_icon" />
+                    )}
+                    {formSongs[item]?.results?.length ? (
+                      <div className="results">
+                        {formSongs[item]?.results.map((result) => (
+                          <div
+                            key={result}
+                            onClick={() => {
+                              setFormSongs((prevFormSongs) => ({
+                                ...prevFormSongs,
+                                [item]: {
+                                  ...prevFormSongs[item],
+                                  value: result,
+                                  results: [],
+                                },
+                              }));
+                            }}
+                            className="result"
+                          >
+                            <Typography.Text
+                              fontType="SFProText"
+                              level="xlarge"
+                            >
+                              {result}
+                            </Typography.Text>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+              <div className="top_artists">
+                <Typography.Text
+                  fontType="Mermaid"
+                  level="xxlarge"
+                  style={{
+                    color: Theme.colorPalette.ttcYellow,
+                    marginBottom: "26px",
+                  }}
+                >
+                  Enter Your Top Artistes
+                </Typography.Text>
+                {count.map((item) => (
+                  <div key={item + "artistes"} className="input">
+                    <Typography.Text
+                      fontType="SFProText"
+                      weight="semiBold"
+                      level="xlarge"
+                    >
+                      {item}
+                    </Typography.Text>
+                    <DebounceInput
+                      debounceTimeout={700}
+                      value={formArtistes[item]?.value || ""}
+                      name={item}
+                      onChange={handleArtistesChange}
+                    />
+                    {formArtistes[item]?.loading && (
+                      <TTCIconLoading className="search_icon" />
+                    )}
+                    {formArtistes[item]?.results?.length ? (
+                      <div className="results">
+                        {formArtistes[item]?.results.map((result) => (
+                          <div
+                            key={result}
+                            onClick={() => {
+                              setFormArtistes((prevFormArtistes) => ({
+                                ...prevFormArtistes,
+                                [item]: {
+                                  ...prevFormArtistes[item],
+                                  value: result,
+                                  results: [],
+                                },
+                              }));
+                            }}
+                            className="result"
+                          >
+                            <Typography.Text
+                              fontType="SFProText"
+                              level="xlarge"
+                            >
+                              {result}
+                            </Typography.Text>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="myTurnTableCta">
+              <button
+                onClick={() => {
+                  setStage(3);
+                  handleCreateWrapped();
+                }}
+                className="btn begin"
+              >
+                Create My TurnTable
+              </button>
+            </div>
+          </div>
+        </>
       )}
       {stage === 3 && (
         <>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              marginBottom: "20px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setStage(stage - 1);
+            }}
+          >
+            <CTAArrow
+              style={{
+                width: "30px",
+                stroke: "white",
+                transform: "rotate(180deg)",
+              }}
+            />
+            <Typography.Text fontType="SFProText">Back</Typography.Text>
+          </div>
           <div className="wrapped_content" id="saveWrapped">
             <Typography.Heading level={2}>#myTurnTable</Typography.Heading>
             <div className="images">
@@ -422,6 +557,7 @@ const MyTurnTableStyling = styled.div`
       align-items: center;
       gap: 20px;
       margin-top: 16px;
+      position: relative;
 
       input {
         color: #fff;
@@ -433,6 +569,31 @@ const MyTurnTableStyling = styled.div`
         padding: 10px;
         max-width: 330px;
         outline: none;
+      }
+
+      .search_icon {
+        position: absolute;
+        z-index: 10;
+        right: 12px;
+      }
+
+      .results {
+        position: absolute;
+        z-index: 10;
+        top: calc(100% + 5px);
+        right: 0px;
+        min-width: 230px;
+        background-color: ${Theme.colorPalette.white};
+        color: ${Theme.colorPalette.black};
+
+        .result {
+          padding: 10px;
+          border-bottom: 1px solid ${Theme.colorPalette.textGrey}30;
+          cursor: pointer;
+          &:hover {
+            background-color: ${Theme.colorPalette.textGrey}15;
+          }
+        }
       }
     }
   }
