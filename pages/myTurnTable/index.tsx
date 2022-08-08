@@ -7,7 +7,6 @@ import { ChangeEvent, useState } from "react";
 import { sendWrappedRequest } from "utility/ChartsApi/api";
 import { downloadDivToImg } from "utility/helpers";
 import TTCIconLoading from "assets/icons/rollingAnimated.svg";
-import TTCLogo from "assets/icons/ttc-logo.svg";
 import CTAArrow from "assets/icons/ctaArrow.svg";
 import { searchArtisteByQuery, searchSongByQuery } from "utility/SearchApi/api";
 import { DebounceInput } from "react-debounce-input";
@@ -334,12 +333,14 @@ const MyTurnTable = () => {
             <Typography.Text fontType="SFProText">Back</Typography.Text>
           </div>
           <div className="wrapped_content" id="saveWrapped">
-            <TTCLogo
+            <img
+              src="/assets/ttc-logo.png"
               style={{
                 height: "30px",
-                width: "102px",
+                // width: "102px",
                 margin: "30px auto 0px",
               }}
+              alt="logo"
             />
             <div className="images">
               {/* <img src="/assets/wrapped.png" alt="wrapped" /> */}
@@ -549,6 +550,7 @@ const MyTurnTableStyling = styled.div`
 
     .images {
       height: 150px;
+      width: 100%;
       display: grid;
       place-items: center;
       overflow: hidden;
