@@ -510,6 +510,10 @@ const MyTurnTableStyling = styled.div`
     padding: 7vh 0;
     text-align: center;
 
+    ${media.mobile`
+      padding: 3vh 0;
+    `}
+
     h1 {
       font-size: 64px;
     }
