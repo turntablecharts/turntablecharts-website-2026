@@ -6,6 +6,7 @@ export type NewsItem = {
   headerImageUri: string;
   newsContent: string;
   category: string;
+  description: string;
   newsCategoryId: number;
   title: string;
   isDeleted: boolean;

@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { getChartCategories } from "utility/ChartsApi/api";
 import { ChartCategory } from "utility/ChartsApi/types";
-import ChartCard from "components/molecules/ChartCard";
 import media from "constants/MediaQuery";
+import ChartCard from "components/molecules/ChartCard";
 
 export async function getStaticProps() {
   const chartCategories = await getChartCategories();
