@@ -2,11 +2,15 @@
 import Typography from "components/atoms/typography";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { format, subDays, getWeek } from "date-fns";
+import { parse, format, getWeek, startOfWeek, endOfWeek } from "date-fns";
 import Theme from "constants/Theme";
-import { getChartById, getChartCategories } from "utility/ChartsApi/api";
+import {
+  getChartById,
+  getChartByIdAndWeekNumber,
+  getChartCategories,
+} from "utility/ChartsApi/api";
 import { ChartsByCategoryResponse } from "utility/ChartsApi/types";
 import { resolveUserTypeToTableData } from "utility/helpers";
 import RankPlusTrend from "components/atoms/RankPlusTrend";
@@ -71,11 +75,42 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+const getDateByWeekIndex = (index: string) => {
+  return new Date(
+    parse(index, "I", new Date(), {
+      weekStartsOn: 5,
+    })
+  );
+};
+
 const SingleChartPage: React.FC<{
   chartData: ChartsByCategoryResponse;
 }> = ({ chartData }) => {
+  const [value] = React.useState<Date | null>(
+    getDateByWeekIndex(chartData.weekNumber.toString())
+  );
+
+  const [changedWeek, setChangedWeek] = React.useState<number>();
+  const [changedWeekChart, setChangedWeekChart] =
+    React.useState<ChartsByCategoryResponse>();
+
+  useEffect(() => {
+    if (changedWeek) {
+      getChartByIdAndWeekNumber(chartData.chartCategoryId, changedWeek).then(
+        ({ data }) => {
+          if (data.chartItems) {
+            // console.log(data);
+            setChangedWeekChart(data);
+          }
+        }
+      );
+    }
+  }, [changedWeek, chartData.chartCategoryId]);
+
+  const currentChart = changedWeekChart || chartData;
+
   const tableData = resolveUserTypeToTableData(
-    chartData.chartItems.sort((a, b) => a.rank - b.rank),
+    currentChart.chartItems.sort((a, b) => a.rank - b.rank),
     (cur) => ({
       rank: <RankPlusTrend song={cur} />,
       entry: <SongEntry song={cur} />,
@@ -90,18 +125,17 @@ const SingleChartPage: React.FC<{
       peak: cur.highestPosition,
     })
   );
-  const [value, setValue] = React.useState<Date | null>(
-    new Date(chartData.dateCreated)
-  );
 
   const handleChange = (newValue: Date | null) => {
-    setValue(newValue);
     if (newValue) {
-      console.log(getWeek(newValue, { weekStartsOn: 5 }));
+      // setChangedWeek(newValue);
+      // console.log("cal wk normal", getWeek(newValue));
+      // console.log("cal wk on friday", getWeek(newValue, { weekStartsOn: 5 }));
+      setChangedWeek(getWeek(newValue, { weekStartsOn: 5 }));
     }
   };
 
-  const videosToPlay = chartData.chartItems.slice(0, 10);
+  const videosToPlay = currentChart.chartItems.slice(0, 10);
   const videoToPlayIds = videosToPlay.map(
     (video) => video.musicLink.split("v=")[1].split("&")[0]
   );
@@ -109,36 +143,54 @@ const SingleChartPage: React.FC<{
   return (
     <SingleChartPageStyling>
       <Head>
-        <title>{`TurnTable Charts | ${chartData.category}`}</title>
+        <title>{`TurnTable Charts | ${currentChart.category}`}</title>
         <meta
           name="description"
-          content={`TurnTable Charts | ${chartData.category}`}
+          content={`TurnTable Charts | ${currentChart.category}`}
         />
       </Head>
       <div className="page_header">
-        <Typography.Title>{chartData.category}</Typography.Title>
+        <Typography.Title>{currentChart.category}</Typography.Title>
         <div className="date_container">
           <Typography.Text
             style={{ color: Theme.colorPalette.white }}
             fontType="Montserrat"
             level="large"
-            weight="semiBold"
-          >
-            {`${format(
-              subDays(new Date(chartData.dateCreated), 6),
-              "PPP"
-            )} - ${format(new Date(chartData.dateCreated), "PPP")}`}
+            weight="semiBold">
+            {changedWeek
+              ? `${format(
+                  startOfWeek(getDateByWeekIndex(changedWeek.toString()), {
+                    weekStartsOn: 5,
+                  }),
+                  "PPP"
+                )} - ${format(
+                  endOfWeek(getDateByWeekIndex(changedWeek.toString()), {
+                    weekStartsOn: 5,
+                  }),
+                  "PPP"
+                )}`
+              : `${format(
+                  startOfWeek(value!, { weekStartsOn: 5 }),
+                  "PPP"
+                )} - ${format(endOfWeek(value!, { weekStartsOn: 5 }), "PPP")}`}
           </Typography.Text>
-          <MyDatePicker value={value} handleChange={handleChange} />
+          {currentChart.weekNumber && (
+            <MyDatePicker
+              mostRecentWeek={value}
+              value={
+                changedWeek ? getDateByWeekIndex(changedWeek.toString()) : value
+              }
+              handleChange={handleChange}
+            />
+          )}
         </div>
       </div>
-      {chartData.headerVideoUrl! && (
+      {currentChart.headerVideoUrl! && (
         <div className="page_iframe">
           <iframe
             width="690"
             height="390"
-            src={`${chartData.headerVideoUrl!}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`}
-          ></iframe>
+            src={`${currentChart.headerVideoUrl!}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`}></iframe>
         </div>
       )}
       <div className="page_table">

@@ -43,8 +43,10 @@ const CustomPickersDay = styled(PickersDay, {
 export default function CustomDay({
   value,
   handleChange,
+  mostRecentWeek,
 }: {
   value: Date | null;
+  mostRecentWeek: Date | null;
   handleChange: (Date: Date | null) => void;
 }) {
   // const [value, setValue] = React.useState<Date | null>(new Date());
@@ -90,6 +92,7 @@ export default function CustomDay({
         renderInput={(params) => (
           <TextField className="date-text" {...params} />
         )}
+        maxDate={endOfWeek(mostRecentWeek!, { weekStartsOn: 5 })}
         // inputFormat="'Week of' MMM d"
         // mask=""
       />

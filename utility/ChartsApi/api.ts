@@ -32,6 +32,16 @@ export const getChartById = async (id: number | string) => {
   return response;
 };
 
+export const getChartByIdAndWeekNumber = async (
+  id: number | string,
+  weekNumber: number
+) => {
+  const response = await TTCRequest.get<ChartsByCategoryResponse>(
+    `/api/chart/${id}/${weekNumber}`
+  );
+  return response;
+};
+
 export const getChartCategories = async () => {
   const response = await TTCRequest.get<ChartCategory[]>(
     "/api/chart/categories"
