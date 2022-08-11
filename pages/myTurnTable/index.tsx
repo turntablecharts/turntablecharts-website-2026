@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import Typography from "components/atoms/typography";
+import Typography, { Text } from "components/atoms/typography";
 import Theme from "constants/Theme";
 import styled from "styled-components";
 import media from "constants/MediaQuery";
@@ -182,6 +182,7 @@ const MyTurnTable = () => {
                     color: Theme.colorPalette.ttcYellow,
                     marginBottom: "26px",
                   }}
+                  className="top_title"
                 >
                   Enter Your Top Songs
                 </Typography.Text>
@@ -241,6 +242,7 @@ const MyTurnTable = () => {
                     color: Theme.colorPalette.ttcYellow,
                     marginBottom: "26px",
                   }}
+                  className="top_title"
                 >
                   Enter Your Top Artistes
                 </Typography.Text>
@@ -331,15 +333,50 @@ const MyTurnTable = () => {
             <Typography.Text fontType="SFProText">Back</Typography.Text>
           </div>
           <div className="wrapped_content" id="saveWrapped">
-            <Typography.Heading level={2}>#myTurnTable</Typography.Heading>
+            <img
+              src="/assets/ttc-logo.png"
+              style={{
+                height: "30px",
+                // width: "102px",
+                margin: "30px auto 0px",
+              }}
+              alt="logo"
+            />
             <div className="images">
-              <img src="/assets/wrapped.png" alt="wrapped" />
+              {/* <img src="/assets/wrapped.png" alt="wrapped" /> */}
+              <div>
+                <Text
+                  fontType="SFProText"
+                  weight="bold"
+                  level="xxlarge"
+                  style={{ backgroundColor: "#000", padding: "3px" }}
+                >
+                  #MYTURNTABLE
+                </Text>
+                <Text
+                  fontType="SFProText"
+                  weight="semiBold"
+                  level="large"
+                  style={{
+                    backgroundColor: "#000",
+                    color: Theme.colorPalette.ttcYellow,
+                    display: "inline-block",
+                  }}
+                >
+                  Jan - June 2022
+                </Text>
+              </div>
             </div>
             <Typography.Text
               fontType="Montserrat"
               weight="medium"
-              style={{ lineHeight: "24px" }}
-              level="large"
+              style={{
+                lineHeight: "24px",
+                maxWidth: "400px",
+                width: "90%",
+                alignSelf: "center",
+              }}
+              level="medium"
             >
               Here&apos;s how your favourite songs & artistes ranked in H1 2022
             </Typography.Text>
@@ -407,7 +444,7 @@ const MyTurnTable = () => {
                   ))}
               </div>
             </div>
-            <div style={{ textAlign: "left" }} className="genre">
+            <div className="genre">
               <Typography.Heading
                 fontType="Mermaid"
                 style={{
@@ -446,6 +483,7 @@ const MyTurnTable = () => {
                 {wrappedResults?.randomFact}
               </Typography.Text>
             </div>
+            <div className="turntable_footer" />
           </div>
           <div className="myTurnTableCta">
             <button
@@ -473,6 +511,10 @@ const MyTurnTableStyling = styled.div`
     padding: 7vh 0;
     text-align: center;
 
+    ${media.mobile`
+      padding: 3vh 0;
+    `}
+
     h1 {
       font-size: 64px;
     }
@@ -493,40 +535,51 @@ const MyTurnTableStyling = styled.div`
   .wrapped_content {
     max-width: 500px;
     margin: 0 auto;
-    padding: 25px 25px;
     background-color: ${Theme.colorPalette.black};
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 40px;
+    gap: 30px;
     -webkit-print-color-adjust: exact;
+    background-image: url("/assets/turntableBg.png");
+    background-size: cover;
+
+    ${media.mobile`
+      gap: 20px;
+    `}
 
     .images {
-      width: 250px;
       height: 150px;
+      width: 100%;
       display: grid;
       place-items: center;
       overflow: hidden;
       -webkit-print-color-adjust: exact;
+      background-image: url("/assets/myturntabletopBg.svg");
+      background-size: cover;
+      background-position: center top;
 
-      img {
-        width: 100%;
-        -webkit-print-color-adjust: exact;
-      }
+      ${media.mobile`
+        height: 80px;
+      `}
     }
 
     .results {
       display: flex;
       justify-content: space-between;
-      gap: 20px;
       text-align: left;
+      margin: 0px 20px;
 
       .top_songs {
         flex: 1;
       }
       .top_artistes {
         flex: 1;
+        text-align: right;
+        .entry {
+          text-align: right;
+          justify-content: flex-end;
+        }
       }
 
       .entry {
@@ -534,7 +587,43 @@ const MyTurnTableStyling = styled.div`
         align-items: center;
         gap: 15px;
         margin-top: 15px;
+
+        ${media.mobile`
+        margin-top: 10px;
+        p{
+          font-size: 13px;
+        }
+        `}
       }
+
+      .genre {
+        text-align: left;
+        margin: 0px 20px;
+
+        ${media.mobile`
+          p{
+            font-size: 13px;
+          }
+        `}
+      }
+    }
+
+    .random_fact {
+      max-width: 400px;
+      width: 90%;
+      align-self: center;
+
+      ${media.mobile`
+          p{
+            font-size: 12px;
+          }
+        `}
+    }
+
+    .turntable_footer {
+      height: 50px;
+      background-image: url("/assets/myturntableDownBg.svg");
+      background-size: cover;
     }
   }
 
@@ -551,6 +640,12 @@ const MyTurnTableStyling = styled.div`
       align-items: center;
       gap: 40px;
     `}
+
+      .top_title {
+        ${media.mobile`
+          font-size: 16px;
+        `}
+      }
     }
     .input {
       display: flex;
@@ -569,6 +664,9 @@ const MyTurnTableStyling = styled.div`
         padding: 10px;
         max-width: 330px;
         outline: none;
+        ${media.mobile`
+          font-size: 14px;
+        `}
       }
 
       .search_icon {
@@ -585,11 +683,19 @@ const MyTurnTableStyling = styled.div`
         min-width: 230px;
         background-color: ${Theme.colorPalette.white};
         color: ${Theme.colorPalette.black};
+        max-height: 200px;
+        overflow: scroll;
 
         .result {
           padding: 10px;
           border-bottom: 1px solid ${Theme.colorPalette.textGrey}30;
           cursor: pointer;
+          ${media.mobile`
+          p {
+
+            font-size: 14px;
+          }
+        `}
           &:hover {
             background-color: ${Theme.colorPalette.textGrey}15;
           }
@@ -601,12 +707,11 @@ const MyTurnTableStyling = styled.div`
   .myTurnTableCta {
     display: grid;
     place-items: center;
-    margin-top: 100px;
+    margin-top: 70px;
 
     .btn {
       all: unset;
       padding: 24px 50px;
-      /* width: 250px; */
       background-color: ${Theme.colorPalette.ttcYellow};
       color: ${Theme.colorPalette.black};
       font-family: ${Theme.typography.extra};
@@ -619,7 +724,8 @@ const MyTurnTableStyling = styled.div`
       cursor: pointer;
 
       ${media.mobileLarge`
-    padding: 14px 24px;
+        padding: 14px 24px;
+        font-size: 16px;
       `}
     }
   }
