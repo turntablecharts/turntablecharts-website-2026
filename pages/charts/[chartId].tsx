@@ -153,30 +153,33 @@ const SingleChartPage: React.FC<{
       </Head>
       <div className="page_header">
         <Typography.Title>{currentChart.category}</Typography.Title>
-        <div className="date_container">
-          <Typography.Text
-            style={{ color: Theme.colorPalette.white }}
-            fontType="Montserrat"
-            level="large"
-            weight="semiBold">
-            {changedWeek
-              ? `${format(
-                  startOfWeek(getDateByWeekIndex(changedWeek.toString()), {
-                    weekStartsOn: 5,
-                  }),
-                  "PPP"
-                )} - ${format(
-                  endOfWeek(getDateByWeekIndex(changedWeek.toString()), {
-                    weekStartsOn: 5,
-                  }),
-                  "PPP"
-                )}`
-              : `${format(
-                  startOfWeek(value!, { weekStartsOn: 5 }),
-                  "PPP"
-                )} - ${format(endOfWeek(value!, { weekStartsOn: 5 }), "PPP")}`}
-          </Typography.Text>
-          {currentChart.weekNumber && (
+        {currentChart.weekNumber && (
+          <div className="date_container">
+            <Typography.Text
+              style={{ color: Theme.colorPalette.white }}
+              fontType="Montserrat"
+              level="large"
+              weight="semiBold">
+              {changedWeek
+                ? `${format(
+                    startOfWeek(getDateByWeekIndex(changedWeek.toString()), {
+                      weekStartsOn: 5,
+                    }),
+                    "PPP"
+                  )} - ${format(
+                    endOfWeek(getDateByWeekIndex(changedWeek.toString()), {
+                      weekStartsOn: 5,
+                    }),
+                    "PPP"
+                  )}`
+                : `${format(
+                    startOfWeek(value!, { weekStartsOn: 5 }),
+                    "PPP"
+                  )} - ${format(
+                    endOfWeek(value!, { weekStartsOn: 5 }),
+                    "PPP"
+                  )}`}
+            </Typography.Text>
             <MyDatePicker
               mostRecentWeek={value}
               value={
@@ -184,8 +187,8 @@ const SingleChartPage: React.FC<{
               }
               handleChange={handleChange}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       {currentChart.headerVideoUrl! && (
         <div className="page_iframe">
