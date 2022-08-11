@@ -87,7 +87,9 @@ const SingleChartPage: React.FC<{
   chartData: ChartsByCategoryResponse;
 }> = ({ chartData }) => {
   const [value] = React.useState<Date | null>(
-    getDateByWeekIndex(chartData.weekNumber?.toString())
+    chartData.weekNumber
+      ? getDateByWeekIndex(chartData.weekNumber?.toString())
+      : new Date()
   );
 
   const [changedWeek, setChangedWeek] = React.useState<number>();
