@@ -246,19 +246,16 @@ const SingleChartPageStyling = styled.div`
       border-radius: 60px;
       margin-top: 20px;
       padding: 10px 5px 10px 15px;
-      .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
-        height: 30px;
-      }
 
       .date-text {
-        .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+        input {
           margin-top: 0px;
           width: 1px;
           height: 1px;
           visibility: hidden;
           pointer-events: none;
         }
-        .css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root {
+        svg {
           color: #f1a01f;
           // border: 1px solid #f1a01f;
         }
