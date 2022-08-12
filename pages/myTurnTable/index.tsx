@@ -95,8 +95,7 @@ const MyTurnTable = () => {
             fontSize: Theme.fontSizes.xlarge,
             textAlign: "center",
           }}
-          level={3}
-        >
+          level={3}>
           Compiling your #myTurnTable...
         </Typography.Heading>
       </MyTurnTableStyling>
@@ -118,16 +117,14 @@ const MyTurnTable = () => {
               letterSpacing: "1px",
               lineHeight: "40px",
             }}
-            fontType="Fontastique"
-          >
+            fontType="Fontastique">
             myTurnTable is our way of bringing data to life and relating it to
             your personal listening choices
           </Typography.Heading>
           <Typography.Text
             fontType="SFProText"
             level="xlarge"
-            style={{ lineHeight: "32px", marginBottom: "40px" }}
-          >
+            style={{ lineHeight: "32px", marginBottom: "40px" }}>
             All you have to do is input your five favorite artistes and songs
             during the first half of the year (these can be songs released in
             the last quarter of 2021 too)— and you can see how they compare in
@@ -137,8 +134,7 @@ const MyTurnTable = () => {
           <Typography.Text
             fontType="SFProText"
             level="xxlarge"
-            weight="semiBold"
-          >
+            weight="semiBold">
             Sound simple right? Let’s get started
           </Typography.Text>
 
@@ -161,8 +157,7 @@ const MyTurnTable = () => {
             }}
             onClick={() => {
               setStage(stage - 1);
-            }}
-          >
+            }}>
             <CTAArrow
               style={{
                 width: "30px",
@@ -182,8 +177,7 @@ const MyTurnTable = () => {
                     color: Theme.colorPalette.ttcYellow,
                     marginBottom: "26px",
                   }}
-                  className="top_title"
-                >
+                  className="top_title">
                   Enter Your Top Songs
                 </Typography.Text>
                 {count.map((item) => (
@@ -191,8 +185,7 @@ const MyTurnTable = () => {
                     <Typography.Text
                       fontType="SFProText"
                       weight="semiBold"
-                      level="xlarge"
-                    >
+                      level="xlarge">
                       {item}
                     </Typography.Text>
                     <DebounceInput
@@ -219,12 +212,10 @@ const MyTurnTable = () => {
                                 },
                               }));
                             }}
-                            className="result"
-                          >
+                            className="result">
                             <Typography.Text
                               fontType="SFProText"
-                              level="xlarge"
-                            >
+                              level="xlarge">
                               {result}
                             </Typography.Text>
                           </div>
@@ -242,8 +233,7 @@ const MyTurnTable = () => {
                     color: Theme.colorPalette.ttcYellow,
                     marginBottom: "26px",
                   }}
-                  className="top_title"
-                >
+                  className="top_title">
                   Enter Your Top Artistes
                 </Typography.Text>
                 {count.map((item) => (
@@ -251,8 +241,7 @@ const MyTurnTable = () => {
                     <Typography.Text
                       fontType="SFProText"
                       weight="semiBold"
-                      level="xlarge"
-                    >
+                      level="xlarge">
                       {item}
                     </Typography.Text>
                     <DebounceInput
@@ -279,12 +268,10 @@ const MyTurnTable = () => {
                                 },
                               }));
                             }}
-                            className="result"
-                          >
+                            className="result">
                             <Typography.Text
                               fontType="SFProText"
-                              level="xlarge"
-                            >
+                              level="xlarge">
                               {result}
                             </Typography.Text>
                           </div>
@@ -301,8 +288,7 @@ const MyTurnTable = () => {
                   setStage(3);
                   handleCreateWrapped();
                 }}
-                className="btn begin"
-              >
+                className="btn begin">
                 Create My TurnTable
               </button>
             </div>
@@ -321,8 +307,7 @@ const MyTurnTable = () => {
             }}
             onClick={() => {
               setStage(stage - 1);
-            }}
-          >
+            }}>
             <CTAArrow
               style={{
                 width: "30px",
@@ -349,9 +334,8 @@ const MyTurnTable = () => {
                   fontType="SFProText"
                   weight="bold"
                   level="xxlarge"
-                  style={{ backgroundColor: "#000", padding: "3px" }}
-                >
-                  #MYTURNTABLE
+                  style={{ backgroundColor: "#000", padding: "3px" }}>
+                  #myTurnTable
                 </Text>
                 <Text
                   fontType="SFProText"
@@ -361,8 +345,7 @@ const MyTurnTable = () => {
                     backgroundColor: "#000",
                     color: Theme.colorPalette.ttcYellow,
                     display: "inline-block",
-                  }}
-                >
+                  }}>
                   Jan - June 2022
                 </Text>
               </div>
@@ -376,8 +359,7 @@ const MyTurnTable = () => {
                 width: "90%",
                 alignSelf: "center",
               }}
-              level="medium"
-            >
+              level="medium">
               Here&apos;s how your favourite songs & artistes ranked in H1 2022
             </Typography.Text>
             <div className="results">
@@ -388,8 +370,7 @@ const MyTurnTable = () => {
                     color: Theme.colorPalette.ttcYellow,
                     fontSize: Theme.fontSizes.xlarge,
                   }}
-                  level={3}
-                >
+                  level={3}>
                   Top Songs
                 </Typography.Heading>
                 {wrappedResults &&
@@ -405,8 +386,7 @@ const MyTurnTable = () => {
                       <Typography.Text
                         fontType="Montserrat"
                         weight="bold"
-                        level="large"
-                      >
+                        level="large">
                         {song}
                       </Typography.Text>
                     </div>
@@ -419,8 +399,7 @@ const MyTurnTable = () => {
                     color: Theme.colorPalette.ttcYellow,
                     fontSize: Theme.fontSizes.xlarge,
                   }}
-                  level={3}
-                >
+                  level={3}>
                   Top Artistes
                 </Typography.Heading>
                 {wrappedResults &&
@@ -436,8 +415,7 @@ const MyTurnTable = () => {
                       <Typography.Text
                         fontType="Montserrat"
                         weight="bold"
-                        level="large"
-                      >
+                        level="large">
                         {artist}
                       </Typography.Text>
                     </div>
@@ -451,15 +429,13 @@ const MyTurnTable = () => {
                   color: Theme.colorPalette.ttcYellow,
                   fontSize: Theme.fontSizes.xlarge,
                 }}
-                level={3}
-              >
+                level={3}>
                 Genre Share of H1
               </Typography.Heading>
               <Typography.Text
                 fontType="Montserrat"
                 weight="bold"
-                level="large"
-              >
+                level="large">
                 {wrappedResults?.genre}
               </Typography.Text>
             </div>
@@ -470,16 +446,14 @@ const MyTurnTable = () => {
                   color: Theme.colorPalette.ttcYellow,
                   fontSize: Theme.fontSizes.xlarge,
                 }}
-                level={3}
-              >
+                level={3}>
                 Fun Fact
               </Typography.Heading>
               <Typography.Text
                 fontType="Montserrat"
                 weight="medium"
                 style={{ lineHeight: "24px" }}
-                level="large"
-              >
+                level="large">
                 {wrappedResults?.randomFact}
               </Typography.Text>
             </div>
@@ -490,8 +464,7 @@ const MyTurnTable = () => {
               onClick={() => {
                 downloadDivToImg("saveWrapped", "myTurnTable.jpeg");
               }}
-              className="btn begin"
-            >
+              className="btn begin">
               Share Your TurnTable
             </button>
           </div>
