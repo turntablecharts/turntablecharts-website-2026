@@ -138,9 +138,10 @@ const SingleChartPage: React.FC<{
   };
 
   const videosToPlay = currentChart.chartItems.slice(0, 10);
-  const videoToPlayIds = videosToPlay.map(
-    (video) => video.musicLink.split("v=")[1].split("&")[0]
-  );
+  const videoToPlayIds = videosToPlay.map((video) => {
+    if (!video.musicLink.includes("youtube")) return "";
+    return video.musicLink.split("v=")[1].split("&")[0];
+  });
 
   return (
     <SingleChartPageStyling>
