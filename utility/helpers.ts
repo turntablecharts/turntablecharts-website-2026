@@ -46,10 +46,18 @@ export const calculateReadingTime = (lengthOfText: number) => {
 };
 
 export const downloadDivToImg = (divName: string, pdfName: string) => {
+  const svgElements = document.body.querySelectorAll("svg");
+  svgElements.forEach(function (item) {
+    item.setAttribute("width", item.getBoundingClientRect().width.toString());
+    item.setAttribute("height", item.getBoundingClientRect().height.toString());
+    item.style.width = "";
+    item.style.height = "";
+  });
   const input = document.getElementById(divName);
   html2canvas(input!, {
     useCORS: true,
     logging: true,
+    scale: 2,
   }).then((canvas) => {
     const imgData = canvas.toDataURL("image/jpeg");
     saveAs(imgData, pdfName);

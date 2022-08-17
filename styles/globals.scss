@@ -51,6 +51,14 @@ select::-ms-expand {
   color: #f1a01f;
 }
 
+.Mui-selected {
+  background-color: black;
+
+  &:hover {
+    background-color: black;
+  }
+}
+
 @font-face {
   font-family: "Mermaid";
   src: url("/assets/fonts/Mermaid.ttf") format("opentype");

@@ -33,6 +33,8 @@ export interface ChartsByCategoryResponse {
   headerVideoUrl: null | string;
   chartItems: ChartItem[];
   isDeleted: boolean;
+  chartCategoryId: number;
+  weekNumber: number;
 }
 
 export type ChartCategory = {
