@@ -2,11 +2,11 @@
 import React from "react";
 import styled from "styled-components";
 import Typography from "components/atoms/typography";
-import Theme from "constants/Theme";
 import { format } from "date-fns";
 import Link from "next/link";
 import { EditionArticleSummary } from "utility/MagazinesApi/types";
 import { useRouter } from "next/router";
+import media from "constants/MediaQuery";
 
 const MagazineCard: React.FC<{ magazineItem: EditionArticleSummary }> = ({
   magazineItem,
@@ -34,18 +34,22 @@ const MagazineCard: React.FC<{ magazineItem: EditionArticleSummary }> = ({
         </Typography.Text>
       </div>
       <div className="article_card-title">
-        <Typography.Text
-          fontType="Mermaid"
-          style={{ lineHeight: "24px" }}
-          level="xlarge">
-          {magazineItem.title}
-        </Typography.Text>
+        <Link href={`/magazine/${router.query.editionName}/${magazineItem.id}`}>
+          <a>
+            <Typography.Text
+              fontType="Mermaid"
+              style={{ lineHeight: "24px" }}
+              level="xlarge">
+              {magazineItem.title}
+            </Typography.Text>
+          </a>
+        </Link>
       </div>
-      <div className="article_card-desc">
+      {/* <div className="article_card-desc">
         <Typography.Text fontType="Montserrat" level="large" weight="medium">
           {magazineItem.description}
         </Typography.Text>
-      </div>
+      </div> */}
     </MagazineCardStyling>
   );
 };
@@ -57,8 +61,15 @@ const MagazineCardStyling = styled.div`
   display: flex;
   flex-direction: column;
 
+
+
   .article_card-title {
     margin-bottom: 8px;
+
+
+    &:hover p {
+      text-decoration: underline;
+    }
   }
   .article_card-desc {
 
@@ -69,50 +80,29 @@ const MagazineCardStyling = styled.div`
   }
 
   .article_card-img {
-    height: 200px;
+    height: 250px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    ${media.tablet`
+    height: 200px;
+    `}
+    ${media.mobileLarge`
+    height: 150px;
+    `}
     cursor: pointer;
     img, object {
       max-width: 100%;
       height: auto;
       transition: transform 1s;
 
-      /* &:before {
-      content: ' ';
-      display: block;
-      position: absolute;
-      height: 50px;
-      width: 50px;
-      background-image: url('/assets/ttcBgWhite.png');
-      } */
-
     &:hover {
-      img, object {
+      /* img, object { */
         transform: scale(1.05);
-      }
+      /* } */
     }
   }
 
-  .article_card-title {
-    flex: 1;
-  }
-
-  .article_card-meta {
-    font-family: ${Theme.typography.primary};
-    font-size: ${Theme.fontSizes.small};
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-
-    .dot {
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: #fff;
-    }
-  }
 `;

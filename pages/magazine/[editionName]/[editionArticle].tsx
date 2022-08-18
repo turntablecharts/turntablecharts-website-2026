@@ -1,17 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Typography from "components/atoms/typography";
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import ReactMarkdown from "react-markdown";
 import WantUpdates from "components/molecules/WantUpdates";
 import React from "react";
 import styled from "styled-components";
-import { getNewsByPageNumber, getSingleNewsById } from "utility/NewsApi/api";
-import { NewsItem } from "utility/NewsApi/types";
 import { format } from "date-fns";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
-import NewsCard from "components/molecules/NewsCard";
 import { getSingleMagazineArticleById } from "utility/MagazinesApi/api";
 import { MagazineArticleItem } from "utility/MagazinesApi/types";
 
@@ -59,10 +56,10 @@ const EditionArticlePage: React.FC<{
         />
         <meta property="og:image" content={`${selectedArticle.headerImage}`} />
       </Head>
-      <div className="article_img">
-        <img src={selectedArticle.headerImage} alt="article" />
-      </div>
       <div className="article_content">
+        <div className="article_img">
+          <img src={selectedArticle.headerImage} alt="article" />
+        </div>
         <div className="article_content-title">
           <Typography.Heading
             style={{ lineHeight: "30px" }}
@@ -96,7 +93,7 @@ const EditionArticlePage: React.FC<{
         </div>
       </div>
       <WantUpdates />
-      <section className="related" style={{ marginTop: "100px" }}>
+      {/* <section className="related" style={{ marginTop: "100px" }}>
         <div className="section_title">
           <Typography.Heading
             fontType="Mermaid"
@@ -107,12 +104,12 @@ const EditionArticlePage: React.FC<{
             More amazing articles for you
           </Typography.Heading>
         </div>
-        {/* <div className="section_cards">
+        <div className="section_cards">
           {relatedNews.map((item) => (
             <NewsCard key={item.id} newsItem={item} />
           ))}
-        </div> */}
-      </section>
+        </div>
+      </section> */}
     </EditionArticlePageStyling>
   );
 };
@@ -136,15 +133,15 @@ const EditionArticlePageStyling = styled.div`
   .article_content {
     max-width: 700px;
     width: 95%;
-    margin: 80px auto;
+    margin: 0px auto 80px;
 
     &-title {
-      margin-bottom: 45px;
+      margin: 45px 0px;
     }
 
     .title_meta {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
     }
 

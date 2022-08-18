@@ -2,6 +2,7 @@ export type MagazineEditions = {
   id: number;
   name: string;
   magazineDatas: null;
+  coverImageUrl: string;
 };
 
 export type EditionArticleSummary = {
