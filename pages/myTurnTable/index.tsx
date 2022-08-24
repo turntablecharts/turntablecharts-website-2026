@@ -516,6 +516,7 @@ const MyTurnTableStyling = styled.div`
     -webkit-print-color-adjust: exact;
     background-image: url("/assets/turntableBg.png");
     background-size: cover;
+    border: 2px solid ${Theme.colorPalette.white};
 
     ${media.mobile`
       gap: 20px;
