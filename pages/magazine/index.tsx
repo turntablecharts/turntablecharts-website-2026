@@ -52,7 +52,7 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({
                       fontType="Mermaid"
                       style={{ lineHeight: "24px" }}
                       level="xlarge">
-                      View Articles
+                      Explore
                     </Typography.Text>
                   </a>
                 </Link>{" "}
