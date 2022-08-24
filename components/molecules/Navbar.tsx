@@ -43,6 +43,13 @@ const Navbar = () => {
             </Typography.Text>
           </a>
         </Link>
+        <Link className="menus_menu" href="/business">
+          <a className={router.pathname === "/business" ? "active" : ""}>
+            <Typography.Text fontType="SFProText" weight="semiBold">
+              BUSINESS
+            </Typography.Text>
+          </a>
+        </Link>
         {/* <Link className="menus_menu" href="/photos">
           <a className={router.pathname === "/photos" ? "active" : ""}>
             <Typography.Text fontType="SFProText" weight="semiBold">Photos</Typography.Text>
@@ -90,6 +97,20 @@ const Navbar = () => {
                 fontType="SFProText"
                 weight="semiBold">
                 MAGAZINE
+              </Typography.Text>
+            </a>
+          </Link>
+          <Link className="mobile_menu" href="/business">
+            <a
+              onClick={() => {
+                setIsMobileNavOpen(false);
+              }}
+              className={router.pathname === "/business" ? "active" : ""}>
+              <Typography.Text
+                level="xlarge"
+                fontType="SFProText"
+                weight="semiBold">
+                BUSINESS
               </Typography.Text>
             </a>
           </Link>
