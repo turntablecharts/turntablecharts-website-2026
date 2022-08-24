@@ -2,17 +2,22 @@
 import Typography from "components/atoms/typography";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { format, subDays } from "date-fns";
+import { parse, format, getWeek, startOfWeek, endOfWeek } from "date-fns";
 import Theme from "constants/Theme";
-import { getChartById, getChartCategories } from "utility/ChartsApi/api";
+import {
+  getChartById,
+  getChartByIdAndWeekNumber,
+  getChartCategories,
+} from "utility/ChartsApi/api";
 import { ChartsByCategoryResponse } from "utility/ChartsApi/types";
 import { resolveUserTypeToTableData } from "utility/helpers";
 import RankPlusTrend from "components/atoms/RankPlusTrend";
 import SongEntry from "components/molecules/SongEntry";
 import NewEntryIcon from "assets/icons/newEntry.svg";
 import { TableContentLayout } from "components/organisms/TableLayout";
+import MyDatePicker from "components/atoms/datePicker";
 
 const CHART_HEADER = {
   rank: {
@@ -70,11 +75,44 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+const getDateByWeekIndex = (index: string) => {
+  return new Date(
+    parse(index, "I", new Date(), {
+      weekStartsOn: 5,
+    })
+  );
+};
+
 const SingleChartPage: React.FC<{
   chartData: ChartsByCategoryResponse;
 }> = ({ chartData }) => {
+  const [value] = React.useState<Date | null>(
+    chartData.weekNumber
+      ? getDateByWeekIndex(chartData.weekNumber?.toString())
+      : new Date()
+  );
+
+  const [changedWeek, setChangedWeek] = React.useState<number>();
+  const [changedWeekChart, setChangedWeekChart] =
+    React.useState<ChartsByCategoryResponse>();
+
+  useEffect(() => {
+    if (changedWeek) {
+      getChartByIdAndWeekNumber(chartData.chartCategoryId, changedWeek).then(
+        ({ data }) => {
+          if (data.chartItems) {
+            // console.log(data);
+            setChangedWeekChart(data);
+          }
+        }
+      );
+    }
+  }, [changedWeek, chartData.chartCategoryId]);
+
+  const currentChart = changedWeekChart || chartData;
+
   const tableData = resolveUserTypeToTableData(
-    chartData.chartItems.sort((a, b) => a.rank - b.rank),
+    currentChart.chartItems.sort((a, b) => a.rank - b.rank),
     (cur) => ({
       rank: <RankPlusTrend song={cur} />,
       entry: <SongEntry song={cur} />,
@@ -90,41 +128,75 @@ const SingleChartPage: React.FC<{
     })
   );
 
-  const videosToPlay = chartData.chartItems.slice(0, 10);
-  const videoToPlayIds = videosToPlay.map(
-    (video) => video.musicLink.split("v=")[1].split("&")[0]
-  );
+  const handleChange = (newValue: Date | null) => {
+    if (newValue) {
+      // setChangedWeek(newValue);
+      // console.log("cal wk normal", getWeek(newValue));
+      // console.log("cal wk on friday", getWeek(newValue, { weekStartsOn: 5 }));
+      setChangedWeek(getWeek(newValue, { weekStartsOn: 5 }));
+    }
+  };
+
+  const videosToPlay = currentChart.chartItems.slice(0, 10);
+  const videoToPlayIds = videosToPlay.map((video) => {
+    if (!video.musicLink.includes("youtube")) return "";
+    return video.musicLink.split("v=")[1].split("&")[0];
+  });
 
   return (
     <SingleChartPageStyling>
       <Head>
-        <title>{`TurnTable Charts | ${chartData.category}`}</title>
+        <title>{`TurnTable Charts | ${currentChart.category}`}</title>
         <meta
           name="description"
-          content={`TurnTable Charts | ${chartData.category}`}
+          content={`TurnTable Charts | ${currentChart.category}`}
         />
       </Head>
       <div className="page_header">
-        <Typography.Title>{chartData.category}</Typography.Title>
-        <Typography.Text
-          style={{ color: Theme.colorPalette.ttcYellow, marginTop: "16px" }}
-          fontType="Montserrat"
-          level="large"
-          weight="semiBold"
-        >
-          {`${format(
-            subDays(new Date(chartData.dateCreated), 6),
-            "PPP"
-          )} - ${format(new Date(chartData.dateCreated), "PPP")}`}
-        </Typography.Text>
+        <Typography.Title>{currentChart.category}</Typography.Title>
+        {currentChart.weekNumber && (
+          <div className="date_container">
+            <Typography.Text
+              style={{ color: Theme.colorPalette.white }}
+              fontType="Montserrat"
+              level="large"
+              weight="semiBold">
+              {changedWeek
+                ? `${format(
+                    startOfWeek(getDateByWeekIndex(changedWeek.toString()), {
+                      weekStartsOn: 5,
+                    }),
+                    "PPP"
+                  )} - ${format(
+                    endOfWeek(getDateByWeekIndex(changedWeek.toString()), {
+                      weekStartsOn: 5,
+                    }),
+                    "PPP"
+                  )}`
+                : `${format(
+                    startOfWeek(value!, { weekStartsOn: 5 }),
+                    "PPP"
+                  )} - ${format(
+                    endOfWeek(value!, { weekStartsOn: 5 }),
+                    "PPP"
+                  )}`}
+            </Typography.Text>
+            <MyDatePicker
+              mostRecentWeek={value}
+              value={
+                changedWeek ? getDateByWeekIndex(changedWeek.toString()) : value
+              }
+              handleChange={handleChange}
+            />
+          </div>
+        )}
       </div>
-      {chartData.headerVideoUrl! && (
+      {currentChart.headerVideoUrl! && (
         <div className="page_iframe">
           <iframe
             width="690"
             height="390"
-            src={`${chartData.headerVideoUrl!}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`}
-          ></iframe>
+            src={`${currentChart.headerVideoUrl!}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`}></iframe>
         </div>
       )}
       <div className="page_table">
@@ -167,6 +239,29 @@ const SingleChartPageStyling = styled.div`
   .page_header {
     padding: 7vh 0;
     text-align: center;
+
+    .date_container {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid ${Theme.colorPalette.ttcYellow};
+      border-radius: 60px;
+      margin-top: 20px;
+      padding: 10px 5px 10px 15px;
+
+      .date-text {
+        input {
+          margin-top: 0px;
+          width: 1px;
+          height: 1px;
+          visibility: hidden;
+          pointer-events: none;
+        }
+        svg {
+          color: #f1a01f;
+          // border: 1px solid #f1a01f;
+        }
+      }
+    }
   }
 
   .page_iframe {
