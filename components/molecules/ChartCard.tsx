@@ -1,45 +1,36 @@
 /* eslint-disable @next/next/no-img-element */
-import Typography from "components/atoms/typography";
-import Theme from "constants/Theme";
-import Link from "next/link";
-import React from "react";
-import styled from "styled-components";
-import { ChartCategory } from "utility/ChartsApi/types";
-import { truncateString } from "utility/helpers";
+import Typography from 'components/atoms/typography';
+import Theme from 'constants/Theme';
+import Link from 'next/link';
+import React from 'react';
+import styled from 'styled-components';
+import { ChartCategory } from 'utility/ChartsApi/types';
+import { truncateString } from 'utility/helpers';
 
-const ChartCard: React.FC<{ category: ChartCategory }> = ({ category }) => {
-  const cardColors = [
-    Theme.colorPalette.ttcYellow,
-    Theme.colorPalette.ttcGreen,
-    "#EF5DA8",
-    "#5D5FEF",
-    "#8F540F",
-    "#8F0F73",
-    "#0F8F80",
-  ];
+const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ category, cardColor }) => {
+  // const cardColors = [
+  //   Theme.colorPalette.ttcYellow,
+  //   Theme.colorPalette.ttcGreen,
+  //   "#EF5DA8",
+  //   "#5D5FEF",
+  //   "#8F540F",
+  //   "#8F0F73",
+  //   "#0F8F80",
+  // ];
 
-  const randomBg = Math.floor(Math.random() * cardColors.length);
+  // const randomBg = Math.floor(Math.random() * cardColors.length);
 
   return (
     <ChartCardStyling
       style={{
-        backgroundColor: cardColors[randomBg],
-      }}
-    >
+        backgroundColor: cardColor,
+      }}>
       <Link href={`/charts/${category.id}`}>
         <a>
-          <Typography.Heading
-            style={{ fontSize: "40px", marginBottom: "10px" }}
-            fontType="Mermaid"
-            level={1}
-          >
+          <Typography.Heading style={{ fontSize: '40px', marginBottom: '10px' }} fontType="Mermaid" level={1}>
             {category.name}
           </Typography.Heading>
-          <Typography.Text
-            style={{ fontSize: Theme.fontSizes.medium, maxWidth: "460px" }}
-            weight="medium"
-            fontType="Montserrat"
-          >
+          <Typography.Text style={{ fontSize: Theme.fontSizes.medium, maxWidth: '460px' }} weight="medium" fontType="Montserrat">
             {category.description}
           </Typography.Text>
           {category.topSong && (
@@ -48,26 +39,13 @@ const ChartCard: React.FC<{ category: ChartCategory }> = ({ category }) => {
                 <img src={category.topSong.imageUri} alt="" />
               </div>
               <div className="chart_topper-details">
-                <Typography.Text
-                  fontType="Montserrat"
-                  level="xlarge"
-                  weight="bold"
-                  style={{ marginBottom: "15px" }}
-                >
+                <Typography.Text fontType="Montserrat" level="xlarge" weight="bold" style={{ marginBottom: '15px' }}>
                   01
                 </Typography.Text>
-                <Typography.Text
-                  fontType="Montserrat"
-                  level="xlarge"
-                  weight="semiBold"
-                >
+                <Typography.Text fontType="Montserrat" level="xlarge" weight="semiBold">
                   {truncateString(category.topSong.artiste, 25)}
                 </Typography.Text>
-                <Typography.Text
-                  fontType="Montserrat"
-                  level="large"
-                  weight="medium"
-                >
+                <Typography.Text fontType="Montserrat" level="large" weight="medium">
                   {category.topSong.title}
                 </Typography.Text>
               </div>

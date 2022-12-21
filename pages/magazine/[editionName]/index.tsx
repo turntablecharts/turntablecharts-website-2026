@@ -1,18 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import Typography from "components/atoms/typography";
-import MagazineCard from "components/molecules/MagazineCard";
-import media from "constants/MediaQuery";
-import { format } from "date-fns";
-import { GetStaticPaths, GetStaticProps } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React from "react";
-import styled from "styled-components";
-import {
-  getAllMagazineEditions,
-  getSingleMagazineEditionByName,
-} from "utility/MagazinesApi/api";
-import { MagazineEditionArticles } from "utility/MagazinesApi/types";
+import Typography from 'components/atoms/typography';
+import MagazineCard from 'components/molecules/MagazineCard';
+import media from 'constants/MediaQuery';
+import { format } from 'date-fns';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
+import styled from 'styled-components';
+import { getAllMagazineEditions, getSingleMagazineEditionByName } from 'utility/MagazinesApi/api';
+import { MagazineEditionArticles } from 'utility/MagazinesApi/types';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const editions = await getAllMagazineEditions();
@@ -23,7 +20,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: paths,
-    fallback: "blocking",
+    fallback: 'blocking',
   };
 };
 
@@ -58,36 +55,34 @@ const EditionName: React.FC<{
   return (
     <EditionNameStyling>
       <div className="top_section">
-        <div className="top_section-left">
-          <div className="img">
-            <object data={magazineData[0].headerImage} type="image/png">
-              <img src="/assets/ttcBgWhite.png" alt="fallback" />
-            </object>
+        {magazineData[1] && (
+          <div className="top_section-left">
+            <div className="img">
+              <object data={magazineData[0].headerImage} type="image/png">
+                <img src="/assets/ttcBgWhite.png" alt="fallback" />
+              </object>
+            </div>
+            <div className="article_card-date">
+              <Typography.Text
+                fontType="Montserrat"
+                level="small"
+                style={{
+                  margin: '16px 0px 8px 0px',
+                }}>
+                {format(new Date(magazineData[0].dateCreated), 'PPP')}
+              </Typography.Text>
+            </div>
+            <div>
+              <Link href={`/magazine/${router.query.editionName}/${magazineData[0].id}`}>
+                <a>
+                  <Typography.Text fontType="Mermaid" style={{ lineHeight: '24px' }} level="xlarge">
+                    {magazineData[0].title}
+                  </Typography.Text>
+                </a>
+              </Link>
+            </div>
           </div>
-          <div className="article_card-date">
-            <Typography.Text
-              fontType="Montserrat"
-              level="small"
-              style={{
-                margin: "16px 0px 8px 0px",
-              }}>
-              {format(new Date(magazineData[0].dateCreated), "PPP")}
-            </Typography.Text>
-          </div>
-          <div>
-            <Link
-              href={`/magazine/${router.query.editionName}/${magazineData[0].id}`}>
-              <a>
-                <Typography.Text
-                  fontType="Mermaid"
-                  style={{ lineHeight: "24px" }}
-                  level="xlarge">
-                  {magazineData[0].title}
-                </Typography.Text>
-              </a>
-            </Link>
-          </div>
-        </div>
+        )}
         <div className="top_section-right">
           {magazineData[1] && (
             <div className="item">
@@ -101,17 +96,13 @@ const EditionName: React.FC<{
                   fontType="Montserrat"
                   level="small"
                   style={{
-                    margin: "16px 0px 8px 0px",
+                    margin: '16px 0px 8px 0px',
                   }}>
-                  {format(new Date(magazineData[1].dateCreated), "PPP")}
+                  {format(new Date(magazineData[1].dateCreated), 'PPP')}
                 </Typography.Text>
-                <Link
-                  href={`/magazine/${router.query.editionName}/${magazineData[1].id}`}>
+                <Link href={`/magazine/${router.query.editionName}/${magazineData[1].id}`}>
                   <a>
-                    <Typography.Text
-                      fontType="Mermaid"
-                      style={{ lineHeight: "24px" }}
-                      level="xlarge">
+                    <Typography.Text fontType="Mermaid" style={{ lineHeight: '24px' }} level="xlarge">
                       {magazineData[1].title}
                     </Typography.Text>
                   </a>
@@ -131,17 +122,13 @@ const EditionName: React.FC<{
                   fontType="Montserrat"
                   level="small"
                   style={{
-                    margin: "16px 0px 8px 0px",
+                    margin: '16px 0px 8px 0px',
                   }}>
-                  {format(new Date(magazineData[2].dateCreated), "PPP")}
+                  {format(new Date(magazineData[2].dateCreated), 'PPP')}
                 </Typography.Text>
-                <Link
-                  href={`/magazine/${router.query.editionName}/${magazineData[2].id}`}>
+                <Link href={`/magazine/${router.query.editionName}/${magazineData[2].id}`}>
                   <a>
-                    <Typography.Text
-                      fontType="Mermaid"
-                      style={{ lineHeight: "24px" }}
-                      level="xlarge">
+                    <Typography.Text fontType="Mermaid" style={{ lineHeight: '24px' }} level="xlarge">
                       {magazineData[2].title}
                     </Typography.Text>
                   </a>
@@ -161,17 +148,13 @@ const EditionName: React.FC<{
                   fontType="Montserrat"
                   level="small"
                   style={{
-                    margin: "16px 0px 8px 0px",
+                    margin: '16px 0px 8px 0px',
                   }}>
-                  {format(new Date(magazineData[3].dateCreated), "PPP")}
+                  {format(new Date(magazineData[3].dateCreated), 'PPP')}
                 </Typography.Text>
-                <Link
-                  href={`/magazine/${router.query.editionName}/${magazineData[3].id}`}>
+                <Link href={`/magazine/${router.query.editionName}/${magazineData[3].id}`}>
                   <a>
-                    <Typography.Text
-                      fontType="Mermaid"
-                      style={{ lineHeight: "24px" }}
-                      level="xlarge">
+                    <Typography.Text fontType="Mermaid" style={{ lineHeight: '24px' }} level="xlarge">
                       {magazineData[3].title}
                     </Typography.Text>
                   </a>
@@ -182,14 +165,7 @@ const EditionName: React.FC<{
         </div>
       </div>
       <div className="bottom_section">
-        <div className="page_article_cards">
-          {magazineData[4] &&
-            magazineData
-              .slice(4)
-              .map((magazine) => (
-                <MagazineCard key={magazine.id} magazineItem={magazine} />
-              ))}
-        </div>
+        <div className="page_article_cards">{magazineData[4] && magazineData.slice(4).map((magazine) => <MagazineCard key={magazine.id} magazineItem={magazine} />)}</div>
       </div>
     </EditionNameStyling>
   );
