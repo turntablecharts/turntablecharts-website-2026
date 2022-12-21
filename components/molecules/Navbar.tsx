@@ -25,14 +25,28 @@ const Navbar = () => {
         <Link className="menus_menu" href="/charts">
           <a className={router.pathname === "/charts" ? "active" : ""}>
             <Typography.Text fontType="SFProText" weight="semiBold">
-              Chart
+              CHARTS
             </Typography.Text>
           </a>
         </Link>
         <Link className="menus_menu" href="/news">
           <a className={router.pathname === "/news" ? "active" : ""}>
             <Typography.Text fontType="SFProText" weight="semiBold">
-              News
+              NEWS
+            </Typography.Text>
+          </a>
+        </Link>
+        <Link className="menus_menu" href="/magazine">
+          <a className={router.pathname === "/magazine" ? "active" : ""}>
+            <Typography.Text fontType="SFProText" weight="semiBold">
+              MAGAZINE
+            </Typography.Text>
+          </a>
+        </Link>
+        <Link className="menus_menu" href="/business">
+          <a className={router.pathname === "/business" ? "active" : ""}>
+            <Typography.Text fontType="SFProText" weight="semiBold">
+              BUSINESS
             </Typography.Text>
           </a>
         </Link>
@@ -49,14 +63,12 @@ const Navbar = () => {
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
-              className={router.pathname === "/charts" ? "active" : ""}
-            >
+              className={router.pathname === "/charts" ? "active" : ""}>
               <Typography.Text
                 level="xlarge"
                 fontType="SFProText"
-                weight="semiBold"
-              >
-                Chart
+                weight="semiBold">
+                CHARTS
               </Typography.Text>
             </a>
           </Link>
@@ -65,14 +77,40 @@ const Navbar = () => {
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
-              className={router.pathname === "/news" ? "active" : ""}
-            >
+              className={router.pathname === "/news" ? "active" : ""}>
               <Typography.Text
                 level="xlarge"
                 fontType="SFProText"
-                weight="semiBold"
-              >
-                News
+                weight="semiBold">
+                NEWS
+              </Typography.Text>
+            </a>
+          </Link>
+          <Link className="mobile_menu" href="/magazine">
+            <a
+              onClick={() => {
+                setIsMobileNavOpen(false);
+              }}
+              className={router.pathname === "/magazine" ? "active" : ""}>
+              <Typography.Text
+                level="xlarge"
+                fontType="SFProText"
+                weight="semiBold">
+                MAGAZINE
+              </Typography.Text>
+            </a>
+          </Link>
+          <Link className="mobile_menu" href="/business">
+            <a
+              onClick={() => {
+                setIsMobileNavOpen(false);
+              }}
+              className={router.pathname === "/business" ? "active" : ""}>
+              <Typography.Text
+                level="xlarge"
+                fontType="SFProText"
+                weight="semiBold">
+                BUSINESS
               </Typography.Text>
             </a>
           </Link>
@@ -89,16 +127,14 @@ const Navbar = () => {
             target="_blank"
             rel="noreferrer"
             className="socials_icon"
-            href="https://www.instagram.com/turntablecharts/"
-          >
+            href="https://www.instagram.com/turntablecharts/">
             <TTCIconInsta className="socials_icon" />
           </a>
           <a
             target="_blank"
             rel="noreferrer"
             className="socials_icon"
-            href="https://twitter.com/TurntableCharts"
-          >
+            href="https://twitter.com/TurntableCharts">
             <TTCIconTwiter className="socials_icon" />
           </a>
         </div>
@@ -108,23 +144,20 @@ const Navbar = () => {
           target="_blank"
           rel="noreferrer"
           className="socials_icon"
-          href="https://www.instagram.com/turntablecharts/"
-        >
+          href="https://www.instagram.com/turntablecharts/">
           <TTCIconInsta className="socials_icon" />
         </a>
         <a
           target="_blank"
           rel="noreferrer"
           className="socials_icon"
-          href="https://twitter.com/TurntableCharts"
-        >
+          href="https://twitter.com/TurntableCharts">
           <TTCIconTwiter className="socials_icon" />
         </a>
       </div>
       <div
         onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
-        className={`hamburger ${isMobileNavOpen ? "open" : ""}`}
-      >
+        className={`hamburger ${isMobileNavOpen ? "open" : ""}`}>
         <span className="top"></span>
         <span className="bottom"></span>
       </div>
