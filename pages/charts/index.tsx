@@ -1,22 +1,30 @@
-import Theme from "constants/Theme";
-import React, { useState } from "react";
-import styled from "styled-components";
-import { getChartCategories } from "utility/ChartsApi/api";
-import { ChartCategory } from "utility/ChartsApi/types";
-import media from "constants/MediaQuery";
-import ChartCard from "components/molecules/ChartCard";
+import Theme from 'constants/Theme';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { getChartCategories } from 'utility/ChartsApi/api';
+import { ChartCategory } from 'utility/ChartsApi/types';
+import media from 'constants/MediaQuery';
+import ChartCard from 'components/molecules/ChartCard';
+
+const cardColors = [Theme.colorPalette.ttcYellow, Theme.colorPalette.ttcGreen, '#EF5DA8', '#5D5FEF', '#8F540F', '#8F0F73', '#0F8F80'];
 
 export async function getStaticProps() {
-  const chartCategories = await getChartCategories();
-  return {
-    props: {
-      chartCategories: chartCategories.data,
-    },
-    // Next.js will attempt to re-generate the page:
-    // - When a request comes in
-    // - At most once every 10 seconds
-    revalidate: 3600, // In seconds
-  };
+  try {
+    const chartCategories = await getChartCategories();
+    return {
+      props: {
+        chartCategories: chartCategories.data,
+      },
+      revalidate: 3600, // In seconds
+    };
+  } catch (e) {
+    return {
+      props: {
+        chartCategories: [],
+      },
+      revalidate: 3600, // In seconds
+    };
+  }
 }
 
 const Charts: React.FC<{
@@ -35,27 +43,20 @@ const Charts: React.FC<{
     }
   });
 
-  const [activeCategory, setActiveCategory] = useState(
-    Object.keys(sortedCategories)[0]
-  );
-  // console.log(sortedCategories);
+  const [activeCategory, setActiveCategory] = useState(Object.keys(sortedCategories)[0]);
 
   return (
     <ChartPageStyling>
       <div className="chart_tabs">
         {Object.keys(sortedCategories).map((header) => (
-          <button
-            key={header}
-            onClick={() => setActiveCategory(header)}
-            className={`chart_tab ${activeCategory === header ? "active" : ""}`}
-          >
+          <button key={header} onClick={() => setActiveCategory(header)} className={`chart_tab ${activeCategory === header ? 'active' : ''}`}>
             {header}
           </button>
         ))}
       </div>
       <div className="chart_categories">
-        {sortedCategories[activeCategory].map((category) => (
-          <ChartCard key={category.id} category={category} />
+        {sortedCategories[activeCategory].map((category, index) => (
+          <ChartCard key={category.id} category={category} cardColor={cardColors[index]} />
         ))}
       </div>
     </ChartPageStyling>
@@ -90,7 +91,7 @@ const ChartPageStyling = styled.div`
       &.active {
         color: ${Theme.colorPalette.ttcYellow};
         &::after {
-          content: " ";
+          content: ' ';
           position: absolute;
           height: 3px;
           width: 3px;

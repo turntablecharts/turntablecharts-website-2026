@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import Typography from "components/atoms/typography";
-import media from "constants/MediaQuery";
-import Head from "next/head";
-import Link from "next/link";
-import React from "react";
-import styled from "styled-components";
-import { getAllMagazineEditions } from "utility/MagazinesApi/api";
-import { MagazineEditions } from "utility/MagazinesApi/types";
+import Typography from 'components/atoms/typography';
+import media from 'constants/MediaQuery';
+import Head from 'next/head';
+import Link from 'next/link';
+import React from 'react';
+import styled from 'styled-components';
+import { getAllMagazineEditions } from 'utility/MagazinesApi/api';
+import { MagazineEditions } from 'utility/MagazinesApi/types';
 
 export async function getStaticProps() {
   const magazineResponse = await getAllMagazineEditions();
@@ -22,11 +22,12 @@ export async function getStaticProps() {
   };
 }
 
-const cardSize = ["medium", "large"];
+const cardSize = [
+  // "medium",
+  'large',
+];
 
-const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({
-  magazineEditions,
-}) => {
+const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({ magazineEditions }) => {
   return (
     <MagazinePageStyling>
       <Head>
@@ -39,23 +40,16 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({
       <div className="page_cards">
         {magazineEditions.map((edition) => {
           return (
-            <div
-              key={edition.id}
-              className={`card ${
-                cardSize[Math.floor(Math.random() * cardSize.length)]
-              }`}>
+            <div key={edition.id} className={`card ${cardSize[Math.floor(Math.random() * cardSize.length)]}`}>
               <img src={edition.coverImageUrl} alt="image" />
               <div className="middle">
                 <Link href={`/magazine/${edition.name}`}>
                   <a>
-                    <Typography.Text
-                      fontType="Mermaid"
-                      style={{ lineHeight: "24px" }}
-                      level="xlarge">
+                    <Typography.Text fontType="Mermaid" style={{ lineHeight: '24px' }} level="xlarge">
                       Explore
                     </Typography.Text>
                   </a>
-                </Link>{" "}
+                </Link>{' '}
               </div>
             </div>
           );
@@ -89,7 +83,7 @@ const MagazinePageStyling = styled.div`
   .page_cards {
     display: grid;
     /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
-    grid-template-columns: 2fr 3fr 2fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: 100px;
     grid-auto-flow: dense;
     grid-gap: 15px;

@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import Typography from "components/atoms/typography";
-import media from "constants/MediaQuery";
-import Theme from "constants/Theme";
-import React from "react";
-import styled from "styled-components";
-import { ChartItem } from "utility/ChartsApi/types";
+import Typography from 'components/atoms/typography';
+import media from 'constants/MediaQuery';
+import Theme from 'constants/Theme';
+import React from 'react';
+import styled from 'styled-components';
+import { ChartItem } from 'utility/ChartsApi/types';
+import { truncateString } from 'utility/helpers';
 
 const SongEntry = ({ song }: { song: ChartItem }) => {
   return (
@@ -20,17 +21,11 @@ const SongEntry = ({ song }: { song: ChartItem }) => {
           fontType="Montserrat"
           weight="semiBold"
           // level="xlarge"
-          className="title"
-        >
-          {song.title}
+          className="title">
+          {truncateString(song.title, 40)}
         </Typography.Text>
-        <Typography.Text
-          className="artiste"
-          fontType="Montserrat"
-          weight="medium"
-          level="large"
-        >
-          {song.artiste}
+        <Typography.Text className="artiste" fontType="Montserrat" weight="medium" level="large">
+          {truncateString(song.artiste, 40)}
         </Typography.Text>
       </div>
     </SongEntryStyling>
