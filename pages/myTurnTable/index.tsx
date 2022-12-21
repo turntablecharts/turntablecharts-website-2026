@@ -135,7 +135,7 @@ const MyTurnTable = () => {
             fontType="SFProText"
             level="xxlarge"
             weight="semiBold">
-            Sound simple right? Let’s get started
+            Sounds simple right? Let’s get started
           </Typography.Text>
 
           <div className="myTurnTableCta">

@@ -46,7 +46,7 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({ magazine
                 <Link href={`/magazine/${edition.name}`}>
                   <a>
                     <Typography.Text fontType="Mermaid" style={{ lineHeight: '24px' }} level="xlarge">
-                      View Articles
+                      Explore
                     </Typography.Text>
                   </a>
                 </Link>{' '}

@@ -89,97 +89,106 @@ const EditionName: React.FC<{
           </div>
         </div>
         <div className="top_section-right">
-          <div className="item">
-            <div className="img">
-              <object data={magazineData[1].headerImage} type="image/png">
-                <img src="/assets/ttcBgWhite.png" alt="fallback" />
-              </object>
+          {magazineData[1] && (
+            <div className="item">
+              <div className="img">
+                <object data={magazineData[1].headerImage} type="image/png">
+                  <img src="/assets/ttcBgWhite.png" alt="fallback" />
+                </object>
+              </div>
+              <div className="text">
+                <Typography.Text
+                  fontType="Montserrat"
+                  level="small"
+                  style={{
+                    margin: "16px 0px 8px 0px",
+                  }}>
+                  {format(new Date(magazineData[1].dateCreated), "PPP")}
+                </Typography.Text>
+                <Link
+                  href={`/magazine/${router.query.editionName}/${magazineData[1].id}`}>
+                  <a>
+                    <Typography.Text
+                      fontType="Mermaid"
+                      style={{ lineHeight: "24px" }}
+                      level="xlarge">
+                      {magazineData[1].title}
+                    </Typography.Text>
+                  </a>
+                </Link>
+              </div>
             </div>
-            <div className="text">
-              <Typography.Text
-                fontType="Montserrat"
-                level="small"
-                style={{
-                  margin: "16px 0px 8px 0px",
-                }}>
-                {format(new Date(magazineData[1].dateCreated), "PPP")}
-              </Typography.Text>
-              <Link
-                href={`/magazine/${router.query.editionName}/${magazineData[1].id}`}>
-                <a>
-                  <Typography.Text
-                    fontType="Mermaid"
-                    style={{ lineHeight: "24px" }}
-                    level="xlarge">
-                    {magazineData[1].title}
-                  </Typography.Text>
-                </a>
-              </Link>
+          )}
+          {magazineData[2] && (
+            <div className="item">
+              <div className="img">
+                <object data={magazineData[2].headerImage} type="image/png">
+                  <img src="/assets/ttcBgWhite.png" alt="fallback" />
+                </object>
+              </div>
+              <div className="text">
+                <Typography.Text
+                  fontType="Montserrat"
+                  level="small"
+                  style={{
+                    margin: "16px 0px 8px 0px",
+                  }}>
+                  {format(new Date(magazineData[2].dateCreated), "PPP")}
+                </Typography.Text>
+                <Link
+                  href={`/magazine/${router.query.editionName}/${magazineData[2].id}`}>
+                  <a>
+                    <Typography.Text
+                      fontType="Mermaid"
+                      style={{ lineHeight: "24px" }}
+                      level="xlarge">
+                      {magazineData[2].title}
+                    </Typography.Text>
+                  </a>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="item">
-            <div className="img">
-              <object data={magazineData[2].headerImage} type="image/png">
-                <img src="/assets/ttcBgWhite.png" alt="fallback" />
-              </object>
+          )}
+          {magazineData[3] && (
+            <div className="item">
+              <div className="img">
+                <object data={magazineData[3].headerImage} type="image/png">
+                  <img src="/assets/ttcBgWhite.png" alt="fallback" />
+                </object>
+              </div>
+              <div className="text">
+                <Typography.Text
+                  fontType="Montserrat"
+                  level="small"
+                  style={{
+                    margin: "16px 0px 8px 0px",
+                  }}>
+                  {format(new Date(magazineData[3].dateCreated), "PPP")}
+                </Typography.Text>
+                <Link
+                  href={`/magazine/${router.query.editionName}/${magazineData[3].id}`}>
+                  <a>
+                    <Typography.Text
+                      fontType="Mermaid"
+                      style={{ lineHeight: "24px" }}
+                      level="xlarge">
+                      {magazineData[3].title}
+                    </Typography.Text>
+                  </a>
+                </Link>
+              </div>
             </div>
-            <div className="text">
-              <Typography.Text
-                fontType="Montserrat"
-                level="small"
-                style={{
-                  margin: "16px 0px 8px 0px",
-                }}>
-                {format(new Date(magazineData[2].dateCreated), "PPP")}
-              </Typography.Text>
-              <Link
-                href={`/magazine/${router.query.editionName}/${magazineData[2].id}`}>
-                <a>
-                  <Typography.Text
-                    fontType="Mermaid"
-                    style={{ lineHeight: "24px" }}
-                    level="xlarge">
-                    {magazineData[2].title}
-                  </Typography.Text>
-                </a>
-              </Link>
-            </div>
-          </div>
-          <div className="item">
-            <div className="img">
-              <object data={magazineData[3].headerImage} type="image/png">
-                <img src="/assets/ttcBgWhite.png" alt="fallback" />
-              </object>
-            </div>
-            <div className="text">
-              <Typography.Text
-                fontType="Montserrat"
-                level="small"
-                style={{
-                  margin: "16px 0px 8px 0px",
-                }}>
-                {format(new Date(magazineData[3].dateCreated), "PPP")}
-              </Typography.Text>
-              <Link
-                href={`/magazine/${router.query.editionName}/${magazineData[3].id}`}>
-                <a>
-                  <Typography.Text
-                    fontType="Mermaid"
-                    style={{ lineHeight: "24px" }}
-                    level="xlarge">
-                    {magazineData[3].title}
-                  </Typography.Text>
-                </a>
-              </Link>
-            </div>
-          </div>
+          )}
         </div>
       </div>
       <div className="bottom_section">
         <div className="page_article_cards">
-          {magazineData.slice(4).map((magazine) => (
-            <MagazineCard key={magazine.id} magazineItem={magazine} />
-          ))}
+          {magazineData[4] &&
+            magazineData
+              .slice(4)
+              .map((magazine) => (
+                <MagazineCard key={magazine.id} magazineItem={magazine} />
+              ))}
         </div>
       </div>
     </EditionNameStyling>
