@@ -1,69 +1,54 @@
-import Typography from "components/atoms/typography";
-import Theme from "constants/Theme";
-import { FormEvent, useState } from "react";
-import media from "constants/MediaQuery";
-import styled from "styled-components";
-import TTCRequest from "lib/axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
+import Typography from 'components/atoms/typography';
+import Theme from 'constants/Theme';
+import { FormEvent, useState } from 'react';
+import media from 'constants/MediaQuery';
+import styled from 'styled-components';
+import TTCRequest from 'lib/axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const WantUpdates = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
-  const signUp = TTCRequest.post("/api/author/subscribe", {
-    name: name.trim(),
-    email: email.trim(),
-  });
-
+  const signUp = (name: string, email: string) => {
+    return TTCRequest.post('/api/author/subscribe', {
+      name: name.trim(),
+      email: email.trim(),
+    });
+  };
   const handleWantUpdatesSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!name.trim() || !email.trim()) return;
 
-    const response = await toast.promise(signUp, {
-      pending: "Signing you up... ⏳",
-      success: "Successfully signed up ✅",
-      error: "Something went wrong",
-    });
+    toast.loading('Signing you up... ⏳');
 
-    setName("");
-    setEmail("");
+    signUp(name, email)
+      .then(() => {
+        toast.success('Successfully signed up ✅');
+        setName('');
+        setEmail('');
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error('Something went wrong');
+      });
   };
 
   return (
     <WantUpdatesStyling>
       <div className="updates_texts">
-        <Typography.Heading
-          fontType="Mermaid"
-          level={2}
-          className="header"
-          style={{ marginBottom: "20px" }}
-        >
+        <Typography.Heading fontType="Mermaid" level={2} className="header" style={{ marginBottom: '20px' }}>
           Want updates straight into your Inbox?
         </Typography.Heading>
-        <Typography.Text
-          fontType="Montserrat"
-          className="body"
-          weight="semiBold"
-        >
-          Enter your name and email to get the latest news from the TurnTable
-          team, and in-depth knowledge into music and the numbers behind them.
+        <Typography.Text fontType="Montserrat" className="body" weight="semiBold">
+          Enter your name and email to get the latest news from the TurnTable team, and in-depth knowledge into music and the numbers behind them.
         </Typography.Text>
       </div>
       <form onSubmit={handleWantUpdatesSubmit} className="updates_form">
-        <input
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-          value={name}
-        />
-        <input
-          type="text"
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email address"
-          value={email}
-        />
+        <input type="text" onChange={(e) => setName(e.target.value)} placeholder="Name" value={name} />
+        <input type="text" onChange={(e) => setEmail(e.target.value)} placeholder="Email address" value={email} />
         <button type="submit">Subscribe</button>
       </form>
       <ToastContainer />
@@ -74,7 +59,7 @@ const WantUpdates = () => {
 export default WantUpdates;
 
 const WantUpdatesStyling = styled.div`
-  background-image: url("/assets/wantUpdatesBG.png");
+  background-image: url('/assets/wantUpdatesBG.png');
   text-align: center;
   padding: 100px 0;
   max-width: 1200px;
