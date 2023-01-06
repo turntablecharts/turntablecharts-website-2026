@@ -34,10 +34,11 @@ export const getChartById = async (id: number | string) => {
 
 export const getChartByIdAndWeekNumber = async (
   id: number | string,
-  weekNumber: number
+  weekNumber: number,
+  year: number
 ) => {
   const response = await TTCRequest.get<ChartsByCategoryResponse>(
-    `/api/chart/${id}/${weekNumber}`
+    `/api/chart/${id}/${weekNumber}/${year}`
   );
   return response;
 };

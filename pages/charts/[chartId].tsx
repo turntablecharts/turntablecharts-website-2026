@@ -86,9 +86,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 };
 
-const getDateByWeekIndex = (index: string) => {
+const getDateByWeekIndex = (index: string, year: number) => {
   return new Date(
-    parse(index, 'I', new Date(), {
+    parse(index, 'I', new Date(year, 5, 1), {
       weekStartsOn: 5,
     })
   );
@@ -97,16 +97,15 @@ const getDateByWeekIndex = (index: string) => {
 const SingleChartPage: React.FC<{
   chartData: ChartsByCategoryResponse;
 }> = ({ chartData }) => {
-  const [value] = React.useState<Date | null>(chartData.weekNumber ? getDateByWeekIndex(chartData.weekNumber?.toString()) : new Date());
+  const [value] = React.useState<Date | null>(chartData.weekNumber ? getDateByWeekIndex(chartData.weekNumber?.toString(), new Date(chartData.dateCreated).getFullYear()) : new Date());
 
-  const [changedWeek, setChangedWeek] = React.useState<number>();
+  const [changedWeek, setChangedWeek] = React.useState<{ year: number; week: number}>();
   const [changedWeekChart, setChangedWeekChart] = React.useState<ChartsByCategoryResponse>();
 
   useEffect(() => {
     if (changedWeek) {
-      getChartByIdAndWeekNumber(chartData.chartCategoryId, changedWeek).then(({ data }) => {
+      getChartByIdAndWeekNumber(chartData.chartCategoryId, changedWeek.week, changedWeek.year).then(({ data }) => {
         if (data.chartItems) {
-          // console.log(data);
           setChangedWeekChart(data);
         }
       });
@@ -127,10 +126,7 @@ const SingleChartPage: React.FC<{
 
   const handleChange = (newValue: Date | null) => {
     if (newValue) {
-      // setChangedWeek(newValue);
-      // console.log("cal wk normal", getWeek(newValue));
-      // console.log("cal wk on friday", getWeek(newValue, { weekStartsOn: 5 }));
-      setChangedWeek(getWeek(newValue, { weekStartsOn: 5 }));
+      setChangedWeek({ year: new Date(newValue).getFullYear(), week: getWeek(newValue, { weekStartsOn: 5 })});
     }
   };
 
@@ -153,25 +149,25 @@ const SingleChartPage: React.FC<{
             <Typography.Text style={{ color: Theme.colorPalette.white }} fontType="Montserrat" level="large" weight="semiBold">
               {changedWeek
                 ? `${format(
-                    startOfWeek(getDateByWeekIndex(changedWeek.toString()), {
+                    startOfWeek(getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year), {
                       weekStartsOn: 5,
                     }),
                     'PPP'
                   )} - ${format(
-                    endOfWeek(getDateByWeekIndex(changedWeek.toString()), {
+                    endOfWeek(getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year), {
                       weekStartsOn: 5,
                     }),
                     'PPP'
                   )}`
                 : `${format(startOfWeek(value!, { weekStartsOn: 5 }), 'PPP')} - ${format(endOfWeek(value!, { weekStartsOn: 5 }), 'PPP')}`}
             </Typography.Text>
-            <MyDatePicker mostRecentWeek={value} value={changedWeek ? getDateByWeekIndex(changedWeek.toString()) : value} handleChange={handleChange} />
+            <MyDatePicker mostRecentWeek={value} value={changedWeek ? getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year) : value} handleChange={handleChange} />
           </div>
         )}
       </div>
       {currentChart.headerVideoUrl! && (
         <div className="page_iframe">
-          <iframe width="690" height="390" src={`${currentChart.headerVideoUrl!}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`}></iframe>
+          <iframe width="690" height="390" src={`${currentChart.headerVideoUrl}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`}></iframe>
         </div>
       )}
       <div className="page_table">
