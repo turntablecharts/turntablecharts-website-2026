@@ -7,7 +7,8 @@ import styled from 'styled-components';
 import { ChartItem } from 'utility/ChartsApi/types';
 import { truncateString } from 'utility/helpers';
 
-const SongEntry = ({ song }: { song: ChartItem }) => {
+const SongEntry = ({ song, setVid }: { song: ChartItem; setVid: (arg: string) => void}) => {
+  const vidID = song.musicLink.split('v=')[1]?.split('&')[0];
   return (
     <SongEntryStyling>
       <div className="entry_image">
@@ -16,7 +17,7 @@ const SongEntry = ({ song }: { song: ChartItem }) => {
           <img src="/assets/ttcBgWhite.png" alt="fallback" />
         </object>
       </div>
-      <div className="entry_name">
+      <div className="entry_name" onClick={() => setVid(`https://www.youtube.com/embed/${vidID}?playlist=${vidID}&loop=1&autoplay=1`)}>
         <Typography.Text
           fontType="Montserrat"
           weight="semiBold"
@@ -66,6 +67,13 @@ const SongEntryStyling = styled.div`
       ${media.tablet`
         font-size: 10px;
       `}
+    }
+
+    &:hover {
+      cursor: pointer;
+      .title {
+        text-decoration: underline;
+      }
     }
   }
 `;
