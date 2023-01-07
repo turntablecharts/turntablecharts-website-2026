@@ -114,16 +114,6 @@ const SingleChartPage: React.FC<{
 
   const currentChart = changedWeekChart || chartData;
 
-  const tableData = resolveUserTypeToTableData(
-    currentChart.chartItems.sort((a, b) => a.rank - b.rank),
-    (cur) => ({
-      rank: <RankPlusTrend song={cur} />,
-      entry: <SongEntry song={cur} />,
-      lastWeek: cur.lastPosition > 0 ? cur.lastPosition : cur.lastPosition < 0 ? '*' : <NewEntryIcon />,
-      peak: cur.highestPosition,
-    })
-  );
-
   const handleChange = (newValue: Date | null) => {
     if (newValue) {
       setChangedWeek({ year: new Date(newValue).getFullYear(), week: getWeek(newValue, { weekStartsOn: 5 })});
@@ -135,6 +125,18 @@ const SingleChartPage: React.FC<{
     if (!video.musicLink.includes('youtube')) return '';
     return video.musicLink.split('v=')[1].split('&')[0];
   });
+
+  const [vidToPlay, setVidToPlay] = React.useState(`${currentChart.headerVideoUrl}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`);
+
+  const tableData = resolveUserTypeToTableData(
+    currentChart.chartItems.sort((a, b) => a.rank - b.rank),
+    (cur) => ({
+      rank: <RankPlusTrend song={cur} />,
+      entry: <SongEntry song={cur} setVid={setVidToPlay} />,
+      lastWeek: cur.lastPosition > 0 ? cur.lastPosition : cur.lastPosition < 0 ? '*' : <NewEntryIcon />,
+      peak: cur.highestPosition,
+    })
+  );
 
   return (
     <SingleChartPageStyling>
@@ -167,7 +169,7 @@ const SingleChartPage: React.FC<{
       </div>
       {currentChart.headerVideoUrl! && (
         <div className="page_iframe">
-          <iframe width="690" height="390" src={`${currentChart.headerVideoUrl}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`}></iframe>
+          <iframe width="690" height="390" src={vidToPlay}></iframe>
         </div>
       )}
       <div className="page_table">

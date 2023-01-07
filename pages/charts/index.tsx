@@ -55,7 +55,7 @@ const Charts: React.FC<{
         ))}
       </div>
       <div className="chart_categories">
-        {sortedCategories[activeCategory].map((category, index) => (
+        {sortedCategories[activeCategory]?.map((category, index) => (
           <ChartCard key={category.id} category={category} cardColor={cardColors[index]} />
         ))}
       </div>
