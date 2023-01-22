@@ -1,0 +1,8 @@
+# Ignore artifacts:
+package.json
+yarn.lock
+build
+public
+node_modules/*
+coverage/*
+*.md
