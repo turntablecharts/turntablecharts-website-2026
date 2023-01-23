@@ -4,6 +4,7 @@ import TTCIconTwiter from "assets/icons/ttc-twitter.svg";
 import Typography from "components/atoms/typography";
 import Link from "next/link";
 import Theme from "constants/Theme";
+import media from "constants/MediaQuery";
 
 const Footer = () => {
   return (
@@ -48,6 +49,10 @@ const FooterStyling = styled.footer`
     display: flex;
     align-items: center;
     gap: 80px;
+
+    ${media.mobileLarge`
+    gap: 30px;
+    `}
   }
 
   .ttc_socials {
