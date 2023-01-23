@@ -1,4 +1,4 @@
-import TableCert from 'components/atoms/tableCert';
+import TableCert from 'components/atoms/TableCert';
 import Typography from 'components/atoms/typography';
 import media from 'constants/MediaQuery';
 import Theme from 'constants/Theme';
