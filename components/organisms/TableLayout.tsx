@@ -97,6 +97,7 @@ const Th = styled.th`
 
   :first-child {
     padding-left: 53px;
+    text-align: center;
     ${media.tablet`
     padding-left: 10px;
   `}

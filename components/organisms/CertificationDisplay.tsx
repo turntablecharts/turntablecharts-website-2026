@@ -1,13 +1,36 @@
+import MobileCertEntry from 'components/atoms/MobileCertEntry';
 import TableCert from 'components/atoms/TableCert';
-import Typography from 'components/atoms/typography';
 import media from 'constants/MediaQuery';
 import Theme from 'constants/Theme';
 import { format } from 'date-fns';
 import React from 'react';
 import styled from 'styled-components';
 import { CertificationEntry } from 'utility/CertificationApi/api';
-import { resolveUserTypeToTableData } from 'utility/helpers';
+import useMediaQuery, { resolveUserTypeToTableData } from 'utility/helpers';
 import { TableContentLayout } from './TableLayout';
+
+const MOBILE_CERT_HEADER = {
+  milestone: {
+    key: 'milestone',
+    label: 'MILESTONE',
+    active: true,
+  },
+  entry: {
+    key: 'entry',
+    label: 'ENTRY',
+    active: true,
+  },
+  label: {
+    key: 'label',
+    label: 'LABEL',
+    active: true,
+  },
+  certifiedDate: {
+    key: 'certifiedDate',
+    label: 'CERTIFIED DATE',
+    active: true,
+  },
+};
 
 const CERT_HEADER = {
   milestone: {
@@ -43,6 +66,8 @@ const CERT_HEADER = {
 };
 
 const CertificationDisplay: React.FC<{ certEntries: CertificationEntry[] }> = ({ certEntries }) => {
+  const matchesMobileLarge = useMediaQuery('(max-width: 700px)');
+
   const tableData = resolveUserTypeToTableData(certEntries, (cur) => ({
     milestone: <TableCert cert={cur.milestone} />,
     title: cur.title,
@@ -51,9 +76,16 @@ const CertificationDisplay: React.FC<{ certEntries: CertificationEntry[] }> = ({
     label: cur.label,
     certifiedDate: format(new Date(cur.certifiedDate), 'PP'),
   }));
+
+  const mobileTableData = resolveUserTypeToTableData(certEntries, (cur) => ({
+    milestone: <TableCert cert={cur.milestone} />,
+    entry: <MobileCertEntry title={cur.title} artiste={cur.artiste} format={cur.format} />,
+    label: cur.label,
+    certifiedDate: format(new Date(cur.certifiedDate), 'PP'),
+  }));
   return (
     <CertificationDisplayStyling>
-      <TableContentLayout columns={CERT_HEADER} data={tableData} />
+      <TableContentLayout columns={matchesMobileLarge ? MOBILE_CERT_HEADER : CERT_HEADER} data={matchesMobileLarge ? mobileTableData : tableData} />
     </CertificationDisplayStyling>
   );
 };
