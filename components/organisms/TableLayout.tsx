@@ -1,13 +1,13 @@
-import React, { useContext, useRef } from "react";
-import styled, { css } from "styled-components";
-import Theme from "constants/Theme";
+import React, { useContext, useRef } from 'react';
+import styled, { css } from 'styled-components';
+import Theme from 'constants/Theme';
 // import { thousandsSeparators } from "utility/helpers";
-import media from "constants/MediaQuery";
-import { TableContent } from "./TableContent";
-import { tableRow } from "../molecules/TableRow";
-import { TableLoadingSkeleton } from "../molecules/TableLoadingSkeleton";
+import media from 'constants/MediaQuery';
+import { TableContent } from './TableContent';
+import { tableRow } from '../molecules/TableRow';
+import { TableLoadingSkeleton } from '../molecules/TableLoadingSkeleton';
 // import { TableType } from "./types";
-import { EmptyState } from "../molecules/TableEmptyState";
+import { EmptyState } from '../molecules/TableEmptyState';
 
 interface TableProps {
   // type: TableType.Agent | TableType.Aggregator | TableType.AgentTransactions;
@@ -25,16 +25,10 @@ interface TableProps {
   handlePaginationNext?: (page: number) => void;
   pageNumber?: number;
   loading?: boolean;
-  rowStyle?: "spaced";
+  rowStyle?: 'spaced';
 }
 
-export const TableContentLayout: React.FC<TableProps> = ({
-  columns,
-  data,
-  onClick,
-  loading,
-  rowStyle,
-}) => {
+export const TableContentLayout: React.FC<TableProps> = ({ columns, data, onClick, loading, rowStyle }) => {
   const isTableEmpty = data?.length! < 1;
 
   if (loading) {
@@ -53,13 +47,7 @@ export const TableContentLayout: React.FC<TableProps> = ({
                   .map((key) => <Th key={key}>{columns[key].label}</Th>)}
             </tr>
           </thead>
-          {!isTableEmpty && (
-            <tbody role="presentation">
-              {data?.map((item, i) =>
-                tableRow(i, columns, item, onClick, rowStyle)
-              )}
-            </tbody>
-          )}
+          {!isTableEmpty && <tbody role="presentation">{data?.map((item, i) => tableRow(i, columns, item, onClick, rowStyle))}</tbody>}
         </Table>
         {isTableEmpty && <EmptyState />}
       </TableContent>
@@ -80,7 +68,7 @@ const Table = styled.table<{ rowStyle: any }>`
     background: #000;
   }
   ${({ rowStyle }) =>
-    rowStyle !== "spaced" &&
+    rowStyle !== 'spaced' &&
     css`
       & {
         border-collapse: separate;
@@ -104,18 +92,21 @@ const Th = styled.th`
   border-bottom: 1px solid rgba(172, 161, 161, 0.08);
   text-align: left;
   padding-right: 20px;
+  white-space: pre;
+
 
   :first-child {
     padding-left: 53px;
+    text-align: center;
     ${media.tablet`
     padding-left: 10px;
   `}
   }
-  :last-child {
+  /* :last-child {
     padding-left: 53px;
     ${media.tablet`
     padding: 0px;
-  `}
+  `} */
   }
   :not(:first-child) {
     padding-top: 19px;

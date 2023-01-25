@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import { ChartItem } from "utility/ChartsApi/types";
-import Typography from "./typography";
+import React from 'react';
+import styled from 'styled-components';
+import { ChartItem } from 'utility/ChartsApi/types';
+import Typography from './typography';
 
-import UpTrendIcon from "assets/icons/upTrend.svg";
-import DownTrendIcon from "assets/icons/downTrend.svg";
-import NoTrendIcon from "assets/icons/neutralTrend.svg";
-import Theme from "constants/Theme";
-import media from "constants/MediaQuery";
+import UpTrendIcon from 'assets/icons/upTrend.svg';
+import DownTrendIcon from 'assets/icons/downTrend.svg';
+import NoTrendIcon from 'assets/icons/neutralTrend.svg';
+import Theme from 'constants/Theme';
+import media from 'constants/MediaQuery';
 
 const RankPlusTrend = ({ song }: { song: ChartItem }) => {
   return (
@@ -16,7 +16,7 @@ const RankPlusTrend = ({ song }: { song: ChartItem }) => {
         {song.rank}
       </Typography.Text>
       {song.lastPosition === 0 ? (
-        <div style={{ padding: "4px 8px", backgroundColor: "#0F8F491A" }}>
+        <div style={{ padding: '4px 8px', backgroundColor: '#0F8F491A' }}>
           <Typography.Text
             style={{ color: Theme.colorPalette.ttcGreen }}
             // level="medium"
@@ -28,7 +28,7 @@ const RankPlusTrend = ({ song }: { song: ChartItem }) => {
           </Typography.Text>
         </div>
       ) : song.lastPosition === -1 ? (
-        <div style={{ padding: "4px 8px", backgroundColor: "#F1A01F1A" }}>
+        <div style={{ padding: '4px 8px', backgroundColor: '#F1A01F1A' }}>
           <Typography.Text
             style={{ color: Theme.colorPalette.ttcYellow }}
             // level="medium"
@@ -56,6 +56,7 @@ const RankStyling = styled.div`
   display: flex;
   align-items: center;
   gap: 50px;
+  /* max-width: 80px; */
 
   ${media.tablet`
     flex-direction: column;
