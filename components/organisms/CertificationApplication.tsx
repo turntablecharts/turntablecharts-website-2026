@@ -143,7 +143,7 @@ const CertificationApplicationStyling = styled.div`
       margin-bottom: 30px;
 
       p {
-        text-align: justify;
+        /* text-align: justify; */
         ${media.tablet`
 
         font-size: 16px;
