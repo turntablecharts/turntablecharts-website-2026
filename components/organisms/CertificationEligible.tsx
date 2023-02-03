@@ -1,3 +1,4 @@
+import MobileCertCard from 'components/atoms/MobileCertCard';
 import MobileCertEntry from 'components/atoms/MobileCertEntry';
 import TableCert from 'components/atoms/TableCert';
 import Typography from 'components/atoms/typography';
@@ -7,7 +8,7 @@ import { format } from 'date-fns';
 import React from 'react';
 import styled from 'styled-components';
 import { CertificationEntry } from 'utility/CertificationApi/api';
-import useMediaQuery, { resolveUserTypeToTableData } from 'utility/helpers';
+import { resolveUserTypeToTableData } from 'utility/helpers';
 import { TableContentLayout } from './TableLayout';
 
 const MOBILE_CERT_HEADER = {
@@ -76,8 +77,6 @@ const CERT_HEADER = {
 };
 
 const CertificationEligible: React.FC<{ certEntries: CertificationEntry[] }> = ({ certEntries }) => {
-  const matchesMobileLarge = useMediaQuery('(max-width: 700px)');
-
   const tableData = resolveUserTypeToTableData(certEntries, (cur) => ({
     milestone: <TableCert cert={cur.milestone} />,
     title: cur.title,
@@ -113,7 +112,17 @@ const CertificationEligible: React.FC<{ certEntries: CertificationEntry[] }> = (
   }));
   return (
     <CertificationEligibleStyling>
-      <TableContentLayout columns={matchesMobileLarge ? MOBILE_CERT_HEADER : CERT_HEADER} data={matchesMobileLarge ? mobileTableData : tableData} />
+      <div className="desktop">
+        <TableContentLayout columns={CERT_HEADER} data={tableData} />
+      </div>
+      <div className="mobileLarge">
+        <TableContentLayout columns={MOBILE_CERT_HEADER} data={mobileTableData} />
+      </div>
+      <div className="mobile">
+        {certEntries.map((entry) => (
+          <MobileCertCard key={entry.id} entry={entry} />
+        ))}
+      </div>
     </CertificationEligibleStyling>
   );
 };
@@ -139,4 +148,31 @@ const CertificationEligibleStyling = styled.div`
   `}
     }
   }
+
+  .mobileLarge {
+    display: none;
+  }
+  .mobile {
+    display: none;
+  }
+
+  ${media.tablet`
+    .desktop {
+      display: none;
+    }
+    .mobileLarge {
+      display: block;
+    }
+  `}
+  ${media.mobile`
+    .desktop {
+      display: none;
+    }
+    .mobileLarge {
+      display: none;
+    }
+    .mobile {
+    display: block;
+  }
+  `}
 `;

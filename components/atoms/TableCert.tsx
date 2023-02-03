@@ -14,9 +14,6 @@ const milestoneMap = {
 
 const TableCert = ({ cert }: { cert: string }) => {
   const [milestone, count] = cert.toLowerCase().split('_');
-
-  React.createElement(milestoneMap[milestone as 'silver' | 'gold' | 'platinum'], { style: {} });
-
   const hasMilestoneCount = typeof parseInt(count, 10) === 'number' && parseInt(count, 10) > 1;
 
   return (

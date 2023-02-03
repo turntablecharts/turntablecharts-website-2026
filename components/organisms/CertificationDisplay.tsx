@@ -1,3 +1,4 @@
+import MobileCertCard from 'components/atoms/MobileCertCard';
 import MobileCertEntry from 'components/atoms/MobileCertEntry';
 import TableCert from 'components/atoms/TableCert';
 import media from 'constants/MediaQuery';
@@ -85,7 +86,17 @@ const CertificationDisplay: React.FC<{ certEntries: CertificationEntry[] }> = ({
   }));
   return (
     <CertificationDisplayStyling>
-      <TableContentLayout columns={matchesMobileLarge ? MOBILE_CERT_HEADER : CERT_HEADER} data={matchesMobileLarge ? mobileTableData : tableData} />
+      <div className="desktop">
+        <TableContentLayout columns={CERT_HEADER} data={tableData} />
+      </div>
+      <div className="mobileLarge">
+        <TableContentLayout columns={MOBILE_CERT_HEADER} data={mobileTableData} />
+      </div>
+      <div className="mobile">
+        {certEntries.map((entry) => (
+          <MobileCertCard isDisplay key={entry.id} entry={entry} />
+        ))}
+      </div>{' '}
     </CertificationDisplayStyling>
   );
 };
@@ -111,4 +122,31 @@ const CertificationDisplayStyling = styled.div`
   `}
     }
   }
+
+  .mobileLarge {
+    display: none;
+  }
+  .mobile {
+    display: none;
+  }
+
+  ${media.tablet`
+    .desktop {
+      display: none;
+    }
+    .mobileLarge {
+      display: block;
+    }
+  `}
+  ${media.mobile`
+    .desktop {
+      display: none;
+    }
+    .mobileLarge {
+      display: none;
+    }
+    .mobile {
+    display: block;
+  }
+  `}
 `;
