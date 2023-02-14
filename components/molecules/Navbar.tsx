@@ -1,13 +1,13 @@
-import Link from "next/link";
-import styled, { css } from "styled-components";
-import TTCLogo from "assets/icons/ttc-logo.svg";
-import TTCIconInsta from "assets/icons/ttc-insta.svg";
-import TTCIconTwiter from "assets/icons/ttc-twitter.svg";
-import Theme from "constants/Theme";
-import Typography from "components/atoms/typography";
-import { useRouter } from "next/router";
-import media from "constants/MediaQuery";
-import { useState } from "react";
+import Link from 'next/link';
+import styled, { css } from 'styled-components';
+import TTCLogo from 'assets/icons/ttc-logo.svg';
+import TTCIconInsta from 'assets/icons/ttc-insta.svg';
+import TTCIconTwiter from 'assets/icons/ttc-twitter.svg';
+import Theme from 'constants/Theme';
+import Typography from 'components/atoms/typography';
+import { useRouter } from 'next/router';
+import media from 'constants/MediaQuery';
+import { useState } from 'react';
 
 const Navbar = () => {
   const router = useRouter();
@@ -17,57 +17,57 @@ const Navbar = () => {
       <div className="logo">
         <Link href="/">
           <a>
-            <TTCLogo style={{ height: "40px", width: "102px" }} />
+            <TTCLogo style={{ height: '40px', width: '102px' }} />
           </a>
         </Link>
       </div>
       <nav className="menus">
         <Link className="menus_menu" href="/charts">
-          <a className={router.pathname === "/charts" ? "active" : ""}>
+          <a className={router.pathname === '/charts' ? 'active' : ''}>
             <Typography.Text fontType="SFProText" weight="semiBold">
               CHARTS
             </Typography.Text>
           </a>
         </Link>
         <Link className="menus_menu" href="/news">
-          <a className={router.pathname === "/news" ? "active" : ""}>
+          <a className={router.pathname === '/news' ? 'active' : ''}>
             <Typography.Text fontType="SFProText" weight="semiBold">
               NEWS
             </Typography.Text>
           </a>
         </Link>
         <Link className="menus_menu" href="/magazine">
-          <a className={router.pathname === "/magazine" ? "active" : ""}>
+          <a className={router.pathname === '/magazine' ? 'active' : ''}>
             <Typography.Text fontType="SFProText" weight="semiBold">
               MAGAZINE
             </Typography.Text>
           </a>
         </Link>
         <Link className="menus_menu" href="/business">
-          <a className={router.pathname === "/business" ? "active" : ""}>
+          <a className={router.pathname === '/business' ? 'active' : ''}>
             <Typography.Text fontType="SFProText" weight="semiBold">
               BUSINESS
             </Typography.Text>
           </a>
         </Link>
-        {/* <Link className="menus_menu" href="/photos">
-          <a className={router.pathname === "/photos" ? "active" : ""}>
-            <Typography.Text fontType="SFProText" weight="semiBold">Photos</Typography.Text>
+        <Link className="menus_menu" href="/certification">
+          <a className={router.pathname === '/certification' ? 'active' : ''}>
+            <Typography.Text fontType="SFProText" weight="semiBold">
+              CERTIFICATION
+            </Typography.Text>
           </a>
-        </Link> */}
+        </Link>
       </nav>
-      <div className={`mobile_menus ${isMobileNavOpen ? "open" : ""}`}>
+      <div className={`mobile_menus ${isMobileNavOpen ? 'open' : ''}`}>
         <nav className="menuContainer">
           <Link className="mobile_menu" href="/charts">
             <a
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
-              className={router.pathname === "/charts" ? "active" : ""}>
-              <Typography.Text
-                level="xlarge"
-                fontType="SFProText"
-                weight="semiBold">
+              className={router.pathname === '/charts' ? 'active' : ''}
+            >
+              <Typography.Text level="xlarge" fontType="SFProText" weight="semiBold">
                 CHARTS
               </Typography.Text>
             </a>
@@ -77,11 +77,9 @@ const Navbar = () => {
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
-              className={router.pathname === "/news" ? "active" : ""}>
-              <Typography.Text
-                level="xlarge"
-                fontType="SFProText"
-                weight="semiBold">
+              className={router.pathname === '/news' ? 'active' : ''}
+            >
+              <Typography.Text level="xlarge" fontType="SFProText" weight="semiBold">
                 NEWS
               </Typography.Text>
             </a>
@@ -91,11 +89,9 @@ const Navbar = () => {
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
-              className={router.pathname === "/magazine" ? "active" : ""}>
-              <Typography.Text
-                level="xlarge"
-                fontType="SFProText"
-                weight="semiBold">
+              className={router.pathname === '/magazine' ? 'active' : ''}
+            >
+              <Typography.Text level="xlarge" fontType="SFProText" weight="semiBold">
                 MAGAZINE
               </Typography.Text>
             </a>
@@ -105,59 +101,39 @@ const Navbar = () => {
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
-              className={router.pathname === "/business" ? "active" : ""}>
-              <Typography.Text
-                level="xlarge"
-                fontType="SFProText"
-                weight="semiBold">
+              className={router.pathname === '/business' ? 'active' : ''}
+            >
+              <Typography.Text level="xlarge" fontType="SFProText" weight="semiBold">
                 BUSINESS
               </Typography.Text>
             </a>
           </Link>
-          {/* <Link className="mobile_menu" href="/photos">
-            <a className={router.pathname === "/photos" ? "active" : ""}>
+          <Link className="mobile_menu" href="/certification">
+            <a className={router.pathname === '/certification' ? 'active' : ''}>
               <Typography.Text level="xlarge" fontType="SFProText" weight="semiBold">
-                Photos
+                CERTIFICATION
               </Typography.Text>
             </a>
-          </Link> */}
+          </Link>
         </nav>
         <div className="mobile_socials">
-          <a
-            target="_blank"
-            rel="noreferrer"
-            className="socials_icon"
-            href="https://www.instagram.com/turntablecharts/">
+          <a target="_blank" rel="noreferrer" className="socials_icon" href="https://www.instagram.com/turntablecharts/">
             <TTCIconInsta className="socials_icon" />
           </a>
-          <a
-            target="_blank"
-            rel="noreferrer"
-            className="socials_icon"
-            href="https://twitter.com/TurntableCharts">
+          <a target="_blank" rel="noreferrer" className="socials_icon" href="https://twitter.com/TurntableCharts">
             <TTCIconTwiter className="socials_icon" />
           </a>
         </div>
       </div>
       <div className="socials">
-        <a
-          target="_blank"
-          rel="noreferrer"
-          className="socials_icon"
-          href="https://www.instagram.com/turntablecharts/">
+        <a target="_blank" rel="noreferrer" className="socials_icon" href="https://www.instagram.com/turntablecharts/">
           <TTCIconInsta className="socials_icon" />
         </a>
-        <a
-          target="_blank"
-          rel="noreferrer"
-          className="socials_icon"
-          href="https://twitter.com/TurntableCharts">
+        <a target="_blank" rel="noreferrer" className="socials_icon" href="https://twitter.com/TurntableCharts">
           <TTCIconTwiter className="socials_icon" />
         </a>
       </div>
-      <div
-        onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
-        className={`hamburger ${isMobileNavOpen ? "open" : ""}`}>
+      <div onClick={() => setIsMobileNavOpen(!isMobileNavOpen)} className={`hamburger ${isMobileNavOpen ? 'open' : ''}`}>
         <span className="top"></span>
         <span className="bottom"></span>
       </div>
@@ -178,7 +154,7 @@ const NavbarStyling = styled.div<{ pathname: string }>`
   z-index: 10;
 
   ${({ pathname }) =>
-    pathname === "/myTurnTable" &&
+    pathname === '/myTurnTable' &&
     css`
       background: transparent;
       position: relative;
@@ -186,6 +162,11 @@ const NavbarStyling = styled.div<{ pathname: string }>`
   .menus {
     display: flex;
     gap: 67px;
+
+    ${media.smallDesktop`
+    gap: 37px;
+
+    `}
 
     .active {
       color: ${Theme.colorPalette.ttcYellow};
@@ -202,6 +183,10 @@ const NavbarStyling = styled.div<{ pathname: string }>`
 
       &:not(:last-child) {
         margin-right: 80px;
+        ${media.smallDesktop`
+        margin-right: 40px;
+
+    `}
       }
     }
   }

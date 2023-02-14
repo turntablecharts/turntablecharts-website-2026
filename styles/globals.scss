@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 html,
 body {
   padding: 0;
@@ -50,6 +50,9 @@ select::-ms-expand {
 .yellow {
   color: #f1a01f;
 }
+.bold {
+  font-weight: 600;
+}
 
 .Mui-selected {
   background-color: black;
@@ -60,30 +63,30 @@ select::-ms-expand {
 }
 
 @font-face {
-  font-family: "Mermaid";
-  src: url("/assets/fonts/Mermaid.ttf") format("opentype");
+  font-family: 'Mermaid';
+  src: url('/assets/fonts/Mermaid.ttf') format('opentype');
   font-display: swap;
 }
 @font-face {
-  font-family: "Fontastique";
-  src: url("/assets/fonts/Fontastique.ttf") format("opentype");
+  font-family: 'Fontastique';
+  src: url('/assets/fonts/Fontastique.ttf') format('opentype');
   font-display: swap;
 }
 @font-face {
-  font-family: "SFProText";
-  src: url("/assets/fonts/SFProTextRegular.otf") format("opentype");
+  font-family: 'SFProText';
+  src: url('/assets/fonts/SFProTextRegular.otf') format('opentype');
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: "SFProText";
-  src: url("/assets/fonts/SFProTextMedium.otf") format("opentype");
+  font-family: 'SFProText';
+  src: url('/assets/fonts/SFProTextMedium.otf') format('opentype');
   font-weight: 500;
   font-display: swap;
 }
 @font-face {
-  font-family: "SFProText";
-  src: url("/assets/fonts/SFProTextBold.otf") format("opentype");
+  font-family: 'SFProText';
+  src: url('/assets/fonts/SFProTextBold.otf') format('opentype');
   font-weight: 600;
   font-display: swap;
 }

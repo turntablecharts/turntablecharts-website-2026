@@ -1,29 +1,16 @@
-import media from "constants/MediaQuery";
-import Theme from "constants/Theme";
-import styled, { css } from "styled-components";
+import media from 'constants/MediaQuery';
+import Theme from 'constants/Theme';
+import styled, { css } from 'styled-components';
 
-export const tableRow = (
-  k: any,
-  data: any,
-  item: any,
-  onClick?: any,
-  rowStyle?: any,
-  rowDataStyle?: any
-) => {
+export const tableRow = (k: any, data: any, item: any, onClick?: any, rowStyle?: any, rowDataStyle?: any) => {
   return (
-    <Tr
-      className="border"
-      key={k}
-      id={k}
-      rowStyle={rowStyle}
-      onClick={onClick && (() => onClick(item))}
-    >
+    <Tr className="border" key={k} id={k} rowStyle={rowStyle} onClick={onClick && (() => onClick(item))}>
       {data &&
         Object.keys(data)
           ?.filter((d) => data[d]?.active)
           .map((key, index) => {
             const keys = index;
-            if (typeof item[key] === "function") {
+            if (typeof item[key] === 'function') {
               const Component = item[key];
               return (
                 <Td key={`count-${keys}`}>
@@ -61,12 +48,11 @@ const Tr = styled.tr<{ onClick: any; rowStyle: any }>`
     `}
 
   ${({ rowStyle }) =>
-    rowStyle === "spaced" &&
+    rowStyle === 'spaced' &&
     css`
       & {
         border-bottom: none;
-        box-shadow: 0px 4px 15px rgba(229, 229, 229, 0.3),
-          0px 4px 5px rgba(229, 229, 229, 0.3);
+        box-shadow: 0px 4px 15px rgba(229, 229, 229, 0.3), 0px 4px 5px rgba(229, 229, 229, 0.3);
       }
     `}
 `;
@@ -77,6 +63,8 @@ const Td = styled.td`
   padding-top: 16px;
   padding-bottom: 16px;
   padding-right: 20px;
+  white-space: pre;
+
   :first-child {
     padding-left: 20px;
     padding-right: 0;

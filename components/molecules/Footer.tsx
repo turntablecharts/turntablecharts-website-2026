@@ -1,26 +1,21 @@
-import styled from "styled-components";
-import TTCIconInsta from "assets/icons/ttc-insta.svg";
-import TTCIconTwiter from "assets/icons/ttc-twitter.svg";
-import Typography from "components/atoms/typography";
-import Link from "next/link";
-import Theme from "constants/Theme";
-import media from "constants/MediaQuery";
+import styled from 'styled-components';
+import TTCIconInsta from 'assets/icons/ttc-insta.svg';
+import TTCIconTwiter from 'assets/icons/ttc-twitter.svg';
+import Typography from 'components/atoms/typography';
+import Link from 'next/link';
+import Theme from 'constants/Theme';
+import media from 'constants/MediaQuery';
 
 const Footer = () => {
   return (
     <FooterStyling>
       <div className="ttc_copy">
         <Typography.Text level="medium" weight="medium" fontType="Montserrat">
-          &copy; 2022
+          &copy; {new Date().getFullYear()}
         </Typography.Text>
         <Link href="/">
           <a>
-            <Typography.Text
-              style={{ color: Theme.colorPalette.ttcYellow }}
-              fontType="Montserrat"
-              level="medium"
-              weight="medium"
-            >
+            <Typography.Text style={{ color: Theme.colorPalette.ttcYellow }} fontType="Montserrat" level="medium" weight="medium">
               Turntable Charts
             </Typography.Text>
           </a>
