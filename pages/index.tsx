@@ -243,7 +243,10 @@ const IndexStyling = styled.div`
       grid-template-columns: repeat(3, minmax(180px, 1fr));
     `}
       ${media.mobileLarge`
-      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      grid-template-columns: repeat(2, minmax(150px, 1fr));
+    `}
+      ${media.smallMobile`
+      grid-template-columns: repeat(1, minmax(150px, 1fr));
     `}
     }
 
