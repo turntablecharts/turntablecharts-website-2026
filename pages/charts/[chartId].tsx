@@ -14,6 +14,7 @@ import SongEntry from 'components/molecules/SongEntry';
 import NewEntryIcon from 'assets/icons/newEntry.svg';
 import { TableContentLayout } from 'components/organisms/TableLayout';
 import MyDatePicker from 'components/atoms/datePicker';
+import media from 'constants/MediaQuery';
 
 const CHART_HEADER = {
   rank: {
@@ -28,7 +29,12 @@ const CHART_HEADER = {
   },
   lastWeek: {
     key: 'lastWeek',
-    label: 'Last Week',
+    label: 'Last Wk',
+    active: true,
+  },
+  weeksOnChart: {
+    key: 'weeksOnChart',
+    label: 'WoC',
     active: true,
   },
   peak: {
@@ -90,16 +96,18 @@ const getDateByWeekIndex = (index: string, year: number) => {
   return new Date(
     parse(index, 'I', new Date(year, 5, 1), {
       weekStartsOn: 5,
-    })
+    }),
   );
 };
 
 const SingleChartPage: React.FC<{
   chartData: ChartsByCategoryResponse;
 }> = ({ chartData }) => {
-  const [value] = React.useState<Date | null>(chartData.weekNumber ? getDateByWeekIndex(chartData.weekNumber?.toString(), new Date(chartData.dateCreated).getFullYear()) : new Date());
+  const [value] = React.useState<Date | null>(
+    chartData.weekNumber ? getDateByWeekIndex(chartData.weekNumber?.toString(), new Date(chartData.dateCreated).getFullYear()) : new Date(),
+  );
 
-  const [changedWeek, setChangedWeek] = React.useState<{ year: number; week: number}>();
+  const [changedWeek, setChangedWeek] = React.useState<{ year: number; week: number }>();
   const [changedWeekChart, setChangedWeekChart] = React.useState<ChartsByCategoryResponse>();
 
   useEffect(() => {
@@ -116,7 +124,7 @@ const SingleChartPage: React.FC<{
 
   const handleChange = (newValue: Date | null) => {
     if (newValue) {
-      setChangedWeek({ year: new Date(newValue).getFullYear(), week: getWeek(newValue, { weekStartsOn: 5 })});
+      setChangedWeek({ year: new Date(newValue).getFullYear(), week: getWeek(newValue, { weekStartsOn: 5 }) });
     }
   };
 
@@ -131,11 +139,16 @@ const SingleChartPage: React.FC<{
   const tableData = resolveUserTypeToTableData(
     currentChart.chartItems.sort((a, b) => a.rank - b.rank),
     (cur) => ({
-      rank: <RankPlusTrend song={cur} />,
+      rank: (
+        <div className="center">
+          <RankPlusTrend song={cur} />
+        </div>
+      ),
       entry: <SongEntry song={cur} setVid={setVidToPlay} />,
-      lastWeek: cur.lastPosition > 0 ? cur.lastPosition : cur.lastPosition < 0 ? '*' : <NewEntryIcon />,
-      peak: cur.highestPosition,
-    })
+      lastWeek: <div className="center">{cur.lastPosition > 0 ? cur.lastPosition : cur.lastPosition < 0 ? '*' : <NewEntryIcon />}</div>,
+      weeksOnChart: <div className="center">{cur.weeksOnChart}</div>,
+      peak: <div className="center">{cur.highestPosition}</div>,
+    }),
   );
 
   return (
@@ -154,16 +167,20 @@ const SingleChartPage: React.FC<{
                     startOfWeek(getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year), {
                       weekStartsOn: 5,
                     }),
-                    'PPP'
+                    'PPP',
                   )} - ${format(
                     endOfWeek(getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year), {
                       weekStartsOn: 5,
                     }),
-                    'PPP'
+                    'PPP',
                   )}`
                 : `${format(startOfWeek(value!, { weekStartsOn: 5 }), 'PPP')} - ${format(endOfWeek(value!, { weekStartsOn: 5 }), 'PPP')}`}
             </Typography.Text>
-            <MyDatePicker mostRecentWeek={value} value={changedWeek ? getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year) : value} handleChange={handleChange} />
+            <MyDatePicker
+              mostRecentWeek={value}
+              value={changedWeek ? getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year) : value}
+              handleChange={handleChange}
+            />
           </div>
         )}
       </div>
@@ -221,6 +238,13 @@ const SingleChartPageStyling = styled.div`
       margin-top: 20px;
       padding: 10px 5px 10px 15px;
 
+      ${media.tablet`
+      p {
+
+        font-size: 14px;
+      }
+      `}
+
       .date-text {
         input {
           margin-top: 0px;
@@ -248,6 +272,12 @@ const SingleChartPageStyling = styled.div`
       aspect-tatio: 16/9;
       /* border-bottom: 3px solid ${Theme.colorPalette.ttcYellow}; */
     }
+  }
+
+  .center {
+    text-align: center;
+    display: grid;
+    place-items: center;
   }
 `;
 

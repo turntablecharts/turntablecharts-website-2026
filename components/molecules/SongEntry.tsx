@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { ChartItem } from 'utility/ChartsApi/types';
 import { truncateString } from 'utility/helpers';
 
-const SongEntry = ({ song, setVid }: { song: ChartItem; setVid: (arg: string) => void}) => {
+const SongEntry = ({ song, setVid }: { song: ChartItem; setVid: (arg: string) => void }) => {
   const vidID = song.musicLink.split('v=')[1]?.split('&')[0];
   return (
     <SongEntryStyling>
@@ -22,7 +22,8 @@ const SongEntry = ({ song, setVid }: { song: ChartItem; setVid: (arg: string) =>
           fontType="Montserrat"
           weight="semiBold"
           // level="xlarge"
-          className="title">
+          className="title"
+        >
           {truncateString(song.title, 40)}
         </Typography.Text>
         <Typography.Text className="artiste" fontType="Montserrat" weight="medium" level="large">
@@ -39,6 +40,9 @@ const SongEntryStyling = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
+  ${media.mobile`
+  gap: 10px;
+      `}
   .entry_image {
     height: 64px;
     width: 64px;

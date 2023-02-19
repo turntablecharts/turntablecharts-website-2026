@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Typography from 'components/atoms/typography';
+import media from 'constants/MediaQuery';
 import Theme from 'constants/Theme';
 import Link from 'next/link';
 import React from 'react';
@@ -24,10 +25,11 @@ const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ c
     <ChartCardStyling
       style={{
         backgroundColor: cardColor,
-      }}>
+      }}
+    >
       <Link href={`/charts/${category.id}`}>
         <a>
-          <Typography.Heading style={{ fontSize: '40px', marginBottom: '10px' }} fontType="Mermaid" level={1}>
+          <Typography.Heading fontType="Mermaid" level={1}>
             {category.name}
           </Typography.Heading>
           <Typography.Text style={{ fontSize: Theme.fontSizes.medium, maxWidth: '460px' }} weight="medium" fontType="Montserrat">
@@ -60,6 +62,7 @@ const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ c
 export default ChartCard;
 
 const ChartCardStyling = styled.div`
+  overflow: hidden;
   a {
     max-width: auto;
     display: flex;
@@ -67,9 +70,20 @@ const ChartCardStyling = styled.div`
     padding: 40px;
     transition: transform 1s;
 
+    ${media.mobileLarge`
+    padding: 20px;
+          `}
+
     &:hover {
       transform: scale(1.05);
     }
+  }
+  h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+    ${media.mobileLarge`
+          font-size: 32px;
+          `}
   }
   .chart_topper {
     margin-top: 50px;
