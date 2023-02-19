@@ -63,7 +63,7 @@ const Td = styled.td`
   padding-top: 16px;
   padding-bottom: 16px;
   padding-right: 20px;
-  white-space: pre;
+  /* white-space: pre; */
 
   :first-child {
     padding-left: 20px;
@@ -80,5 +80,8 @@ font-size: 14px;
 
   ${media.mobileLarge`
     padding: 15px 12px;
+  `}
+  ${media.mobile`
+    padding: 5px 0px;
   `}
 `;

@@ -94,12 +94,19 @@ const Th = styled.th`
   padding-right: 20px;
   white-space: pre;
 
+  ${media.mobile`
+  font-weight: 500;
+  `}
+
 
   :first-child {
     padding-left: 53px;
     text-align: center;
     ${media.tablet`
     padding-left: 10px;
+  `}
+    ${media.mobile`
+    padding-left: 0px;
   `}
   }
   /* :last-child {
