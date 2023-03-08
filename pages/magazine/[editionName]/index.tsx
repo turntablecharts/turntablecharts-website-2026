@@ -55,7 +55,7 @@ const EditionName: React.FC<{
   return (
     <EditionNameStyling>
       <div className="top_section">
-        {magazineData[1] && (
+        {magazineData[0] && (
           <div className="top_section-left">
             <div className="img">
               <object data={magazineData[0].headerImage} type="image/png">
@@ -68,7 +68,8 @@ const EditionName: React.FC<{
                 level="small"
                 style={{
                   margin: '16px 0px 8px 0px',
-                }}>
+                }}
+              >
                 {format(new Date(magazineData[0].dateCreated), 'PPP')}
               </Typography.Text>
             </div>
@@ -97,7 +98,8 @@ const EditionName: React.FC<{
                   level="small"
                   style={{
                     margin: '16px 0px 8px 0px',
-                  }}>
+                  }}
+                >
                   {format(new Date(magazineData[1].dateCreated), 'PPP')}
                 </Typography.Text>
                 <Link href={`/magazine/${router.query.editionName}/${magazineData[1].id}`}>
@@ -123,7 +125,8 @@ const EditionName: React.FC<{
                   level="small"
                   style={{
                     margin: '16px 0px 8px 0px',
-                  }}>
+                  }}
+                >
                   {format(new Date(magazineData[2].dateCreated), 'PPP')}
                 </Typography.Text>
                 <Link href={`/magazine/${router.query.editionName}/${magazineData[2].id}`}>
@@ -149,7 +152,8 @@ const EditionName: React.FC<{
                   level="small"
                   style={{
                     margin: '16px 0px 8px 0px',
-                  }}>
+                  }}
+                >
                   {format(new Date(magazineData[3].dateCreated), 'PPP')}
                 </Typography.Text>
                 <Link href={`/magazine/${router.query.editionName}/${magazineData[3].id}`}>
@@ -165,7 +169,9 @@ const EditionName: React.FC<{
         </div>
       </div>
       <div className="bottom_section">
-        <div className="page_article_cards">{magazineData[4] && magazineData.slice(4).map((magazine) => <MagazineCard key={magazine.id} magazineItem={magazine} />)}</div>
+        <div className="page_article_cards">
+          {magazineData[4] && magazineData.slice(4).map((magazine) => <MagazineCard key={magazine.id} magazineItem={magazine} />)}
+        </div>
       </div>
     </EditionNameStyling>
   );
