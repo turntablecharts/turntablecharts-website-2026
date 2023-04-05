@@ -90,6 +90,10 @@ const ChartCardStyling = styled.div`
     display: flex;
     align-items: flex-start;
     gap: 10px;
+
+    &-details {
+      flex: 1;
+    }
     &-img {
       width: 100px;
       height: 100px;
