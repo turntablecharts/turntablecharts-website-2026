@@ -62,6 +62,20 @@ select::-ms-expand {
   }
 }
 
+.spantitle {
+  position: relative;
+}
+
+.spantitle:active:after {
+  content: attr(title);
+  position: absolute;
+  font-size: 12px;
+  font-weight: normal;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 @font-face {
   font-family: 'Mermaid';
   src: url('/assets/fonts/Mermaid.ttf') format('opentype');

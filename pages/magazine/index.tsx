@@ -38,7 +38,7 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({ magazine
         <Typography.Title>Magazine Editions</Typography.Title>
       </div>
       <div className="page_cards">
-        {magazineEditions.map((edition) => {
+        {magazineEditions.reverse().map((edition) => {
           return (
             <div key={edition.id} className={`card ${cardSize[Math.floor(Math.random() * cardSize.length)]}`}>
               <img src={edition.coverImageUrl} alt="image" />
@@ -49,7 +49,7 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({ magazine
                       Explore
                     </Typography.Text>
                   </a>
-                </Link>{' '}
+                </Link>
               </div>
             </div>
           );

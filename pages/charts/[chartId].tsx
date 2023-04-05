@@ -29,12 +29,20 @@ const CHART_HEADER = {
   },
   lastWeek: {
     key: 'lastWeek',
-    label: 'Last Wk',
+    label: (
+      <span className="spantitle" title="Last week">
+        Last Wk
+      </span>
+    ),
     active: true,
   },
   weeksOnChart: {
     key: 'weeksOnChart',
-    label: 'WoC',
+    label: (
+      <span className="spantitle" title="Weeks on chart">
+        WoC
+      </span>
+    ),
     active: true,
   },
   peak: {

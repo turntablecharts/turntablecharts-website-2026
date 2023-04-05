@@ -24,7 +24,7 @@ const SongEntry = ({ song, setVid }: { song: ChartItem; setVid: (arg: string) =>
           // level="xlarge"
           className="title"
         >
-          {truncateString(song.title, 40)}
+          {song.title}
         </Typography.Text>
         <Typography.Text className="artiste" fontType="Montserrat" weight="medium" level="large">
           {truncateString(song.artiste, 40)}
@@ -51,8 +51,8 @@ const SongEntryStyling = styled.div`
     display: flex;
     align-items: center;
     ${media.tablet`
-    height: 50px;
-    width: 50px;
+    height: 48px;
+    width: 48px;
       `}
     img, object {
       max-width: 100%;
@@ -60,6 +60,7 @@ const SongEntryStyling = styled.div`
     }
   }
   .entry_name {
+    flex: 1;
     .title {
       font-size: ${Theme.fontSizes.xlarge};
       ${media.tablet`
