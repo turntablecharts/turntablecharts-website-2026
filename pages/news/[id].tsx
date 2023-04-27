@@ -1,17 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
-import Typography from "components/atoms/typography";
-import { GetStaticProps, GetStaticPaths } from "next";
-import Head from "next/head";
-import ReactMarkdown from "react-markdown";
-import WantUpdates from "components/molecules/WantUpdates";
-import React from "react";
-import styled from "styled-components";
-import { getNewsByPageNumber, getSingleNewsById } from "utility/NewsApi/api";
-import { NewsItem } from "utility/NewsApi/types";
-import { format } from "date-fns";
-import Theme from "constants/Theme";
-import media from "constants/MediaQuery";
-import NewsCard from "components/molecules/NewsCard";
+import Typography from 'components/atoms/typography';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import Head from 'next/head';
+import ReactMarkdown from 'react-markdown';
+import WantUpdates from 'components/molecules/WantUpdates';
+import React from 'react';
+import styled from 'styled-components';
+import { getNewsByPageNumber, getSingleNewsById } from 'utility/NewsApi/api';
+import { NewsItem } from 'utility/NewsApi/types';
+import { format } from 'date-fns';
+import Theme from 'constants/Theme';
+import media from 'constants/MediaQuery';
+import NewsCard from 'components/molecules/NewsCard';
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const newsId = context.params?.id;
@@ -24,9 +24,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return {
       props: {
         selectedNews: news.data,
-        relatedNews: newsResponse.data.news
-          .filter((news) => news.id.toString() !== newsId)
-          .slice(0, 5),
+        relatedNews: newsResponse.data.news.filter((news) => news.id.toString() !== newsId).slice(0, 5),
       },
       revalidate: 3600,
     };
@@ -47,7 +45,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: paths,
-    fallback: "blocking",
+    fallback: 'blocking',
   };
 };
 
@@ -59,21 +57,12 @@ const SingleArticlePage: React.FC<{
     <SingleArticlePageStyling>
       <Head>
         <title>{selectedNews.title}</title>
-        <meta
-          name="description"
-          content={`TurnTable News | ${selectedNews.title}`}
-        />
+        <meta name="description" content={`TurnTable News | ${selectedNews.title}`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@TurntableCharts" />
-        <meta
-          property="og:url"
-          content={`https://www.turntablecharts.com/news/${selectedNews.id.toString()}`}
-        />
+        <meta property="og:url" content={`https://www.turntablecharts.com/news/${selectedNews.id.toString()}`} />
         <meta property="og:title" content={`${selectedNews.title}`} />
-        <meta
-          property="og:description"
-          content={`${selectedNews.description}`}
-        />
+        <meta property="og:description" content={`${selectedNews.description}`} />
         <meta property="og:image" content={`${selectedNews.headerImageUri}`} />
       </Head>
       <div className="article_img">
@@ -81,20 +70,15 @@ const SingleArticlePage: React.FC<{
       </div>
       <div className="article_content">
         <div className="article_content-title">
-          <Typography.Heading
-            style={{ lineHeight: "30px" }}
-            level={2}
-            fontType="Mermaid"
-          >
+          <Typography.Heading style={{ lineHeight: '30px' }} level={2} fontType="Mermaid">
             {selectedNews.title}
           </Typography.Heading>
           <div className="title_meta">
             <Typography.Text fontType="Montserrat" level="large">
-              by{" "}
-              <span className="yellow">{`${selectedNews.ttcUser?.firstName} ${selectedNews.ttcUser?.lastName}`}</span>
+              by <span className="yellow">{`${selectedNews.ttcUser?.firstName} ${selectedNews.ttcUser?.lastName}`}</span>
             </Typography.Text>
             <Typography.Text fontType="Montserrat" level="large">
-              {format(new Date(selectedNews.dateCreated), "PPpp")}
+              {format(new Date(selectedNews.dateCreated), 'PPpp')}
             </Typography.Text>
           </div>
         </div>
@@ -103,7 +87,7 @@ const SingleArticlePage: React.FC<{
         </div>
       </div>
       <WantUpdates />
-      <section className="related" style={{ marginTop: "100px" }}>
+      <section className="related" style={{ marginTop: '100px' }}>
         <div className="section_title">
           <Typography.Heading
             fontType="Mermaid"
@@ -159,7 +143,7 @@ const SingleArticlePageStyling = styled.div`
       font-size: ${Theme.fontSizes.large};
       font-family: ${Theme.typography.primary};
       line-height: 26px;
-      text-align: justify;
+      /* text-align: justify; */
 
       h1 {
         line-height: 36px;

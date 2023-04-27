@@ -1,16 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import Typography from "components/atoms/typography";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import ReactMarkdown from "react-markdown";
-import WantUpdates from "components/molecules/WantUpdates";
-import React from "react";
-import styled from "styled-components";
-import { format } from "date-fns";
-import Theme from "constants/Theme";
-import media from "constants/MediaQuery";
-import { getSingleMagazineArticleById } from "utility/MagazinesApi/api";
-import { MagazineArticleItem } from "utility/MagazinesApi/types";
+import Typography from 'components/atoms/typography';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import ReactMarkdown from 'react-markdown';
+import WantUpdates from 'components/molecules/WantUpdates';
+import React from 'react';
+import styled from 'styled-components';
+import { format } from 'date-fns';
+import Theme from 'constants/Theme';
+import media from 'constants/MediaQuery';
+import { getSingleMagazineArticleById } from 'utility/MagazinesApi/api';
+import { MagazineArticleItem } from 'utility/MagazinesApi/types';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const articleId = context.params?.editionArticle;
@@ -39,21 +39,12 @@ const EditionArticlePage: React.FC<{
     <EditionArticlePageStyling>
       <Head>
         <title>{selectedArticle.title}</title>
-        <meta
-          name="description"
-          content={`TurnTable News | ${selectedArticle.title}`}
-        />
+        <meta name="description" content={`TurnTable News | ${selectedArticle.title}`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@TurntableCharts" />
-        <meta
-          property="og:url"
-          content={`https://www.turntablecharts.com/news/${selectedArticle.id.toString()}`}
-        />
+        <meta property="og:url" content={`https://www.turntablecharts.com/news/${selectedArticle.id.toString()}`} />
         <meta property="og:title" content={`${selectedArticle.title}`} />
-        <meta
-          property="og:description"
-          content={`${selectedArticle.description}`}
-        />
+        <meta property="og:description" content={`${selectedArticle.description}`} />
         <meta property="og:image" content={`${selectedArticle.headerImage}`} />
       </Head>
       <div className="article_content">
@@ -61,32 +52,27 @@ const EditionArticlePage: React.FC<{
           <img src={selectedArticle.headerImage} alt="article" />
         </div>
         <div className="article_content-title">
-          <Typography.Heading
-            style={{ lineHeight: "30px" }}
-            level={2}
-            fontType="Mermaid">
+          <Typography.Heading style={{ lineHeight: '30px' }} level={2} fontType="Mermaid">
             {selectedArticle.title}
           </Typography.Heading>
           <div className="title_meta">
             {/* <Typography.Text fontType="Montserrat" level="large"> */}
             {/* {selectedArticle.description} */}
             <div
-              style={{ fontFamily: "Montserrat", fontSize: "16px" }}
+              style={{ fontFamily: 'Montserrat', fontSize: '16px' }}
               dangerouslySetInnerHTML={{
                 __html: selectedArticle.description,
               }}
             />
             {/* </Typography.Text> */}
             <Typography.Text fontType="Montserrat" level="large">
-              {format(new Date(selectedArticle.dateCreated), "PPP")}
+              {format(new Date(selectedArticle.dateCreated), 'PPP')}
             </Typography.Text>
           </div>
         </div>
         <div className="article_content-body">
           {/<\/?[a-z][\s\S]*>/i.test(selectedArticle.content) ? (
-            <div
-              dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
-            />
+            <div dangerouslySetInnerHTML={{ __html: selectedArticle.content }} />
           ) : (
             <ReactMarkdown>{selectedArticle.content}</ReactMarkdown>
           )}
@@ -150,7 +136,7 @@ const EditionArticlePageStyling = styled.div`
       font-size: ${Theme.fontSizes.large};
       font-family: ${Theme.typography.primary};
       line-height: 26px;
-      text-align: justify;
+      /* text-align: justify; */
 
       h1 {
         line-height: 36px;
