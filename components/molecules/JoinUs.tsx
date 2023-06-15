@@ -1,13 +1,25 @@
-import CTAButton from "components/atoms/ctaButton";
-import Typography from "components/atoms/typography";
-import media from "constants/MediaQuery";
-import Theme from "constants/Theme";
-import styled from "styled-components";
+import CTAButton from 'components/atoms/ctaButton';
+import Typography from 'components/atoms/typography';
+import media from 'constants/MediaQuery';
+import Theme from 'constants/Theme';
+import styled from 'styled-components';
 
 const JoinUs = () => {
   return (
     <JoinUsStyling>
       <div className="join_texts">
+        <Typography.Heading fontType="Mermaid" className="header" level={2} style={{ marginBottom: '10px' }}>
+          TurnTable Power100
+        </Typography.Heading>
+        <Typography.Text fontType="SFProText" className="body" style={{ marginBottom: '40px' }} weight="semiBold">
+          Nominate someone in the Nigerian music industry who has
+          <br /> done a lot for Afrobeats within the last 3 years
+          {/* <br /> about Nigerian music you love. */}
+        </Typography.Text>
+      </div>
+      <CTAButton label="Get Started" to="/power100" />
+
+      {/* <div className="join_texts">
         <Typography.Heading
           fontType="Mermaid"
           className="header"
@@ -23,11 +35,11 @@ const JoinUs = () => {
           weight="semiBold"
         >
           How does your listening choices compare with the rest of Nigeria?
-          <br /> Find out and more on #myTurnTable
-          {/* <br /> about Nigerian music you love. */}
-        </Typography.Text>
+          <br /> Find out and more on #myTurnTable */}
+      {/* <br /> about Nigerian music you love. */}
+      {/* </Typography.Text>
       </div>
-      <CTAButton label="Get Started" to="/myTurnTable" />
+      <CTAButton label="Get Started" to="/myTurnTable" /> */}
     </JoinUsStyling>
   );
 };
@@ -35,7 +47,7 @@ const JoinUs = () => {
 export default JoinUs;
 
 const JoinUsStyling = styled.div`
-  background-image: url("/assets/joinUsBG.png");
+  background-image: url('/assets/joinUsBG.png');
   background-size: cover;
   text-align: center;
   padding: 100px 0;
@@ -51,7 +63,7 @@ const JoinUsStyling = styled.div`
   .body {
     font-size: ${Theme.fontSizes.xlarge};
     ${media.mobileLarge`
-      font-size: 16px;
+      font-size: 14px;
     `}
   }
 `;

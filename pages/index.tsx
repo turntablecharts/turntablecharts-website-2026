@@ -1,22 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
-import Typography from "components/atoms/typography";
-import Theme from "constants/Theme";
-import media from "constants/MediaQuery";
-import Head from "next/head";
-import styled from "styled-components";
-import CTAButton from "components/atoms/ctaButton";
-import WantUpdates from "components/molecules/WantUpdates";
-import Link from "next/link";
-import PhotosCard from "components/molecules/PhotosCard";
-import SongCard from "components/molecules/SongCard";
-import JoinUs from "components/molecules/JoinUs";
-import { getChartById } from "utility/ChartsApi/api";
-import { ChartItem } from "utility/ChartsApi/types";
-import { getNewsByPageNumber } from "utility/NewsApi/api";
-import { NewsSummary } from "utility/NewsApi/types";
-import { getPhotosByPageNumber } from "utility/PhotosApi/api";
-import { PhotoItem } from "utility/PhotosApi/types";
-import NewsCard from "components/molecules/NewsCard";
+import Typography from 'components/atoms/typography';
+import Theme from 'constants/Theme';
+import media from 'constants/MediaQuery';
+import Head from 'next/head';
+import styled from 'styled-components';
+import CTAButton from 'components/atoms/ctaButton';
+import WantUpdates from 'components/molecules/WantUpdates';
+import Link from 'next/link';
+import PhotosCard from 'components/molecules/PhotosCard';
+import SongCard from 'components/molecules/SongCard';
+import JoinUs from 'components/molecules/JoinUs';
+import { getChartById } from 'utility/ChartsApi/api';
+import { ChartItem } from 'utility/ChartsApi/types';
+import { getNewsByPageNumber } from 'utility/NewsApi/api';
+import { NewsSummary } from 'utility/NewsApi/types';
+import { getPhotosByPageNumber } from 'utility/PhotosApi/api';
+import { PhotoItem } from 'utility/PhotosApi/types';
+import NewsCard from 'components/molecules/NewsCard';
 
 export async function getStaticProps() {
   const chartResponse = await getChartById(1);
@@ -47,32 +47,19 @@ const Home: React.FC<{
     <IndexStyling>
       <Head>
         <title>TurnTable Charts - Music Charts, Insights & Analytics</title>
-        <meta
-          name="description"
-          content="TurnTable Charts - Music Charts, Insights & Analytics"
-        />
+        <meta name="description" content="TurnTable Charts - Music Charts, Insights & Analytics" />
         {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
 
       <HeroStyling>
         <div className="hero_left">
           <div className="hero_left-text">
-            <Typography.Heading
-              fontType="Mermaid"
-              level={1}
-              className="heading"
-            >
-              TurnTable Charts brings to you the best performing{" "}
-              <span className="yellow">artistes</span> and{" "}
-              <span className="yellow">songs</span> every week
+            <Typography.Heading fontType="Mermaid" level={1} className="heading">
+              TurnTable Charts brings to you the best performing <span className="yellow">artistes</span> and <span className="yellow">songs</span>{' '}
+              every week
             </Typography.Heading>
-            <Typography.Text
-              weight="semiBold"
-              className="subheading"
-              fontType="SFProText"
-            >
-              Thousands of songs tracked weekly across radio and streaming
-              platforms in Nigeria, just for you.
+            <Typography.Text weight="semiBold" className="subheading" fontType="SFProText">
+              Thousands of songs tracked weekly across radio and streaming platforms in Nigeria, just for you.
             </Typography.Text>
           </div>
           <div className="hero_left-cta">
@@ -89,20 +76,12 @@ const Home: React.FC<{
       </HeroStyling>
       <section className="charts">
         <div className="section_title">
-          <Typography.Heading
-            fontType="Mermaid"
-            level={3}
-            className="section_title-header"
-          >
+          <Typography.Heading fontType="Mermaid" level={3} className="section_title-header">
             This Week&apos;s Top10
           </Typography.Heading>
           <Link href="/charts">
             <a className="yellow">
-              <Typography.Text
-                fontType="SFProText"
-                weight="medium"
-                level="large"
-              >
+              <Typography.Text fontType="SFProText" weight="medium" level="large">
                 Full Chart
               </Typography.Text>
             </a>
@@ -116,11 +95,7 @@ const Home: React.FC<{
         <span className="mobile_action">
           <Link href="/charts/1">
             <a className="yellow">
-              <Typography.Text
-                fontType="SFProText"
-                weight="medium"
-                level="medium"
-              >
+              <Typography.Text fontType="SFProText" weight="medium" level="medium">
                 See Full Chart
               </Typography.Text>
             </a>
@@ -128,22 +103,14 @@ const Home: React.FC<{
         </span>
       </section>
       <JoinUs />
-      <section className="featured" style={{ marginTop: "100px" }}>
+      <section className="featured" style={{ marginTop: '100px' }}>
         <div className="section_title">
-          <Typography.Heading
-            fontType="Mermaid"
-            level={3}
-            className="section_title-header"
-          >
+          <Typography.Heading fontType="Mermaid" level={3} className="section_title-header">
             Featured News Article
           </Typography.Heading>
           <Link href="/news">
             <a className="yellow">
-              <Typography.Text
-                fontType="SFProText"
-                weight="medium"
-                level="large"
-              >
+              <Typography.Text fontType="SFProText" weight="medium" level="large">
                 See All
               </Typography.Text>
             </a>
@@ -157,11 +124,7 @@ const Home: React.FC<{
         <span className="mobile_action">
           <Link href="/news">
             <a className="yellow">
-              <Typography.Text
-                fontType="SFProText"
-                weight="medium"
-                level="medium"
-              >
+              <Typography.Text fontType="SFProText" weight="medium" level="medium">
                 See All
               </Typography.Text>
             </a>
@@ -170,11 +133,7 @@ const Home: React.FC<{
       </section>
       <section className="photos">
         <div className="section_title">
-          <Typography.Heading
-            fontType="Mermaid"
-            level={3}
-            className="section_title-header"
-          >
+          <Typography.Heading fontType="Mermaid" level={3} className="section_title-header">
             Photos
           </Typography.Heading>
           {/* <Link href="/photos">
@@ -213,6 +172,9 @@ const IndexStyling = styled.div`
       ${media.mobileLarge`
         margin-top: 70px;
       `}
+      ${media.tabletMin`
+      margin-top: 40px;
+    `}
     }
 
     .section_title {
