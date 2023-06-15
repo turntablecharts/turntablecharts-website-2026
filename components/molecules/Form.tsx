@@ -15,15 +15,20 @@ const Form = () => {
     e.preventDefault();
 
     // Create a form data object
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('field', field);
-    formData.append('achievement', achievement);
+    const formData = {
+      name,
+      field,
+      achievement,
+    };
 
+    console.log(formData);
     try {
       // Send a POST request to the powerlist API
-      const response = await fetch('/api/public/powerList', {
+      const response = await fetch('https://turntablechartsapi.azurewebsites.net/api/public/powerList', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(formData),
       });
 
@@ -32,7 +37,7 @@ const Form = () => {
         // Reset the form fields
         setName('');
         setField('producer');
-        setAchievement('Type here...');
+        setAchievement('');
       } else {
         alert('Form submission failed');
         console.error('Form submission failed');
