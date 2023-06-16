@@ -12,9 +12,8 @@ const JoinUs = () => {
           TurnTable Power100
         </Typography.Heading>
         <Typography.Text fontType="SFProText" className="body" style={{ marginBottom: '40px' }} weight="semiBold">
-          Nominate someone in the Nigerian music industry who has
-          <br /> done a lot for Afrobeats within the last 3 years
-          {/* <br /> about Nigerian music you love. */}
+          Nominate an individual that has contributed in shaping Afrobeats
+          <br /> both at home and/or globally in the last three years
         </Typography.Text>
       </div>
       <CTAButton label="Get Started" to="/power100" />
