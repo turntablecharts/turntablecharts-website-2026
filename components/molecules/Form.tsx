@@ -1,5 +1,5 @@
 import { useState } from 'react';
-// import Typography from 'components/atoms/typography';
+import Typography from 'components/atoms/typography';
 import media from 'constants/MediaQuery';
 import Theme from 'constants/Theme';
 import styled from 'styled-components';
@@ -66,6 +66,7 @@ const Form = () => {
             <option value="mediaPersonnel">Media Personnel</option>
             <option value="writer">Writer</option>
             <option value="creative">Creative</option>
+            <option value="influencer">Influencer</option>
             <option value="others">Others</option>
           </select>
           <span className="select-icon">
@@ -82,6 +83,9 @@ const Form = () => {
       <button type="submit" className="btn-submit">
         Submit
       </button>
+      <Typography.Text fontType="SFProText" className="note" style={{ marginTop: '10px' }} weight="semiBold">
+        Note: Not all nominated individuals will be among the final Power 100 that will be revealed at the end of the year
+      </Typography.Text>
     </Power100FormStyling>
   );
 };
@@ -91,13 +95,19 @@ const Power100FormStyling = styled.form`
   height: 400px;
   font-family: SFProText;
 
+  .note {
+    font-size: 14px;
+  }
+
   select,
   .select-container {
     width: 400px;
   }
+
   .select-container {
     position: relative;
   }
+
   .select-icon {
     position: absolute;
     top: 50%;
@@ -110,6 +120,9 @@ const Power100FormStyling = styled.form`
   width: 300px;
   height: 300px;
   font-size: 14px;
+  .note{
+    font-size: 10px;
+  }
   select,
   .select-container {
     width: 300px;
@@ -159,6 +172,8 @@ select,
   }
 
   .btn-submit {
+    outline: none;
+    border: none;
     width: 100%;
     height: 43px;
     padding: 10px;

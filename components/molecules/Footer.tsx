@@ -16,14 +16,18 @@ const Footer = () => {
         <Link href="/">
           <a>
             <Typography.Text style={{ color: Theme.colorPalette.ttcYellow }} fontType="Montserrat" level="medium" weight="medium">
-              Turntable Charts
+              TurnTable Charts
             </Typography.Text>
           </a>
         </Link>
       </div>
       <div className="ttc_socials">
-        <TTCIconInsta className="ttc_socials-icon" />
-        <TTCIconTwiter className="ttc_socials-icon" />
+        <a target="_blank" rel="noreferrer" className="socials_icon" href="https://www.instagram.com/turntablecharts/">
+          <TTCIconInsta className="ttc_socials-icon" />
+        </a>
+        <a target="_blank" rel="noreferrer" className="socials_icon" href="https://twitter.com/TurntableCharts">
+          <TTCIconTwiter className="ttc_socials-icon" />
+        </a>
       </div>
     </FooterStyling>
   );
