@@ -18,14 +18,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="description" content="TurnTable Charts - Music Charts, Insights & Analytics" />
         <link rel="icon" href="/assets/icons/ttc-favicon.png" />
       </Head>
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-255HX44CTW" />
+      <Script src="https://www.googletagmanager.com/gtag/js?id=process.env.NEXT_PUBLIC_ANALYTICS_ID" />
       <Script id="google-analytics">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-255HX44CTW');
+          gtag('config', process.env.NEXT_PUBLIC_ANALYTICS_ID);
         `}
       </Script>
       <QueryClientProvider client={queryClient}>
