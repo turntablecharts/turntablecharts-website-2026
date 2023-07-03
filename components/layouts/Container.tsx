@@ -8,5 +8,5 @@ const Container: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 export default Container;
 
 const ContainerStyling = styled.div`
-  max-height: 100vh;
+  // max-height: 100vh;
 `;
