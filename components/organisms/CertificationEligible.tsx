@@ -140,6 +140,7 @@ const CertificationEligibleStyling = styled.div`
   ${media.tablet`
   margin-top: 20px;
 
+
   `}
 
   tr {
@@ -164,6 +165,7 @@ const CertificationEligibleStyling = styled.div`
   }
 
   ${media.tablet`
+
     .desktop {
       display: none;
     }
@@ -172,6 +174,8 @@ const CertificationEligibleStyling = styled.div`
     }
   `}
   ${media.mobile`
+
+
     .desktop {
       display: none;
     }
@@ -180,6 +184,10 @@ const CertificationEligibleStyling = styled.div`
     }
     .mobile {
     display: block;
+    overflow: auto;
+    max-height: 90vh;
+    width: 100%;
+
 
   }
   `}

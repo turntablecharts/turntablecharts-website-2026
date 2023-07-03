@@ -9,5 +9,4 @@ export default Container;
 
 const ContainerStyling = styled.div`
   max-height: 100vh;
-  overflow: hidden;
 `;

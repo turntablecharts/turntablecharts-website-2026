@@ -84,9 +84,22 @@ const CertificationPageStyling = styled.div`
   max-width: 1200px;
   width: 95%;
   margin: 40px auto;
+  height: 100vh;
 
+  ${media.mobileLarge`
+  height: 100vh;
+  overflow: hidden;
+
+`}
   .certification_tabs {
     position: relative;
+
+    ${media.mobileLarge`
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+`}
 
     &-tab {
       display: flex;

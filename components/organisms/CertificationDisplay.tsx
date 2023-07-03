@@ -109,7 +109,7 @@ const CertificationDisplayStyling = styled.div`
   top: 0;
   z-index: 1;
   ${media.tablet`
-  margin-top: 40px;
+  margin-top: 20px;
   `}
   tr {
     background: black;
@@ -150,6 +150,10 @@ const CertificationDisplayStyling = styled.div`
     }
     .mobile {
     display: block;
+    overflow: auto;
+    max-height: 90vh;
+    width: 100%;
+
   }
   `}
 `;
