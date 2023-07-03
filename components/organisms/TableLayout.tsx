@@ -93,6 +93,11 @@ const Th = styled.th`
   text-align: left;
   padding-right: 20px;
   white-space: pre;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: black;
+
 
   ${media.mobile`
   font-weight: 500;

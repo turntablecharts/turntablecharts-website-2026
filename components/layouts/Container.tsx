@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const Container: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <ContainerStyling>{children}</ContainerStyling>;
@@ -8,5 +8,6 @@ const Container: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 export default Container;
 
 const ContainerStyling = styled.div`
-  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
 `;

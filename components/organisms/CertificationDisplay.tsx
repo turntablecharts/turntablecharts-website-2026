@@ -104,7 +104,10 @@ const CertificationDisplay: React.FC<{ certEntries: CertificationEntry[] }> = ({
 export default CertificationDisplay;
 
 const CertificationDisplayStyling = styled.div`
-  margin-top: 80px;
+  margin-top: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
   ${media.tablet`
   margin-top: 40px;
   `}

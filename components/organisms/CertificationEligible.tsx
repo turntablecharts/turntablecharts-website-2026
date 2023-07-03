@@ -113,7 +113,9 @@ const CertificationEligible: React.FC<{ certEntries: CertificationEntry[] }> = (
   return (
     <CertificationEligibleStyling>
       <div className="desktop">
-        <TableContentLayout columns={CERT_HEADER} data={tableData} />
+        <div className="certContainer">
+          <TableContentLayout columns={CERT_HEADER} data={tableData} />
+        </div>
       </div>
       <div className="mobileLarge">
         <TableContentLayout columns={MOBILE_CERT_HEADER} data={mobileTableData} />
@@ -130,13 +132,18 @@ const CertificationEligible: React.FC<{ certEntries: CertificationEntry[] }> = (
 export default CertificationEligible;
 
 const CertificationEligibleStyling = styled.div`
-  margin-top: 80px;
-  ${media.tablet`
-  margin-top: 40px;
-  `}
-  tr {
-    background: black;
+  margin-top: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 
+  ${media.tablet`
+  margin-top: 20px;
+
+  `}
+
+  tr {
+    background-color: black;
     td,
     .isclaimed {
       font-family: ${Theme.typography.extra};
@@ -173,6 +180,7 @@ const CertificationEligibleStyling = styled.div`
     }
     .mobile {
     display: block;
+
   }
   `}
 `;

@@ -13,14 +13,8 @@ import Script from 'next/script';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AppContainer>
-      <Head>
-        <title>TurnTable Charts - Music Charts, Insights & Analytics</title>
-
-        <meta name="description" content="TurnTable Charts - Music Charts, Insights & Analytics" />
-        <link rel="icon" href="/assets/icons/ttc-favicon.png" />
-      </Head>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`} />
-      <Script id="google-analytics">
+      <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`} />
+      <Script strategy="lazyOnload" id="google-analytics">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -29,6 +23,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           gtag('config', ${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS});
         `}
       </Script>
+      <Head>
+        <title>TurnTable Charts - Music Charts, Insights & Analytics</title>
+
+        <meta name="description" content="TurnTable Charts - Music Charts, Insights & Analytics" />
+        <link rel="icon" href="/assets/icons/ttc-favicon.png" />
+      </Head>
       <QueryClientProvider client={queryClient}>
         <Navbar />
         <Container>

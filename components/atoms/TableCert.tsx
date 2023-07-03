@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import Typography from './typography';
 import TTCGoldCert from 'assets/icons/ttc-gold.svg';
 import TTCSilverCert from 'assets/icons/ttc-silver.svg';
-import TTCPlatinumCert from 'assets/icons/ttc-platinum.svg';
+// import TTCPlatinumCert from 'assets/icons/ttc-platinum.svg';
 import media from 'constants/MediaQuery';
 
 const milestoneMap = {
   silver: TTCSilverCert,
   gold: TTCGoldCert,
-  platinum: TTCPlatinumCert,
+  platinum: TTCSilverCert,
 };
 
 const TableCert = ({ cert }: { cert: string }) => {

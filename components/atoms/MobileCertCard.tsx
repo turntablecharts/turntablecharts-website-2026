@@ -10,7 +10,7 @@ import TTCPlatinumCert from 'assets/icons/ttc-platinum.svg';
 const milestoneMap = {
   silver: TTCSilverCert,
   gold: TTCGoldCert,
-  platinum: TTCPlatinumCert,
+  platinum: TTCSilverCert,
 };
 
 const MobileCertCard = ({ entry, isDisplay }: { entry: CertificationEntry; isDisplay?: boolean }) => {
