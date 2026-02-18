@@ -25,7 +25,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Script>
       <Head>
         <title>TurnTable Charts - Music Charts, Insights & Analytics</title>
-
         <meta name="description" content="TurnTable Charts - Music Charts, Insights & Analytics" />
         <link rel="icon" href="/assets/icons/ttc-favicon.png" />
       </Head>

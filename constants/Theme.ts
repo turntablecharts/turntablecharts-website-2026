@@ -20,10 +20,11 @@ export type FontColorType =
   | "ttcGreen";
 
 const typography = {
-  primary: "Montserrat",
-  secondary: "Mermaid",
-  tertiary: "Fontastique",
-  extra: "SFProText",
+  text: "Inter",
+  title: "Open Sans",
+  heading: "Roboto Flex",
+  heading2: "Anton",
+  workSans: "Work Sans",
 };
 
 export type FontSizeType =
@@ -38,7 +39,8 @@ export type FontSizeType =
   | "xxxlarge"
   | "xxxxlarge"
   | "extralarge"
-  | "xextralarge";
+  | "xextralarge"
+  | "huge";
 
 type FontSizeOptions = { [key in FontSizeType]: string };
 
@@ -55,6 +57,7 @@ const fontSizes: FontSizeOptions = {
   xxxxlarge: "2rem",
   extralarge: "2.6rem",
   xextralarge: "3.4rem",
+  huge: "6.875rem",
 };
 
 export type FontWeightType =

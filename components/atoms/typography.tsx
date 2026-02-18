@@ -5,16 +5,16 @@ import Theme, { FontSizeType, FontWeightType } from "constants/Theme";
 interface textBaseProps {
   soft?: boolean;
   color?:
-    | "black"
-    | "textGrey"
-    | "white"
-    | "inherit"
-    | "ttcYellow"
-    | "ttcBlack"
-    | "ttcGreen";
+  | "black"
+  | "textGrey"
+  | "white"
+  | "inherit"
+  | "ttcYellow"
+  | "ttcBlack"
+  | "ttcGreen";
   weight?: FontWeightType;
   className?: string;
-  fontType?: "Mermaid" | "Montserrat" | "Fontastique" | "SFProText";
+  fontType?: "Inter" | "OpenSans" | "RobotoFlex" | "Anton" | "WorkSans";
   capitalize?: boolean;
   uppercase?: boolean;
   style?: object;
@@ -41,17 +41,19 @@ type TypographyBase = {
 };
 
 const isFont = (
-  type: "Mermaid" | "Montserrat" | "Fontastique" | "SFProText" | undefined
+  type: "Inter" | "OpenSans" | "RobotoFlex" | "Anton" | "WorkSans" | undefined
 ) => {
   switch (type) {
-    case "Montserrat":
-      return Theme.typography.primary;
-    case "Mermaid":
-      return Theme.typography.secondary;
-    case "Fontastique":
-      return Theme.typography.tertiary;
-    case "SFProText":
-      return Theme.typography.extra;
+    case "Inter":
+      return Theme.typography.text;
+    case "OpenSans":
+      return Theme.typography.title;
+    case "RobotoFlex":
+      return Theme.typography.heading;
+    case "Anton":
+      return Theme.typography.heading2;
+    case "WorkSans":
+      return Theme.typography.workSans;
     default:
       return "inherit";
   }
@@ -71,14 +73,16 @@ const TextStyling = styled.p<textProps>`
 `;
 
 export const Text: TextComponent = ({ children, text, ...rest }) => {
-  return <TextStyling {...rest}>{text || children}</TextStyling>;
+  return <TextStyling fontType="Inter" {...rest}>{text || children}</TextStyling>;
 };
 
 const Typography: TypographyBase = () => Text;
 
 const TextHeading: TextHeadingsComponent = ({ children, level, ...rest }) => {
+  const fontType = level === 2 ? "Anton" : "RobotoFlex";
   const props = {
     weight: Theme.fontWeights.bold,
+    fontType,
     as: `h${level || 1}`,
     ...rest,
   } as any;
@@ -87,7 +91,7 @@ const TextHeading: TextHeadingsComponent = ({ children, level, ...rest }) => {
 
 const TextTitle: TextComponent = ({ children, text }) => {
   return (
-    <TextHeading fontType="Mermaid" level={1}>
+    <TextHeading fontType="OpenSans" level={1}>
       {text || children}
     </TextHeading>
   );

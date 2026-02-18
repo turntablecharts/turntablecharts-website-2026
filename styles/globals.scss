@@ -1,109 +1,202 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
 html,
 body {
-  padding: 0;
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #000;
-  color: #fff;
+    padding: 0;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #000;
+    color: #fff;
+    overflow-x: hidden;
+    max-width: 100vw;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 a,
 textarea,
 input,
 select {
-  font-size: inherit;
-  font-weight: inherit;
-  text-decoration: none;
-  font-family: inherit;
-  color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-decoration: none;
+    font-family: inherit;
+    color: inherit;
 }
 
 input::-ms-reveal,
 input::-ms-clear {
-  display: none;
+    display: none;
 }
 
 select {
-  /* for Firefox */
-  -moz-appearance: none;
-  /* for Chrome */
-  -webkit-appearance: none;
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
+    /* standard */
+    appearance: none;
 }
 
 select::-ms-expand {
-  display: none;
+    display: none;
 }
 
 .yellow {
-  color: #f1a01f;
+    color: #f1a01f;
 }
+
 .bold {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 .Mui-selected {
-  background-color: black;
-
-  &:hover {
     background-color: black;
-  }
+
+    &:hover {
+        background-color: black;
+    }
 }
 
 .spantitle {
-  position: relative;
+    position: relative;
 }
 
 .spantitle:active:after {
-  content: attr(title);
-  position: absolute;
-  font-size: 12px;
-  font-weight: normal;
-  top: -100%;
-  left: 50%;
-  transform: translateX(-50%);
+    content: attr(title);
+    position: absolute;
+    font-size: 12px;
+    font-weight: normal;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 @font-face {
-  font-family: 'Mermaid';
-  src: url('/assets/fonts/Mermaid.ttf') format('opentype');
-  font-display: swap;
+    font-family: 'Mermaid';
+    src: url('/assets/fonts/Mermaid.ttf') format('opentype');
+    font-display: swap;
 }
+
 @font-face {
-  font-family: 'Fontastique';
-  src: url('/assets/fonts/Fontastique.ttf') format('opentype');
-  font-display: swap;
+    font-family: 'Fontastique';
+    src: url('/assets/fonts/Fontastique.ttf') format('opentype');
+    font-display: swap;
 }
+
 @font-face {
-  font-family: 'SFProText';
-  src: url('/assets/fonts/SFProTextRegular.otf') format('opentype');
-  font-weight: 400;
-  font-display: swap;
+    font-family: 'SFProText';
+    src: url('/assets/fonts/SFProTextRegular.otf') format('opentype');
+    font-weight: 400;
+    font-display: swap;
 }
+
 @font-face {
-  font-family: 'SFProText';
-  src: url('/assets/fonts/SFProTextMedium.otf') format('opentype');
-  font-weight: 500;
-  font-display: swap;
+    font-family: 'SFProText';
+    src: url('/assets/fonts/SFProTextMedium.otf') format('opentype');
+    font-weight: 500;
+    font-display: swap;
 }
+
 @font-face {
-  font-family: 'SFProText';
-  src: url('/assets/fonts/SFProTextBold.otf') format('opentype');
-  font-weight: 600;
-  font-display: swap;
+    font-family: 'SFProText';
+    src: url('/assets/fonts/SFProTextBold.otf') format('opentype');
+    font-weight: 600;
+    font-display: swap;
 }
+
+// Inter font family
+@font-face {
+    font-family: 'Inter';
+    src: url('/assets/fonts/Inter-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/assets/fonts/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/assets/fonts/Inter-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/assets/fonts/Inter-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+}
+
+// Open Sans font family
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/assets/fonts/OpenSans-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/assets/fonts/OpenSans-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/assets/fonts/OpenSans-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/assets/fonts/OpenSans-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+}
+
+// Roboto Flex - variable font with all weights
+@font-face {
+    font-family: 'Roboto Flex';
+    src: url('/assets/fonts/RobotoFlex.ttf') format('truetype');
+    font-weight: 100 1000;
+    font-display: swap;
+}
+
+// Anton font family
+@font-face {
+    font-family: 'Anton';
+    src: url('/assets/fonts/Anton-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+// Work Sans - variable font with all weights
+@font-face {
+    font-family: 'Work Sans';
+    src: url('/assets/fonts/WorkSans-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 1000;
+    font-display: swap;
+}
+
 
 // * {
 //   outline: 1px dotted red;
@@ -112,20 +205,20 @@ select::-ms-expand {
 /* Scroll bar */
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+    width: 5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: black;
+    background: black;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #f1a01f;
+    background: #f1a01f;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #f1a01f;
+    background: #f1a01f;
 }

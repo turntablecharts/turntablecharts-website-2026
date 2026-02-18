@@ -1,11 +1,14 @@
-import { css, CSSObject } from "styled-components";
+import { css, CSSObject, FlattenSimpleInterpolation } from "styled-components";
 
 type RuleOrQueryType = CSSObject | TemplateStringsArray;
 
-const mediaQuery = (query: RuleOrQueryType) => (rules: RuleOrQueryType) =>
+const mediaQuery = (query: RuleOrQueryType) => (
+  strings: TemplateStringsArray,
+  ...interpolations: any[]
+) =>
   css`
     @media screen and (${css(query)}) {
-      ${css(rules)}
+      ${css(strings, ...interpolations)}
     }
   `;
 
