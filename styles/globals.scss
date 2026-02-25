@@ -202,23 +202,15 @@ select::-ms-expand {
 //   outline: 1px dotted red;
 // }
 
-/* Scroll bar */
-/* width */
-::-webkit-scrollbar {
-    width: 5px;
+/* Hide scrollbars globally while keeping scroll functional */
+* {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE / Edge */
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-    background: black;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #f1a01f;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #f1a01f;
+*::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
 }

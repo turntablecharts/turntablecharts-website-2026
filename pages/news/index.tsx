@@ -3,6 +3,7 @@ import NewsCard from "components/molecules/NewsCard";
 import Pagination from "components/molecules/Pagination";
 import WantUpdates from "components/molecules/WantUpdates";
 import media from "constants/MediaQuery";
+import { headingMixin } from "constants/mixins";
 
 import Head from "next/head";
 import React, { useState } from "react";
@@ -47,14 +48,27 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
         <title>TurnTable Charts | News This Week</title>
         <meta name="description" content="TurnTable Charts - News This Week" />
       </Head>
+
       <div className="page_header">
         <Typography.Title>News This Week</Typography.Title>
       </div>
+
+      {/* Hero card — first article, full bleed */}
+      {newsData?.news[0] && (
+        <div className="hero_card">
+          <NewsCard newsItem={newsData.news[0]} variant="hero" />
+        </div>
+      )}
+
+      <hr className="section_divider" />
+
+      {/* Remaining cards grid */}
       <div className="page_article_cards">
-        {newsData?.news.map((item) => (
+        {newsData?.news.slice(1).map((item) => (
           <NewsCard key={item.id} newsItem={item} />
         ))}
       </div>
+
       <Pagination totalElements={newsData?.totalItems!} setPage={setPage} />
       <WantUpdates />
     </NewsPageStyling>
@@ -64,39 +78,50 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
 export default News;
 
 const NewsPageStyling = styled.div`
-  max-width: 1200px;
-  width: 95%;
-  margin: 0 auto;
+  width: 100%;
+  background-color: white;
+  padding-top: 80px; /* clear fixed navbar */
+
+  /* Page heading */
   .page_header {
-    padding: 7vh 0;
     text-align: center;
 
     h1 {
-      font-size: 64px;
+      ${headingMixin}
+      padding: 5rem 0 2rem 0;
+      color: black;
     }
-    ${media.tabletMin`
-      h1 {
-        font-size: 50px;
-
-      }
-    `}
   }
 
-  .page_article_cards {
-    display: grid;
-    gap: 20px;
-    row-gap: 40px;
-    margin-bottom: 100px;
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
+  /* Hero card */
+  .hero_card {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+  }
 
-    ${media.smallDesktop`
-      grid-template-columns: repeat(4, minmax(180px, 1fr));
-    `}
+  /* Thin divider between hero and cards */
+  .section_divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 40px 0;
+  }
+
+  /* Cards grid */
+  .page_article_cards {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto 80px;
+    display: grid;
+    gap: 32px;
+    row-gap: 48px;
+    grid-template-columns: repeat(3, 1fr);
+
     ${media.tablet`
-      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
     `}
-      ${media.mobileLarge`
-      grid-template-columns: repeat(2, minmax(180px, 1fr));
+    ${media.mobileLarge`
+      grid-template-columns: 1fr;
     `}
   }
 `;

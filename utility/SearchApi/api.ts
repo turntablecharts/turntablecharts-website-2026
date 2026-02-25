@@ -1,4 +1,4 @@
-import axios from "axios";
+import TTCRequest from "lib/axios";
 
 interface SearchResponse {
   data: string[];
@@ -6,15 +6,15 @@ interface SearchResponse {
 }
 
 export const searchArtisteByQuery = async (query: string) => {
-  const response = await axios.get<SearchResponse>(
-    `https://wrappedapi.azurewebsites.net/api/wrap/artistes?artiste=${query}`
+  const response = await TTCRequest.get<SearchResponse>(
+    `/api/search/artistes?artiste=${encodeURIComponent(query)}`
   );
   return response;
 };
 
 export const searchSongByQuery = async (query: string) => {
-  const response = await axios.get<SearchResponse>(
-    `https://wrappedapi.azurewebsites.net/api/wrap/songs?song=${query}`
+  const response = await TTCRequest.get<SearchResponse>(
+    `/api/search/songs?song=${encodeURIComponent(query)}`
   );
   return response;
 };

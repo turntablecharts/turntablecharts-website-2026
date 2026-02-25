@@ -9,21 +9,13 @@ export const TableContent: React.FC<{ children: React.ReactNode }> = (props) => 
 
 const TableContentContainer = styled.div`
   width: 100%;
-  overflow: auto;
-  min-height: 180px;
-  max-height: 80vh;
-  // position: fixed;
+  height: calc(100vh - 320px);
+  min-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 12px;
 
-  /* ::-webkit-scrollbar-thumb {
-    background: ${({ color }) => color};
-    border: 1px solid rgba(53, 52, 52, 0.165);
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: ${({ color }) => color}b4;
-  } */
   .container {
     margin: 0;
-    /* display: block; */
   }
 `;

@@ -4,7 +4,7 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { parse, format, getWeek, startOfWeek, endOfWeek } from 'date-fns';
+import { parse, format, getWeek, startOfWeek, endOfWeek, addWeeks, subWeeks } from 'date-fns';
 import Theme from 'constants/Theme';
 import { getChartById, getChartByIdAndWeekNumber, getChartCategories } from 'utility/ChartsApi/api';
 import { ChartsByCategoryResponse } from 'utility/ChartsApi/types';
@@ -12,9 +12,13 @@ import { resolveUserTypeToTableData } from 'utility/helpers';
 import RankPlusTrend from 'components/atoms/RankPlusTrend';
 import SongEntry from 'components/molecules/SongEntry';
 import NewEntryIcon from 'assets/icons/newEntry.svg';
+import LeftArrow from 'assets/icons/left.svg';
+import PlayIcon from 'assets/icons/play.svg';
+import CancelIcon from 'assets/icons/cancel.svg';
 import { TableContentLayout } from 'components/organisms/TableLayout';
 import MyDatePicker from 'components/atoms/datePicker';
 import media from 'constants/MediaQuery';
+import { headingMixin } from 'constants/mixins';
 
 const CHART_HEADER = {
   rank: {
@@ -48,6 +52,11 @@ const CHART_HEADER = {
   peak: {
     key: 'peak',
     label: 'Peak',
+    active: true,
+  },
+  play: {
+    key: 'play',
+    label: '',
     active: true,
   },
 };
@@ -136,13 +145,36 @@ const SingleChartPage: React.FC<{
     }
   };
 
+  // Current date being displayed in the picker
+  const currentDisplayDate = changedWeek
+    ? getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year)
+    : value!;
+
+  const handlePrevWeek = () => {
+    const prev = subWeeks(currentDisplayDate, 1);
+    handleChange(prev);
+  };
+
+  const canGoNext = currentDisplayDate < (value ?? new Date());
+  const handleNextWeek = () => {
+    if (!canGoNext) return;
+    const next = addWeeks(currentDisplayDate, 1);
+    handleChange(next);
+  };
+
   const videosToPlay = currentChart.chartItems.slice(0, 10);
   const videoToPlayIds = videosToPlay.map((video) => {
     if (!video.musicLink.includes('youtube')) return '';
     return video.musicLink.split('v=')[1].split('&')[0];
   });
 
-  const [vidToPlay, setVidToPlay] = React.useState(`${currentChart.headerVideoUrl}?playlist=${videoToPlayIds.join()}&autoplay=1&mute=1&loop=1`);
+  const [vidToPlay, setVidToPlay] = React.useState<string | null>(null);
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  const handlePlaySong = (url: string) => {
+    setVidToPlay(url);
+    setModalOpen(true);
+  };
 
   const tableData = resolveUserTypeToTableData(
     currentChart.chartItems.sort((a, b) => a.rank - b.rank),
@@ -152,10 +184,23 @@ const SingleChartPage: React.FC<{
           <RankPlusTrend song={cur} />
         </div>
       ),
-      entry: <SongEntry song={cur} setVid={setVidToPlay} />,
+      entry: <SongEntry song={cur} setVid={handlePlaySong} />,
       lastWeek: <div className="center">{cur.lastPosition > 0 ? cur.lastPosition : cur.lastPosition < 0 ? '*' : <NewEntryIcon />}</div>,
       weeksOnChart: <div className="center">{cur.weeksOnChart}</div>,
       peak: <div className="center">{cur.highestPosition}</div>,
+      play: (
+        <div className="center">
+          <button
+            className="play_btn"
+            onClick={() => {
+              const vidID = cur.musicLink.split('v=')[1]?.split('&')[0];
+              if (vidID) handlePlaySong(`https://www.youtube.com/embed/${vidID}?playsinline=1&rel=0`);
+            }}
+          >
+            <PlayIcon />
+          </button>
+        </div>
+      ),
     }),
   );
 
@@ -166,35 +211,56 @@ const SingleChartPage: React.FC<{
         <meta name="description" content={`TurnTable Charts | ${currentChart.category}`} />
       </Head>
       <div className="page_header">
-        <Typography.Title>{currentChart.category}</Typography.Title>
+        <Typography.Heading fontType="RobotoFlex" level={1} weight="extraBold" className='heading' >{currentChart.category}</Typography.Heading>
         {currentChart.weekNumber && (
-          <div className="date_container">
-            <Typography.Text style={{ color: Theme.colorPalette.white }} fontType="Montserrat" level="large" weight="semiBold">
-              {changedWeek
-                ? `${format(
+          <div className="date_wrapper">
+            <span className="arrow_btn arrow_left" onClick={handlePrevWeek}>
+              <LeftArrow />
+            </span>
+            <div className="date_container">
+              <MyDatePicker
+                mostRecentWeek={value}
+                value={changedWeek ? getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year) : value}
+                handleChange={handleChange}
+              />
+              <Typography.Text style={{ color: Theme.colorPalette.white }} fontType="WorkSans" level="large" weight="semiBold">
+                {changedWeek
+                  ? `${format(
                     startOfWeek(getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year), {
                       weekStartsOn: 5,
                     }),
-                    'PPP',
+                    'MMM do',
                   )} - ${format(
                     endOfWeek(getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year), {
                       weekStartsOn: 5,
                     }),
-                    'PPP',
+                    'MMM do, yyyy',
                   )}`
-                : `${format(startOfWeek(value!, { weekStartsOn: 5 }), 'PPP')} - ${format(endOfWeek(value!, { weekStartsOn: 5 }), 'PPP')}`}
-            </Typography.Text>
-            <MyDatePicker
-              mostRecentWeek={value}
-              value={changedWeek ? getDateByWeekIndex(changedWeek.week.toString(), changedWeek.year) : value}
-              handleChange={handleChange}
-            />
+                  : `${format(startOfWeek(value!, { weekStartsOn: 5 }), 'MMM do')} - ${format(endOfWeek(value!, { weekStartsOn: 5 }), 'MMM do, yyyy')}`}
+              </Typography.Text>
+
+            </div>
+            <span className={`arrow_btn arrow_right${!canGoNext ? ' disabled' : ''}`} onClick={handleNextWeek}>
+              <LeftArrow />
+            </span>
           </div>
         )}
       </div>
-      {currentChart.headerVideoUrl! && (
-        <div className="page_iframe">
-          <iframe width="690" height="390" src={vidToPlay}></iframe>
+      {/* Video Modal */}
+      {modalOpen && vidToPlay && (
+        <div className="video_modal_overlay" onClick={() => setModalOpen(false)}>
+          <div className="video_modal_wrapper" onClick={(e) => e.stopPropagation()}>
+            <button className="modal_close" onClick={() => setModalOpen(false)}>
+              <CancelIcon />
+            </button>
+            <div className="video_modal">
+              <iframe
+                src={vidToPlay}
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
         </div>
       )}
       <div className="page_table">
@@ -238,47 +304,160 @@ const SingleChartPageStyling = styled.div`
     padding: 7vh 0;
     text-align: center;
 
-    .date_container {
+  .heading {
+    padding-top: 6rem;
+    ${headingMixin}
+  }
+  
+
+    .date_wrapper {
       display: inline-flex;
       align-items: center;
-      border: 1px solid ${Theme.colorPalette.ttcYellow};
-      border-radius: 60px;
+      gap: 12px;
       margin-top: 20px;
-      padding: 10px 5px 10px 15px;
 
-      ${media.tablet`
-      p {
+      .arrow_btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0.85;
+        transition: opacity 0.2s ease;
 
-        font-size: 14px;
-      }
-      `}
+        &:hover {
+          opacity: 1;
+        }
 
-      .date-text {
-        input {
-          margin-top: 0px;
-          width: 1px;
-          height: 1px;
-          visibility: hidden;
+        &.disabled {
+          opacity: 0.25;
+          cursor: not-allowed;
           pointer-events: none;
         }
+
         svg {
-          color: #f1a01f;
-          // border: 1px solid #f1a01f;
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      .arrow_right {
+        transform: scaleX(-1);
+      }
+
+      .date_container {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid ${Theme.colorPalette.white};
+        border-radius: 60px;
+        padding: 10px 12px;
+
+        ${media.tablet`
+          p {
+            font-size: 14px;
+          }
+        `}
+
+        .date-text {
+         
+
+          /* Hide the text input — keep only the icon button */
+          input {
+            display: none;
+          }
+
+          /* Hide the outline border */
+          fieldset {
+            display: none;
+          }
+
+          svg {
+            color: #ffffffff;
+          }
         }
       }
     }
   }
 
-  .page_iframe {
+  /* ---- Video modal ---- */
+  .video_modal_overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.82);
     display: grid;
     place-items: center;
+    z-index: 1500;
+    backdrop-filter: blur(4px);
+  }
+
+  .video_modal_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    width: min(720px, 92vw);
+
+    ${media.mobileLarge`
+      width: 100vw;
+      gap: 10px;
+      padding: 0 12px;
+    `}
+
+    .modal_close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      opacity: 0.9;
+      transition: opacity 0.2s, transform 0.15s;
+      &:hover {
+        opacity: 1;
+        transform: scale(1.08);
+      }
+      svg {
+        width: 36px;
+        height: 36px;
+        display: block;
+      }
+    }
+  }
+
+  .video_modal {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,0,0,0.8);
+
+    ${media.mobileLarge`
+      border-radius: 0;
+    `}
 
     iframe {
-      border: 1px solid transparent;
-      max-width: 690px;
-      width: 90%;
-      aspect-tatio: 16/9;
-      /* border-bottom: 3px solid ${Theme.colorPalette.ttcYellow}; */
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  }
+
+  /* ---- Play button in table ---- */
+  .play_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+    transition: opacity 0.2s, transform 0.15s;
+    &:hover {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+    svg {
+      display: block;
+      width: 28px;
+      height: 28px;
     }
   }
 
@@ -286,6 +465,10 @@ const SingleChartPageStyling = styled.div`
     text-align: center;
     display: grid;
     place-items: center;
+  }
+
+  .page_table {
+    padding: 24px 0 60px;
   }
 `;
 

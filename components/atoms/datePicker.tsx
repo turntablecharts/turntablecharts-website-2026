@@ -95,6 +95,27 @@ export default function CustomDay({
         maxDate={endOfWeek(mostRecentWeek!, { weekStartsOn: 5 })}
         // inputFormat="'Week of' MMM d"
         // mask=""
+        PopperProps={{
+          placement: 'bottom',
+          popperOptions: {
+            modifiers: [
+              {
+                name: 'computeStyles',
+                fn({ state }: { state: any }) {
+                  // Force the calendar to be fixed & centered on the viewport
+                  state.styles.popper = {
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 1400,
+                  };
+                  return state;
+                },
+              },
+            ],
+          },
+        }}
       />
     </LocalizationProvider>
   );

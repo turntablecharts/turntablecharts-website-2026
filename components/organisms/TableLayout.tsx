@@ -57,81 +57,51 @@ export const TableContentLayout: React.FC<TableProps> = ({ columns, data, onClic
 
 const Table = styled.table<{ rowStyle: any }>`
   width: 100%;
-  border-collapse: collapse;
-  /* white-space: nowrap; */
-  overflow: auto;
-  /* ******************** */
-  /* .table-header {
-    scroll-margin: 95px;
-  } */
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #181818;
+  border-radius: 12px;
   tbody {
-    background: #000;
+    background: #181818;
   }
-  ${({ rowStyle }) =>
-    rowStyle !== 'spaced' &&
-    css`
-      & {
-        border-collapse: separate;
-        border-spacing: 0px 20px;
-        border: none;
-        background: transparent;
-        padding: 0 5px;
-        & ${Th} {
-          border-bottom: none;
-        }
-      }
-    `}
 `;
 
 const Th = styled.th`
-  font-size: ${Theme.fontSizes.medium};
+  font-size: ${Theme.fontSizes.large};
   font-weight: ${Theme.fontWeights.semiBold};
-  font-family: ${Theme.typography.primary};
+  font-family: ${Theme.typography.workSans};
   line-height: 22px;
   color: ${Theme.colorPalette.white};
-  border-bottom: 1px solid rgba(172, 161, 161, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   text-align: left;
-  padding-right: 20px;
+  padding: 32px 20px;
   white-space: pre;
   position: sticky;
   top: 0;
-  z-index: 1;
-  background-color: black;
+  z-index: 10;
+  background-color: #181818;
 
-
-  ${media.mobile`
-  font-weight: 500;
-  `}
-
-
+  /* Round the top-left corner */
   :first-child {
-    padding-left: 53px;
+    padding-left: 14px;
     text-align: center;
+    border-radius: 12px 0 0 0;
     ${media.tablet`
-    padding-left: 10px;
-  `}
+      padding-left: 10px;
+    `}
     ${media.mobile`
-    padding-left: 0px;
-  `}
+      padding-left: 8px;
+    `}
   }
-  /* :last-child {
-    padding-left: 53px;
-    ${media.tablet`
-    padding: 0px;
-  `} */
+
+  /* Round the top-right corner */
+  :last-child {
+    border-radius: 0 12px 0 0;
   }
-  :not(:first-child) {
-    padding-top: 19px;
-    padding-bottom: 19px;
-    padding-right: 20px;
-    ${media.tablet`
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 10px;
-     `}
-  }
+
   ${media.tablet`
-  line-height: 12px;
-  /* padding: 12px 12px; */
+    font-size: ${Theme.fontSizes.medium};
+    padding: 14px 12px 14px 0;
   `}
 `;
+

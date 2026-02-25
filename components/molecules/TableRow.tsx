@@ -30,58 +30,63 @@ export const tableRow = (k: any, data: any, item: any, onClick?: any, rowStyle?:
 
 const Tr = styled.tr<{ onClick: any; rowStyle: any }>`
   color: ${Theme.colorPalette.white};
-  background: #121212;
-  margin-bottom: 20px;
-  /* border-bottom: 1px solid rgba(0, 0, 0, 0.08); */
-  /* padding: 12px 30px; */
-  font-family: ${Theme.typography.secondary};
-  :last-of-type td {
-    padding-bottom: 20px;
-  }
+  background: transparent;
+  font-family: ${Theme.typography.workSans};
+
   ${({ onClick }) =>
     onClick &&
     css`
       &:hover {
         cursor: pointer;
-        color: ${Theme.colorPalette.black};
-      }
-    `}
-
-  ${({ rowStyle }) =>
-    rowStyle === 'spaced' &&
-    css`
-      & {
-        border-bottom: none;
-        box-shadow: 0px 4px 15px rgba(229, 229, 229, 0.3), 0px 4px 5px rgba(229, 229, 229, 0.3);
+        background: rgba(255, 255, 255, 0.03);
       }
     `}
 `;
 const Td = styled.td`
-  font-size: ${Theme.fontSizes.xlarge};
-  font-weight: ${Theme.fontWeights.semiBold};
-  font-family: ${Theme.typography.primary};
+  font-size: ${Theme.fontSizes.large};
+  font-weight: ${Theme.fontWeights.normal};
+  font-family: ${Theme.typography.workSans};
   padding-top: 16px;
   padding-bottom: 16px;
   padding-right: 20px;
-  /* white-space: pre; */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+  /* No border on last row */
+  tr:last-child & {
+    border-bottom: none;
+  }
+
+  /* Bottom-left corner on last row first cell */
+  tr:last-child &:first-child {
+    border-radius: 0 0 0 12px;
+  }
+
+  /* Bottom-right corner on last row last cell */
+  tr:last-child &:last-child {
+    border-radius: 0 0 12px 0;
+  }
 
   :first-child {
-    padding-left: 20px;
+    padding-left: 24px;
     padding-right: 0;
 
     ${media.tablet`
-    padding: 0px;
-    font-size: 14px;
-  `}
+      padding-left: 10px;
+      font-size: ${Theme.fontSizes.medium};
+    `}
+    ${media.mobile`
+      padding-left: 8px;
+    `}
   }
-  ${media.tablet`
-font-size: 14px;
-`}
 
-  ${media.mobileLarge`
-    padding: 15px 12px;
+  ${media.tablet`
+    font-size: ${Theme.fontSizes.medium};
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-right: 12px;
   `}
+
   ${media.mobile`
-    padding: 5px 0px;
+    padding: 10px 6px;
   `}
 `;
