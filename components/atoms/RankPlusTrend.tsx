@@ -12,7 +12,7 @@ import media from 'constants/MediaQuery';
 const RankPlusTrend = ({ song }: { song: ChartItem }) => {
   return (
     <RankStyling>
-      <Typography.Text className="rank" fontType="Montserrat" weight="semiBold">
+      <Typography.Text className="rank" fontType="WorkSans" weight="semiBold">
         {song.rank}
       </Typography.Text>
       {song.lastPosition === 0 ? (
@@ -22,7 +22,7 @@ const RankPlusTrend = ({ song }: { song: ChartItem }) => {
             // level="medium"
             className="tag"
             weight="semiBold"
-            fontType="Montserrat"
+            fontType="WorkSans"
           >
             NEW
           </Typography.Text>
@@ -34,7 +34,7 @@ const RankPlusTrend = ({ song }: { song: ChartItem }) => {
             // level="medium"
             weight="semiBold"
             className="tag"
-            fontType="Montserrat"
+            fontType="WorkSans"
           >
             RE-ENTRY
           </Typography.Text>

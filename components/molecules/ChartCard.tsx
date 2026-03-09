@@ -10,7 +10,7 @@ import { truncateString } from 'utility/helpers';
 
 const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ category, cardColor }) => {
   return (
-    <ChartCardStyling>
+    <ChartCardStyling $cardColor={cardColor}>
       <Link href={`/charts/${category.id}`}>
         <a>
           {/* TOP: album art + song info */}
@@ -30,6 +30,11 @@ const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ c
             </div>
           )}
 
+          {/* CENTRE: "Open Folder" — visible only on hover */}
+          <div className="chart_open">
+            <span>(Open Folder)</span>
+          </div>
+
           {/* BOTTOM: category name + description + arrow */}
           <div className="chart_meta">
             <div className="chart_meta-text">
@@ -45,9 +50,15 @@ const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ c
               </Typography.Text>
             </div>
             <div className="chart_arrow">
-              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              {/* default arrow ↘ */}
+              <svg className="arrow_default" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="5" x2="19" y2="19" />
                 <polyline points="10 19 19 19 19 10" />
+              </svg>
+              {/* hover arrow → */}
+              <svg className="arrow_hover" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <polyline points="14 6 20 12 14 18" />
               </svg>
             </div>
           </div>
@@ -59,13 +70,40 @@ const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ c
 
 export default ChartCard;
 
-const ChartCardStyling = styled.div`
+const ChartCardStyling = styled.div<{ $cardColor: string }>`
   width: 100%;
   height: 600px;
   overflow: hidden;
   background-color: ${Theme.colorPalette.white};
   color: black;
   border-radius: 10px;
+  position: relative;
+  transition: background-color 0.4s ease, color 0.4s ease;
+
+  /* ── Coloured grid overlay (hidden by default) ── */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background-color: ${({ $cardColor }) => $cardColor};
+    background-image:
+      repeating-linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 36px 36px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &:hover {
+    color: white;
+  }
 
   a {
     display: flex;
@@ -73,12 +111,9 @@ const ChartCardStyling = styled.div`
     justify-content: space-between;
     height: 100%;
     padding: 32px;
-    transition: transform 0.4s ease;
     text-decoration: none;
-
-    &:hover {
-      transform: scale(1.02);
-    }
+    position: relative;
+    z-index: 1;
 
     ${media.mobileLarge`
       padding: 20px;
@@ -123,6 +158,29 @@ const ChartCardStyling = styled.div`
     }
   }
 
+  /* ── CENTRE: Open Folder ── */
+  .chart_open {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+
+    span {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: white;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  &:hover .chart_open {
+    opacity: 1;
+  }
+
   /* ── BOTTOM BLOCK ── */
   .chart_meta {
     display: flex;
@@ -146,9 +204,41 @@ const ChartCardStyling = styled.div`
     `}
   }
 
+  /* ── Arrow ── */
   .chart_arrow {
     flex-shrink: 0;
     color: black;
     opacity: 0.6;
+    position: relative;
+    width: 42px;
+    height: 42px;
+    transition: opacity 0.3s ease, color 0.4s ease;
+
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .arrow_hover {
+      opacity: 0;
+      transform: rotate(-45deg) scale(0.8);
+    }
+  }
+
+  &:hover .chart_arrow {
+    color: white;
+    opacity: 1;
+
+    .arrow_default {
+      opacity: 0;
+      transform: rotate(45deg) scale(0.8);
+    }
+
+    .arrow_hover {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
   }
 `;

@@ -67,40 +67,35 @@ const Table = styled.table<{ rowStyle: any }>`
 `;
 
 const Th = styled.th`
-  font-size: ${Theme.fontSizes.large};
-  font-weight: ${Theme.fontWeights.semiBold};
+  font-size: 0.82rem;
+  font-weight: 400;
   font-family: ${Theme.typography.workSans};
-  line-height: 22px;
-  color: ${Theme.colorPalette.white};
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.45);
+  border-bottom: none;
   text-align: left;
-  padding: 32px 20px;
+  padding: 18px 20px;
   white-space: pre;
   position: sticky;
   top: 0;
   z-index: 10;
   background-color: #181818;
+  backdrop-filter: none;
 
-  /* Round the top-left corner */
   :first-child {
-    padding-left: 14px;
+    padding-left: 24px;
     text-align: center;
     border-radius: 12px 0 0 0;
-    ${media.tablet`
-      padding-left: 10px;
-    `}
-    ${media.mobile`
-      padding-left: 8px;
-    `}
+    ${media.tablet` padding-left: 10px; `}
+    ${media.mobile` padding-left: 8px; `}
   }
 
-  /* Round the top-right corner */
   :last-child {
     border-radius: 0 12px 0 0;
   }
 
   ${media.tablet`
-    font-size: ${Theme.fontSizes.medium};
+    font-size: 0.75rem;
     padding: 14px 12px 14px 0;
   `}
 `;

@@ -8,10 +8,10 @@ import Form from 'components/molecules/Form';
 const power100 = () => {
   return (
     <Power100Styling>
-      <Typography.Heading fontType="Mermaid" className="header" level={2} style={{ marginBottom: '10px' }} weight="semiBold">
+      <Typography.Heading fontType="Anton" className="header" level={2} style={{ marginBottom: '10px' }} weight="semiBold">
         TurnTable Power 100
       </Typography.Heading>
-      <Typography.Text fontType="SFProText" className="body" style={{ marginBottom: '30px' }} weight="semiBold">
+      <Typography.Text fontType="WorkSans" className="body" style={{ marginBottom: '30px' }} weight="semiBold">
         Nominate an individual that has contributed in shaping Afrobeats
         <br /> both at home and/or globally in the last three years
       </Typography.Text>

@@ -8,7 +8,7 @@ import CTAButton from 'components/atoms/ctaButton';
 import WantUpdates from 'components/molecules/WantUpdates';
 import Link from 'next/link';
 import PhotosCard from 'components/molecules/PhotosCard';
-import SongCard from 'components/molecules/SongCard';
+import MobileSongCard from 'components/molecules/MobileSongCard';
 import JoinUs from 'components/molecules/JoinUs';
 import { getChartById } from 'utility/ChartsApi/api';
 import { ChartItem } from 'utility/ChartsApi/types';
@@ -24,6 +24,7 @@ import RectangleGrad from 'assets/RectangleGrad.png';
 import { getAllMagazineEditions } from 'utility/MagazinesApi/api';
 import { MagazineEditions } from 'utility/MagazinesApi/types';
 import MagazineSlider from 'components/molecules/MagazineSlider';
+import SongCard from 'components/molecules/SongCard';
 
 
 export async function getStaticProps() {
@@ -74,7 +75,7 @@ const Home: React.FC<{
           </div>
           <div className="hero_middle">
             <Typography.Heading fontType="RobotoFlex" level={1} weight="extraBold" className="heading">
-              Nigeria's Official
+              Nigeria&apos;s Official
             </Typography.Heading>
             <Typography.Heading fontType="RobotoFlex" level={1} weight="extraBold" className="heading">
               Music Chart
@@ -112,6 +113,12 @@ const Home: React.FC<{
         <div className="section_cards">
           {topChart.map((item, index) => (
             <SongCard key={item.id} songItem={item} variant={index === 0 ? 'large' : 'compact'} />
+          ))}
+        </div>
+        {/* Mobile-only grid — completely separate from the desktop grid */}
+        <div className="section_cards_mobile">
+          {topChart.map((item) => (
+            <MobileSongCard key={`m-${item.id}`} songItem={item} />
           ))}
         </div>
         <span className="mobile_action">
@@ -318,15 +325,15 @@ const IndexStyling = styled.div`
     .section_cards {
       display: grid;
       gap: 8px;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.2fr 1fr;
       grid-auto-rows: auto;
       align-items: start;
-      height: 700px;
+      margin-bottom: 40px;
       
       > *:first-child {
         grid-row: span 9;
         grid-column: 1;
-        height: 700px;
+        min-height: 640px;
       }
       > *:nth-child(n+2) {
         grid-column: 2;
@@ -338,50 +345,30 @@ const IndexStyling = styled.div`
       ${media.tablet`
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
-        height: auto;
+        align-items: start;
         
-        > *:first-child {
+        > *:first-child,
+        > *:nth-child(n+2) {
           grid-row: auto;
           grid-column: auto;
           height: auto;
-        }
-        
-        > *:nth-child(n+2) {
-          grid-column: auto;
+          min-height: unset;
         }
       `}
       ${media.mobileLarge`
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        height: auto;
-        
-        > *:first-child {
-          grid-row: auto;
-          grid-column: auto;
-          height: auto;
-        }
-        
-        > *:nth-child(n+2) {
-          grid-column: auto;
-        }
+        display: none;
       `}
-      ${media.smallMobile`
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
-        height: auto;
-        
-        > *:first-child {
-          grid-row: auto;
-          grid-column: auto;
-          height: auto;
-        }
-        
-        > *:nth-child(n+2) {
-          grid-column: auto;
-        }
-      `}
-    }
+      
 
+    }
+.section_cards_mobile{
+      display:none;
+        ${media.mobileLarge`
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      
+      `}
+}
     .news_cards {
       display: grid;
       gap: 20px;
@@ -525,8 +512,7 @@ const IndexStyling = styled.div`
     .mobile_action {
       display: flex;
       justify-content: center;
-      margin: 30px 0px;
-      
+      margin: 56px 0 20px;
       }
     }
   }

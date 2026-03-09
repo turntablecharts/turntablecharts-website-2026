@@ -89,7 +89,7 @@ const MyTurnTable = () => {
           <Typography.Title>#myTurnTable</Typography.Title>
         </div>
         <Typography.Heading
-          fontType="Mermaid"
+          fontType="Anton"
           style={{
             color: Theme.colorPalette.ttcYellow,
             fontSize: Theme.fontSizes.xlarge,
@@ -117,12 +117,12 @@ const MyTurnTable = () => {
               letterSpacing: "1px",
               lineHeight: "40px",
             }}
-            fontType="Fontastique">
+            fontType="Anton">
             myTurnTable is our way of bringing data to life and relating it to
             your personal listening choices
           </Typography.Heading>
           <Typography.Text
-            fontType="SFProText"
+            fontType="WorkSans"
             level="xlarge"
             style={{ lineHeight: "32px", marginBottom: "40px" }}>
             All you have to do is input your five favorite artistes and songs
@@ -132,7 +132,7 @@ const MyTurnTable = () => {
             information about music in Nigeria so far in 2022
           </Typography.Text>
           <Typography.Text
-            fontType="SFProText"
+            fontType="WorkSans"
             level="xxlarge"
             weight="semiBold">
             Sounds simple right? Let’s get started
@@ -165,13 +165,13 @@ const MyTurnTable = () => {
                 transform: "rotate(180deg)",
               }}
             />
-            <Typography.Text fontType="SFProText">Back</Typography.Text>
+            <Typography.Text fontType="WorkSans">Back</Typography.Text>
           </div>
           <div className="form_content">
             <div className="form_wrapper">
               <div className="top_songs">
                 <Typography.Text
-                  fontType="Mermaid"
+                  fontType="WorkSans"
                   level="xxlarge"
                   style={{
                     color: Theme.colorPalette.ttcYellow,
@@ -183,7 +183,7 @@ const MyTurnTable = () => {
                 {count.map((item) => (
                   <div key={item + "songs"} className="input">
                     <Typography.Text
-                      fontType="SFProText"
+                      fontType="WorkSans"
                       weight="semiBold"
                       level="xlarge">
                       {item}
@@ -214,7 +214,7 @@ const MyTurnTable = () => {
                             }}
                             className="result">
                             <Typography.Text
-                              fontType="SFProText"
+                              fontType="WorkSans"
                               level="xlarge">
                               {result}
                             </Typography.Text>
@@ -227,7 +227,7 @@ const MyTurnTable = () => {
               </div>
               <div className="top_artists">
                 <Typography.Text
-                  fontType="Mermaid"
+                  fontType="WorkSans"
                   level="xxlarge"
                   style={{
                     color: Theme.colorPalette.ttcYellow,
@@ -239,7 +239,7 @@ const MyTurnTable = () => {
                 {count.map((item) => (
                   <div key={item + "artistes"} className="input">
                     <Typography.Text
-                      fontType="SFProText"
+                      fontType="WorkSans"
                       weight="semiBold"
                       level="xlarge">
                       {item}
@@ -270,7 +270,7 @@ const MyTurnTable = () => {
                             }}
                             className="result">
                             <Typography.Text
-                              fontType="SFProText"
+                              fontType="WorkSans"
                               level="xlarge">
                               {result}
                             </Typography.Text>
@@ -315,7 +315,7 @@ const MyTurnTable = () => {
                 transform: "rotate(180deg)",
               }}
             />
-            <Typography.Text fontType="SFProText">Back</Typography.Text>
+            <Typography.Text fontType="WorkSans">Back</Typography.Text>
           </div>
           <div className="wrapped_content" id="saveWrapped">
             <img
@@ -331,14 +331,14 @@ const MyTurnTable = () => {
               {/* <img src="/assets/wrapped.png" alt="wrapped" /> */}
               <div>
                 <Text
-                  fontType="SFProText"
+                  fontType="WorkSans"
                   weight="bold"
                   level="xxlarge"
                   style={{ backgroundColor: "#000", padding: "3px" }}>
                   #myTurnTable
                 </Text>
                 <Text
-                  fontType="SFProText"
+                  fontType="WorkSans"
                   weight="semiBold"
                   level="large"
                   style={{
@@ -351,7 +351,7 @@ const MyTurnTable = () => {
               </div>
             </div>
             <Typography.Text
-              fontType="Montserrat"
+              fontType="WorkSans"
               weight="medium"
               style={{
                 lineHeight: "24px",
@@ -365,7 +365,7 @@ const MyTurnTable = () => {
             <div className="results">
               <div className="top_songs">
                 <Typography.Heading
-                  fontType="Mermaid"
+                  fontType="Anton"
                   style={{
                     color: Theme.colorPalette.ttcYellow,
                     fontSize: Theme.fontSizes.xlarge,
@@ -377,14 +377,14 @@ const MyTurnTable = () => {
                   wrappedResults.songs.map((song, i) => (
                     <div key={song} className="entry">
                       {/* <Typography.Text
-                        fontType="SFProText"
+                        fontType="WorkSans"
                         weight="semiBold"
                         level="large"
                       >
                         {"0" + (i + 1).toString()}
                       </Typography.Text> */}
                       <Typography.Text
-                        fontType="Montserrat"
+                        fontType="WorkSans"
                         weight="bold"
                         level="large">
                         {song}
@@ -394,7 +394,7 @@ const MyTurnTable = () => {
               </div>
               <div className="top_artistes">
                 <Typography.Heading
-                  fontType="Mermaid"
+                  fontType="Anton"
                   style={{
                     color: Theme.colorPalette.ttcYellow,
                     fontSize: Theme.fontSizes.xlarge,
@@ -406,14 +406,14 @@ const MyTurnTable = () => {
                   wrappedResults.artists.map((artist, i) => (
                     <div key={artist} className="entry">
                       {/* <Typography.Text
-                        fontType="SFProText"
+                        fontType="WorkSans"
                         weight="semiBold"
                         level="large"
                       >
                         {"0" + (i + 1).toString()}
                       </Typography.Text> */}
                       <Typography.Text
-                        fontType="Montserrat"
+                        fontType="WorkSans"
                         weight="bold"
                         level="large">
                         {artist}
@@ -424,7 +424,7 @@ const MyTurnTable = () => {
             </div>
             <div className="genre">
               <Typography.Heading
-                fontType="Mermaid"
+                fontType="Anton"
                 style={{
                   color: Theme.colorPalette.ttcYellow,
                   fontSize: Theme.fontSizes.xlarge,
@@ -433,7 +433,7 @@ const MyTurnTable = () => {
                 Genre Share of H1
               </Typography.Heading>
               <Typography.Text
-                fontType="Montserrat"
+                fontType="WorkSans"
                 weight="bold"
                 level="large">
                 {wrappedResults?.genre}
@@ -441,7 +441,7 @@ const MyTurnTable = () => {
             </div>
             <div className="random_fact">
               <Typography.Heading
-                fontType="Mermaid"
+                fontType="Anton"
                 style={{
                   color: Theme.colorPalette.ttcYellow,
                   fontSize: Theme.fontSizes.xlarge,
@@ -450,7 +450,7 @@ const MyTurnTable = () => {
                 Fun Fact
               </Typography.Heading>
               <Typography.Text
-                fontType="Montserrat"
+                fontType="WorkSans"
                 weight="medium"
                 style={{ lineHeight: "24px" }}
                 level="large">
@@ -634,7 +634,7 @@ const MyTurnTableStyling = styled.div`
         border: 1px solid ${Theme.colorPalette.ttcYellow};
         font-size: ${Theme.fontSizes.xxlarge};
         font-weight: ${Theme.fontWeights.semiBold};
-        font-family: ${Theme.typography.extra};
+        font-family: ${Theme.typography.heading2};
         padding: 10px;
         max-width: 330px;
         outline: none;
@@ -688,7 +688,7 @@ const MyTurnTableStyling = styled.div`
       padding: 24px 50px;
       background-color: ${Theme.colorPalette.ttcYellow};
       color: ${Theme.colorPalette.black};
-      font-family: ${Theme.typography.extra};
+      font-family: ${Theme.typography.heading2};
       font-weight: ${Theme.fontWeights.semiBold};
       font-size: ${Theme.fontSizes.xlarge};
       border-radius: 36px;

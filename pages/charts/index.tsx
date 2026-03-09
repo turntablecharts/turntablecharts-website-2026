@@ -8,7 +8,12 @@ import ChartCard from 'components/molecules/ChartCard';
 import Typography from 'components/atoms/typography';
 import { headingMixin } from 'constants/mixins';
 
-const cardColors = [Theme.colorPalette.ttcYellow, Theme.colorPalette.ttcGreen, '#EF5DA8', '#5D5FEF', '#8F540F', '#8F0F73', '#0F8F80'];
+const TTC_COLORS = [
+  Theme.colorPalette.ttcYellow,
+  Theme.colorPalette.ttcBlack,
+  Theme.colorPalette.ttcBlue,
+  Theme.colorPalette.ttcRed,
+];
 
 export async function getStaticProps() {
   try {
@@ -63,7 +68,7 @@ const Charts: React.FC<{
       </div>
       <div className="chart_categories">
         {sortedCategories[activeCategory]?.map((category, index) => (
-          <ChartCard key={category.id} category={category} cardColor={cardColors[index]} />
+          <ChartCard key={category.id} category={category} cardColor={TTC_COLORS[index % TTC_COLORS.length]} />
         ))}
       </div>
     </ChartPageStyling>

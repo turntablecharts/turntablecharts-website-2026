@@ -7,7 +7,11 @@ const colorPalette = {
   ttcYellow: "#F1A01F",
   ttcBlack: "#0D0D0D",
   ttcGreen: "#0F8F49",
-};
+  ttcBlue: "#2B59C3",
+  ttcYellow2: "#F1920C",
+  ttcRed: "#EE1A26",
+
+}
 
 export type FontColorType =
   | "black"
@@ -17,7 +21,10 @@ export type FontColorType =
   | "transparent"
   | "ttcYellow"
   | "ttcBlack"
-  | "ttcGreen";
+  | "ttcGreen"
+  | "ttcBlue"
+  | "ttcYellow2"
+  | "ttcRed";
 
 const typography = {
   text: "Inter",

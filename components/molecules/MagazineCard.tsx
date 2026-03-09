@@ -25,7 +25,7 @@ const MagazineCard: React.FC<{ magazineItem: EditionArticleSummary }> = ({
       </div>
       <div className="article_card-date">
         <Typography.Text
-          fontType="Montserrat"
+          fontType="WorkSans"
           level="small"
           style={{
             margin: "16px 0px 8px 0px",
@@ -37,7 +37,7 @@ const MagazineCard: React.FC<{ magazineItem: EditionArticleSummary }> = ({
         <Link href={`/magazine/${router.query.editionName}/${magazineItem.id}`}>
           <a>
             <Typography.Text
-              fontType="Mermaid"
+              fontType="WorkSans"
               style={{ lineHeight: "24px" }}
               level="xlarge">
               {magazineItem.title}

@@ -156,7 +156,7 @@ const SearchOverlay: React.FC<Props> = ({ isOpen, onClose }) => {
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
-              <p>No results for <strong>"{query}"</strong></p>
+              <p>No results for <strong>&quot;{query}&quot;</strong></p>
               <span>Try a different search term</span>
             </EmptyState>
           )}

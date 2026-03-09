@@ -21,17 +21,17 @@ const TableCert = ({ cert }: { cert: string }) => {
       <div className={`collection ${hasMilestoneCount ? 'left' : ''}`}>
         {hasMilestoneCount
           ? Array(parseInt(count, 10))
-              .fill({})
-              .map((_, i) =>
-                React.createElement(milestoneMap[milestone as 'silver' | 'gold' | 'platinum'], {
-                  key: i.toString() + 'cert',
-                  style: { position: 'absolute', left: -10.5 * i },
-                  className: 'certs',
-                }),
-              )
+            .fill({})
+            .map((_, i) =>
+              React.createElement(milestoneMap[milestone as 'silver' | 'gold' | 'platinum'], {
+                key: i.toString() + 'cert',
+                style: { position: 'absolute', left: -10.5 * i },
+                className: 'certs',
+              }),
+            )
           : React.createElement(milestoneMap[milestone as 'silver' | 'gold' | 'platinum'], { className: 'certs' })}
       </div>
-      <Typography.Text className="isclaimed" uppercase fontType="SFProText" level="medium" weight="semiBold">
+      <Typography.Text className="isclaimed" uppercase fontType="WorkSans" level="medium" weight="semiBold">
         {`${hasMilestoneCount ? `${count}x` : ''}${milestone.toUpperCase()}`}
       </Typography.Text>
     </TableCertStyling>

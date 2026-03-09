@@ -1,165 +1,94 @@
 /* eslint-disable @next/next/no-img-element */
-import Typography, { Text } from "components/atoms/typography";
 import styled from "styled-components";
-import TTCIconTrophy from "assets/icons/trophy.svg";
-import TTCIconB2B from "assets/icons/b2b.svg";
-import TTCIconAdvert from "assets/icons/advert.svg";
-import TTCIconPartner from "assets/icons/partner.svg";
-import Theme from "constants/Theme";
+import CupIcon from "assets/icons/cup.svg";
 import media from "constants/MediaQuery";
+
+const SERVICES = [
+  {
+    id: "award",
+    color: "#2EAF7D",
+    title: "No. 1 Award Initiative",
+    body: "You can order a No. 1 award to celebrate songs that reached No. 1 on the Nigeria Top 100, recognizing both success and the behind-the-scenes contributors who helped make the hit.",
+  },
+  {
+    id: "b2b",
+    color: "#F1A01F",
+    title: "B2B Data",
+    body: "You can order a No. 1 award to celebrate songs that reached No. 1 on the Nigeria Top 100, recognizing both success and the behind-the-scenes contributors who helped make the hit.",
+  },
+  {
+    id: "advert",
+    color: "#00B4D8",
+    title: "Advertising",
+    body: "You can order a No. 1 award to celebrate songs that reached No. 1 on the Nigeria Top 100, recognizing both success and the behind-the-scenes contributors who helped make the hit.",
+  },
+  {
+    id: "brand",
+    color: "#E84855",
+    title: "Brand Licensing, Partnership & Syndication",
+    body: "You can order a No. 1 award to celebrate songs that reached No. 1 on the Nigeria Top 100, recognizing both success and the behind-the-scenes contributors who helped make the hit.",
+  },
+];
 
 const Business = () => {
   return (
     <BusinessStyling>
-      <div className="business_hero">
-        <div className="business_container">
-          <Text level="extralarge" fontType="Mermaid" className="business_text">
-            Chart, brand licensing & partnerships, product & data support,
-            marketing to consumers through our social media and website – there
-            are many ways TurnTable Charts can support your business needs.
-          </Text>
-          {/* <div className="rel">
-            <img
-              className="business_img"
-              src="/assets/businessImg.png"
-              alt="businessImg"
-            />
-            <Text level="xlarge" fontType="SFProText" className="rel_text">
-              Chart and brand licensing & partnerships, product & data support,
-              marketing to consumers through our social media and website –
-              there are many ways TurnTable Charts can support your business
-              needs.
-            </Text>
-          </div> */}
+      {/* ── Top section: image + intro text (matches news page width) ── */}
+      <div className="biz_article">
+        <div className="biz_hero">
+          <img src="/assets/businessImg.png" alt="TurnTable Charts Business" />
         </div>
-      </div>
-      <div className="business_rel">
-        <img
-          className="business_img"
-          src="/assets/businessImg.png"
-          alt="businessImg"
-        />
-        <div className="rel_text">
-          <Text level="xlarge" fontType="SFProText">
+
+        <h1 className="biz_headline">
+          TurnTable Charts supports your business through chart access,
+          partnerships, data solutions, and consumer marketing.
+        </h1>
+
+        <div className="biz_body">
+          <p>
             TTC is a B2B and B2C business offering to individuals and companies,
             a wide range of products and services to global music and media
             industries. We offer services tailored to the demands of labels,
             artiste managers, studio houses, PR houses, advertising agencies,
             consumer brands and many more.
-          </Text>
-          <Text level="xlarge" fontType="SFProText">
+          </p>
+          <p>
             The analysis and consumer behavior trends from our database enables
             us to provide data support and solutions for any business with an
             interest in and requirement for Nigerian and African entertainment.
-          </Text>
-          <Text level="xlarge" fontType="SFProText">
+          </p>
+          <p>
             With our new No. 1 Award Initiative, we serve music labels,
             publishers, distributors, A&Rs and management companies looking to
             celebrate their chart-toppers in Nigeria (singles, streaming
             milestones and albums).
-          </Text>
-          <Text level="xlarge" fontType="SFProText">
+          </p>
+          <p>
             TTC offer data-backed content solutions to media partners, licensees
             and creators of consumer-facing products through the provision of
             current and historic chart information as well as licensing and
             syndication of charts.
-          </Text>
+          </p>
         </div>
-        <div className="business_services">
-          <div className="services_header">
-            <Typography.Heading fontType="Mermaid" level={1}>
-              Our Services
-            </Typography.Heading>
+      </div>
+
+      {/* ── Services section: dark + backgroundBG ── */}
+      <div className="biz_services">
+        <div className="biz_services-inner">
+          <div className="biz_cards">
+            {SERVICES.map((svc) => (
+              <div key={svc.id} className="biz_card">
+                <div
+                  className="biz_card-icon"
+                  style={{ backgroundColor: svc.color }}
+                >
+                  <CupIcon aria-hidden="true" />
+                </div>
+                <h3 className="biz_card-title">{svc.title}</h3>
+                <p className="biz_card-desc">{svc.body}</p>
+              </div>
+            ))}
           </div>
-          <div className="service_cards">
-            <div className="card">
-              <div className="icon">
-                <TTCIconTrophy style={{ height: "40px", width: "40px" }} />
-              </div>
-              <Text level="xlarge" fontType="Mermaid" className="title">
-                No. 1 Award Initiative
-              </Text>
-              <Text level="xlarge" fontType="SFProText" className="content">
-                Celebrate your No. 1 singles in Nigeria by ordering your own No.
-                1 award. The purpose of this new initiative is to celebrate
-                success, amplify unique achievement and recognize the unsung
-                heroes of artistic milestones – from record label executives,
-                producers, songwriters, A&Rs, engineers and more. You can order
-                your own No. 1 award provided there is sufficient evidence of
-                your role in the creation of a single that peaked at No. 1 on
-                the Nigeria Top 100.
-              </Text>
-            </div>
-            <div className="card">
-              <div className="icon">
-                <TTCIconB2B style={{ height: "40px", width: "40px" }} />
-              </div>
-              <Text level="xlarge" fontType="Mermaid" className="title">
-                B2B Data
-              </Text>
-              <Text level="xlarge" fontType="SFProText" className="content">
-                TTC offers insight into consumer behavior trends needed by
-                independent and biggest music companies, local and global movie
-                studios, artiste & talent management companies, advertising
-                brands, companies that provide consumer products and more. TTC
-                offers solution any business with an interest in and requirement
-                of Nigerian music, as we provide a comprehensive overview of
-                consumption patterns as well as historical and emerging consumer
-                behavior. To discuss your business need, please reach out to
-                <span className="yellow"> home@turntablecharts.com</span>
-              </Text>
-            </div>
-            <div className="card">
-              <div className="icon">
-                <TTCIconAdvert style={{ height: "40px", width: "40px" }} />
-              </div>
-              <Text level="xlarge" fontType="Mermaid" className="title">
-                Advertising
-              </Text>
-              <Text level="xlarge" fontType="SFProText" className="content">
-                Tap into TTC unique, steadfast and fast-growing audience to
-                market your products and other business needs. For all
-                advertising, brand sponsorships and other business needs related
-                to marketing, contact
-                <span className="yellow"> kd@turntablecharts.com</span>
-              </Text>
-            </div>
-            <div className="card">
-              <div className="icon">
-                <TTCIconPartner style={{ height: "40px", width: "40px" }} />
-              </div>
-              <Text level="xlarge" fontType="Mermaid" className="title">
-                Brand Licensing, Partnership & Syndication
-              </Text>
-              <Text level="xlarge" fontType="SFProText" className="content">
-                In two years, we have created a unique brand with partnership
-                with both local and international organizations including
-                international record labels, music distributors, video-sharing
-                platforms, social media platforms, media companies, news
-                organization and many more. Our charts are comprehensive;
-                flagship charts are Nigeria Top 100, streaming to airplay
-                charts. Artiste Top 100, Producer Top 100; genres charts include
-                Afro-Pop, R&B, Street-POP, Hiphop, Gospel, Alternative which
-                focuses on all the genres not associated with mainstream;
-                Traditional which cuts across different traditional genre
-                associated with Africa (Juju, Fuji, Egedege, Arewa Pop, Zulu and
-                many more), and other charts such as Top International Songs and
-                NXT Emerging Artiste Top Songs.
-                <br />
-                <br />
-                For more information on licensing, brand partnership and
-                syndication, contact
-                <span className="yellow"> kd@turntablecharts.com</span>
-              </Text>
-            </div>
-          </div>
-          <Text
-            level="xlarge"
-            fontType="SFProText"
-            style={{ textAlign: "center" }}>
-            For more details, contact
-            <span className="yellow"> home@turntablecharts.com</span>
-          </Text>
         </div>
       </div>
     </BusinessStyling>
@@ -169,100 +98,150 @@ const Business = () => {
 export default Business;
 
 const BusinessStyling = styled.div`
-  .business_hero {
-    height: calc(100vh - 80px);
+  width: 100%;
+  background-color: #0d0d0d;
+  color: white;
+  padding-top: 80px;
+
+  /* ══════════════════════════════
+     TOP ARTICLE SECTION
+     (matches news page 80vw layout)
+  ══════════════════════════════ */
+  .biz_article {
+    width: 80vw;
+    margin: 0 auto;
+    padding: 48px 0 72px;
+
+    ${media.smallDesktop` width: 88vw; `}
+    ${media.tablet` width: 92vw; `}
+    ${media.mobileLarge` width: 100%; padding: 32px 20px 48px; `}
+  }
+
+  .biz_hero {
+    width: 100%;
+    margin-bottom: 40px;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
+  .biz_headline {
+    font-family: "Work Sans", sans-serif;
+    font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+    font-weight: 700;
+    color: white;
+    line-height: 1.25;
+    margin-bottom: 28px;
+  }
+
+  .biz_body {
+    text-align: left;
+
+    p {
+      font-family: "Work Sans", sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 16px;
+    }
+  }
+
+  /* ══════════════════════════════
+     SERVICES SECTION (dark)
+  ══════════════════════════════ */
+  .biz_services {
+    background-color: #0d0d0d;
     background-image: url("/assets/businessBG.png");
     background-size: cover;
     background-position: center;
-    padding-top: 150px;
-    ${media.tablet`
-    padding-top: 80px;
-    `}
-    .business_container {
-      max-width: 1200px;
-      width: 90%;
-      margin: 0 auto;
-
-      .business_text {
-        line-height: 77px;
-        text-align: center;
-
-        ${media.smallDesktop`
-        font-size: 30px;
-        line-height: 40px;
-        `}
-        ${media.mobileLarge`
-      font-size: 24px;
-      line-height: 30px;
-    `}
-      }
-    }
+    padding: 80px 0 100px;
   }
 
-  .business_rel {
-    max-width: 1200px;
-    width: 90%;
+  .biz_services-inner {
+    width: 80vw;
     margin: 0 auto;
-    position: relative;
-    top: -290px;
+
+    ${media.smallDesktop` width: 88vw; `}
+    ${media.tablet` width: 92vw; `}
+    ${media.mobileLarge` width: calc(100% - 40px); `}
+  }
+
+  .biz_services-heading {
+    font-family: "Anton", sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  /* 2 × 2 card grid */
+  .biz_cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
 
     ${media.tablet`
-    top: -390px;
-    `}
-
-    .business_img {
-      width: 100%;
-    }
-
-    .rel_text {
-      max-width: 780px;
-      width: 95%;
-      margin: 80px auto;
-
-      p {
-        margin-bottom: 20px;
-        ${media.mobileLarge`
-          font-size: 16px;
-        `}
-      }
-    }
-  }
-
-  .business_services {
-    .services_header {
-      text-align: center;
-    }
-
-    .service_cards {
-      margin: 120px 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      ${media.tablet`
       grid-template-columns: 1fr;
-      margin: 60px 0;
-
+      gap: 20px;
     `}
-      .card {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        .content {
-          line-height: 32px;
-          ${media.mobileLarge`
-          font-size: 16px;
-          line-height: 24px;
-        `}
-        }
-      }
+  }
+
+  /* Individual card */
+  .biz_card {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    height: 350px;
+  }
+
+  .biz_card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg {
+      width: 26px;
+      height: 26px;
+      fill: white;
+      color: white;
     }
   }
 
-  .icon {
-    height: 100px;
-    width: 100px;
-    background: ${Theme.colorPalette.ttcYellow}33;
-    display: grid;
-    place-items: center;
+  .biz_card-title {
+    font-family: "Work Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .biz_card-desc {
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+  }
+
+  .biz_card-email {
+    color: #f1a01f;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
   }
 `;

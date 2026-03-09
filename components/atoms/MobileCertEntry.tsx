@@ -12,14 +12,14 @@ const MobileCertEntry: FC<EntryProp> = ({ title, artiste, format }) => {
   return (
     <MobileCertEntryStyling>
       <div className="flex">
-        <Typography.Text fontType="SFProText" level="medium" weight="semiBold">
+        <Typography.Text fontType="OpenSans" level="medium" weight="semiBold">
           {title}
         </Typography.Text>
-        <Typography.Text fontType="Montserrat" level="xsmall" weight="thin">
+        <Typography.Text fontType="OpenSans" level="xsmall" weight="thin">
           ({format})
         </Typography.Text>
       </div>
-      <Typography.Text fontType="SFProText" level="small">
+      <Typography.Text fontType="OpenSans" level="small">
         {artiste}
       </Typography.Text>
     </MobileCertEntryStyling>

@@ -23,7 +23,7 @@ const ArticleCard: React.FC<{ newsItem: NewsItem }> = ({ newsItem }) => {
       </div>
       <div className="article_card-tag">
         <Typography.Text
-          fontType="Montserrat"
+          fontType="WorkSans"
           level="large"
           weight="medium"
           style={{
@@ -36,7 +36,7 @@ const ArticleCard: React.FC<{ newsItem: NewsItem }> = ({ newsItem }) => {
       </div>
       <div className="article_card-title">
         <Typography.Text
-          fontType="Mermaid"
+          fontType="WorkSans"
           style={{ lineHeight: "24px" }}
           level="xlarge"
         >
@@ -94,7 +94,7 @@ const ArticleCardStyling = styled.div`
   }
 
   .article_card-meta {
-    font-family: ${Theme.typography.primary};
+    font-family: ${Theme.typography.heading};
     font-size: ${Theme.fontSizes.small};
     display: flex;
     align-items: center;

@@ -48,6 +48,7 @@ const Td = styled.td`
   font-family: ${Theme.typography.workSans};
   padding-top: 16px;
   padding-bottom: 16px;
+  padding-left: 20px;
   padding-right: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 

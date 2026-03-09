@@ -50,26 +50,28 @@ const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }>
   if (variant === 'large') {
     return (
       <SongCardStyling className={variant}>
-        <div className="rank">
-          <Typography.Text fontType="Inter" weight="semiBold" level="large">
-            {songItem.rank}
-          </Typography.Text>
-          {renderTrendIndicator()}
-        </div>
-        <div className="content">
+        {/* row: rank left | image right */}
+        <div className="main_row">
+          <div className="rank">
+            <Typography.Text fontType="OpenSans" weight="semiBold" level="large">
+              {songItem.rank}
+            </Typography.Text>
+            {renderTrendIndicator()}
+          </div>
           <div className="img">
             <object data={songItem.imageUri} type="image/png">
               <img src="/assets/ttcBgWhite.png" alt="fallback" />
             </object>
           </div>
-          <div className="name">
-            <Typography.Text fontType="Inter" weight="semiBold" level="large" className="text">
-              {songItem.title}
-            </Typography.Text>
-            <Typography.Text className="text" fontType="Inter" weight="medium" level="medium">
-              {songItem.artiste}
-            </Typography.Text>
-          </div>
+        </div>
+        {/* name centred below */}
+        <div className="name">
+          <Typography.Text fontType="WorkSans" weight="semiBold" level="large" className="text">
+            {songItem.title}
+          </Typography.Text>
+          <Typography.Text className="text" fontType="WorkSans" weight="medium" level="medium">
+            {songItem.artiste}
+          </Typography.Text>
         </div>
       </SongCardStyling>
     );
@@ -90,10 +92,10 @@ const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }>
         </object>
       </div>
       <div className="name">
-        <Typography.Text fontType="Inter" weight="semiBold" level="large" className="text">
+        <Typography.Text fontType="OpenSans" weight="semiBold" level="large" className="text">
           {songItem.title}
         </Typography.Text>
-        <Typography.Text className="text" fontType="Inter" weight="medium" level="medium">
+        <Typography.Text className="text" fontType="OpenSans" weight="medium" level="medium">
           {songItem.artiste}
         </Typography.Text>
       </div>
@@ -105,155 +107,76 @@ const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }>
 export default SongCard;
 
 const SongCardStyling = styled.div`
-  background-color: #121212;
   padding: 16px;
 
-  /* Large variant - rank top-left, image and text on right (DESKTOP) */
+  /* Large variant */
   &.large {
     display: flex;
     flex-direction: column;
     height: 100%;
-    gap: 16px;
+    gap: 12px;
 
-    .rank {
+    .main_row {
       display: flex;
-      align-items: center;
-      gap: 10px;
       flex-direction: row;
-    }
-
-    .content {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      align-items: flex-start;
+      gap: 12px;
       flex: 1;
+      min-height: 0;
+
+      .rank {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        width: 36px;
+        padding-top: 4px;
+      }
 
       .img {
         flex: 1;
+        min-height: 0;
+        height: 100%;
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
 
         img,
         object {
-          max-width: 100%;
-          max-height: 100%;
+          width: 100%;
+          height: 100%;
           object-fit: cover;
-        }
-      }
-
-      .name {
-        .text {
           display: block;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
         }
       }
     }
-    
-    /* Mobile: Same vertical layout as compact */
-    ${media.mobileLarge`
-      background-color: transparent;
-      padding: 12px;
-      position: relative;
-      overflow: visible;
-      min-height: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      width: 175px;
-      height: auto;
-      
-      .rank {
-        position: static;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        order: 2;
-        width: 100%;
-        flex-direction: row;
 
-        p {
-          color: ${Theme.colorPalette.white};
-          font-size: 16px;
-          font-weight: 600;
-        }
+    .name {
+      flex-shrink: 0;
+      text-align: center;
+      padding: 4px 0 8px;
 
-        svg {
-          width: 16px;
-          height: 16px;
-        }
-
-        div {
-          border-radius: 4px;
-        }
+      .text {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: white;
       }
-      
-      .content {
-        display: contents;
-        
-        .img {
-          width: 100%;
-          height: 150px;
-          position: static;
-          overflow: hidden;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          order: 1;
-
-          img,
-          object {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-
-        .name {
-          position: static;
-          text-align: center;
-          width: 100%;
-          order: 3;
-
-          .text {
-            display: block;
-            color: ${Theme.colorPalette.white};
-            
-            &:first-child {
-              font-size: 14px;
-              font-weight: 600;
-              margin-bottom: 4px;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-            
-            &:last-child {
-              font-size: 12px;
-              font-weight: 500;
-              opacity: 0.95;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-          }
-        }
-      }
-    `}
+    }
   }
 
-  /* Compact variant - horizontal layout on desktop, full-bleed on mobile/tablet */
+  /* Compact variant - horizontal layout on desktop */
   &.compact {
     display: flex;
     flex-direction: row;
-    gap: 12px;
-    padding: 12px;
+    gap: 16px;
+    padding: 16px 12px;
     align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+    &:last-child {
+      border-bottom: none;
+    }
 
     .rank {
       display: flex;
@@ -292,7 +215,7 @@ const SongCardStyling = styled.div`
       }
     }
 
-    /* Mobile/Tablet: Full-bleed image design */
+    /* Tablet: Full-bleed image design */
     ${media.tablet`
       background-color: transparent;
       padding: 0;
@@ -369,93 +292,6 @@ const SongCardStyling = styled.div`
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          
-          &:last-child {
-            font-size: 12px;
-            font-weight: 500;
-            opacity: 0.95;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        }
-      }
-    `}
-
-    ${media.mobileLarge`
-      background-color: transparent;
-      padding: 12px;
-      position: relative;
-      overflow: visible;
-      min-height: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      width: 175px;
-      
-      .rank {
-        position: static;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        order: 2;
-        flex-direction: row;
-        width: 100%;
-
-        p {
-          color: ${Theme.colorPalette.white};
-          font-size: 16px;
-          font-weight: 600;
-        }
-
-        svg {
-          width: 16px;
-          height: 16px;
-        }
-
-        div {
-          border-radius: 4px;
-        }
-      }
-
-      .img {
-        width: 100%;
-        height: 150px;
-        position: static;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        order: 1;
-
-        img,
-        object {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-      }
-
-      .name {
-        position: static;
-        text-align: center;
-        width: 100%;
-        order: 3;
-
-        .text {
-          display: block;
-          color: ${Theme.colorPalette.white};
-          
-          &:first-child {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;

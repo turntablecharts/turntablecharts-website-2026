@@ -36,7 +36,7 @@ const Pagination: React.FC<{
         breakLinkClassName="break"
         containerClassName="pagination"
         activeClassName="active"
-        // renderOnZeroPageCount={null}
+      // renderOnZeroPageCount={null}
       />
     </PaginationStyling>
   );
@@ -64,7 +64,7 @@ const PaginationStyling = styled.div`
   .btn {
     all: unset;
     font-size: ${Theme.fontSizes.medium};
-    font-family: ${Theme.typography.primary};
+    font-family: ${Theme.typography.heading};
     font-weight: ${Theme.fontWeights.semiBold};
     cursor: pointer;
 
@@ -107,7 +107,7 @@ const PaginationStyling = styled.div`
     display: grid;
     place-items: center;
     font-size: ${Theme.fontSizes.medium};
-    font-family: ${Theme.typography.primary};
+    font-family: ${Theme.typography.heading};
     font-weight: ${Theme.fontWeights.semiBold};
     cursor: pointer;
 

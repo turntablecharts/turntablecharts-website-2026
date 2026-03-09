@@ -83,7 +83,7 @@ const Form = () => {
       <button type="submit" className="btn-submit">
         Submit
       </button>
-      <Typography.Text fontType="SFProText" className="note" style={{ marginTop: '10px' }} weight="semiBold">
+      <Typography.Text fontType="WorkSans" className="note" style={{ marginTop: '10px' }} weight="semiBold">
         Note: Not all nominated individuals will be among the final Power 100 that will be revealed at the end of the year
       </Typography.Text>
     </Power100FormStyling>
