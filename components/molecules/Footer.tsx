@@ -172,28 +172,20 @@ const FooterStyling = styled.footer`
 
           .header {
             font-family: 'Roboto Flex', sans-serif;
-    font-size: 42px;
-    font-weight: 850;
-    text-transform: uppercase;
-    line-height: 0.9;
-    text-align: left;
-    width: 100%;
-    letter-spacing: -2.5px;
-
-            ${media.mobileLarge`
-              font-size: 1.5rem;
-              
-              h1, h2 {
-                font-size: 1.5rem;
-              }
-            `}
+            font-size: 42px;
+            font-weight: 850;
+            text-transform: uppercase;
+            line-height: 0.9;
+            text-align: left;
+            width: 100%;
+            letter-spacing: -2.5px;
           }
 
           .body {
             color: ${Theme.colorPalette.white};
             font-size: 0.875rem;
             line-height: 1.5;
-            
+
             p {
               color: ${Theme.colorPalette.white};
             }
@@ -207,11 +199,6 @@ const FooterStyling = styled.footer`
           gap: 12px;
           margin-top: auto;
 
-          ${media.mobileLarge`
-            flex-direction: column;
-            align-items: stretch;
-          `}
-
           input {
             flex: 1;
             background-color: ${Theme.colorPalette.white};
@@ -223,10 +210,6 @@ const FooterStyling = styled.footer`
             &:focus {
               outline: 2px solid ${Theme.colorPalette.ttcYellow};
             }
-
-            ${media.mobileLarge`
-              width: 100%;
-            `}
           }
 
           button {
@@ -243,13 +226,34 @@ const FooterStyling = styled.footer`
               background-color: #e6a800;
               border: none;
             }
-
-            ${media.mobileLarge`
-              width: 100%;
-            `}
           }
         }
       }
+
+      ${media.mobileLarge`
+        > div {
+          .updates_texts .header {
+            font-size: 1.5rem;
+
+            h1, h2 {
+              font-size: 1.5rem;
+            }
+          }
+
+          form {
+            flex-direction: column;
+            align-items: stretch;
+
+            input {
+              width: 100%;
+            }
+
+            button {
+              width: 100%;
+            }
+          }
+        }
+      `}
     }
 
     .section_title {
