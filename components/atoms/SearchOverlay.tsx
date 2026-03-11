@@ -182,8 +182,7 @@ const SearchOverlay: React.FC<Props> = ({ isOpen, onClose }) => {
 
           {!loading && songs.length > 0 && (
             <Section>
-              <SectionLabel>SONGS</SectionLabel>
-              {songs.map((song, i) => (
+              <SectionLabel>SONGS</SectionLabel> {songs.map((song, i) => (
                 <ResultItem key={i}>
                   <ResultIconWrap>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none"

@@ -17,14 +17,14 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
   return (
     <NavbarStyling pathname={router.pathname}>
       <div className="logo">
-        <Link href="/">
+        <Link href="/" prefetch={false}>
           <a>
             <TTCLogo style={{ height: '40px', width: '102px' }} />
           </a>
         </Link>
       </div>
       <nav className="menus">
-        <Link href="/charts">
+        <Link href="/charts" prefetch={false}>
           <a className={`menus_menu ${router.pathname.startsWith('/charts') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               CHARTS
@@ -32,7 +32,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             {router.pathname.startsWith('/charts') && <NavHover className="nav_glow" />}
           </a>
         </Link>
-        <Link href="/news">
+        <Link href="/news" prefetch={false}>
           <a className={`menus_menu ${router.pathname.startsWith('/news') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               NEWS
@@ -40,7 +40,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             {router.pathname.startsWith('/news') && <NavHover className="nav_glow" />}
           </a>
         </Link>
-        <Link href="/magazine">
+        <Link href="/magazine" prefetch={false}>
           <a className={`menus_menu ${router.pathname.startsWith('/magazine') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               MAGAZINES
@@ -48,7 +48,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             {router.pathname.startsWith('/magazine') && <NavHover className="nav_glow" />}
           </a>
         </Link>
-        <Link href="/business">
+        <Link href="/business" prefetch={false}>
           <a className={`menus_menu ${router.pathname.startsWith('/business') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               BUSINESS
@@ -56,7 +56,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             {router.pathname.startsWith('/business') && <NavHover className="nav_glow" />}
           </a>
         </Link>
-        <Link href="/certification">
+        <Link href="/certification" prefetch={false}>
           <a className={`menus_menu ${router.pathname.startsWith('/certification') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               CERTIFICATIONS
@@ -67,7 +67,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
       </nav>
       <div className={`mobile_menus ${isMobileNavOpen ? 'open' : ''}`}>
         <nav className="menuContainer">
-          <Link className="mobile_menu" href="/charts">
+          <Link className="mobile_menu" href="/charts" prefetch={false}>
             <a
               onClick={() => {
                 setIsMobileNavOpen(false);
@@ -79,7 +79,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/news">
+          <Link className="mobile_menu" href="/news" prefetch={false}>
             <a
               onClick={() => {
                 setIsMobileNavOpen(false);
@@ -91,7 +91,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/magazine">
+          <Link className="mobile_menu" href="/magazine" prefetch={false}>
             <a
               onClick={() => {
                 setIsMobileNavOpen(false);
@@ -103,7 +103,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/business">
+          <Link className="mobile_menu" href="/business" prefetch={false}>
             <a
               onClick={() => {
                 setIsMobileNavOpen(false);
@@ -115,7 +115,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/certification">
+          <Link className="mobile_menu" href="/certification" prefetch={false}>
             <a className={router.pathname.startsWith('/certification') ? 'active' : ''}>
               <Typography.Text level="xlarge" fontType="Inter" weight="semiBold">
                 CERTIFICATIONS

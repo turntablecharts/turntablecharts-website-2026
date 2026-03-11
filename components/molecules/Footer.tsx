@@ -89,7 +89,7 @@ const Footer = () => {
 
       <div className="footer_notice">
         <Typography.Text fontType="WorkSans" weight="normal" level="small" className="notice_text">
-          Turntable Charts is a part of Penske Media Corporation. © 2025 Turntable Media, LLC. All Rights Reserved.
+          TurnTable Charts is part of TurnTable Media, Data and Analytics. ©️TMDA 2026. All Rights Reserved
         </Typography.Text>
       </div>
     </FooterStyling>
