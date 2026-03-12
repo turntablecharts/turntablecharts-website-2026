@@ -356,19 +356,21 @@ const IndexStyling = styled.div`
         }
       `}
       ${media.mobileLarge`
-        display: none;
+        display: none !important;
       `}
-      
-
     }
-.section_cards_mobile{
-      display:none;
-        ${media.mobileLarge`
+
+    .section_cards_mobile {
+      display: none;
+
+      ${media.mobileLarge`
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-      
+        gap: 8px;
+        align-items: start;
+        margin-bottom: 24px;
       `}
-}
+    }
     .news_cards {
       display: grid;
       gap: 20px;

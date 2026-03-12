@@ -490,17 +490,6 @@ const NewsCardStyling = styled.div`
       }
     }
 
-    /* Mobile: black text on light background */
-    ${media.mobileLarge`
-      .news_card-content {
-        .news_card-date p {
-          color: rgba(0, 0, 0, 0.5);
-        }
 
-        .news_card-title h3 {
-          color: black;
-        }
-      }
-    `}
   }
 `;

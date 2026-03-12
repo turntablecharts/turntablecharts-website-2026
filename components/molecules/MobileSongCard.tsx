@@ -48,15 +48,22 @@ export default MobileSongCard;
 const MobileCardStyling = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 5px;
   width: 100%;
+  min-width: 0;
 
   .mc_img {
     width: 100%;
     aspect-ratio: 1;
     overflow: hidden;
     flex-shrink: 0;
+
+    object {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
 
     object,
     img {

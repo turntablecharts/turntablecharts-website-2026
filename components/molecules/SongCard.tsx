@@ -113,7 +113,7 @@ const SongCardStyling = styled.div`
   &.large {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 600px;
     gap: 12px;
 
     .main_row {
