@@ -95,7 +95,7 @@ const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }>
         <Typography.Text fontType="OpenSans" weight="semiBold" level="large" className="text">
           {songItem.title}
         </Typography.Text>
-        <Typography.Text className="text" fontType="OpenSans" weight="medium" level="medium">
+        <Typography.Text className="text" fontType="OpenSans" weight="normal" level="medium">
           {songItem.artiste}
         </Typography.Text>
       </div>

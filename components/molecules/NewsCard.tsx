@@ -11,10 +11,12 @@ const NewsCard = ({
   newsItem,
   variant = "compact",
   accentColor,
+  darkBg = false,
 }: {
   newsItem: NewsSummary;
   variant?: "hero" | "large" | "compact" | "featured";
   accentColor?: string;
+  darkBg?: boolean;
 }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -130,7 +132,7 @@ const NewsCard = ({
 
   /* ── Compact (default) ── */
   return (
-    <NewsCardStyling className={variant}>
+    <NewsCardStyling className={variant} $darkBg={darkBg}>
       <div className="news_card-img">
         <Link href={`/news/${newsItem.id}`}>
           <a>
@@ -158,7 +160,7 @@ const NewsCard = ({
 
 export default NewsCard;
 
-const NewsCardStyling = styled.div`
+const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
   max-width: auto;
   display: flex;
   flex-direction: column;
@@ -470,7 +472,7 @@ const NewsCardStyling = styled.div`
       gap: 8px;
 
       .news_card-date p {
-        color: rgba(255, 255, 255, 0.45);
+        color: ${({ $darkBg }) => ($darkBg ? 'rgba(255,255,255,0.5)' : '#888')};
         font-size: 0.7rem;
         font-weight: 600;
         letter-spacing: 1.5px;
@@ -478,7 +480,7 @@ const NewsCardStyling = styled.div`
       }
 
       .news_card-title h3 {
-        color: white;
+        color: ${({ $darkBg }) => ($darkBg ? 'white' : '#0d0d0d')};
         font-family: "Work Sans", sans-serif;
         font-size: clamp(0.95rem, 1.3vw, 1.15rem);
         font-weight: 700;

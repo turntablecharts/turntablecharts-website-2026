@@ -111,9 +111,12 @@ const Home: React.FC<{
           </Typography.Text>
         </div>
         <div className="section_cards">
-          {topChart.map((item, index) => (
-            <SongCard key={item.id} songItem={item} variant={index === 0 ? 'large' : 'compact'} />
-          ))}
+          <SongCard key={topChart[0].id} songItem={topChart[0]} variant="large" />
+          <div className="compact_scroll">
+            {topChart.slice(1).map((item) => (
+              <SongCard key={item.id} songItem={item} variant="compact" />
+            ))}
+          </div>
         </div>
         {/* Mobile-only grid — completely separate from the desktop grid */}
         <div className="section_cards_mobile">
@@ -137,7 +140,7 @@ const Home: React.FC<{
         </div>
         <div className="news_cards">
           {topNews.slice(0, 5).map((item, index) => (
-            <NewsCard key={item.id} newsItem={item} variant={index === 0 ? 'large' : 'compact'} />
+            <NewsCard key={item.id} newsItem={item} variant={index === 0 ? 'large' : 'compact'} darkBg />
           ))}
         </div>
         <span className="mobile_action">
@@ -171,7 +174,7 @@ const Home: React.FC<{
         </div>
         <span className="mobile_action">
 
-          <CTAButton label="Explore the Charts" to="/charts" />
+          <CTAButton label="Read More" to="/magazine" />
         </span>
       </section>
       <Marquee variant='green' />
@@ -191,7 +194,7 @@ const Home: React.FC<{
         </div>
         <span className="mobile_action">
 
-          <CTAButton label="Explore the Charts" to="/charts" />
+          <CTAButton label="Explore Magazines" to="/magazine" />
         </span>
       </section>
       {/* <section className="photos">
@@ -321,22 +324,103 @@ const IndexStyling = styled.div`
     `}
   }
     }
+ .heading {
+    font-family: 'Roboto Flex', sans-serif;
+    font-size: 5rem;
+    font-weight: 850;
+    text-transform: uppercase;
+    line-height: 0.9;
+    text-align: center;
+    width: 100%;
+    letter-spacing: -2.5px;
+    
+    ${media.smallDesktop`
+      font-size: 4rem;
+      line-height: 1.2;
+    `}
+    
+    ${media.tablet`
+      font-size: 2.6rem;
+      line-height: 1.2;
+    `}
+    
+    ${media.mobileLarge`
+      font-size: 3rem;
+      line-height: 1.3;
+    `}
+    
+    ${media.mobile`
+      font-size: 3rem;
+      line-height: 1.3;
+    `}
+  }
+  
+  .subheading {
+    font-size: ${Theme.fontSizes.large};
+    letter-spacing: 1px;
+    text-align: center;
+    
+    ${media.tablet`
+      font-size: 0.875rem;
+      letter-spacing: 0.5px;
+    `}
+    
+    ${media.mobileLarge`
+      font-size: 12px;
+      letter-spacing: 0.3px;
+      margin-top: 3px;
+    `}
+        ${media.mobile`
+      font-size: 10px;
+      letter-spacing: 0.3px;
+      margin-top: 3px;
+    `}
+  }
 
     .section_cards {
       display: grid;
       gap: 8px;
       grid-template-columns: 1.2fr 1fr;
-      grid-auto-rows: auto;
-      align-items: start;
+      grid-template-rows: 1fr;
+      align-items: stretch;
       margin-bottom: 40px;
-      
+
+      /* Large card fills the full height of the grid row */
       > *:first-child {
-        grid-row: span 9;
+        grid-row: 1;
         grid-column: 1;
-        min-height: 640px;
+        height: 100%;
+        max-height: 600px;
       }
-      > *:nth-child(n+2) {
+
+      /* Scrollable compact list — sits in column 2 */
+      .compact_scroll {
         grid-column: 2;
+        grid-row: 1;
+        overflow-y: auto;
+       
+        /* Show ~5 compact items (each ~83px tall incl. padding) before scrolling */
+        height: 580px;
+        display: flex;
+        flex-direction: column;
+     
+        scroll-behavior: smooth;
+       
+
+        /* Thin styled scrollbar */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,0.2) transparent;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.2);
+          border-radius: 4px;
+        }
       }
 
       ${media.smallDesktop`
@@ -344,15 +428,26 @@ const IndexStyling = styled.div`
       `}
       ${media.tablet`
         grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
         gap: 8px;
         align-items: start;
-        
-        > *:first-child,
-        > *:nth-child(n+2) {
+
+        > *:first-child {
           grid-row: auto;
-          grid-column: auto;
-          height: auto;
+          grid-column: 1;
           min-height: unset;
+        }
+
+        .compact_scroll {
+          grid-column: 2;
+          grid-row: 1;
+          /* On tablet each card is a square ~280px; show ~2 rows */
+          max-height: 480px;
+          overflow-y: auto;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          align-content: start;
         }
       `}
       ${media.mobileLarge`

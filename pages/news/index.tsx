@@ -113,8 +113,8 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
 
       <hr className="section_divider" />
 
-      {/* Remaining cards grid */}
-      <div className="page_article_cards">
+      {/* Desktop grid — alternating featured/compact pattern */}
+      <div className="page_article_cards page_article_cards--desktop">
         {(() => {
           let bigCardCount = 0;
           return gridItems.map((item, index) => {
@@ -140,6 +140,15 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
             );
           });
         })()}
+      </div>
+
+      {/* Mobile grid — simple 2-column compact cards */}
+      <div className="page_article_cards page_article_cards--mobile">
+        {gridItems.map((item) => (
+          <div key={`m-${item.id}`} className="card_wrap card_wrap--mobile">
+            <NewsCard newsItem={item} variant="compact" />
+          </div>
+        ))}
       </div>
 
       {/* Infinite scroll sentinel */}
@@ -227,48 +236,62 @@ const NewsPageStyling = styled.div`
     margin: 40px 0;
   }
 
-  /* Cards grid — alternating big/small pattern
-     Small : Big ratio = 320 : 500 (total row = 1140)
-     With 2 gaps of 24px each (48px total):
-       small width = (100% - 48px) × 320/1140  ≈ calc(28.07% - 13.5px)
-       big   width = (100% - 48px) × 500/1140  ≈ calc(43.86% - 21px)
-     This guarantees exactly 3 cards per row at ANY container width.
-  */
-  .page_article_cards {
-    max-width: 1300px;
-    width: 90%;
-    margin: 0 auto 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    row-gap: 32px;
-    justify-content: center;
+    /* ── Desktop grid ── */
+    .page_article_cards--desktop {
+      max-width: 1300px;
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      row-gap: 32px;
+      justify-content: center;
 
-    .card_wrap {
-      overflow: hidden;
-      flex-shrink: 0;
-      animation: ${fadeInUp} 0.4s ease both;
+      .card_wrap {
+        overflow: hidden;
+        flex-shrink: 0;
+        animation: ${fadeInUp} 0.4s ease both;
 
-      &.card_wrap--small {
-        width: calc(28.07% - 13.5px);
-        height: 320px;
+        &.card_wrap--small {
+          width: calc(28.07% - 13.5px);
+          height: 320px;
+        }
+
+        &.card_wrap--big {
+          width: calc(43.86% - 21px);
+          height: 360px;
+        }
       }
 
-      &.card_wrap--big {
-        width: calc(43.86% - 21px);
-        height: 360px;
-      }
+      /* Hide on mobile */
+      ${media.mobileLarge`
+        display: none;
+      `}
     }
 
-    /* Two columns on mobile */
-    ${media.mobileLarge`
-      .card_wrap--small,
-      .card_wrap--big {
-        width: calc(50% - 12px);
-        height: 220px;
-      }
-    `}
-  }
+    /* ── Mobile grid ── */
+    .page_article_cards--mobile {
+      display: none;
+
+      ${media.mobileLarge`
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        width: 92%;
+        margin: 0 auto;
+
+        .card_wrap--mobile {
+          overflow: hidden;
+          height: auto;
+          animation: ${fadeInUp} 0.4s ease both;
+
+          /* Match the compact image height from latest_articles */
+          .compact .news_card-img {
+            height: 160px;
+          }
+        }
+      `}
+    }
 
   /* Sentinel — invisible trigger element */
   .scroll_sentinel {
@@ -340,8 +363,10 @@ const NewsPageStyling = styled.div`
     }
 
     &:hover {
-      background-color: #e8251a;
+      background-color: ${Theme.colorPalette.ttcYellow};;
       transform: translateY(-2px);
+      color: black;
+
     }
 
     &:active {

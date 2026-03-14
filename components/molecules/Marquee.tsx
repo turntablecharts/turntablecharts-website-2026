@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import Typography from 'components/atoms/typography';
+import media from 'constants/MediaQuery';
 import MarqueeIcon from 'assets/icons/MarqueeIcon.svg';
 import MarqueeIcon2 from 'assets/icons/MarqueeIcon2.svg';
 
@@ -12,9 +13,10 @@ const Marquee: React.FC<MarqueeProps> = ({ variant = 'green' }) => {
   const Icon = variant === 'green' ? MarqueeIcon2 : MarqueeIcon;
 
   const marqueeItems = [
-    'Official Top Artists 100',
-    'Official Top Albums 100',
-    'Official Top Artists 100',
+    'Turntable Top 50',
+    'TV Top Songs',
+    'Streaming Top 50',
+    'Airplay Top 50',
   ];
 
   return (
@@ -59,6 +61,10 @@ const MarqueeContainer = styled.div`
   overflow: hidden;
   background-color: transparent;
   padding: 20px 0;
+
+  ${media.mobileLarge`
+    padding: 12px 0;
+  `}
 `;
 
 const MarqueeTrack = styled.div`
@@ -67,6 +73,11 @@ const MarqueeTrack = styled.div`
   gap: 30px;
   animation: ${scroll} 30s linear infinite;
   width: fit-content;
+
+  ${media.mobileLarge`
+    gap: 16px;
+    animation-duration: 20s;
+  `}
 `;
 
 const MarqueeContent = styled.div`
@@ -74,6 +85,10 @@ const MarqueeContent = styled.div`
   align-items: center;
   gap: 30px;
   white-space: nowrap;
+
+  ${media.mobileLarge`
+    gap: 16px;
+  `}
 `;
 
 const MarqueeText = styled.div`
@@ -83,9 +98,17 @@ const MarqueeText = styled.div`
 const IconWrapper = styled.div`
   display: flex;
   align-items: center;
-  
+  flex-shrink: 0;
+
   svg {
     width: 84px;
     height: 48px;
   }
+
+  ${media.mobileLarge`
+    svg {
+      width: 44px;
+      height: 26px;
+    }
+  `}
 `;
