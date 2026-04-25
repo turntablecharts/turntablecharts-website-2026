@@ -77,14 +77,14 @@ const Th = styled.th`
   padding: 18px 20px;
   white-space: pre;
   position: sticky;
-  top: 0;
+  top: 80px;
   z-index: 10;
   background-color: #181818;
   backdrop-filter: none;
 
   :first-child {
     padding-left: 24px;
-    text-align: center;
+    text-align: left;
     border-radius: 12px 0 0 0;
     ${media.tablet` padding-left: 10px; `}
     ${media.mobile` padding-left: 8px; `}

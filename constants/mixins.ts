@@ -2,9 +2,9 @@ import { css } from 'styled-components';
 import media from 'constants/MediaQuery';
 
 export const headingMixin = css`
-  font-family: 'Roboto Flex', sans-serif;
+  font-family: 'Nohemi', sans-serif;
   font-size: 5rem;
-  font-weight: 850;
+  font-weight: 900;
   text-transform: uppercase;
   line-height: 0.9;
   text-align: center;

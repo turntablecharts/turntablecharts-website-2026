@@ -6,17 +6,16 @@ import Link from "next/link";
 import { NewsSummary } from "utility/NewsApi/types";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
+import MainArrow from "assets/icons/mainArrow.svg";
 
 const NewsCard = ({
   newsItem,
   variant = "compact",
   accentColor,
-  darkBg = false,
 }: {
   newsItem: NewsSummary;
   variant?: "hero" | "large" | "compact" | "featured";
   accentColor?: string;
-  darkBg?: boolean;
 }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -60,7 +59,10 @@ const NewsCard = ({
   /* ── Large ── */
   if (variant === "large") {
     return (
-      <NewsCardStyling className={variant}>
+      <NewsCardStyling 
+        className={variant}
+        style={{ '--accent-color': accentColor ?? Theme.colorPalette.ttcRed } as any}
+      >
         <div className="news_card-img">
           <Link href={`/news/${newsItem.id}`}>
             <a>
@@ -70,23 +72,33 @@ const NewsCard = ({
             </a>
           </Link>
         </div>
-        <div className="news_card-content">
-          <div className="news_card-category">
-            <Typography.Text fontType="Anton" weight="normal" level="small">
-              TOP NEWS
-            </Typography.Text>
-          </div>
-          <div className="news_card-title">
-            <Typography.Heading fontType="Anton" weight="normal" level={2}>
-              {newsItem.title}
-            </Typography.Heading>
-          </div>
-          <div className="news_card-date">
-            <Typography.Text fontType="WorkSans" weight="medium" level="medium">
-              {formatDate(newsItem.dateCreated)}
-            </Typography.Text>
-          </div>
-        </div>
+        <Link href={`/news/${newsItem.id}`}>
+          <a className="news_card-content">
+            {/* Hover color reveal */}
+            <div className="featured_bg_overlay" />
+            
+            <div className="news_card-category">
+              <Typography.Text fontType="Anton" weight="normal" level="small">
+                TOP NEWS
+              </Typography.Text>
+            </div>
+
+            <div className="featured_arrow" aria-hidden="true">
+              <MainArrow />
+            </div>
+
+            <div className="news_card-title">
+              <Typography.Heading fontType="Anton" weight="normal" level={2}>
+                {newsItem.title}
+              </Typography.Heading>
+            </div>
+            <div className="news_card-date">
+              <Typography.Text fontType="WorkSans" weight="medium" level="medium">
+                {formatDate(newsItem.dateCreated)}
+              </Typography.Text>
+            </div>
+          </a>
+        </Link>
       </NewsCardStyling>
     );
   }
@@ -96,25 +108,19 @@ const NewsCard = ({
     return (
       <NewsCardStyling
         className="featured"
-        style={{ backgroundColor: accentColor ?? Theme.colorPalette.ttcRed } as React.CSSProperties}
+        style={{ 
+          backgroundImage: `url(${newsItem.headerImageUri})`,
+          '--accent-color': accentColor ?? Theme.colorPalette.ttcRed 
+        } as any}
       >
         <Link href={`/news/${newsItem.id}`}>
           <a className="featured_link">
+            {/* Colored overlay revealed on hover */}
+            <div className="featured_bg_overlay" />
+            
             {/* Arrow icon — top right */}
             <div className="featured_arrow" aria-hidden="true">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7 17L17 7M17 7H7M17 7V17"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <MainArrow />
             </div>
 
             {/* Text block — bottom */}
@@ -132,13 +138,15 @@ const NewsCard = ({
 
   /* ── Compact (default) ── */
   return (
-    <NewsCardStyling className={variant} $darkBg={darkBg}>
+    <NewsCardStyling className={variant}>
       <div className="news_card-img">
         <Link href={`/news/${newsItem.id}`}>
           <a>
-            <object data={newsItem.headerImageUri} type="image/png">
-              <img src="/assets/ttcBgWhite.png" alt="fallback" />
-            </object>
+            <img
+              src={newsItem.headerImageUri}
+              alt={newsItem.title}
+              onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+            />
           </a>
         </Link>
       </div>
@@ -160,7 +168,7 @@ const NewsCard = ({
 
 export default NewsCard;
 
-const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
+const NewsCardStyling = styled.div`
   max-width: auto;
   display: flex;
   flex-direction: column;
@@ -294,25 +302,36 @@ const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
     }
 
     .news_card-content {
-      flex: 1;
-      background-color: white;
+      flex: 1.2;
       padding: 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 20px;
+      position: relative;
+      overflow: hidden;
+      background-color: white;
+      text-decoration: none;
+      color: black;
 
-      .news_card-category {
-        p {
-          color: ${Theme.colorPalette.ttcGreen};
-          font-size: ${Theme.fontSizes.small};
-          letter-spacing: 2px;
-        }
+      .featured_bg_overlay {
+        position: absolute;
+        inset: 0;
+        background-color: var(--accent-color, ${Theme.colorPalette.ttcRed});
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+      }
+
+      .news_card-category,
+      .news_card-title,
+      .news_card-date {
+        position: relative;
+        z-index: 3;
+        transition: color 0.3s ease;
       }
 
       .news_card-title {
         h2 {
-          color: black;
           font-size: 2.5rem;
           line-height: 1.1;
           text-transform: uppercase;
@@ -321,16 +340,64 @@ const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
           -webkit-box-orient: vertical;
           overflow: hidden;
           text-overflow: ellipsis;
+          margin-bottom: 20px;
         }
       }
 
       .news_card-date {
         margin-top: auto;
         p {
-          color: black;
           font-size: ${Theme.fontSizes.small};
         }
       }
+
+      .news_card-category {
+        margin-bottom: 12px;
+        p {
+          color: ${Theme.colorPalette.ttcGreen};
+          font-size: ${Theme.fontSizes.small};
+          letter-spacing: 2px;
+        }
+      }
+
+      .featured_arrow {
+        position: absolute;
+        top: 32px;
+        right: 32px;
+        width: 48px;
+        height: 48px;
+        opacity: 0;
+        transform: translate(10px, -10px);
+        transition: all 0.3s ease;
+        z-index: 3;
+
+        svg {
+          width: 100%;
+          height: 100%;
+          rect { stroke: rgba(255, 255, 255, 0.7); }
+        }
+      }
+
+      ${media.tabletMin`
+        &:hover {
+          .featured_bg_overlay { opacity: 1; }
+          .featured_arrow { 
+            opacity: 1; 
+            transform: translate(0, 0); 
+            svg rect { stroke: white; }
+          }
+          
+          .news_card-category p, 
+          .news_card-title h2, 
+          .news_card-date p { 
+            color: white !important; 
+          }
+        }
+      `}
+
+      ${media.tabletMin`
+        padding: 50px;
+      `}
     }
 
     ${media.mobileLarge`
@@ -364,11 +431,10 @@ const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
 
   &.featured {
     cursor: pointer;
-    transition: filter 0.25s ease;
-
-    &:hover {
-      filter: brightness(1.08);
-    }
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
 
     .featured_link {
       display: flex;
@@ -378,31 +444,59 @@ const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
       padding: 28px 28px 32px;
       text-decoration: none;
       position: relative;
+      z-index: 2;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%);
     }
+
+    .featured_bg_overlay {
+      position: absolute;
+      inset: 0;
+      background-color: var(--accent-color, ${Theme.colorPalette.ttcRed});
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    ${media.tabletMin`
+      &:hover .featured_bg_overlay {
+        opacity: 1;
+      }
+    `}
 
     /* Circular arrow — top right */
     .featured_arrow {
       width: 52px;
       height: 52px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.7);
       display: flex;
       align-items: center;
       justify-content: center;
       align-self: flex-end;
       flex-shrink: 0;
-      transition: border-color 0.2s ease, transform 0.25s ease;
+      opacity: 0;
+      transform: translate(10px, -10px);
+      transition: all 0.3s ease;
 
       svg {
-        width: 22px;
-        height: 22px;
+        width: 100%;
+        height: 100%;
+        
+        rect {
+          stroke: rgba(255, 255, 255, 0.7);
+          transition: stroke 0.2s ease;
+        }
       }
     }
 
-    &:hover .featured_arrow {
-      border-color: white;
-      transform: rotate(45deg);
-    }
+    ${media.tabletMin`
+      &:hover .featured_arrow {
+        opacity: 1;
+        transform: translate(0, 0);
+        
+        svg rect {
+          stroke: white;
+        }
+      }
+    `}
 
     /* Content anchored to bottom */
     .featured_content {
@@ -452,7 +546,7 @@ const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
         width: 100%;
       }
 
-      img, object {
+      img {
         width: 100%;
         height: 100%;
         transition: transform 1s;
@@ -461,7 +555,7 @@ const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
       }
 
       &:hover {
-        img, object { transform: scale(1.05); }
+        img { transform: scale(1.05); }
       }
     }
 
@@ -472,7 +566,7 @@ const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
       gap: 8px;
 
       .news_card-date p {
-        color: ${({ $darkBg }) => ($darkBg ? 'rgba(255,255,255,0.5)' : '#888')};
+        color: rgba(255, 255, 255, 0.45);
         font-size: 0.7rem;
         font-weight: 600;
         letter-spacing: 1.5px;
@@ -480,7 +574,7 @@ const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
       }
 
       .news_card-title h3 {
-        color: ${({ $darkBg }) => ($darkBg ? 'white' : '#0d0d0d')};
+        color: white;
         font-family: "Work Sans", sans-serif;
         font-size: clamp(0.95rem, 1.3vw, 1.15rem);
         font-weight: 700;
@@ -492,6 +586,10 @@ const NewsCardStyling = styled.div<{ $darkBg?: boolean }>`
       }
     }
 
-
+    ${media.mobileLarge`
+      .news_card-img {
+        height: 160px;
+      }
+    `}
   }
 `;

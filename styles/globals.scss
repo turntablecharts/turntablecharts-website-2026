@@ -82,28 +82,6 @@ select::-ms-expand {
     transform: translateX(-50%);
 }
 
-/* Scroll bar */
-/* width */
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: black;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #f1a01f;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #f1a01f;
-}
-
-
 @font-face {
     font-family: 'Mermaid';
     src: url('/assets/fonts/Mermaid.ttf') format('opentype');
@@ -219,7 +197,93 @@ select::-ms-expand {
     font-display: swap;
 }
 
+// Nohemi font family (self-hosted)
+@font-face {
+    font-family: 'Nohemi';
+    src: url('/assets/fonts/Nohemi-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nohemi';
+    src: url('/assets/fonts/Nohemi-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nohemi';
+    src: url('/assets/fonts/Nohemi-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nohemi';
+    src: url('/assets/fonts/Nohemi-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nohemi';
+    src: url('/assets/fonts/Nohemi-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nohemi';
+    src: url('/assets/fonts/Nohemi-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nohemi';
+    src: url('/assets/fonts/Nohemi-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nohemi';
+    src: url('/assets/fonts/Nohemi-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nohemi';
+    src: url('/assets/fonts/Nohemi-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-display: swap;
+}
+
 
 // * {
 //   outline: 1px dotted red;
 // }
+
+
+/* Scroll bar */
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #f1a01f;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #f1a01f;
+}

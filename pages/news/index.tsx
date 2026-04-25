@@ -4,6 +4,7 @@ import WantUpdates from "components/molecules/WantUpdates";
 import media from "constants/MediaQuery";
 import { headingMixin } from "constants/mixins";
 import Theme from "constants/Theme";
+import BackToTopSVG from "assets/icons/BackToTop.svg";
 
 import Head from "next/head";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -14,7 +15,7 @@ import { NewsSummary, NewsResponsePaginated } from "utility/NewsApi/types";
 // Cycle through these brand colors for each 'featured' big card
 const FEATURED_COLORS = [
   Theme.colorPalette.ttcBlue,
-  Theme.colorPalette.ttcYellow2,
+  Theme.colorPalette.ttcOrange,
   Theme.colorPalette.ttcRed,
   Theme.colorPalette.ttcGreen,
 ];
@@ -37,6 +38,14 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
   const [totalItems, setTotalItems] = useState(newsPage.totalItems);
   const [isFetching, setIsFetching] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // IntersectionObserver sentinel ref
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -113,8 +122,8 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
 
       <hr className="section_divider" />
 
-      {/* Desktop grid — alternating featured/compact pattern */}
-      <div className="page_article_cards page_article_cards--desktop">
+      {/* Remaining cards grid */}
+      <div className="page_article_cards">
         {(() => {
           let bigCardCount = 0;
           return gridItems.map((item, index) => {
@@ -133,22 +142,13 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
               >
                 <NewsCard
                   newsItem={item}
-                  variant={isBig ? "featured" : "compact"}
+                  variant={(isBig && !isMobile) ? "featured" : "compact"}
                   accentColor={accentColor}
                 />
               </div>
             );
           });
         })()}
-      </div>
-
-      {/* Mobile grid — simple 2-column compact cards */}
-      <div className="page_article_cards page_article_cards--mobile">
-        {gridItems.map((item) => (
-          <div key={`m-${item.id}`} className="card_wrap card_wrap--mobile">
-            <NewsCard newsItem={item} variant="compact" />
-          </div>
-        ))}
       </div>
 
       {/* Infinite scroll sentinel */}
@@ -173,20 +173,7 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
         onClick={scrollToTop}
         aria-label="Back to top"
       >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path
-            d="M12 19V5M5 12l7-7 7 7"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <BackToTopSVG />
       </button>
     </NewsPageStyling>
   );
@@ -211,14 +198,26 @@ const NewsPageStyling = styled.div`
 
   /* Page heading */
   .page_header {
-    max-width: 1300px;
-    margin: 0 auto;
+    padding: 60px 0 20px;
     text-align: center;
+    margin-bottom: 40px;
+
     h1 {
-      ${headingMixin}
-      padding: 2rem 0;
-      color: black;
+      font-size: 3.5rem;
+      font-family: "Nohemi", sans-serif;
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin: 0;
+      color: ${Theme.colorPalette.ttcBlack};
     }
+
+    ${media.mobileLarge`
+      padding: 40px 0 15px;
+      h1 {
+        font-size: 2.2rem;
+        letter-spacing: -1px;
+      }
+    `}
   }
 
   /* Hero card */
@@ -236,62 +235,65 @@ const NewsPageStyling = styled.div`
     margin: 40px 0;
   }
 
-    /* ── Desktop grid ── */
-    .page_article_cards--desktop {
-      max-width: 1300px;
-      width: 90%;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      row-gap: 32px;
-      justify-content: center;
+  /* Cards grid — alternating big/small pattern
+     Small : Big ratio = 320 : 500 (total row = 1140)
+     With 2 gaps of 24px each (48px total):
+       small width = (100% - 48px) × 320/1140  ≈ calc(28.07% - 13.5px)
+       big   width = (100% - 48px) × 500/1140  ≈ calc(43.86% - 21px)
+     This guarantees exactly 3 cards per row at ANY container width.
+  */
+  .page_article_cards {
+    max-width: 1300px;
+    width: 90%;
+    margin: 0 auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    row-gap: 32px;
+    justify-content: center;
 
-      .card_wrap {
-        overflow: hidden;
-        flex-shrink: 0;
-        animation: ${fadeInUp} 0.4s ease both;
+    .card_wrap {
+      overflow: hidden;
+      flex-shrink: 0;
+      animation: ${fadeInUp} 0.4s ease both;
 
-        &.card_wrap--small {
-          width: calc(28.07% - 13.5px);
-          height: 320px;
-        }
-
-        &.card_wrap--big {
-          width: calc(43.86% - 21px);
-          height: 360px;
-        }
+      &.card_wrap--small {
+        width: calc(28.07% - 13.5px);
+        height: 320px;
       }
 
-      /* Hide on mobile */
-      ${media.mobileLarge`
-        display: none;
-      `}
+      &.card_wrap--big {
+        width: calc(43.86% - 21px);
+        height: 360px;
+      }
     }
 
-    /* ── Mobile grid ── */
-    .page_article_cards--mobile {
-      display: none;
+    /* Two columns on mobile/tablet */
+    ${media.tablet`
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      row-gap: 36px;
+      width: 90%;
 
-      ${media.mobileLarge`
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-        width: 92%;
-        margin: 0 auto;
+      .card_wrap--small,
+      .card_wrap--big {
+        grid-column: span 1 !important;
+        width: 100% !important;
+        height: 280px;
+      }
+    `}
 
-        .card_wrap--mobile {
-          overflow: hidden;
-          height: auto;
-          animation: ${fadeInUp} 0.4s ease both;
-
-          /* Match the compact image height from latest_articles */
-          .compact .news_card-img {
-            height: 160px;
-          }
-        }
-      `}
+    /* Override NewsCard colors for white background */
+    .card_wrap {
+      .news_card-title h3 {
+        color: black !important;
+      }
+      .news_card-date p {
+        color: rgba(0, 0, 0, 0.5) !important;
+      }
     }
+  }
 
   /* Sentinel — invisible trigger element */
   .scroll_sentinel {
@@ -332,52 +334,41 @@ const NewsPageStyling = styled.div`
   /* ── Back-to-top button ── */
   .back_to_top {
     position: fixed;
-    bottom: 36px;
-    right: 36px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: #0d0d0d;
-    color: white;
+    bottom: 60px;
+    right: 32px;
+    background: transparent;
     border: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
     opacity: 0;
-    transform: translateY(16px);
     pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
-    z-index: 999;
-
-    svg {
-      width: 20px;
-      height: 20px;
-    }
+    transition: all 0.4s ease;
+    transform: translateY(20px);
 
     &.back_to_top--visible {
-      opacity: 1;
-      transform: translateY(0);
+      opacity: 0.9;
       pointer-events: auto;
-    }
-
-    &:hover {
-      background-color: ${Theme.colorPalette.ttcYellow};;
-      transform: translateY(-2px);
-      color: black;
-
-    }
-
-    &:active {
       transform: translateY(0);
+
+      &:hover {
+        opacity: 1;
+        transform: translateY(-8px);
+      }
+    }
+
+    svg {
+      display: block;
+      width: 38px;
+      height: 172px;
     }
 
     ${media.mobileLarge`
-      bottom: 20px;
       right: 20px;
-      width: 42px;
-      height: 42px;
+      bottom: 40px;
+      svg {
+        width: 30px;
+        height: 136px;
+      }
     `}
   }
 `;

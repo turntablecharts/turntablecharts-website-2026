@@ -3,14 +3,30 @@ import Typography from 'components/atoms/typography';
 import media from 'constants/MediaQuery';
 import Theme from 'constants/Theme';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ChartCategory } from 'utility/ChartsApi/types';
 import { truncateString } from 'utility/helpers';
+import MainArrow from 'assets/icons/mainArrow.svg';
+import RectangleGrad from 'assets/RectangleGrad.png';
+
+const HOVER_COLORS = [
+  Theme.colorPalette.ttcBlue,
+  Theme.colorPalette.ttcOrange,
+  Theme.colorPalette.ttcGreen,
+  Theme.colorPalette.ttcDarkGreen,
+  Theme.colorPalette.ttcBlack,
+];
 
 const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ category, cardColor }) => {
+  const [hoverColor, setHoverColor] = useState(cardColor);
+
+  const handleMouseEnter = () => {
+    setHoverColor(HOVER_COLORS[Math.floor(Math.random() * HOVER_COLORS.length)]);
+  };
+
   return (
-    <ChartCardStyling $cardColor={cardColor}>
+    <ChartCardStyling $cardColor={hoverColor} onMouseEnter={handleMouseEnter}>
       <Link href={`/charts/${category.id}`}>
         <a>
           {/* TOP: album art + song info */}
@@ -50,16 +66,8 @@ const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ c
               </Typography.Text>
             </div>
             <div className="chart_arrow">
-              {/* default arrow ↘ */}
-              <svg className="arrow_default" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="5" x2="19" y2="19" />
-                <polyline points="10 19 19 19 19 10" />
-              </svg>
-              {/* hover arrow → */}
-              <svg className="arrow_hover" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="4" y1="12" x2="20" y2="12" />
-                <polyline points="14 6 20 12 14 18" />
-              </svg>
+              <MainArrow className="arrow_default" />
+              <MainArrow className="arrow_hover" />
             </div>
           </div>
         </a>
@@ -97,12 +105,36 @@ const ChartCardStyling = styled.div<{ $cardColor: string }>`
     z-index: 0;
   }
 
-  &:hover::before {
-    opacity: 1;
-  }
+  ${media.tabletMin`
+    &:hover::before {
+      opacity: 1;
+    }
 
-  &:hover {
-    color: white;
+    &:hover::after {
+      opacity: 0.5;
+      transform: translateY(0);
+    }
+
+    &:hover {
+      color: white;
+    }
+  `}
+
+  /* ── Gradient Overlay (PNG) ── */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url(${RectangleGrad.src});
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    mix-blend-mode: screen;
+    filter: blur(0.5px);
+    transform: translateY(10px);
+    transition: all 0.5s ease;
+    pointer-events: none;
+    z-index: 1;
   }
 
   a {
@@ -207,38 +239,55 @@ const ChartCardStyling = styled.div<{ $cardColor: string }>`
   /* ── Arrow ── */
   .chart_arrow {
     flex-shrink: 0;
-    color: black;
-    opacity: 0.6;
     position: relative;
-    width: 42px;
-    height: 42px;
-    transition: opacity 0.3s ease, color 0.4s ease;
+    width: 60px;
+    height: 60px;
 
     svg {
       position: absolute;
       top: 0;
       left: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      width: 100%;
+      height: 100%;
+      transition: all 0.4s ease;
+      
+      rect {
+        stroke: rgba(0, 0, 0, 0.2);
+        transition: stroke 0.4s ease;
+      }
+      path {
+        fill: rgba(0, 0, 0, 0.6);
+        transform-origin: center;
+        transition: all 0.4s ease;
+      }
     }
-
-    .arrow_hover {
-      opacity: 0;
-      transform: rotate(-45deg) scale(0.8);
-    }
-  }
-
-  &:hover .chart_arrow {
-    color: white;
-    opacity: 1;
 
     .arrow_default {
-      opacity: 0;
-      transform: rotate(45deg) scale(0.8);
+      path { transform: rotate(90deg); }
     }
 
     .arrow_hover {
-      opacity: 1;
-      transform: rotate(0deg) scale(1);
+      opacity: 0;
+      path { transform: rotate(45deg); }
     }
   }
+
+  ${media.tabletMin`
+    &:hover .chart_arrow {
+      .arrow_default {
+        opacity: 0;
+        path { transform: rotate(135deg); }
+      }
+
+      .arrow_hover {
+        opacity: 1;
+        
+        rect { stroke: white; }
+        path { 
+          fill: white; 
+          transform: rotate(45deg);
+        }
+      }
+    }
+  `}
 `;

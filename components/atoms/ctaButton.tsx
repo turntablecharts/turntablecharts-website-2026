@@ -1,55 +1,88 @@
 import React from "react";
 import { useRouter } from "next/router";
-import media from "constants/MediaQuery";
-
 import styled from "styled-components";
-import Typography from "./typography";
-
-import CTAArrow from "assets/icons/ctaArrow.svg";
-import Theme from "constants/Theme";
+import media from "constants/MediaQuery";
 
 const CTAButton: React.FC<{ label: string; to: string }> = ({ label, to }) => {
   const router = useRouter();
   return (
-    <CTAButtonStyling onClick={() => router.push(to)}>
-      <Typography.Text weight="bold" fontType="OpenSans">
-        {label}
-      </Typography.Text>
-    </CTAButtonStyling>
+    <Wrapper onClick={() => router.push(to)}>
+      <Btn>{label}</Btn>
+    </Wrapper>
   );
 };
 
 export default CTAButton;
 
-const CTAButtonStyling = styled.div`
-  all: unset;
-  width: 305px;
-  height: 71px;
-  padding: 21px 73px;
-  background: #000000;
-  color: ${Theme.colorPalette.white};
-  border-radius: 88px;
-  display: inline-flex;
+const Wrapper = styled.div`
+  position: relative;
+  width: 280px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  border-radius: 31.22px;
+  cursor: pointer;
 
-  opacity: 1;
-  font-size: ${Theme.fontSizes.large};
-  box-sizing: border-box;
-  :hover {
-    background-color: ${Theme.colorPalette.ttcYellow};
-    color: ${Theme.colorPalette.black};
-    cursor: pointer;
+  &:hover {
+    background: radial-gradient(
+      55% 130% at 50.14% 50.14%,
+      rgba(255, 166, 0, 0) 83.21%,
+      #ffa600 100%
+    );
   }
-  /* Inner glow */
-  box-shadow: 0px 4px 24.3px 0px #F1920C inset,
-              0px 4px 12.6px 0px #F1920C;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      55% 130% at 50.14% 50.14%,
+      rgba(255, 166, 0, 0) 83.21%,
+      #ffa600 100%
+    );
+    opacity: 0;
+    transition: opacity 600ms ease-out 400ms;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
 
   ${media.mobileLarge`
     width: auto;
-    height: auto;
-    padding: 14px 24px;
-    font-size: 14px;
+  `}
+`;
+
+const Btn = styled.button`
+  font-family: Inter, Arial;
+  font-weight: 500;
+  font-size: 13.52px;
+  line-height: 100%;
+  letter-spacing: -3%;
+  border: 1.83px solid #ffffff;
+  padding: 24px 76px;
+  border-radius: 31.22px;
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+
+  transition: box-shadow 600ms ease-out 1200ms, border-color 0ms linear 1800ms;
+
+  &:hover {
+    box-shadow: 0px 0px 25px 0px #ffa600 inset;
+    border-color: transparent;
+    transition: border-color 0s;
+  }
+
+  ${media.mobileLarge`
+    padding: 16px 40px;
+    font-size: 13px;
   `}
 `;

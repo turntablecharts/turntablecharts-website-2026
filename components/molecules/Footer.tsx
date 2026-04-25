@@ -1,96 +1,226 @@
+/* eslint-disable @next/next/no-img-element */
 import styled from 'styled-components';
-import Typography from 'components/atoms/typography';
 import Link from 'next/link';
 import Theme from 'constants/Theme';
+import BackToTopSVG from 'assets/icons/BackToTop.svg';
 import media from 'constants/MediaQuery';
-import WantUpdates from './WantUpdates';
+import { FormEvent, useState } from 'react';
+import { useQuery } from 'react-query';
+import { getAllMagazineEditions } from 'utility/MagazinesApi/api';
+import TTCRequest from 'lib/axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
+const NAV_LINKS = [
+  { label: 'Charts', href: '/charts' },
+  { label: 'News', href: '/news' },
+  { label: 'Magazines', href: '/magazine' },
+  { label: 'Business', href: '/business' },
+  { label: 'Certifications', href: '/certification' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Power List', href: '/power100' },
+];
+
+const SOCIAL_LINKS = [
+  { label: 'X', href: 'https://twitter.com/TurntableCharts' },
+  { label: 'Instagram', href: 'https://www.instagram.com/turntablecharts/' },
+  { label: 'Tiktok', href: 'https://www.tiktok.com/@turntablecharts' },
+  { label: 'Youtube', href: 'https://www.youtube.com/@turntablecharts' },
+  { label: 'Linkedin', href: 'https://linkedin.com/company/turntablecharts' },
+];
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [exploreOpen, setExploreOpen] = useState(false);
+
+  const { data: magazineData } = useQuery('footer-magazine', getAllMagazineEditions, {
+    staleTime: 1000 * 60 * 60,
+  });
+
+  const latestEdition = magazineData?.data
+    ? [...magazineData.data].sort((a, b) => b.id - a.id)[0]
+    : null;
+
+  const handleSubscribe = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+
+    // Using a toast ID to avoid multiple toasts
+    const toastId = toast.loading('Signing you up... ⏳');
+
+    TTCRequest.post('/api/Email/subscribe', {
+      email: email.trim(),
+      name: name.trim() // Include name in the request
+    })
+      .then(() => {
+        toast.update(toastId, {
+          render: 'Successfully signed up ✅',
+          type: 'success',
+          isLoading: false,
+          autoClose: 3000
+        });
+        setEmail('');
+        setName('');
+      })
+      .catch(() => {
+        toast.update(toastId, {
+          render: 'Something went wrong. Please try again.',
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000
+        });
+      });
+  };
+
+  const subscribeBlock = (
+    <form className="subscribe_form" onSubmit={handleSubscribe}>
+      <input
+        type="text"
+        placeholder="Name"
+        className="name_input"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <button type="submit">Subscribe</button>
+    </form>
+  );
+
   return (
     <FooterStyling>
-      <div className="footer_content">
-        <div className="content_upper">
-          <div className="footer_section explore">
-            <Typography.Text fontType="WorkSans" weight="normal" level="large" className="section_title">
-              Explore
-            </Typography.Text>
-            <nav className="footer_links">
-              <Link href="/charts">
-                <a>
-                  <Typography.Text fontType="WorkSans" weight="normal" level="medium">
-                    Charts
-                  </Typography.Text>
-                </a>
-              </Link>
-              <Link href="/news">
-                <a>
-                  <Typography.Text fontType="WorkSans" weight="normal" level="medium">
-                    News
-                  </Typography.Text>
-                </a>
-              </Link>
-              <Link href="/magazines">
-                <a>
-                  <Typography.Text fontType="WorkSans" weight="normal" level="medium">
-                    Magazines
-                  </Typography.Text>
-                </a>
-              </Link>
-              <Link href="/business">
-                <a>
-                  <Typography.Text fontType="WorkSans" weight="normal" level="medium">
-                    Business
-                  </Typography.Text>
-                </a>
-              </Link>
-              <Link href="/certifications">
-                <a>
-                  <Typography.Text fontType="WorkSans" weight="normal" level="medium">
-                    Certifications
-                  </Typography.Text>
-                </a>
-              </Link>
-            </nav>
-          </div>
+      <ToastContainer />
 
-          <div className="footer_section follow">
-            <Typography.Text fontType="WorkSans" weight="normal" level="large" className="section_title">
-              Follow
-            </Typography.Text>
-            <nav className="footer_links">
-              <a href="https://twitter.com/TurntableCharts" target="_blank" rel="noreferrer">
-                <Typography.Text fontType="WorkSans" weight="normal" level="medium">
-                  X
-                </Typography.Text>
+      {/* ── Desktop: 3-col grid ── */}
+      <div className="footer_main">
+        {/* Magazine cover */}
+        <div className="footer_cover">
+          {latestEdition ? (
+            <Link href={`/magazine/${latestEdition.name}`}>
+              <a className="cover_link">
+                <img src={latestEdition.coverImageUrl} alt={latestEdition.name} />
               </a>
-              <a href="https://www.instagram.com/turntablecharts/" target="_blank" rel="noreferrer">
-                <Typography.Text fontType="WorkSans" weight="normal" level="medium">
-                  Instagram
-                </Typography.Text>
-              </a>
-              <a href="https://facebook.com/turntablecharts" target="_blank" rel="noreferrer">
-                <Typography.Text fontType="WorkSans" weight="normal" level="medium">
-                  Facebook
-                </Typography.Text>
-              </a>
-              <a href="https://linkedin.com/company/turntablecharts" target="_blank" rel="noreferrer">
-                <Typography.Text fontType="WorkSans" weight="normal" level="medium">
-                  LinkedIn
-                </Typography.Text>
-              </a>
-            </nav>
-          </div>
+            </Link>
+          ) : (
+            <div className="cover_placeholder" />
+          )}
+        </div>
 
-          <div className="footer_section updates">
-            <WantUpdates />
+        {/* Explore links */}
+        <div className="footer_explore">
+          <span className="explore_label">Explore</span>
+          <nav className="explore_links">
+            {NAV_LINKS.map((link) => (
+              <Link key={link.href} href={link.href}>
+                <a className="nav_link">{link.label}</a>
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        {/* Subscribe + back-to-top */}
+        <div className="footer_subscribe_row">
+          <div className="footer_subscribe">
+            <h2 className="subscribe_heading">
+              Subscribe to
+              <br />
+              <span className="subscribe_highlight">Turntable Times</span>
+            </h2>
+            <p className="subscribe_body">
+              Enter your name and email to go behind the charts, the hits, and the headlines in Nigerian music.
+            </p>
+            {subscribeBlock}
           </div>
+          <button
+            className="back_to_top"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="Back to top"
+          >
+            <BackToTopSVG />
+          </button>
         </div>
       </div>
 
-      <div className="footer_notice">
-        <Typography.Text fontType="WorkSans" weight="normal" level="small" className="notice_text">
-          TurnTable Charts is part of TurnTable Media, Data and Analytics. ©️TMDA 2026. All Rights Reserved
-        </Typography.Text>
+      {/* ── Mobile layout ── */}
+      <div className="footer_mobile">
+        {/* Subscribe card with back-to-top pinned top-right */}
+        <div className="mobile_subscribe_card">
+          <button
+            className="back_to_top_mobile"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="Back to top"
+          >
+            <BackToTopSVG />
+          </button>
+          <h2 className="subscribe_heading">
+            Subscribe to
+            <br />
+            <span className="subscribe_highlight">Turntable Times</span>
+          </h2>
+          <p className="subscribe_body">
+            Enter your name and email to go behind the charts, the hits, and the headlines in Nigerian music.
+          </p>
+          {subscribeBlock}
+        </div>
+
+        {/* Explore accordion */}
+        <div className="mobile_explore">
+          <button
+            className="explore_toggle"
+            onClick={() => setExploreOpen((o) => !o)}
+            aria-expanded={exploreOpen}
+          >
+            <span>Explore</span>
+            <svg
+              className={`chevron ${exploreOpen ? 'open' : ''}`}
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="M6 9L12 15L18 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          {exploreOpen && (
+            <nav className="explore_links_mobile">
+              {NAV_LINKS.map((link) => (
+                <Link key={link.href} href={link.href}>
+                  <a className="nav_link_mobile">{link.label}</a>
+                </Link>
+              ))}
+            </nav>
+          )}
+        </div>
+      </div>
+
+      {/* ── Big wordmark ── */}
+      <div className="footer_wordmark" aria-hidden="true">
+        TURNTABLE
+      </div>
+
+      {/* ── Social + copyright ── */}
+      <div className="footer_bottom_bar">
+        <div className="footer_social">
+          {SOCIAL_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noreferrer"
+              className="social_link"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+        <div className="footer_copyright">
+          TurnTable Charts is part of TurnTable Media, Data and Analytics. ©TMDA 2026. All Rights Reserved
+        </div>
       </div>
     </FooterStyling>
   );
@@ -104,201 +234,385 @@ const FooterStyling = styled.footer`
   color: ${Theme.colorPalette.white};
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 60px 0 40px 0;
+  overflow: visible;
 
-  ${media.mobileLarge`
-    padding: 40px 0 30px 0;
-  `}
+  /* ── Desktop 3-col grid ── */
+  .footer_main {
+    display: grid;
+    grid-template-columns: 430px 1fr 2fr;
+    gap: 60px;
+    align-items: center;
+    padding: 60px 60px 0;
 
-  .footer_content {
+    ${media.smallDesktop`
+      grid-template-columns: 1fr 2fr;
+      gap: 32px;
+      padding: 50px 32px 0;
+
+      .footer_cover {
+        display: none;
+      }
+    `}
+
+    ${media.tablet`
+      display: none;
+    `}
+  }
+
+  /* ── Mobile layout (hidden on desktop) ── */
+  .footer_mobile {
+    display: none;
+
+    ${media.tablet`
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 40px 20px 0;
+      position: relative;
+      z-index: 100;
+    `}
+  }
+
+  /* Subscribe card */
+  .mobile_subscribe_inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .mobile_subscribe_content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mobile_subscribe_card {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Explore accordion */
+  .mobile_explore {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .explore_toggle {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+
+    .chevron {
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .explore_links_mobile {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 24px;
+    gap: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    align-items: center;
+  }
+
+  .nav_link_mobile {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: ${Theme.colorPalette.white};
+    text-decoration: none;
+    text-align: center;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: ${Theme.colorPalette.ttcYellow};
+    }
+  }
+
+  /* ── Magazine cover (desktop only) ── */
+  .footer_cover {
+    .cover_link {
+      display: block;
+
+      img {
+        width: 430px;
+        height: 470px;
+        display: block;
+        object-fit: contain;
+      }
+    }
+
+    .cover_placeholder {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
+
+  /* ── Explore (desktop) ── */
+  .footer_explore {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    align-self: center;
+    padding-top: 20px;
+    
+  }
+
+  .explore_label {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: ${Theme.colorPalette.ttcYellow};
+    letter-spacing: 0.02em;
+  }
+
+  .explore_links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .nav_link {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: ${Theme.colorPalette.white};
+    text-decoration: none;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+
+    &:hover {
+      color: ${Theme.colorPalette.ttcYellow};
+      opacity: 1;
+      transform: translateX(4px);
+    }
+  }
+
+  /* ── Subscribe (shared styles) ── */
+  .footer_subscribe {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-self: center;
+  }
+
+  .subscribe_heading {
+    font-family: 'Nohemi', sans-serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: -1px;
+    margin: 0;
+
+    ${media.mobileLarge`
+      font-size: 1.8rem;
+    `}
+  }
+
+  .subscribe_highlight {
+    color: ${Theme.colorPalette.ttcOrange};
+  }
+
+  .subscribe_body {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+    max-width: 420px;
+    margin: 0;
+  }
+
+  .subscribe_form {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+
+    input {
+      flex: 1;
+      background: ${Theme.colorPalette.white};
+      border: none;
+      outline: none;
+      padding: 14px 18px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.9rem;
+      color: ${Theme.colorPalette.black};
+      border-radius: 2px;
+      min-width: 0;
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.45);
+      }
+
+      &:focus {
+        outline: 2px solid ${Theme.colorPalette.ttcYellow};
+      }
+    }
+
+    button {
+      background: ${Theme.colorPalette.ttcYellow};
+      color: ${Theme.colorPalette.black};
+      border: none;
+      padding: 14px 28px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 2px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s ease;
+      flex-shrink: 0;
+
+      &:hover {
+        background: #e6961a;
+      }
+    }
+  }
+
+  /* ── Subscribe + back-to-top side-by-side ── */
+  .footer_subscribe_row {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  /* ── Wordmark ── */
+  .footer_wordmark {
+    font-family: 'Nohemi', sans-serif;
+    font-size: clamp(80px, 16vw, 300px);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.85;
+    letter-spacing: -6px;
+    color: ${Theme.colorPalette.white};
+    padding: 20px 60px 0;
+    width: 100%;
+    text-align: center;
+    overflow-x: clip;
+
+    ${media.mobileLarge`
+      font-size: clamp(48px, 16vw, 70px);
+      letter-spacing: -2px;
+      padding: 20px 20px 0;
+    `}
+  }
+
+  /* ── Back to top button ── */
+  .back_to_top {
+    all: unset;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.9;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+      transform: translateY(-4px);
+    }
+
+    svg {
+      display: block;
+      width: 38px;
+      height: 172px;
+    }
+  }
+
+  /* ── Mobile-only back to top ── */
+  .back_to_top_mobile {
+    all: unset;
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    top: -60px;
+    right: 0px;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+  
+    &:hover { opacity: 1; }
+
+    svg {
+      display: block;
+      width: 30px;
+      height: 102px;
+      
+    }
+  }
+
+  /* ── Bottom bar: social + copyright ── */
+  .footer_bottom_bar {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    .content_upper {
-      max-width: 1200px;
-      width: 90%;
-      height: 240px;
-      display: grid;
-      grid-template-columns: 1fr 1fr 2fr;
-      gap: 60px;
-      align-items: start;
-      margin-bottom: 40px;
-
-      ${media.tablet`
-        grid-template-columns: 1fr 1fr;
-        height: auto;
-        gap: 40px;
-        
-        .updates {
-          grid-column: 1 / -1;
-        }
-      `}
-
-      ${media.mobileLarge`
-        grid-template-columns: 1fr;
-        height: auto;
-        gap: 40px;
-      `}
-    }
   }
 
-  .footer_section {
+  .footer_social {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    height: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    padding: 28px 40px;
 
-    &.updates {
-      /* Override WantUpdates component styles for footer context */
-      > div {
-        background-image: none;
-        padding: 0;
-        margin: 0;
-        width: 100%;
-        max-width: 100%;
-        text-align: left;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+    ${media.tablet`
+      gap: 28px;
+      flex-wrap: wrap;
+    `}
 
-        .updates_texts {
-          width: 100%;
-          text-align: left;
-          margin-bottom: 10px;
+    ${media.mobileLarge`
+      gap: 20px;
+      padding: 20px;
+    `}
+  }
 
-          .header {
-            font-family: 'Roboto Flex', sans-serif;
-            font-size: 42px;
-            font-weight: 850;
-            text-transform: uppercase;
-            line-height: 0.9;
-            text-align: left;
-            width: 100%;
-            letter-spacing: -2.5px;
-          }
+  .social_link {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    transition: color 0.2s ease;
 
-          .body {
-            color: ${Theme.colorPalette.white};
-            font-size: 0.875rem;
-            line-height: 1.5;
-
-            p {
-              color: ${Theme.colorPalette.white};
-            }
-          }
-        }
-
-        form {
-          flex-direction: row;
-          align-items: center;
-          padding: 0;
-          gap: 12px;
-          margin-top: auto;
-
-          input {
-            flex: 1;
-            background-color: ${Theme.colorPalette.white};
-            border: none;
-            outline: none;
-            padding: 12px 16px;
-            border-radius: 4px;
-
-            &:focus {
-              outline: 2px solid ${Theme.colorPalette.ttcYellow};
-            }
-          }
-
-          button {
-            background-color: ${Theme.colorPalette.ttcYellow};
-            color: ${Theme.colorPalette.black};
-            border: none;
-            font-weight: 600;
-            padding: 12px 24px;
-            border-radius: 4px;
-            cursor: pointer;
-            white-space: nowrap;
-
-            &:hover {
-              background-color: #e6a800;
-              border: none;
-            }
-          }
-        }
-      }
-
-      ${media.mobileLarge`
-        > div {
-          .updates_texts .header {
-            font-size: 1.5rem;
-
-            h1, h2 {
-              font-size: 1.5rem;
-            }
-          }
-
-          form {
-            flex-direction: column;
-            align-items: stretch;
-
-            input {
-              width: 100%;
-            }
-
-            button {
-              width: 100%;
-            }
-          }
-        }
-      `}
-    }
-
-    .section_title {
-      color: ${Theme.colorPalette.textGrey};
-      letter-spacing: -0.5px;
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-
-    .footer_links {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-
-      a {
-        color: ${Theme.colorPalette.white};
-        text-decoration: underline;
-        transition: color 0.3s ease;
-
-        &:hover {
-          color: ${Theme.colorPalette.ttcYellow};
-        }
-
-        p {
-          color: inherit;
-        }
-      }
+    &:hover {
+      color: ${Theme.colorPalette.ttcYellow};
     }
   }
 
-  .footer_notice {
-    max-width: 1200px;
-    width: 90%;
-    padding-top: 40px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-
-    .notice_text {
-      color: white;
-      font-size: 0.875rem;
-      line-height: 1.6;
-
-      ${media.mobileLarge`
-        font-size: 0.75rem;
-      `}
-    }
+  /* ── Copyright ── */
+  .footer_copyright {
+    text-align: center;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.6rem;
+    color: ${Theme.colorPalette.black};
+    background-color: ${Theme.colorPalette.white};
+    padding: 16px 24px 20px;
+    width: 100%;
   }
 `;
-

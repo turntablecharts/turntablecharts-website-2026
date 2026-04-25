@@ -15,37 +15,37 @@ const RankPlusTrend = ({ song }: { song: ChartItem }) => {
       <Typography.Text className="rank" fontType="WorkSans" weight="semiBold">
         {song.rank}
       </Typography.Text>
-      {song.lastPosition === 0 ? (
-        <div style={{ padding: '4px 8px', backgroundColor: '#0F8F491A' }}>
-          <Typography.Text
-            style={{ color: Theme.colorPalette.ttcGreen }}
-            // level="medium"
-            className="tag"
-            weight="semiBold"
-            fontType="WorkSans"
-          >
-            NEW
-          </Typography.Text>
-        </div>
-      ) : song.lastPosition === -1 ? (
-        <div style={{ padding: '4px 8px', backgroundColor: '#F1A01F1A' }}>
-          <Typography.Text
-            style={{ color: Theme.colorPalette.ttcYellow }}
-            // level="medium"
-            weight="semiBold"
-            className="tag"
-            fontType="WorkSans"
-          >
-            RE-ENTRY
-          </Typography.Text>
-        </div>
-      ) : song.rank < song.lastPosition ? (
-        <UpTrendIcon />
-      ) : song.rank > song.lastPosition ? (
-        <DownTrendIcon />
-      ) : (
-        <NoTrendIcon />
-      )}
+      <div className="tag_wrapper">
+        {song.lastPosition === 0 ? (
+          <div style={{ padding: '4px 8px', backgroundColor: '#0F8F491A' }}>
+            <Typography.Text
+              style={{ color: Theme.colorPalette.ttcGreen }}
+              className="tag"
+              weight="semiBold"
+              fontType="WorkSans"
+            >
+              NEW
+            </Typography.Text>
+          </div>
+        ) : song.lastPosition === -1 ? (
+          <div style={{ padding: '4px 8px', backgroundColor: '#F1A01F1A' }}>
+            <Typography.Text
+              style={{ color: Theme.colorPalette.ttcYellow }}
+              weight="semiBold"
+              className="tag"
+              fontType="WorkSans"
+            >
+              RE-ENTRY
+            </Typography.Text>
+          </div>
+        ) : song.rank < song.lastPosition ? (
+          <UpTrendIcon />
+        ) : song.rank > song.lastPosition ? (
+          <DownTrendIcon />
+        ) : (
+          <NoTrendIcon />
+        )}
+      </div>
     </RankStyling>
   );
 };
@@ -55,27 +55,34 @@ export default RankPlusTrend;
 const RankStyling = styled.div`
   display: flex;
   align-items: center;
-  gap: 50px;
-  /* max-width: 80px; */
-
-  ${media.tablet`
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-  `}
+  gap: 10px;
+  width: 100%;
 
   .rank {
     font-size: ${Theme.fontSizes.xlarge};
+    min-width: 36px;
+    text-align: left;
+    flex-shrink: 0;
 
     ${media.tablet`
-    font-size: 14px;
-  `}
+      font-size: 14px;
+      min-width: 26px;
+    `}
   }
+
+  .tag_wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .tag {
     font-size: ${Theme.fontSizes.medium};
+    white-space: nowrap;
 
     ${media.tablet`
-    font-size: 10px;
-  `}
+      font-size: 10px;
+    `}
   }
 `;

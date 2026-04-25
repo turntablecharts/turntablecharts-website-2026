@@ -14,7 +14,7 @@ interface textBaseProps {
   | "ttcGreen";
   weight?: FontWeightType;
   className?: string;
-  fontType?: "Inter" | "OpenSans" | "RobotoFlex" | "Anton" | "WorkSans";
+  fontType?: "Inter" | "OpenSans" | "RobotoFlex" | "Anton" | "WorkSans" | "Nohemi" | "HostGrotesk";
   capitalize?: boolean;
   uppercase?: boolean;
   style?: object;
@@ -41,7 +41,7 @@ type TypographyBase = {
 };
 
 const isFont = (
-  type: "Inter" | "OpenSans" | "RobotoFlex" | "Anton" | "WorkSans" | undefined
+  type: "Inter" | "OpenSans" | "RobotoFlex" | "Anton" | "WorkSans" | "Nohemi" | "HostGrotesk" | undefined
 ) => {
   switch (type) {
     case "Inter":
@@ -54,6 +54,10 @@ const isFont = (
       return Theme.typography.heading2;
     case "WorkSans":
       return Theme.typography.workSans;
+    case "Nohemi":
+      return Theme.typography.nohemi;
+    case "HostGrotesk":
+      return Theme.typography.hostGrotesk;
     default:
       return "inherit";
   }

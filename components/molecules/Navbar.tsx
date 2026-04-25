@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import TTCLogo from 'assets/icons/ttc-logo.svg';
-// import TTCIconInsta from 'assets/icons/ttc-insta.svg';
-// import TTCIconTwiter from 'assets/icons/ttc-twitter.svg';
+import TTCIconInsta from 'assets/icons/ttc-insta.svg';
+import TTCIconYoutube from 'assets/icons/ttc-youtube.svg';
+import TTCIconTiktok from 'assets/icons/ttc-tiktok.svg';
+import TTCIconTwitter from 'assets/icons/ttc-twitter.svg';
 import TTCIconSearch from 'assets/icons/ttc-search.svg';
 import Theme from 'constants/Theme';
 import Typography from 'components/atoms/typography';
@@ -16,122 +18,149 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   return (
     <NavbarStyling pathname={router.pathname}>
-      <div className="logo">
-        <Link href="/" prefetch={false}>
+      <div onClick={() => isMobileNavOpen && setIsMobileNavOpen(false)} className="logo">
+        <Link href="/">
           <a>
-            <TTCLogo style={{ height: '40px', width: '102px' }} />
+            <TTCLogo style={{ height: '1.8rem', width: '100px' }} />
           </a>
         </Link>
       </div>
       <nav className="menus">
-        <Link href="/charts" prefetch={false}>
+        <Link href="/charts">
           <a className={`menus_menu ${router.pathname.startsWith('/charts') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               CHARTS
             </Typography.Text>
-            {router.pathname.startsWith('/charts') && <NavHover className="nav_glow" />}
+            <NavHover className="nav_glow" />
           </a>
         </Link>
-        <Link href="/news" prefetch={false}>
+        <Link href="/news">
           <a className={`menus_menu ${router.pathname.startsWith('/news') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               NEWS
             </Typography.Text>
-            {router.pathname.startsWith('/news') && <NavHover className="nav_glow" />}
+            <NavHover className="nav_glow" />
           </a>
         </Link>
-        <Link href="/magazine" prefetch={false}>
+        <Link href="/magazine">
           <a className={`menus_menu ${router.pathname.startsWith('/magazine') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               MAGAZINES
             </Typography.Text>
-            {router.pathname.startsWith('/magazine') && <NavHover className="nav_glow" />}
+            <NavHover className="nav_glow" />
           </a>
         </Link>
-        <Link href="/business" prefetch={false}>
+        <Link href="/business">
           <a className={`menus_menu ${router.pathname.startsWith('/business') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               BUSINESS
             </Typography.Text>
-            {router.pathname.startsWith('/business') && <NavHover className="nav_glow" />}
+            <NavHover className="nav_glow" />
           </a>
         </Link>
-        <Link href="/certification" prefetch={false}>
+        <Link href="/certification">
           <a className={`menus_menu ${router.pathname.startsWith('/certification') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
               CERTIFICATIONS
             </Typography.Text>
-            {router.pathname.startsWith('/certification') && <NavHover className="nav_glow" />}
+            <NavHover className="nav_glow" />
           </a>
         </Link>
       </nav>
       <div className={`mobile_menus ${isMobileNavOpen ? 'open' : ''}`}>
         <nav className="menuContainer">
-          <Link className="mobile_menu" href="/charts" prefetch={false}>
+          <Link className="mobile_menu" href="/charts">
             <a
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
               className={router.pathname.startsWith('/charts') ? 'active' : ''}
             >
-              <Typography.Text level="xlarge" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
                 CHARTS
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/news" prefetch={false}>
+          <Link className="mobile_menu" href="/news">
             <a
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
               className={router.pathname.startsWith('/news') ? 'active' : ''}
             >
-              <Typography.Text level="xlarge" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
                 NEWS
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/magazine" prefetch={false}>
+          <Link className="mobile_menu" href="/magazine">
             <a
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
               className={router.pathname.startsWith('/magazine') ? 'active' : ''}
             >
-              <Typography.Text level="xlarge" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
                 MAGAZINES
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/business" prefetch={false}>
+          <Link className="mobile_menu" href="/business">
             <a
               onClick={() => {
                 setIsMobileNavOpen(false);
               }}
               className={router.pathname.startsWith('/business') ? 'active' : ''}
             >
-              <Typography.Text level="xlarge" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
                 BUSINESS
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/certification" prefetch={false}>
-            <a className={router.pathname.startsWith('/certification') ? 'active' : ''}>
-              <Typography.Text level="xlarge" fontType="Inter" weight="semiBold">
+          <Link className="mobile_menu" href="/certification">
+            <a onClick={() => {
+              setIsMobileNavOpen(false);
+            }} className={router.pathname.startsWith('/certification') ? 'active' : ''}>
+              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
                 CERTIFICATIONS
+              </Typography.Text>
+            </a>
+          </Link>
+          <Link className="mobile_menu" href="/gallery">
+            <a onClick={() => {
+              setIsMobileNavOpen(false);
+            }} className={router.pathname.startsWith('/gallery') ? 'active' : ''}>
+              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
+                GALLERY
+              </Typography.Text>
+            </a>
+          </Link>
+          <Link className="mobile_menu" href="/power100">
+            <a onClick={() => {
+              setIsMobileNavOpen(false);
+            }} className={router.pathname.startsWith('/power100') ? 'active' : ''}>
+              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
+                POWERLIST
               </Typography.Text>
             </a>
           </Link>
         </nav>
         <div className="mobile_socials">
-          <button
-            aria-label="Search"
-            onClick={() => { setIsMobileNavOpen(false); onSearchOpen?.(); }}
-          >
-            <TTCIconSearch className="socials_icon" />
-          </button>
+          <a href="https://www.instagram.com/turntablecharts/" target="_blank" rel="noreferrer" aria-label="Instagram">
+            <TTCIconInsta className="socials_icon" />
+          </a>
+          <a href="https://www.youtube.com/@turntablecharts" target="_blank" rel="noreferrer" aria-label="YouTube">
+            <TTCIconYoutube className="socials_icon" />
+          </a>
+          <a href="https://www.tiktok.com/@turntablecharts" target="_blank" rel="noreferrer" aria-label="TikTok">
+            <TTCIconTiktok className="socials_icon" />
+          </a>
+          <a href="https://twitter.com/TurntableCharts" target="_blank" rel="noreferrer" aria-label="X">
+            <TTCIconTwitter className="socials_icon" />
+          </a>
         </div>
       </div>
+      {/* main nav search */}
       <div className="socials">
         <button
           aria-label="Search"
@@ -153,19 +182,20 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
 export default Navbar;
 
 const NavbarStyling = styled.div<{ pathname: string }>`
-  padding: 10px 60px;
+  padding: 20px 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: ${Theme.colorPalette.black};
   z-index: 1000;
-  width: 80vw;
+  width: 100vw;
   margin: 0 auto;
-  border-radius: 10px;
+  border-radius: 0;
   position: fixed;
-  top: 20px;
+  top: 0;
   left: 0;
   right: 0;
+
 
   ${({ pathname }) =>
     pathname === '/myTurnTable' &&
@@ -174,34 +204,25 @@ const NavbarStyling = styled.div<{ pathname: string }>`
       position: relative;
     `}
 
-
-
-    
-  ${media.smallDesktop`
-    padding: 10px 24px;
-    width: 88vw;
-  `}
-
-  ${media.tablet`
-    padding: 10px 20px;
-    width: 92vw;
-    top: 12px;
-  `}
-
   ${media.mobileLarge`
-    padding:  20px;
+    padding:  10px;
     width: 100%;
     top: 0;
     left: 0;
     border-radius: 0;
-    height: 60px;
+    height: 70px;
+    border: none;
+
   `}
   
   .logo {
+    position: relative;
+    z-index: 1004;
+
     ${media.mobileLarge`
       svg {
-        height: 38px !important;
-        width: 82px !important;
+        height: 34px !important;
+        width: 80px !important;
       }
     `}
   }
@@ -238,6 +259,13 @@ const NavbarStyling = styled.div<{ pathname: string }>`
         transform: translateX(-50%);
         width: 120%;
         pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+
+      &:hover .nav_glow,
+      &.active .nav_glow {
+        opacity: 1;
       }
 
       &:hover .menus_text {
@@ -270,8 +298,8 @@ const NavbarStyling = styled.div<{ pathname: string }>`
   }
 
   .hamburger {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 16px;
     display: none;
     flex-direction: column;
     justify-content: space-around;
@@ -284,7 +312,7 @@ const NavbarStyling = styled.div<{ pathname: string }>`
     .bottom {
       display: inline-block;
       height: 1px;
-      width: 24px;
+      width: 20px;
       border-top: 2px solid #fff;
       transition: all 0.5s;
     }
@@ -293,13 +321,13 @@ const NavbarStyling = styled.div<{ pathname: string }>`
   .hamburger.open {
     z-index: 1002;
     .top {
-      transform: rotate(45deg) translate(5px, 6px);
+      transform: rotate(45deg) translate(3px, 4px);
     }
     .middle {
       opacity: 0;
     }
     .bottom {
-      transform: rotate(-45deg) translate(5px, -6px);
+      transform: rotate(-45deg) translate(3px, -4px);
     }
   }
 
@@ -315,6 +343,7 @@ const NavbarStyling = styled.div<{ pathname: string }>`
       top: 0;
       bottom: 0;
       background-color: #000000;
+      box-shadow: inset 0 0 18.3px #FF9500;
       backdrop-filter: blur(5px);
       padding: 60px 0px;
       text-align: center;
@@ -329,31 +358,29 @@ const NavbarStyling = styled.div<{ pathname: string }>`
       .menuContainer {
         display: flex;
         flex-direction: column;
-        gap: 60px;
+        gap: 55px;
         align-items: center;
-        margin-bottom: 60px;
+        width: fit-content;
+        margin: 0 auto;
+        padding-top: 1rem;
+
+       
       }
 
       .mobile_socials {
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 28px;
         padding: 24px 0 0;
-        border-top: 1px solid rgba(255,255,255,0.1);
         margin-top: auto;
 
-        button {
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 0;
+        a {
           display: flex;
           align-items: center;
           justify-content: center;
           color: rgba(255, 255, 255, 0.7);
           transition: color 0.2s;
-          width: 24px;
-          height: 24px;
 
           &:hover { color: white; }
 

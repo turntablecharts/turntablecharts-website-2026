@@ -5,13 +5,14 @@ const colorPalette = {
   inherit: "inherit",
   transparent: "transparent",
   ttcYellow: "#F1A01F",
+  ttcOrange: "#F1920C",
   ttcBlack: "#0D0D0D",
   ttcGreen: "#0F8F49",
+  ttcDarkGreen: "#0B2A31",
   ttcBlue: "#2B59C3",
-  ttcYellow2: "#F1920C",
   ttcRed: "#EE1A26",
 
-}
+};
 
 export type FontColorType =
   | "black"
@@ -22,16 +23,19 @@ export type FontColorType =
   | "ttcYellow"
   | "ttcBlack"
   | "ttcGreen"
+  | "ttcDarkGreen"
   | "ttcBlue"
   | "ttcYellow2"
   | "ttcRed";
 
 const typography = {
   text: "Inter",
-  title: "Open Sans",
+  title: "Host Grotesk",
+  hostGrotesk: "Host Grotesk",
   heading: "Roboto Flex",
   heading2: "Anton",
   workSans: "Work Sans",
+  nohemi: "Nohemi",
 };
 
 export type FontSizeType =

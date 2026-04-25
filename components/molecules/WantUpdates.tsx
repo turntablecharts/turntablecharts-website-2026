@@ -36,7 +36,7 @@ const WantUpdates = () => {
   return (
     <WantUpdatesStyling>
       <div className="updates_texts">
-        <Typography.Heading fontType="RobotoFlex" weight="extraBold" level={1} className="header" style={{ marginBottom: '20px' }}>
+        <Typography.Heading fontType="Nohemi" weight="black" level={1} className="header" style={{ marginBottom: '20px' }}>
           Want updates straight
           <br /> to your Inbox?
         </Typography.Heading>

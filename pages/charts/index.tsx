@@ -9,10 +9,11 @@ import Typography from 'components/atoms/typography';
 import { headingMixin } from 'constants/mixins';
 
 const TTC_COLORS = [
-  Theme.colorPalette.ttcYellow,
-  Theme.colorPalette.ttcBlack,
   Theme.colorPalette.ttcBlue,
-  Theme.colorPalette.ttcRed,
+  Theme.colorPalette.ttcOrange,
+  Theme.colorPalette.ttcGreen,
+  Theme.colorPalette.ttcDarkGreen,
+  Theme.colorPalette.ttcBlack,
 ];
 
 export async function getStaticProps() {
@@ -54,7 +55,7 @@ const Charts: React.FC<{
 
   return (
     <ChartPageStyling>
-      <Typography.Heading fontType="RobotoFlex" level={1} weight="extraBold" className='heading' >
+      <Typography.Heading fontType="Nohemi" level={1} weight="black" className='heading' >
         Official Charts
       </Typography.Heading>
       <div className="chart_tabs">
@@ -78,7 +79,7 @@ const Charts: React.FC<{
 export default Charts;
 
 const ChartPageStyling = styled.div`
-  max-width: 1200px;
+  max-width: 1400px;
   width: 95%;
   margin: 0 auto;
   padding-top: 8rem;
@@ -147,22 +148,21 @@ const ChartPageStyling = styled.div`
     display: grid;
     gap: 22px;
     margin-bottom: 100px;
-    /* two equal columns, each capped at 600px; centred in the page */
     grid-template-columns: repeat(2, minmax(0, 600px));
     justify-content: center;
     align-items: start;
 
-    /* stagger: even cards drop down so grids don't start on the same level */
-    > *:nth-child(even) {
-      margin-top: 60px;
+    /* First card spans full width */
+    > *:first-child {
+      grid-column: 1 / -1;
     }
 
     ${media.mobileLarge`
       grid-template-columns: minmax(0, 600px);
       justify-content: center;
 
-      > *:nth-child(even) {
-        margin-top: 0;
+      > *:first-child {
+        grid-column: auto;
       }
     `}
   }

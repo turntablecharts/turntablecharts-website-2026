@@ -3,9 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "components/atoms/typography";
 import { ChartItem } from "utility/ChartsApi/types";
-import UpTrendIcon from "assets/icons/upTrend.svg";
-import DownTrendIcon from "assets/icons/downTrend.svg";
-import NoTrendIcon from "assets/icons/neutralTrend.svg";
+import ArrowRightOutline from "assets/icons/ArrowRightOutline.svg";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
 
@@ -39,39 +37,36 @@ const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }>
         </div>
       );
     } else if (songItem.rank < songItem.lastPosition) {
-      return <UpTrendIcon />;
+      return <ArrowRightOutline className="trend_arrow up" />;
     } else if (songItem.rank > songItem.lastPosition) {
-      return <DownTrendIcon />;
+      return <ArrowRightOutline className="trend_arrow down" />;
     } else {
-      return <NoTrendIcon />;
+      return <ArrowRightOutline className="trend_arrow neutral" />;
     }
   };
 
   if (variant === 'large') {
     return (
       <SongCardStyling className={variant}>
-        {/* row: rank left | image right */}
-        <div className="main_row">
-          <div className="rank">
-            <Typography.Text fontType="OpenSans" weight="semiBold" level="large">
-              {songItem.rank}
-            </Typography.Text>
-            {renderTrendIndicator()}
-          </div>
-          <div className="img">
-            <object data={songItem.imageUri} type="image/png">
-              <img src="/assets/ttcBgWhite.png" alt="fallback" />
-            </object>
-          </div>
+        {/* Full-bleed album art */}
+        <div className="img">
+          <img
+            src={songItem.imageUri}
+            alt={songItem.title}
+            onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+          />
         </div>
-        {/* name centred below */}
+
+        {/* Rank badge — top-left overlay */}
+        <div className="rank_badge">
+          <span className="rank_num">{songItem.rank}</span>
+          {renderTrendIndicator()}
+        </div>
+
+        {/* Info bar — pinned to bottom */}
         <div className="name">
-          <Typography.Text fontType="WorkSans" weight="semiBold" level="large" className="text">
-            {songItem.title}
-          </Typography.Text>
-          <Typography.Text className="text" fontType="WorkSans" weight="medium" level="medium">
-            {songItem.artiste}
-          </Typography.Text>
+          <p className="name_title">{songItem.title}</p>
+          <p className="name_artist">{songItem.artiste}</p>
         </div>
       </SongCardStyling>
     );
@@ -81,23 +76,19 @@ const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }>
   return (
     <SongCardStyling className={variant}>
       <div className="rank">
-        <Typography.Text fontType="Inter" weight="semiBold" level="large">
-          {songItem.rank}
-        </Typography.Text>
+        <span className="rank_num">{songItem.rank}</span>
         {renderTrendIndicator()}
       </div>
       <div className="img">
-        <object data={songItem.imageUri} type="image/png">
-          <img src="/assets/ttcBgWhite.png" alt="fallback" />
-        </object>
+        <img
+          src={songItem.imageUri}
+          alt={songItem.title}
+          onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+        />
       </div>
       <div className="name">
-        <Typography.Text fontType="OpenSans" weight="semiBold" level="large" className="text">
-          {songItem.title}
-        </Typography.Text>
-        <Typography.Text className="text" fontType="OpenSans" weight="normal" level="medium">
-          {songItem.artiste}
-        </Typography.Text>
+        <p className="name_title">{songItem.title}</p>
+        <p className="name_artist">{songItem.artiste}</p>
       </div>
     </SongCardStyling>
   );
@@ -109,147 +100,218 @@ export default SongCard;
 const SongCardStyling = styled.div`
   padding: 16px;
 
-  /* Large variant */
-  &.large {
-    display: flex;
-    flex-direction: column;
-    height: 600px;
-    gap: 12px;
+  .trend_arrow {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
 
-    .main_row {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 12px;
-      flex: 1;
-      min-height: 0;
-
-      .rank {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-        flex-shrink: 0;
-        width: 36px;
-        padding-top: 4px;
-      }
-
-      .img {
-        flex: 1;
-        min-height: 0;
-        height: 100%;
-        overflow: hidden;
-
-        img,
-        object {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
-      }
+    &.up {
+      transform: rotate(-90deg);
+      color: ${Theme.colorPalette.ttcGreen};
     }
-
-    .name {
-      flex-shrink: 0;
-      text-align: center;
-      padding: 4px 0 8px;
-
-      .text {
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: white;
-      }
+    &.down {
+      transform: rotate(90deg);
+      color: ${Theme.colorPalette.ttcRed};
+    }
+    &.neutral {
+      color: ${Theme.colorPalette.ttcYellow};
     }
   }
 
-  /* Compact variant - horizontal layout on desktop */
-  &.compact {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    padding: 16px 12px;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  /* Large variant */
+  &.large {
+    position: relative;
+    overflow: hidden;
+    width: 657px;
+    max-width: 100%;
+    height: 657px;
+    padding: 0;
 
-    &:last-child {
-      border-bottom: none;
-    }
-
-    .rank {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
+    /* Full-bleed image */
     .img {
-      height: 50px;
-      width: 50px;
-      min-width: 50px;
-      flex-shrink: 0;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 100%;
+      height: 100%;
 
-      img,
-      object {
-        max-width: 100%;
-        max-height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
+        display: block;
       }
     }
 
+    /* Rank badge — top-left green square */
+    .rank_badge {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: ${Theme.colorPalette.ttcGreen};
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      z-index: 2;
+
+      .rank_num {
+        color: white;
+        font-family: 'Host Grotesk', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .trend_arrow {
+        width: 16px;
+        height: 16px;
+        color: white;
+
+        &.up    { transform: rotate(-90deg); color: white; }
+        &.down  { transform: rotate(90deg);  color: white; }
+        &.neutral { color: white; }
+      }
+    }
+
+    /* Info bar — pinned to bottom */
+    .name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: ${Theme.colorPalette.black};
+      padding: 14px 16px 18px;
+      text-align: center;
+      z-index: 2;
+
+      .name_title {
+        color: white;
+        font-family: 'Host Grotesk', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0 0 4px;
+        letter-spacing: -0.3px;
+      }
+
+      .name_artist {
+        color: rgba(255, 255, 255, 0.65);
+        font-family: 'Host Grotesk', sans-serif;
+        font-size: 0.875rem;
+        font-weight: 400;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0;
+      }
+    }
+
+    ${media.tablet`
+      min-height: 400px;
+    `}
+
+    ${media.mobileLarge`
+      min-height: 320px;
+    `}
+  }
+
+  /* Compact variant */
+  &.compact {
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    padding: 6px 12px;
+    align-items: center;
+
+    /* Rank + trend indicator */
+    .rank {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      min-width: 86px;
+
+      .rank_num {
+        color: ${Theme.colorPalette.white};
+        font-family: 'Host Grotesk', sans-serif;
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 1;
+        min-width: 26px;
+      }
+    }
+
+    /* Album art */
+    .img {
+      width: 54px;
+      height: 54px;
+      flex-shrink: 0;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
+
+    /* Track info */
     .name {
       flex: 1;
       min-width: 0;
 
-      .text {
-        display: block;
+      .name_title {
+        color: ${Theme.colorPalette.white};
+        font-family: 'Host Grotesk', sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        margin: 0 0 3px;
+      }
+
+      .name_artist {
+        color: rgba(255, 255, 255, 0.5);
+        font-family: 'Host Grotesk', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 400;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0;
       }
     }
 
-    /* Tablet: Full-bleed image design */
-    ${media.tablet`
-      background-color: transparent;
+    /* Mobile: full-bleed card layout */
+    ${media.mobileLarge`
       padding: 0;
       position: relative;
       aspect-ratio: 1;
       overflow: hidden;
-      min-height: 280px;
       display: block;
 
       .rank {
         position: absolute;
-        top: 12px;
-        left: 12px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
+        top: 10px;
+        left: 10px;
         z-index: 2;
+        min-width: unset;
+        gap: 4px;
 
-        p {
-          color: ${Theme.colorPalette.white};
-          font-size: 18px;
-          font-weight: 600;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        .rank_num {
+          font-size: 16px;
+          font-weight: 700;
+          text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+          min-width: unset;
         }
 
-        svg {
-          width: 18px;
-          height: 18px;
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-        }
-
-        div {
-          border-radius: 4px;
+        .trend_arrow {
+          filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
         }
       }
 
@@ -257,16 +319,9 @@ const SongCardStyling = styled.div`
         width: 100%;
         height: 100%;
         position: absolute;
-        top: 0;
-        left: 0;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: unset;
+        inset: 0;
 
-        img,
-        object {
+        img {
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -275,36 +330,20 @@ const SongCardStyling = styled.div`
 
       .name {
         position: absolute;
-        bottom: 12px;
-        right: 12px;
-        text-align: right;
-        max-width: 70%;
-        z-index: 2;
-        flex: unset;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+        padding: 24px 10px 10px;
         min-width: unset;
 
-        .text {
-          display: block;
-          color: ${Theme.colorPalette.white};
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-          
-          &:first-child {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          
-          &:last-child {
-            font-size: 12px;
-            font-weight: 500;
-            opacity: 0.95;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
+        .name_title {
+          font-size: 0.8rem;
+          margin-bottom: 2px;
+        }
+
+        .name_artist {
+          font-size: 0.65rem;
         }
       }
     `}

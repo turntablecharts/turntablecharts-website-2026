@@ -211,7 +211,7 @@ const SingleChartPage: React.FC<{
         <meta name="description" content={`TurnTable Charts | ${currentChart.category}`} />
       </Head>
       <div className="page_header">
-        <Typography.Heading fontType="RobotoFlex" level={1} weight="extraBold" className='heading' >{currentChart.category}</Typography.Heading>
+        <Typography.Heading fontType="Nohemi" level={1} weight="black" className='heading' >{currentChart.category}</Typography.Heading>
         {currentChart.weekNumber && (
           <div className="date_wrapper">
             <span className="arrow_btn arrow_left" onClick={handlePrevWeek}>
@@ -271,7 +271,7 @@ const SingleChartPage: React.FC<{
 };
 
 const SingleChartPageStyling = styled.div`
-  max-width: 1200px;
+  max-width: 1400px;
   width: 95%;
   margin: 0 auto;
 
@@ -305,7 +305,7 @@ const SingleChartPageStyling = styled.div`
     text-align: center;
 
   .heading {
-    padding-top: 6rem;
+    padding-top: 8rem;
     ${headingMixin}
   }
   

@@ -13,6 +13,7 @@ import { NewsItem, NewsSummary } from "utility/NewsApi/types";
 import { format } from "date-fns";
 import media from "constants/MediaQuery";
 import { headingMixin } from "constants/mixins";
+import MainArrow from "assets/icons/mainArrow.svg";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const newsId = context.params?.id;
@@ -115,15 +116,7 @@ const SingleArticlePage: React.FC<{
           <div className="latest_articles-header">
             <h2 className="latest_articles-title">LATEST ARTICLES</h2>
             <div className="latest_articles-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 17L17 7M17 7H7M17 7V17"
-                  stroke="#111"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <MainArrow />
             </div>
           </div>
 
@@ -145,9 +138,33 @@ const SingleArticlePage: React.FC<{
 export default SingleArticlePage;
 
 /* ─── Styles ──────────────────────────────────────────────────── */
-const ArticleStyling = styled.div`
+const ArticleStyling = styled.main`
   width: 100%;
-  background-color: #fff;
+  background-color: white;
+
+  .page_header {
+    background-color: white;
+    padding: 60px 0 20px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 3.5rem;
+      font-family: "Nohemi", sans-serif;
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin: 0;
+    }
+
+    ${media.mobileLarge`
+      padding: 40px 0 15px;
+      h1 {
+        font-size: 2.2rem;
+        letter-spacing: -1px;
+      }
+    `}
+  }
   padding-top: 80px;
   padding-bottom: 120px;
 
@@ -213,6 +230,7 @@ const ArticleStyling = styled.div`
       width: 100%;
       height: 460px;
       object-fit: cover;
+      object-position: center 15%;
       display: block;
     }
 
@@ -299,25 +317,26 @@ const ArticleStyling = styled.div`
 
   /* Circular arrow — desktop only */
   .latest_articles-arrow {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    border: 2px solid #111;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    cursor: default;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
 
-    svg {
-      width: 22px;
-      height: 22px;
+      svg {
+        width: 100%;
+        height: 100%;
+        rect {
+          stroke: #111;
+        }
+        path {
+          fill: #111;
+        }
+      }
+
+      &:hover {
+        transform: rotate(45deg);
+      }
     }
-
-    ${media.tablet`
-      display: none;
-    `}
-  }
 
   /* Card grid: 3-col desktop → 2×2 tablet/mobile */
   .latest_articles-grid {
@@ -357,5 +376,13 @@ const ArticleStyling = styled.div`
         height: 160px;
       }
     `}
+
+    /* Override NewsCard colors for white background */
+    .news_card-title h3 {
+      color: black !important;
+    }
+    .news_card-date p {
+      color: rgba(0, 0, 0, 0.5) !important;
+    }
   }
 `;
