@@ -74,7 +74,7 @@ const Home: React.FC<{
         <div className="hero_container">
           <div className="hero_top">
             <TTCIconDisc className="disc_image" />
-            <Typography.Text fontType='OpenSans' weight="semiBold" className='subheading'>Nigeria's No. 1 Music Charting Platform</Typography.Text>
+            <Typography.Text fontType='OpenSans' weight="semiBold" className='subheading'>Nigeria&apos;s No. 1 Music Charting Platform</Typography.Text>
           </div>
           <div className="hero_middle">
             <Typography.Heading fontType="Nohemi" level={1} weight="black" className="heading">
