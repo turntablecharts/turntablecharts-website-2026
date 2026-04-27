@@ -64,6 +64,10 @@ const Table = styled.table<{ rowStyle: any }>`
   tbody {
     background: #181818;
   }
+
+  ${media.mobileLarge`
+    table-layout: fixed;
+  `}
 `;
 
 const Th = styled.th`
@@ -95,8 +99,23 @@ const Th = styled.th`
   }
 
   ${media.tablet`
-    font-size: 0.75rem;
-    padding: 14px 12px 14px 0;
+    font-size: 0.72rem;
+    padding: 12px 8px 12px 0;
+  `}
+
+  ${media.mobileLarge`
+    &:nth-child(6) { display: none; }
+
+    /* Rank */
+    &:nth-child(1) { width: 64px; text-align: center !important; }
+    /* Entry — gets remaining space automatically */
+    &:nth-child(2) { width: auto; }
+    /* Last Week */
+    &:nth-child(3) { width: 44px; text-align: center; }
+    /* WoC */
+    &:nth-child(4) { width: 36px; text-align: center; }
+    /* Peak */
+    &:nth-child(5) { width: 36px; text-align: center; }
   `}
 `;
 

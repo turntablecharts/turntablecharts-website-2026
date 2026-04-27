@@ -163,7 +163,7 @@ const MobileNav = styled.div`
     display: block;
     overflow: hidden;
     margin: 8px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 1);
     border-radius: 6px;
   `}
 `;

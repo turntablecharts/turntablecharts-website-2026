@@ -58,6 +58,12 @@ const RankStyling = styled.div`
   gap: 10px;
   width: 100%;
 
+  ${media.tablet`
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  `}
+
   .rank {
     font-size: ${Theme.fontSizes.xlarge};
     min-width: 36px;
@@ -65,8 +71,9 @@ const RankStyling = styled.div`
     flex-shrink: 0;
 
     ${media.tablet`
-      font-size: 14px;
-      min-width: 26px;
+      font-size: 18px;
+      min-width: auto;
+      text-align: center;
     `}
   }
 
@@ -75,6 +82,18 @@ const RankStyling = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    ${media.tablet`
+      justify-content: center;
+      flex: none;
+    `}
+
+    svg {
+      ${media.tablet`
+        width: 16px;
+        height: 16px;
+      `}
+    }
   }
 
   .tag {
@@ -82,7 +101,7 @@ const RankStyling = styled.div`
     white-space: nowrap;
 
     ${media.tablet`
-      font-size: 10px;
+      font-size: 9px;
     `}
   }
 `;

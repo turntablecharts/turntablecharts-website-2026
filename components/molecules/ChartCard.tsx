@@ -26,7 +26,7 @@ const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ c
   };
 
   return (
-    <ChartCardStyling $cardColor={hoverColor} onMouseEnter={handleMouseEnter}>
+    <ChartCardStyling $cardColor={hoverColor} onMouseEnter={handleMouseEnter} onTouchStart={handleMouseEnter}>
       <Link href={`/charts/${category.id}`}>
         <a>
           {/* TOP: album art + song info */}
@@ -106,18 +106,16 @@ const ChartCardStyling = styled.div<{ $cardColor: string }>`
   }
 
   ${media.tabletMin`
-    &:hover::before {
-      opacity: 1;
-    }
+    &:hover::before { opacity: 1; }
+    &:hover::after { opacity: 0.5; transform: translateY(0); }
+    &:hover { color: white; }
+  `}
 
-    &:hover::after {
-      opacity: 0.5;
-      transform: translateY(0);
-    }
-
-    &:hover {
-      color: white;
-    }
+  &:active::before { opacity: 1; }
+  &:active::after { opacity: 0.5; transform: translateY(0); }
+  &:active { color: white; }
+${media.mobileLarge`
+   height: 450px;
   `}
 
   /* ── Gradient Overlay (PNG) ── */
@@ -209,7 +207,8 @@ const ChartCardStyling = styled.div<{ $cardColor: string }>`
     }
   }
 
-  &:hover .chart_open {
+  &:hover .chart_open,
+  &:active .chart_open {
     opacity: 1;
   }
 
@@ -274,20 +273,13 @@ const ChartCardStyling = styled.div<{ $cardColor: string }>`
 
   ${media.tabletMin`
     &:hover .chart_arrow {
-      .arrow_default {
-        opacity: 0;
-        path { transform: rotate(135deg); }
-      }
-
-      .arrow_hover {
-        opacity: 1;
-        
-        rect { stroke: white; }
-        path { 
-          fill: white; 
-          transform: rotate(45deg);
-        }
-      }
+      .arrow_default { opacity: 0; path { transform: rotate(135deg); } }
+      .arrow_hover { opacity: 1; rect { stroke: white; } path { fill: white; transform: rotate(45deg); } }
     }
   `}
+
+  &:active .chart_arrow {
+    .arrow_default { opacity: 0; path { transform: rotate(135deg); } }
+    .arrow_hover { opacity: 1; rect { stroke: white; } path { fill: white; transform: rotate(45deg); } }
+  }
 `;

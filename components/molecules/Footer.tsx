@@ -190,7 +190,7 @@ const Footer = () => {
             <nav className="explore_links_mobile">
               {NAV_LINKS.map((link) => (
                 <Link key={link.href} href={link.href}>
-                  <a className="nav_link_mobile">{link.label}</a>
+                  <a className="nav_link_mobile" onClick={() => setExploreOpen(false)}>{link.label}</a>
                 </Link>
               ))}
             </nav>
@@ -301,7 +301,7 @@ const FooterStyling = styled.footer`
 
   /* Explore accordion */
   .mobile_explore {
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 1);
     border-radius: 8px;
     overflow: hidden;
   }
@@ -315,7 +315,7 @@ const FooterStyling = styled.footer`
     background: transparent;
     border: none;
     color: white;
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Host Grotesk', sans-serif;
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
@@ -334,20 +334,19 @@ const FooterStyling = styled.footer`
   .explore_links_mobile {
     display: flex;
     flex-direction: column;
-    padding: 0 20px 24px;
+    padding: 20px 20px 24px;
     gap: 18px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 20px;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .nav_link_mobile {
     font-family: 'Host Grotesk', sans-serif;
-    font-size: 1.1rem;
+    font-size: 12px;
     font-weight: 400;
     color: ${Theme.colorPalette.white};
     text-decoration: none;
-    text-align: center;
+    text-align: left;
     transition: color 0.2s ease;
 
     &:hover {
@@ -442,7 +441,7 @@ const FooterStyling = styled.footer`
   }
 
   .subscribe_body {
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Host Grotesk', sans-serif;
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.6;
@@ -461,7 +460,7 @@ const FooterStyling = styled.footer`
       border: none;
       outline: none;
       padding: 14px 18px;
-      font-family: 'Work Sans', sans-serif;
+      font-family: 'Host Grotesk', sans-serif;
       font-size: 0.9rem;
       color: ${Theme.colorPalette.black};
       border-radius: 2px;
@@ -481,7 +480,7 @@ const FooterStyling = styled.footer`
       color: ${Theme.colorPalette.black};
       border: none;
       padding: 14px 28px;
-      font-family: 'Work Sans', sans-serif;
+      font-family: 'Host Grotesk', sans-serif;
       font-size: 0.9rem;
       font-weight: 700;
       border-radius: 2px;
@@ -608,7 +607,7 @@ const FooterStyling = styled.footer`
   /* ── Copyright ── */
   .footer_copyright {
     text-align: center;
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Host Grotesk', sans-serif;
     font-size: 0.6rem;
     color: ${Theme.colorPalette.black};
     background-color: ${Theme.colorPalette.white};

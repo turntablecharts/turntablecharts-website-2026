@@ -42,8 +42,7 @@ const NewsCard = ({
             />
             <div className="hero_overlay" />
             <div className="hero_content">
-              <span className="hero_tag">TOP STORY</span>
-              <Typography.Heading fontType="Anton" weight="normal" level={2}>
+              <Typography.Heading fontType="Nohemi" weight="normal" level={2}>
                 {newsItem.title}
               </Typography.Heading>
               <Typography.Text fontType="WorkSans" weight="medium" level="small">
@@ -59,7 +58,7 @@ const NewsCard = ({
   /* ── Large ── */
   if (variant === "large") {
     return (
-      <NewsCardStyling 
+      <NewsCardStyling
         className={variant}
         style={{ '--accent-color': accentColor ?? Theme.colorPalette.ttcRed } as any}
       >
@@ -76,11 +75,9 @@ const NewsCard = ({
           <a className="news_card-content">
             {/* Hover color reveal */}
             <div className="featured_bg_overlay" />
-            
+
             <div className="news_card-category">
-              <Typography.Text fontType="Anton" weight="normal" level="small">
-                TOP NEWS
-              </Typography.Text>
+              <span className="category_label">TOP NEWS</span>
             </div>
 
             <div className="featured_arrow" aria-hidden="true">
@@ -88,9 +85,7 @@ const NewsCard = ({
             </div>
 
             <div className="news_card-title">
-              <Typography.Heading fontType="Anton" weight="normal" level={2}>
-                {newsItem.title}
-              </Typography.Heading>
+              <h2 className="featured_news_title">{newsItem.title}</h2>
             </div>
             <div className="news_card-date">
               <Typography.Text fontType="WorkSans" weight="medium" level="medium">
@@ -108,16 +103,16 @@ const NewsCard = ({
     return (
       <NewsCardStyling
         className="featured"
-        style={{ 
+        style={{
           backgroundImage: `url(${newsItem.headerImageUri})`,
-          '--accent-color': accentColor ?? Theme.colorPalette.ttcRed 
+          '--accent-color': accentColor ?? Theme.colorPalette.ttcRed
         } as any}
       >
         <Link href={`/news/${newsItem.id}`}>
           <a className="featured_link">
             {/* Colored overlay revealed on hover */}
             <div className="featured_bg_overlay" />
-            
+
             {/* Arrow icon — top right */}
             <div className="featured_arrow" aria-hidden="true">
               <MainArrow />
@@ -157,7 +152,7 @@ const NewsCard = ({
           </Typography.Text>
         </div>
         <div className="news_card-title">
-          <Typography.Heading fontType="WorkSans" weight="bold" level={3}>
+          <Typography.Heading fontType="Nohemi" weight="bold" level={3}>
             {newsItem.title}
           </Typography.Heading>
         </div>
@@ -224,24 +219,13 @@ const NewsCardStyling = styled.div`
       flex-direction: column;
       gap: 12px;
 
-      .hero_tag {
-        font-family: "Work Sans", sans-serif;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 3px;
-        color: ${Theme.colorPalette.ttcYellow};
-        text-transform: uppercase;
-      }
 
       h2 {
         color: white;
         font-size: clamp(1.8rem, 3vw, 3rem);
         line-height: 1.1;
         text-transform: uppercase;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        font-family: 'Nohemi', sans-serif;
       }
 
       p {
@@ -250,15 +234,13 @@ const NewsCardStyling = styled.div`
     }
 
     ${media.mobileLarge`
-      height: 250px;
+      height: 300px;
 
       .hero_content {
         padding: 20px 24px;
         gap: 8px;
-
         h2 {
           font-size: 1.3rem;
-          -webkit-line-clamp: 2;
         }
       }
     `}
@@ -267,7 +249,7 @@ const NewsCardStyling = styled.div`
   /* ── Large variant ── */
   &.large {
     flex-direction: row;
-    height: 350px;
+    height: 400px;
     background-color: transparent;
 
     .news_card-img {
@@ -330,18 +312,13 @@ const NewsCardStyling = styled.div`
         transition: color 0.3s ease;
       }
 
-      .news_card-title {
-        h2 {
-          font-size: 2.5rem;
-          line-height: 1.1;
-          text-transform: uppercase;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          margin-bottom: 20px;
-        }
+      .featured_news_title {
+        font-family: 'Nohemi', sans-serif !important;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1.1;
+        text-transform: uppercase;
+        margin-bottom: 20px;
       }
 
       .news_card-date {
@@ -353,10 +330,15 @@ const NewsCardStyling = styled.div`
 
       .news_card-category {
         margin-bottom: 12px;
-        p {
+
+        .category_label {
+          font-family: 'Nohemi', sans-serif !important;
+          font-weight: 600;
           color: ${Theme.colorPalette.ttcGreen};
           font-size: ${Theme.fontSizes.small};
           letter-spacing: 2px;
+          text-transform: uppercase;
+          display: block;
         }
       }
 
@@ -381,19 +363,15 @@ const NewsCardStyling = styled.div`
       ${media.tabletMin`
         &:hover {
           .featured_bg_overlay { opacity: 1; }
-          .featured_arrow { 
-            opacity: 1; 
-            transform: translate(0, 0); 
-            svg rect { stroke: white; }
-          }
-          
-          .news_card-category p, 
-          .news_card-title h2, 
-          .news_card-date p { 
-            color: white !important; 
-          }
+          .featured_arrow { opacity: 1; transform: translate(0, 0); svg rect { stroke: white; } }
+          .category_label, .featured_news_title, .news_card-date p { color: white !important; }
         }
       `}
+
+      &:active {
+        .featured_bg_overlay { opacity: 1; }
+        .category_label, .featured_news_title, .news_card-date p { color: white !important; }
+      }
 
       ${media.tabletMin`
         padding: 50px;
@@ -402,7 +380,7 @@ const NewsCardStyling = styled.div`
 
     ${media.mobileLarge`
       flex-direction: column;
-      height: 500px;
+      height: auto;
       width: 100%;
 
       .news_card-img {
@@ -418,12 +396,14 @@ const NewsCardStyling = styled.div`
       }
 
       .news_card-content {
-        height: 250px;
+        flex: 1;
+        height: auto;
         padding: 20px;
         gap: 12px;
+        overflow: visible;
 
         .news_card-category p { font-size: 12px; }
-        .news_card-title h2 { font-size: 1.5rem; -webkit-line-clamp: 2; }
+        .news_card-title h2 { font-size: 1.5rem; }
         .news_card-date p { font-size: 12px; }
       }
     `}
@@ -458,10 +438,9 @@ const NewsCardStyling = styled.div`
     }
 
     ${media.tabletMin`
-      &:hover .featured_bg_overlay {
-        opacity: 1;
-      }
+      &:hover .featured_bg_overlay { opacity: 1; }
     `}
+    &:active .featured_bg_overlay { opacity: 1; }
 
     /* Circular arrow — top right */
     .featured_arrow {
@@ -479,7 +458,7 @@ const NewsCardStyling = styled.div`
       svg {
         width: 100%;
         height: 100%;
-        
+
         rect {
           stroke: rgba(255, 255, 255, 0.7);
           transition: stroke 0.2s ease;
@@ -488,15 +467,9 @@ const NewsCardStyling = styled.div`
     }
 
     ${media.tabletMin`
-      &:hover .featured_arrow {
-        opacity: 1;
-        transform: translate(0, 0);
-        
-        svg rect {
-          stroke: white;
-        }
-      }
+      &:hover .featured_arrow { opacity: 1; transform: translate(0, 0); svg rect { stroke: white; } }
     `}
+    &:active .featured_arrow { opacity: 1; transform: translate(0, 0); svg rect { stroke: white; } }
 
     /* Content anchored to bottom */
     .featured_content {
@@ -516,16 +489,12 @@ const NewsCardStyling = styled.div`
     }
 
     .featured_title {
-      font-family: "Anton", sans-serif;
+      font-family: "Nohemi", sans-serif;
       font-size: 1.55rem;
-      font-weight: 400;
+      font-weight: 900;
       line-height: 1.15;
       color: white;
       text-transform: uppercase;
-      display: -webkit-box;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
   }
 
@@ -575,14 +544,10 @@ const NewsCardStyling = styled.div`
 
       .news_card-title h3 {
         color: white;
-        font-family: "Work Sans", sans-serif;
+        font-family: 'Host Grotesk', sans-serif;
         font-size: clamp(0.95rem, 1.3vw, 1.15rem);
         font-weight: 700;
         line-height: 1.3;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
       }
     }
 
@@ -590,6 +555,7 @@ const NewsCardStyling = styled.div`
       .news_card-img {
         height: 160px;
       }
+  
     `}
   }
 `;

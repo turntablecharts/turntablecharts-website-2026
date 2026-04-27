@@ -84,10 +84,26 @@ const Td = styled.td`
     font-size: ${Theme.fontSizes.medium};
     padding-top: 12px;
     padding-bottom: 12px;
-    padding-right: 12px;
+    padding-right: 8px;
+  `}
+
+  ${media.mobileLarge`
+    padding: 12px 4px;
+    font-size: 13px;
+
+    &:nth-child(6) { display: none; }
+
+    /* Entry cell — clip overflow so ellipsis works */
+    &:nth-child(2) { overflow: hidden; max-width: 0; }
+
+    /* Stat columns — center their numbers */
+    &:nth-child(3),
+    &:nth-child(4),
+    &:nth-child(5) { text-align: center; padding-left: 2px; padding-right: 2px; }
   `}
 
   ${media.mobile`
-    padding: 10px 6px;
+    padding: 10px 4px;
+    font-size: 12px;
   `}
 `;

@@ -3,27 +3,22 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "components/atoms/typography";
 import { PhotoItem } from "utility/PhotosApi/types";
-import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
 
-const PhotosCard = ({ photoItem, featured = false }: { photoItem: PhotoItem; featured?: boolean }) => {
+const PhotosCard = ({ photoItem }: { photoItem: PhotoItem }) => {
   return (
-    <PhotosCardStyling className={''}>
+    <PhotosCardStyling>
       <div className="photo_img">
         <img
-          src="/assets/ttcBgWhite.png"
+          src={photoItem.link || "/assets/ttcBgWhite.png"}
           alt={photoItem.title || "Photo"}
+          onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
         />
-        {featured && (
-          <div className="photo_overlay">
-            <Typography.Text fontType="Anton" weight="normal" level="large" className="overlay_title">
-              {photoItem.title || "TURNTABLE MAGAZINE VOL. 001"}
-            </Typography.Text>
-            <Typography.Text fontType="WorkSans" weight="medium" level="small" className="overlay_date">
-              [ {new Date(photoItem.dateCreated).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }).toUpperCase()} ]
-            </Typography.Text>
-          </div>
-        )}
+        <div className="photo_overlay">
+          <Typography.Heading fontType="Nohemi" weight="black" level={4} className="overlay_title">
+            {photoItem.title || "TURNTABLE GALLERY"}
+          </Typography.Heading>
+        </div>
       </div>
     </PhotosCardStyling>
   );
@@ -37,76 +32,61 @@ const PhotosCardStyling = styled.div`
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease;
-
-  &:hover {
-  opacity: 0.8;
-  }
-
+  background-color: #000;
+  ${media.mobileLarge`
+    height: 358px;
+  `}
   .photo_img {
     width: 100%;
     height: 100%;
     position: relative;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #000;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1), filter 0.6s ease;
     }
 
     .photo_overlay {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      inset: 0;
       padding: 30px 20px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+      background: rgba(0, 0, 0, 0.4);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      justify-content: flex-end;
+      gap: 4px;
       z-index: 10;
-
-      .overlay_title {
-        color: white;
-        font-size: 1.2rem;
-        line-height: 1.2;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-
-        ${media.mobileLarge`
-          font-size: 1rem;
-        `}
-      }
-
-      .overlay_date {
-        color: white;
-        font-size: 0.85rem;
-        opacity: 0.9;
-
-        ${media.mobileLarge`
-          font-size: 0.75rem;
-        `}
-      }
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: translateY(10px);
     }
   }
 
-  &.featured {
-    .photo_img {
-      img {
-        filter: brightness(0.85);
-      }
+  &:hover {
+    .photo_img img {
+      transform: scale(1.1);
+      filter: brightness(0.7);
+    }
+    .photo_overlay {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  ${media.mobileLarge`
-    &:hover {
-      transform: scale(1.01);
-    }
-  `}
+  .overlay_title {
+    color: white;
+    font-size: 1.1rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+
+    ${media.mobileLarge`
+      font-size: 0.95rem;
+    `}
+  }
+
 `;

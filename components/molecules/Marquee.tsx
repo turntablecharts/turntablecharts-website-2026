@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import Typography from 'components/atoms/typography';
 import MarqueeIcon from 'assets/icons/MarqueeIcon.svg';
 import MarqueeIcon2 from 'assets/icons/MarqueeIcon2.svg';
+import media from 'constants/MediaQuery';
 
 interface MarqueeProps {
   variant?: 'green' | 'yellow';
@@ -37,9 +38,9 @@ const Marquee: React.FC<MarqueeProps> = ({ variant = 'green', chartType = 'flags
             {marqueeItems.map((text, index) => (
               <React.Fragment key={`${groupIndex}-${index}`}>
                 <MarqueeText>
-                  <Typography.Text fontType="Anton" weight="bold" level="extralarge">
+                  <Typography.Heading level={2} weight="black">
                     {text}
-                  </Typography.Text>
+                  </Typography.Heading>
                 </MarqueeText>
                 <IconWrapper>
                   <Icon />
@@ -56,12 +57,8 @@ const Marquee: React.FC<MarqueeProps> = ({ variant = 'green', chartType = 'flags
 export default Marquee;
 
 const scroll = keyframes`
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-25%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-25%); }
 `;
 
 const MarqueeContainer = styled.div`
@@ -69,26 +66,36 @@ const MarqueeContainer = styled.div`
   max-width: 100vw;
   overflow: hidden;
   background-color: transparent;
-  padding: 20px 0;
+  padding: 10px 0;
 `;
 
 const MarqueeTrack = styled.div`
   display: flex;
   align-items: center;
-  gap: 30px;
-  animation: ${scroll} 30s linear infinite;
-  width: fit-content;
+  animation: ${scroll} 40s linear infinite;
+  width: max-content;
 `;
 
 const MarqueeContent = styled.div`
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 60px;
+  padding-right: 60px; /* Essential for gapless looping */
   white-space: nowrap;
 `;
 
 const MarqueeText = styled.div`
   text-transform: uppercase;
+  
+  h2 {
+    font-size: 3rem;
+    margin: 0;
+    white-space: nowrap;
+    
+    ${media.mobileLarge`
+      font-size: 1.8rem;
+    `}
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -98,5 +105,10 @@ const IconWrapper = styled.div`
   svg {
     width: 84px;
     height: 48px;
+    
+    ${media.mobileLarge`
+      width: 60px;
+      height: 32px;
+    `}
   }
 `;

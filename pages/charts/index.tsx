@@ -82,7 +82,7 @@ const ChartPageStyling = styled.div`
   max-width: 1400px;
   width: 95%;
   margin: 0 auto;
-  padding-top: 8rem;
+  padding-top: 6rem;
    ${media.tablet`
       padding-top: 6rem;
     `}
@@ -102,7 +102,7 @@ const ChartPageStyling = styled.div`
     justify-content: center;
     align-items: center;
     gap: 70px;
-    margin: 10px 0 50px 0;
+    margin: 10px 0 20px 0;
     color: white;
     padding: 1rem 0;
 
@@ -126,6 +126,10 @@ const ChartPageStyling = styled.div`
       font-size: ${Theme.fontSizes.large};
       font-weight: ${Theme.fontWeights.medium};
       position: relative;
+
+      ${media.mobileLarge`
+        font-size: ${Theme.fontSizes.medium};
+      `}
 
       &.active {
         &::after {

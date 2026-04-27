@@ -11,11 +11,7 @@ const power100 = () => {
       <Typography.Heading fontType="Anton" className="header" level={2} style={{ marginBottom: '10px' }} weight="semiBold">
         TurnTable Power 100
       </Typography.Heading>
-      <Typography.Text fontType="WorkSans" className="body" style={{ marginBottom: '30px' }} weight="semiBold">
-        Nominate an individual that has contributed in shaping Afrobeats
-        <br /> both at home and/or globally in the last three years
-      </Typography.Text>
-      <Form />
+
     </Power100Styling>
   );
 };
@@ -29,7 +25,7 @@ const Power100Styling = styled.div`
   justify-content: center;
   text-align: center;
   margin-top: 25px;
-
+height: 100vh;
   .header {
     font-size: ${Theme.fontSizes.extralarge};
     ${media.mobileLarge`

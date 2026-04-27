@@ -21,9 +21,11 @@ const SongEntry = ({ song, setVid }: { song: ChartItem; setVid: (arg: string) =>
       onClick={handleClick}
     >
       <div className="entry_image">
-        <object data={song.imageUri} type="image/png">
-          <img src="/assets/ttcBgWhite.png" alt="fallback" />
-        </object>
+        <img
+          src={song.imageUri}
+          alt={song.title}
+          onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+        />
       </div>
       <div className="entry_name">
         <Typography.Text
@@ -64,26 +66,49 @@ const SongEntryStyling = styled.div<{ hasVideo?: boolean }>`
     overflow: hidden;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
     ${media.tablet`
       height: 48px;
       width: 48px;
     `}
-    img, object {
-      max-width: 100%;
-      height: auto;
+    ${media.mobileLarge`
+      height: 44px;
+      width: 44px;
+      border-radius: 4px;
+    `}
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
     }
   }
   .entry_name {
     flex: 1;
+    min-width: 0;
     .title {
       font-size: ${Theme.fontSizes.xlarge};
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
       ${media.tablet`
         font-size: 14px;
+      `}
+      ${media.mobileLarge`
+        font-size: 13px;
       `}
     }
     .artiste {
       font-size: ${Theme.fontSizes.large};
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
       ${media.tablet`
+        font-size: 11px;
+      `}
+      ${media.mobileLarge`
         font-size: 10px;
       `}
     }

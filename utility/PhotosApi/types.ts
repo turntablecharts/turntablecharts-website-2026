@@ -1,13 +1,14 @@
 export type PhotoItem = {
   id: number;
-  dateCreated: string;
-  ttcUserId: number;
-  ttcUser: null;
   title: string;
-  description: string;
-  content: string;
-  headerImage: string;
-  isDeleted: false;
-  category: string;
-  photoCategoryId: number;
+  link: string;
+  galleryType: number; // 1 = video embed, 2 = image
+};
+
+export type GalleryResponse = {
+  galleries: PhotoItem[];
+  totalItems: number;
+  currentPage: number;
+  pageSize: number;
+  galleryType: number | null;
 };

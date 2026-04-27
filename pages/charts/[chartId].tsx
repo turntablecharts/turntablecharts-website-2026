@@ -109,6 +109,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 };
 
+const colourLastWords = (title: string) => {
+  const words = title.trim().split(/\s+/);
+  if (words.length <= 2) {
+    return <span style={{ color: Theme.colorPalette.ttcOrange, display: 'block' }}>{title}</span>;
+  }
+  const coloured = words.slice(-2).join(' ');
+  const rest = words.slice(0, -2).join(' ');
+  return (
+    <>
+      <span style={{ display: 'block' }}>{rest}</span>
+      <span style={{ color: Theme.colorPalette.ttcOrange, display: 'block' }}>{coloured}</span>
+    </>
+  );
+};
+
 const getDateByWeekIndex = (index: string, year: number) => {
   return new Date(
     parse(index, 'I', new Date(year, 5, 1), {
@@ -211,7 +226,9 @@ const SingleChartPage: React.FC<{
         <meta name="description" content={`TurnTable Charts | ${currentChart.category}`} />
       </Head>
       <div className="page_header">
-        <Typography.Heading fontType="Nohemi" level={1} weight="black" className='heading' >{currentChart.category}</Typography.Heading>
+        <Typography.Heading fontType="Nohemi" level={1} weight="black" className='heading'>
+          {colourLastWords(currentChart.category)}
+        </Typography.Heading>
         {currentChart.weekNumber && (
           <div className="date_wrapper">
             <span className="arrow_btn arrow_left" onClick={handlePrevWeek}>
@@ -271,7 +288,7 @@ const SingleChartPage: React.FC<{
 };
 
 const SingleChartPageStyling = styled.div`
-  max-width: 1400px;
+  max-width: 1280px;
   width: 95%;
   margin: 0 auto;
 
@@ -301,7 +318,7 @@ const SingleChartPageStyling = styled.div`
     }
   }
   .page_header {
-    padding: 7vh 0;
+    padding: 7vh 0 2vh;
     text-align: center;
 
   .heading {

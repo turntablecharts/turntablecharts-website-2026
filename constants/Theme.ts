@@ -29,12 +29,12 @@ export type FontColorType =
   | "ttcRed";
 
 const typography = {
-  text: "Inter",
+  text: "Host Grotesk",
   title: "Host Grotesk",
   hostGrotesk: "Host Grotesk",
-  heading: "Roboto Flex",
-  heading2: "Anton",
-  workSans: "Work Sans",
+  heading: "Nohemi",
+  heading2: "Nohemi",
+  workSans: "Host Grotesk",
   nohemi: "Nohemi",
 };
 

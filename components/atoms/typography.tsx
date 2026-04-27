@@ -77,13 +77,13 @@ const TextStyling = styled.p<textProps>`
 `;
 
 export const Text: TextComponent = ({ children, text, ...rest }) => {
-  return <TextStyling fontType="Inter" {...rest}>{text || children}</TextStyling>;
+  return <TextStyling fontType="HostGrotesk" {...rest}>{text || children}</TextStyling>;
 };
 
 const Typography: TypographyBase = () => Text;
 
 const TextHeading: TextHeadingsComponent = ({ children, level, ...rest }) => {
-  const fontType = level === 2 ? "Anton" : "RobotoFlex";
+  const fontType = "Nohemi";
   const props = {
     weight: Theme.fontWeights.bold,
     fontType,
@@ -95,7 +95,7 @@ const TextHeading: TextHeadingsComponent = ({ children, level, ...rest }) => {
 
 const TextTitle: TextComponent = ({ children, text }) => {
   return (
-    <TextHeading fontType="OpenSans" level={1}>
+    <TextHeading fontType="Nohemi" level={1}>
       {text || children}
     </TextHeading>
   );

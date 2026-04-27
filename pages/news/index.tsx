@@ -23,6 +23,7 @@ const FEATURED_COLORS = [
 export async function getStaticProps() {
   const newsResponse = await getNewsByPageNumber(1);
 
+
   return {
     props: {
       newsPage: newsResponse.data,
@@ -203,21 +204,9 @@ const NewsPageStyling = styled.div`
     margin-bottom: 40px;
 
     h1 {
-      font-size: 3.5rem;
-      font-family: "Nohemi", sans-serif;
-      font-weight: 900;
-      letter-spacing: -2px;
-      margin: 0;
+      ${headingMixin}
       color: ${Theme.colorPalette.ttcBlack};
     }
-
-    ${media.mobileLarge`
-      padding: 40px 0 15px;
-      h1 {
-        font-size: 2.2rem;
-        letter-spacing: -1px;
-      }
-    `}
   }
 
   /* Hero card */

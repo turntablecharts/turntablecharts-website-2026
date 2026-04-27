@@ -4,6 +4,7 @@ import Theme from 'constants/Theme';
 import media from 'constants/MediaQuery';
 import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
+import { headingMixin, heroHeadingMixin } from 'constants/mixins';
 import CTAButton from 'components/atoms/ctaButton';
 import WantUpdates from 'components/molecules/WantUpdates';
 import Link from 'next/link';
@@ -44,7 +45,7 @@ export async function getStaticProps() {
     props: {
       topChart: chartResponse.data.chartItems.slice(0, 10),
       topNews: newsResponse.data.news.slice(0, 10),
-      topPhoto: photoResponse.data.filter((item) => !item.isDeleted),
+      topPhoto: photoResponse.data.galleries.filter((item) => item.galleryType === 2),
       topMagazines: sortedMagazines, // Get all magazines
     },
     // Next.js will attempt to re-generate the page:
@@ -74,7 +75,7 @@ const Home: React.FC<{
         <div className="hero_container">
           <div className="hero_top">
             <TTCIconDisc className="disc_image" />
-            <Typography.Text fontType='OpenSans' weight="semiBold" className='subheading'>Nigeria&apos;s No. 1 Music Charting Platform</Typography.Text>
+            <Typography.Text fontType='OpenSans' weight="semiBold" className='subheading2'>Nigeria&apos;s No. 1 Music Charting Platform</Typography.Text>
           </div>
           <div className="hero_middle">
             <Typography.Heading fontType="Nohemi" level={1} weight="black" className="heading">
@@ -179,9 +180,9 @@ const Home: React.FC<{
             </Typography.Text>
           </div>
         </div>
-        <span className="mobile_action">
-          <CTAButton label="Download the Report" to="/charts" />
-        </span>
+        {/* <span className="mobile_action">
+          <CTAButton label="Download the Report" to="/" />
+        </span> */}
       </section>
       <Marquee variant='green' chartType='genre' />
       <section className="featured">
@@ -202,13 +203,17 @@ const Home: React.FC<{
           <CTAButton label="Explore TurnTable Magazine" to="/magazine" />
         </span>
       </section>
-      {/* <section className="photos">
+      <section className="photos">
+
         <div className="photo_cards">
-          {topPhoto.slice(0, 8).map((item, index) => (
-            <PhotosCard key={item.id} photoItem={item} featured={index === 1} />
+          {topPhoto.slice(0, 8).map((item) => (
+            <div key={item.id} className="grid_item">
+              <PhotosCard photoItem={item} />
+            </div>
           ))}
         </div>
-      </section> */}
+
+      </section>
 
     </IndexStyling>
   );
@@ -267,16 +272,8 @@ const IndexStyling = styled.div`
       gap: 10px;
       padding: 2rem 0;
       text-align: center;
-
       .heading {
-    font-family: 'Nohemi', sans-serif;
-    font-size: 70px;
-    font-weight: 900;
-    text-transform: uppercase;
-    line-height: 0.9;
-    text-align: center;
-    width: 100%;
-    letter-spacing: -2.5px;
+  ${headingMixin}
     
     ${media.smallDesktop`
       font-size: 2rem;
@@ -286,47 +283,44 @@ const IndexStyling = styled.div`
     ${media.tablet`
       font-size: 2.6rem;
       line-height: 1.2;
+    `} 
+    
+    
+  }
+    .subheading {
+    font-size: ${Theme.fontSizes.large};
+    letter-spacing: 1px;
+    text-align: center;
+    
+    ${media.tablet`
+      font-size: 0.875rem;
+      letter-spacing: 0.5px;
     `}
     
     ${media.mobileLarge`
-      font-size: 2.3rem;
-      line-height: 1.3;
+      font-size: 12px;
+      line-height: 1.6;
+      letter-spacing: 0.3px;
+      margin-top: 3px;
+      
+      br {
+        display: none;
+      }
     `}
-    
     ${media.mobile`
-      font-size: 2rem;
-      line-height: 1.3;
+      font-size: 12px;
+      line-height: 1.6;
+      letter-spacing: 0.3px;
+      margin-top: 3px;
+      
+      br {
+        display: none;
+      }
     `}
   }
 
   .section_title-header {
-    font-size: 70px;
-    font-weight: 400;
-    text-transform: uppercase;
-    line-height: 0.9;
-    text-align: center;
-    width: 100%;
-
-    
-    ${media.smallDesktop`
-      font-size: 2rem;
-      line-height: 1.2;
-    `}
-    
-    ${media.tablet`
-      font-size: 2.6rem;
-      line-height: 1.2;
-    `}
-    
-    ${media.mobileLarge`
-      font-size: 2.3rem;
-      line-height: 1.3;
-    `}
-    
-    ${media.mobile`
-      font-size: 2rem;
-      line-height: 1.3;
-    `}
+    ${headingMixin}
   }
     }
 
@@ -470,39 +464,29 @@ const IndexStyling = styled.div`
 
     .photo_cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, 350px);
+      grid-template-columns: repeat(4, 1fr);
       grid-auto-rows: 400px;
-      gap: 8px;
+      gap: 12px;
       width: 100%;
       padding: 0;
       justify-content: center;
 
+      .grid_item:nth-child(5n + 1) {
+        grid-column: span 2;
+      }
+
       ${media.tablet`
-        grid-template-columns: repeat(auto-fit, 350px);
-        grid-auto-rows: 400px;
-        gap: 8px;
-        padding: 0 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 350px;
+        
+        .grid_item:nth-child(n) {
+          grid-column: span 1 !important;
+        }
       `}
 
       ${media.mobileLarge`
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        gap: 0;
-        padding: 0;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        
-        &::-webkit-scrollbar {
-          display: none;
-        }
-        
-        > * {
-          flex: 0 0 100%;
-          width: 100%;
-          height: 400px;
-          scroll-snap-align: start;
-        }
+        grid-template-columns: 1fr;
+        grid-auto-rows: 300px;
       `}
     }
 
@@ -534,17 +518,15 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
   position: relative;
   
   ${media.tablet`
-    min-height: 50vh;
     height: 70vh;
-  `}
+    `}
   
   ${media.mobileLarge`
-    min-height: 100vh;
-    height: 100vh;
+    height: 90vh;
   `}
 
   .hero_container {
-    width: 859px;
+    width: 100%;
     max-width: 90%;
     height: auto;
     transform: rotate(0deg);
@@ -558,6 +540,7 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
     justify-content: center;
     flex-direction: column;
     gap: 48px;
+
     
     ${media.smallDesktop`
       max-width: 85%;
@@ -574,6 +557,8 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
       max-width: 95%;
       gap: 32px;
       padding: 15px;
+     height: 80%;
+     justify-content: center;
     `}
   }
   
@@ -584,6 +569,7 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
     border-radius: 50px;
     border: 1px solid ${Theme.colorPalette.white};
     padding: 5px;
+
     .disc_image{
       width: 37px;
       height: 37px;
@@ -592,11 +578,15 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
     ${media.mobileLarge`
       padding: 3px;
       gap: 6px;
-      
+      width: 80%;
+      justify-content: space-evenly;
       svg {
         width: 20px;
         height: 20px;
       }
+        .subheading2{
+          font-size: 12px;
+        }
     `}
   }
   
@@ -606,7 +596,15 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
     width: auto;
     ${media.mobileLarge`
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      justify-content: center;
     `}
+  }
+  .hero_middle .heading {
+    ${heroHeadingMixin}
   }
   .hero_wave {
     position: absolute;
@@ -640,34 +638,7 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
     `}
   }
   .heading {
-    font-family: 'Nohemi', sans-serif;
-    font-size: 5rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    line-height: 0.9;
-    text-align: center;
-    width: 100%;
-    letter-spacing: -2.5px;
-    
-    ${media.smallDesktop`
-      font-size: 4rem;
-      line-height: 1.2;
-    `}
-    
-    ${media.tablet`
-      font-size: 2.6rem;
-      line-height: 1.2;
-    `}
-    
-    ${media.mobileLarge`
-      font-size: 3rem;
-      line-height: 1.3;
-    `}
-    
-    ${media.mobile`
-      font-size: 3rem;
-      line-height: 1.3;
-    `}
+    ${headingMixin}
   }
   
   .subheading {
@@ -682,16 +653,26 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
     
     ${media.mobileLarge`
       font-size: 12px;
+      line-height: 1.6;
       letter-spacing: 0.3px;
       margin-top: 3px;
+      
+      br {
+        display: none;
+      }
     `}
-        ${media.mobile`
-      font-size: 10px;
+    ${media.mobile`
+      font-size: 12px;
+      line-height: 1.6;
       letter-spacing: 0.3px;
       margin-top: 3px;
+      
+      br {
+        display: none;
+      }
     `}
   }
-
+   
   .hero_right {
     /* flex: 1; */
     img {

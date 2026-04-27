@@ -80,10 +80,7 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({
 
       {/* ── Header ── */}
       <div className="page_header">
-        <h1 className="page_title">Magazine Editions</h1>
-        <p className="page_subtitle">
-          We will make your business so irresistible, its success is inevitable.
-        </p>
+        <h1 className="page_title">TurnTable Magazine </h1>
 
         {/* Toggle pill */}
         <div className="toggle_pill" role="group" aria-label="View mode">

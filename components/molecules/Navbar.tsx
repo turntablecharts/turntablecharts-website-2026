@@ -28,7 +28,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
       <nav className="menus">
         <Link href="/charts">
           <a className={`menus_menu ${router.pathname.startsWith('/charts') ? 'active' : ''}`}>
-            <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
+            <Typography.Text className='menus_text' fontType="HostGrotesk" weight="semiBold">
               CHARTS
             </Typography.Text>
             <NavHover className="nav_glow" />
@@ -36,7 +36,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
         </Link>
         <Link href="/news">
           <a className={`menus_menu ${router.pathname.startsWith('/news') ? 'active' : ''}`}>
-            <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
+            <Typography.Text className='menus_text' fontType="HostGrotesk" weight="semiBold">
               NEWS
             </Typography.Text>
             <NavHover className="nav_glow" />
@@ -44,7 +44,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
         </Link>
         <Link href="/magazine">
           <a className={`menus_menu ${router.pathname.startsWith('/magazine') ? 'active' : ''}`}>
-            <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
+            <Typography.Text className='menus_text' fontType="HostGrotesk" weight="semiBold">
               MAGAZINES
             </Typography.Text>
             <NavHover className="nav_glow" />
@@ -52,7 +52,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
         </Link>
         <Link href="/business">
           <a className={`menus_menu ${router.pathname.startsWith('/business') ? 'active' : ''}`}>
-            <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
+            <Typography.Text className='menus_text' fontType="HostGrotesk" weight="semiBold">
               BUSINESS
             </Typography.Text>
             <NavHover className="nav_glow" />
@@ -60,7 +60,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
         </Link>
         <Link href="/certification">
           <a className={`menus_menu ${router.pathname.startsWith('/certification') ? 'active' : ''}`}>
-            <Typography.Text className='menus_text' fontType="Inter" weight="semiBold">
+            <Typography.Text className='menus_text' fontType="HostGrotesk" weight="semiBold">
               CERTIFICATIONS
             </Typography.Text>
             <NavHover className="nav_glow" />
@@ -76,7 +76,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               }}
               className={router.pathname.startsWith('/charts') ? 'active' : ''}
             >
-              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 CHARTS
               </Typography.Text>
             </a>
@@ -88,7 +88,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               }}
               className={router.pathname.startsWith('/news') ? 'active' : ''}
             >
-              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 NEWS
               </Typography.Text>
             </a>
@@ -100,7 +100,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               }}
               className={router.pathname.startsWith('/magazine') ? 'active' : ''}
             >
-              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 MAGAZINES
               </Typography.Text>
             </a>
@@ -112,7 +112,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               }}
               className={router.pathname.startsWith('/business') ? 'active' : ''}
             >
-              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 BUSINESS
               </Typography.Text>
             </a>
@@ -121,7 +121,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             <a onClick={() => {
               setIsMobileNavOpen(false);
             }} className={router.pathname.startsWith('/certification') ? 'active' : ''}>
-              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 CERTIFICATIONS
               </Typography.Text>
             </a>
@@ -130,7 +130,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             <a onClick={() => {
               setIsMobileNavOpen(false);
             }} className={router.pathname.startsWith('/gallery') ? 'active' : ''}>
-              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 GALLERY
               </Typography.Text>
             </a>
@@ -139,7 +139,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             <a onClick={() => {
               setIsMobileNavOpen(false);
             }} className={router.pathname.startsWith('/power100') ? 'active' : ''}>
-              <Typography.Text level="regular" fontType="Inter" weight="semiBold">
+              <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 POWERLIST
               </Typography.Text>
             </a>
