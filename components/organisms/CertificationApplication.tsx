@@ -36,10 +36,10 @@ const CertificationApplication = () => {
           <ol>
             <li>
               <Typography.Text fontType="WorkSans" level="xlarge">
-                All requests for the TCSN certification program should be sent to <span className="yellow">tcsn@turntablecharts.com</span> for
+                All requests for the TCSN certification program should be sent to <a className="yellow" href="mailto:tcsn@turntablecharts.com">tcsn@turntablecharts.com</a> for
                 approval with the following filled out in the request sheet (download sheet here). Please note that the required information must be
                 complete in the excel sheet for a certification request to be considered. Also, do familiarize yourself with the details of the Excel
-                sheet and reach out to <span className="yellow">tcsn@turntablecharts.com</span> if you have any questions.
+                sheet and reach out to <a className="yellow" href="mailto:tcsn@turntablecharts.com">tcsn@turntablecharts.com</a> if you have any questions.
               </Typography.Text>
             </li>
             <li>
@@ -76,7 +76,7 @@ const CertificationApplication = () => {
               <Typography.Text fontType="WorkSans" level="xlarge">
                 You may submit multiple titles for certification on the request sheet and receive a bulk discount. This discount only applies to
                 titles that have the same billing contact, submitted on one request and available on one invoice. For more information on the
-                discount, kindly email <span className="yellow">tcsn@turntablecharts.com</span>.
+                discount, kindly email <a className="yellow" href="mailto:tcsn@turntablecharts.com">tcsn@turntablecharts.com</a>.
               </Typography.Text>
             </li>
             <li>
@@ -96,7 +96,7 @@ const CertificationApplication = () => {
         </div>
         <div className="page_content-section">
           <Typography.Text fontType="WorkSans" level="xlarge" weight="semiBold">
-            If you have any question, email tcsn@turntablecharts.com.
+            If you have any question, email <a className="yellow" href="mailto:tcsn@turntablecharts.com">tcsn@turntablecharts.com</a>.
           </Typography.Text>
         </div>
         <div className="page_content-section">
@@ -175,6 +175,8 @@ const CertificationApplicationStyling = styled.div`
   .yellow {
     color: #f1920c;
     font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
   }
 
   .bold {

@@ -357,7 +357,7 @@ const NewsPageStyling = styled.div`
       bottom: 40px;
       svg {
         width: 30px;
-        height: 136px;
+        height: 102px;
       }
     `}
   }

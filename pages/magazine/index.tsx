@@ -198,6 +198,8 @@ const MagazineStyling = styled.div`
     ${headingMixin}
     color: white;
     margin-bottom: 16px;
+
+    ${media.mobileLarge` font-size: 56px; `}
   }
 
   .page_subtitle {

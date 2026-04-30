@@ -153,29 +153,29 @@ const NewsCard = ({
   /* ── Compact (default) ── */
   return (
     <NewsCardStyling className={variant}>
-      <div className="news_card-img">
-        <Link href={`/news/${newsItem.id}`}>
-          <a>
+      <Link href={`/news/${newsItem.id}`}>
+        <a className="compact_link">
+          <div className="news_card-img">
             <img
               src={newsItem.headerImageUri}
               alt={newsItem.title}
               onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
             />
-          </a>
-        </Link>
-      </div>
-      <div className="news_card-content">
-        <div className="news_card-date">
-          <Typography.Text fontType="WorkSans" weight="semiBold" level="small">
-            {formatDate(newsItem.dateCreated)}
-          </Typography.Text>
-        </div>
-        <div className="news_card-title">
-          <Typography.Heading fontType="Nohemi" weight="bold" level={3}>
-            {newsItem.title}
-          </Typography.Heading>
-        </div>
-      </div>
+          </div>
+          <div className="news_card-content">
+            <div className="news_card-date">
+              <Typography.Text fontType="WorkSans" weight="semiBold" level="small">
+                {formatDate(newsItem.dateCreated)}
+              </Typography.Text>
+            </div>
+            <div className="news_card-title">
+              <Typography.Heading fontType="Nohemi" weight="bold" level={3}>
+                {newsItem.title}
+              </Typography.Heading>
+            </div>
+          </div>
+        </a>
+      </Link>
     </NewsCardStyling>
   );
 };
@@ -522,17 +522,19 @@ const NewsCardStyling = styled.div`
     cursor: pointer;
     flex-direction: column;
 
+    .compact_link {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+    }
+
     .news_card-img {
       width: 100%;
       height: 220px;
       flex-shrink: 0;
       overflow: hidden;
-
-      a {
-        display: block;
-        height: 100%;
-        width: 100%;
-      }
 
       img {
         width: 100%;

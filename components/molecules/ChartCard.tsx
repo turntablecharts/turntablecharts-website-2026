@@ -222,6 +222,14 @@ ${media.mobileLarge`
       display: flex;
       flex-direction: column;
       gap: 8px;
+
+      ${media.tablet`
+        p { font-size: 0.78rem !important; }
+      `}
+
+      ${media.mobileLarge`
+        p { font-size: 0.72rem !important; }
+      `}
     }
   }
 
