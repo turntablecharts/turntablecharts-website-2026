@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 import Typography from "components/atoms/typography";
 import Link from "next/link";
@@ -7,6 +7,14 @@ import { NewsSummary } from "utility/NewsApi/types";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
 import MainArrow from "assets/icons/mainArrow.svg";
+
+const ACCENT_COLORS = [
+  Theme.colorPalette.ttcBlue,
+  Theme.colorPalette.ttcOrange,
+  Theme.colorPalette.ttcGreen,
+  Theme.colorPalette.ttcDarkGreen,
+  Theme.colorPalette.ttcRed,
+];
 
 const NewsCard = ({
   newsItem,
@@ -17,6 +25,17 @@ const NewsCard = ({
   variant?: "hero" | "large" | "compact" | "featured";
   accentColor?: string;
 }) => {
+  const initialColor = accentColor ?? Theme.colorPalette.ttcBlue;
+  const [currentColor, setCurrentColor] = useState(initialColor);
+  const lastColorRef = useRef(initialColor);
+
+  const cycleColor = useCallback(() => {
+    const others = ACCENT_COLORS.filter((c) => c !== lastColorRef.current);
+    const next = others[Math.floor(Math.random() * others.length)];
+    lastColorRef.current = next;
+    setCurrentColor(next);
+  }, []);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date
@@ -60,7 +79,7 @@ const NewsCard = ({
     return (
       <NewsCardStyling
         className={variant}
-        style={{ '--accent-color': accentColor ?? Theme.colorPalette.ttcRed } as any}
+        style={{ '--accent-color': currentColor } as any}
       >
         <div className="news_card-img">
           <Link href={`/news/${newsItem.id}`}>
@@ -72,7 +91,7 @@ const NewsCard = ({
           </Link>
         </div>
         <Link href={`/news/${newsItem.id}`}>
-          <a className="news_card-content">
+          <a className="news_card-content" onMouseEnter={cycleColor} onTouchStart={cycleColor}>
             {/* Hover color reveal */}
             <div className="featured_bg_overlay" />
 
@@ -314,9 +333,9 @@ const NewsCardStyling = styled.div`
 
       .featured_news_title {
         font-family: 'Nohemi', sans-serif !important;
-        font-size: 2.5rem;
+        font-size: clamp(1.25rem, 2vw, 1.75rem);
         font-weight: 700;
-        line-height: 1.1;
+        line-height: 1.15;
         text-transform: uppercase;
         margin-bottom: 20px;
       }
@@ -403,7 +422,7 @@ const NewsCardStyling = styled.div`
         overflow: visible;
 
         .news_card-category p { font-size: 12px; }
-        .news_card-title h2 { font-size: 1.5rem; }
+        .featured_news_title { font-size: 1.2rem !important; }
         .news_card-date p { font-size: 12px; }
       }
     `}

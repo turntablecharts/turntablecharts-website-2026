@@ -117,7 +117,7 @@ const Home: React.FC<{
             <SongCard songItem={topChart[0]} variant="large" />
           )}
           <div className="compact_list">
-            {topChart.slice(1).map((item) => (
+            {topChart.map((item) => (
               <SongCard key={item.id} songItem={item} variant="compact" />
             ))}
           </div>
@@ -142,14 +142,26 @@ const Home: React.FC<{
           </Typography.Heading>
         </div>
         <div className="news_cards">
-          {topNews.slice(0, 5).map((item, index) => (
-            <NewsCard
-              key={item.id}
-              newsItem={item}
-              variant={index === 0 ? 'large' : 'compact'}
-              accentColor={index === 0 ? Theme.colorPalette.ttcRed : undefined}
-            />
-          ))}
+          {topNews.slice(0, 5).map((item, index) => {
+            const NEWS_ACCENT_COLORS = [
+              Theme.colorPalette.ttcBlue,
+              Theme.colorPalette.ttcOrange,
+              Theme.colorPalette.ttcGreen,
+              Theme.colorPalette.ttcDarkGreen,
+              Theme.colorPalette.ttcRed,
+            ];
+            const accentColor = index === 0
+              ? NEWS_ACCENT_COLORS[item.id % NEWS_ACCENT_COLORS.length]
+              : undefined;
+            return (
+              <NewsCard
+                key={item.id}
+                newsItem={item}
+                variant={index === 0 ? 'large' : 'compact'}
+                accentColor={accentColor}
+              />
+            );
+          })}
         </div>
         <span className="mobile_action">
           <CTAButton label="Read More News" to="/news" />
@@ -331,9 +343,22 @@ const IndexStyling = styled.div`
       align-items: start;
       margin-bottom: 40px;
 
-      ${media.tablet`
-        grid-template-columns: 1fr 1fr;
+      /* Tablet: hide large hero card, show compact list as 2-col grid */
+      ${media.smallDesktop`
+        grid-template-columns: 1fr;
+
+        .large { display: none; }
+
+        .compact_list {
+          height: auto;
+          max-height: none;
+          overflow: visible;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 4px;
+        }
       `}
+
       ${media.mobileLarge`
         display: none;
       `}
@@ -349,13 +374,20 @@ const IndexStyling = styled.div`
         flex: 1;
       }
 
-      ${media.tablet`
-        height: auto;
-        max-height: 500px;
+      /* Desktop: rank 1 already shown in large card, hide it here */
+      > *:first-child {
+        display: none;
+      }
+
+      /* Tablet: large card hidden, so show rank 1 in the list */
+      ${media.smallDesktop`
+        > *:first-child { display: flex; }
       `}
     }
-.section_cards_mobile {
+
+    .section_cards_mobile {
       display: none;
+
       ${media.mobileLarge`
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -464,29 +496,22 @@ const IndexStyling = styled.div`
 
     .photo_cards {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 400px;
+      grid-template-columns: repeat(4, 360px);
+      grid-auto-rows: 398px;
       gap: 12px;
       width: 100%;
       padding: 0;
       justify-content: center;
 
-      .grid_item:nth-child(5n + 1) {
-        grid-column: span 2;
-      }
-
       ${media.tablet`
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 350px;
-        
-        .grid_item:nth-child(n) {
-          grid-column: span 1 !important;
-        }
+        grid-template-columns: repeat(2, 360px);
+        grid-auto-rows: 398px;
       `}
 
       ${media.mobileLarge`
-        grid-template-columns: 1fr;
-        grid-auto-rows: 300px;
+        grid-template-columns: 360px;
+        grid-auto-rows: auto;
+        justify-content: center;
       `}
     }
 

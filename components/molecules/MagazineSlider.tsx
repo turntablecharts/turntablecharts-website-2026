@@ -224,6 +224,7 @@ const MagazineImage = styled.div`
   width: 350px;
   height: 450px;
   position: relative;
+  overflow: hidden;
   transition: transform 0.3s ease;
 
   &:hover {
@@ -234,7 +235,7 @@ const MagazineImage = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top;
+    object-position: center;
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
     pointer-events: none;
     user-select: none;
@@ -280,15 +281,18 @@ const MobileCard = styled.div`
     display: block;
     flex-shrink: 0;
     width: 52vw;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
     cursor: pointer;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
 
     img {
       width: 100%;
-      aspect-ratio: 2 / 3;
+      height: 100%;
       object-fit: cover;
-      object-position: top;
+      object-position: center;
       display: block;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
+      pointer-events: none;
     }
   `}
 `;

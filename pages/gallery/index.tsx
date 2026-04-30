@@ -2,7 +2,6 @@ import Typography from "components/atoms/typography";
 import PhotosCard from "components/molecules/PhotosCard";
 import media from "constants/MediaQuery";
 import { headingMixin } from "constants/mixins";
-import Theme from "constants/Theme";
 import Head from "next/head";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -11,16 +10,22 @@ import { PhotoItem } from "utility/PhotosApi/types";
 
 export async function getStaticProps() {
   const photoResponse = await getPhotosByPageNumber(1);
+  const all = photoResponse.data.galleries;
   return {
     props: {
-      initialPhotos: photoResponse.data.galleries.filter((item) => item.galleryType === 2),
+      initialVideos: all.filter((item) => item.galleryType === 1),
+      initialPhotos: all.filter((item) => item.galleryType === 2),
       totalItems: photoResponse.data.totalItems,
     },
     revalidate: 3600,
   };
 }
 
-const GalleryPage: React.FC<{ initialPhotos: PhotoItem[]; totalItems: number }> = ({ initialPhotos, totalItems }) => {
+const GalleryPage: React.FC<{
+  initialVideos: PhotoItem[];
+  initialPhotos: PhotoItem[];
+  totalItems: number;
+}> = ({ initialVideos, initialPhotos, totalItems }) => {
   const [allPhotos, setAllPhotos] = useState<PhotoItem[]>(initialPhotos);
   const [currentPage, setCurrentPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
@@ -35,7 +40,7 @@ const GalleryPage: React.FC<{ initialPhotos: PhotoItem[]; totalItems: number }> 
       const nextPage = currentPage + 1;
       const res = await getPhotosByPageNumber(nextPage);
       const newPhotos = res.data.galleries.filter((item) => item.galleryType === 2);
-      
+
       if (newPhotos.length === 0) {
         setHasMore(false);
       } else {
@@ -75,12 +80,36 @@ const GalleryPage: React.FC<{ initialPhotos: PhotoItem[]; totalItems: number }> 
         </Typography.Heading>
       </div>
 
-      <div className="gallery_grid">
-        {allPhotos.map((photo) => (
-          <div key={photo.id} className="grid_item">
-            <PhotosCard photoItem={photo} />
+      <div className="content_wrap">
+        {/* ── Featured videos ── */}
+        {initialVideos.length > 0 && (
+          <div className="video_section">
+            {initialVideos.map((video) => (
+              <div key={video.id} className="video_wrap">
+                <iframe
+                  src={video.link}
+                  title={video.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+                {video.title && (
+                  <p className="video_title">{video.title}</p>
+                )}
+              </div>
+            ))}
           </div>
-        ))}
+        )}
+
+        {/* ── Photo grid ── */}
+        {allPhotos.length > 0 && (
+          <div className="gallery_grid">
+            {allPhotos.map((photo) => (
+              <div key={photo.id} className="grid_item">
+                <PhotosCard photoItem={photo} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div ref={sentinelRef} className="sentinel" />
@@ -88,7 +117,7 @@ const GalleryPage: React.FC<{ initialPhotos: PhotoItem[]; totalItems: number }> 
       {isFetching && (
         <div className="loading_indicator">
           <Typography.Text fontType="HostGrotesk" color="white" weight="medium">
-            Loading more art...
+            Loading more...
           </Typography.Text>
         </div>
       )}
@@ -101,57 +130,94 @@ export default GalleryPage;
 const GalleryStyling = styled.div`
   min-height: 100vh;
   background-color: #000;
-  padding: 140px 60px 100px;
-  
+  padding: 140px 0 100px;
+
   ${media.tablet`
-    padding: 100px 24px 60px;
+    padding: 100px 0 60px;
   `}
 
+  /* ── Page heading ── */
   .page_header {
     text-align: center;
-    margin-bottom: 80px;
-    
+    margin-bottom: 60px;
+    padding: 0 24px;
+
     .main_title {
       ${headingMixin}
       color: white;
-      font-size: clamp(3rem, 10vw, 8rem);
+      font-size: 100px;
     }
-    
+
     ${media.mobileLarge`
       margin-bottom: 40px;
+      .main_title { font-size: 56px; }
     `}
   }
 
-  .gallery_grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 450px;
-    gap: 12px;
-    
-    /* Variable item sizing for a more dynamic "original pictures" feel */
-    .grid_item:nth-child(5n + 1) {
-      grid-column: span 2;
-      grid-row: span 1;
+  /* ── Shared content wrapper ── */
+  .content_wrap {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+
+    ${media.mobileLarge`
+      padding: 0 16px;
+    `}
+  }
+
+  /* ── Video section ── */
+  .video_section {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+
+  .video_wrap {
+    width: 100%;
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 670px;
+      border: none;
+      border-radius: 4px;
     }
-    
-    .grid_item:nth-child(7n + 2) {
-      grid-column: span 1;
-      grid-row: span 2;
+
+    .video_title {
+      margin-top: 14px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     ${media.tablet`
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: 350px;
-      
-      .grid_item:nth-child(n) {
-        grid-column: span 1 !important;
-        grid-row: span 1 !important;
-      }
+      iframe { height: 420px; }
     `}
 
     ${media.mobileLarge`
-       grid-template-columns: 1fr;
-       grid-auto-rows: 400px;
+      iframe { height: 200px; border-radius: 2px; }
+    `}
+  }
+
+  /* ── Photo grid ── */
+  .gallery_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 398px;
+    gap: 12px;
+
+    ${media.tablet`
+      grid-template-columns: repeat(2, 1fr);
+    `}
+
+    ${media.mobileLarge`
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
     `}
   }
 

@@ -27,16 +27,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const editionName = context.params?.editionName;
-  const response = await getSingleMagazineEditionByName(editionName as string);
-  if (response.data) {
-    return { props: { editionArticles: response.data }, revalidate: 3600 };
+  const [articlesRes, editionsRes] = await Promise.all([
+    getSingleMagazineEditionByName(editionName as string),
+    getAllMagazineEditions(),
+  ]);
+  if (articlesRes.data) {
+    const matchedEdition = editionsRes.data.find((e) => e.name === editionName);
+    return {
+      props: {
+        editionArticles: articlesRes.data,
+        coverImageUrl: matchedEdition?.coverImageUrl ?? null,
+      },
+      revalidate: 3600,
+    };
   }
   return { notFound: true, revalidate: 3600 };
 };
 
-const EditionName: React.FC<{ editionArticles: MagazineEditionArticles }> = ({
-  editionArticles,
-}) => {
+const EditionName: React.FC<{
+  editionArticles: MagazineEditionArticles;
+  coverImageUrl: string | null;
+}> = ({ editionArticles, coverImageUrl }) => {
   const router = useRouter();
   const editionName = router.query.editionName as string;
 
@@ -64,17 +75,20 @@ const EditionName: React.FC<{ editionArticles: MagazineEditionArticles }> = ({
         ══════════════════════════════════════ */}
         {cover && (
           <div className="section_top">
-            {/* Cover image — left */}
+            {/* Magazine cover — left */}
             <Link href={`/magazine/${editionName}/${cover.id}`}>
               <a className="cover_img">
-                <object data={cover.headerImage} type="image/png">
-                  <img src="/assets/ttcBgWhite.png" alt="cover" />
-                </object>
+                <img
+                  src={coverImageUrl || cover.headerImage}
+                  alt={editionArticles.name}
+                  onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                />
               </a>
             </Link>
 
-            {/* Text index — right */}
+            {/* Credits index — right */}
             <div className="text_index">
+              <h2 className="text_index-heading">{editionArticles.name.replace(/_/g, ' ')}</h2>
               {articles.map((article) => (
                 <Link
                   key={article.id}
@@ -97,12 +111,14 @@ const EditionName: React.FC<{ editionArticles: MagazineEditionArticles }> = ({
         ══════════════════════════════════════ */}
         {cover && rest.length > 0 && (
           <div className="section_bottom">
-            {/* Cover repeated — left */}
+            {/* Cover story in-article image — left */}
             <Link href={`/magazine/${editionName}/${cover.id}`}>
               <a className="cover_img cover_img--medium">
-                <object data={cover.headerImage} type="image/png">
-                  <img src="/assets/ttcBgWhite.png" alt="cover" />
-                </object>
+                <img
+                  src={cover.headerImage}
+                  alt={cover.title}
+                  onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                />
               </a>
             </Link>
 
@@ -115,9 +131,11 @@ const EditionName: React.FC<{ editionArticles: MagazineEditionArticles }> = ({
                 >
                   <a className="thumb_item">
                     <div className="thumb_item-img">
-                      <object data={article.headerImage} type="image/png">
-                        <img src="/assets/ttcBgWhite.png" alt="fallback" />
-                      </object>
+                      <img
+                        src={article.headerImage}
+                        alt={article.title}
+                        onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                      />
                     </div>
                     <h3 className="thumb_item-title">{article.title}</h3>
                   </a>
@@ -158,144 +176,161 @@ const EditionStyling = styled.div`
   }
 
   /* ══════════════════════════════════════
-     SECTION 1: Cover + text index
+     SECTION 1: Cover + credits index
   ══════════════════════════════════════ */
   .section_top {
     display: grid;
-    grid-template-columns: 55% 1fr;
+    grid-template-columns: 58% 1fr;
     gap: 48px;
-    padding: 48px 0 48px;
+    padding: 48px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
     ${media.tablet`
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 28px;
     `}
   }
 
-  /* Cover image shared styles */
+  /* Cover image */
   .cover_img {
     display: block;
     overflow: hidden;
     text-decoration: none;
     cursor: pointer;
 
-    object, img {
+    img {
       width: 100%;
       height: auto;
       display: block;
       transition: transform 0.5s ease;
+      pointer-events: none;
     }
 
-    &:hover object,
-    &:hover img {
-      transform: scale(1.03);
-    }
-
-    /* Medium variant for section 2 — same natural height */
-    &.cover_img--medium {
-      object, img { height: auto; }
-    }
+    &:hover img { transform: scale(1.02); }
   }
 
-  /* Text article index */
+  /* Credits list — right of section_top */
   .text_index {
     display: flex;
     flex-direction: column;
     gap: 0;
-    justify-content: flex-start;
-    overflow-y: auto;
-    max-height: 560px;
+  }
+
+  .text_index-heading {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    text-transform: none;
+    letter-spacing: 0;
+
+    ${media.mobileLarge` display: none; `}
   }
 
   .text_item {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 16px 0;
+    gap: 6px;
+    padding: 18px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.2s ease;
 
-    &:first-child { border-top: 1px solid rgba(255, 255, 255, 0.07); }
-    &:hover { opacity: 0.7; }
+    &:hover { opacity: 0.65; }
+
+    ${media.mobileLarge`
+      padding: 20px 0;
+      gap: 8px;
+    `}
   }
 
   .text_item-title {
-    font-family: "Anton", sans-serif;
-    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
-    font-weight: 400;
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
     color: white;
-    text-transform: uppercase;
-    line-height: 1.2;
+    line-height: 1.3;
+
+    ${media.mobileLarge`
+      font-size: 1.05rem;
+    `}
   }
 
   .text_item-writer {
     font-family: "Work Sans", sans-serif;
-    font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.45);
-    line-height: 1.4;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.55;
+
+    ${media.mobileLarge`
+      font-size: 0.875rem;
+    `}
   }
 
   /* ══════════════════════════════════════
-     SECTION 2: Medium cover + thumb grid
+     SECTION 2: Cover story image + thumb grid
   ══════════════════════════════════════ */
   .section_bottom {
     display: grid;
-    grid-template-columns: 55% 1fr;
+    grid-template-columns: 58% 1fr;
     gap: 48px;
     padding: 48px 0;
 
     ${media.tablet`
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 28px;
     `}
   }
 
-  /* Thumbnail grid */
+  /* Article list — single column */
   .thumb_grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
     align-content: start;
-
-    ${media.mobileLarge` gap: 14px; `}
   }
 
   .thumb_item {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     text-decoration: none;
     cursor: pointer;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: opacity 0.2s ease;
+
+    &:first-child { padding-top: 0; }
+    &:hover { opacity: 0.8; }
   }
 
   .thumb_item-img {
     overflow: hidden;
     width: 100%;
 
-    object, img {
+    img {
       width: 100%;
-      height: 180px;
+      height: auto;
       object-fit: cover;
-      object-position: top;
+      object-position: center;
       display: block;
       transition: transform 0.4s ease;
+      pointer-events: none;
     }
 
-    .thumb_item:hover & {
-      object, img { transform: scale(1.05); }
-    }
-
-    ${media.mobileLarge` object, img { height: 130px; } `}
+    .thumb_item:hover & img { transform: scale(1.02); }
   }
 
   .thumb_item-title {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
     line-height: 1.4;
     margin: 0;
   }

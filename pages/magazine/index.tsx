@@ -128,7 +128,7 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({
 
               {/* Content — right */}
               <div className="list_content">
-                <h2 className="list_title">{edition.name}</h2>
+                <h2 className="list_title">{formatEditionDate(edition.name)}</h2>
                 <p className="list_desc">
                   Discover the stories shaping the music industry — curated
                   exclusively by TurnTable Charts.
@@ -155,7 +155,7 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({
                     <span className="shelf_overlay-btn">Read Magazine</span>
                   </div>
                 </div>
-                <p className="shelf_title">{edition.name}</p>
+                <p className="shelf_title">{formatEditionDate(edition.name)}</p>
               </a>
             </Link>
           ))}
@@ -278,7 +278,7 @@ const MagazineStyling = styled.div`
   .list_row {
     display: grid;
     grid-template-columns: 140px 400px 1fr;
-    align-items: start; /* top-align all columns */
+    align-items: start;
     gap: 40px;
     padding: 40px 0;
 
@@ -290,10 +290,11 @@ const MagazineStyling = styled.div`
       grid-template-columns: 1fr;
       gap: 16px;
       padding: 32px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     `}
   }
 
-  /* Date label — fixed-width column, text wraps */
+  /* Date label */
   .list_date {
     font-family: "Work Sans", sans-serif;
     font-size: 0.75rem;
@@ -306,9 +307,12 @@ const MagazineStyling = styled.div`
     overflow-wrap: break-word;
     width: 140px;
 
-    /* Hidden on tablet (2-col), visible on desktop and mobile */
     ${media.tablet` display: none; `}
-    ${media.mobileLarge` display: block; width: 100%; `}
+    ${media.mobileLarge`
+      display: block;
+      width: 100%;
+      font-size: 0.8rem;
+    `}
   }
 
   /* Cover image — list mode */
@@ -322,7 +326,7 @@ const MagazineStyling = styled.div`
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: top;
+      object-position: center;
       display: block;
     }
 
@@ -337,7 +341,7 @@ const MagazineStyling = styled.div`
     `}
   }
 
-  /* Text content — right, full height with button at bottom */
+  /* Text content */
   .list_content {
     display: flex;
     flex-direction: column;
@@ -350,6 +354,7 @@ const MagazineStyling = styled.div`
     ${media.mobileLarge`
       height: auto;
       gap: 12px;
+      padding: 0;
     `}
   }
 
@@ -363,7 +368,11 @@ const MagazineStyling = styled.div`
     margin: 0;
 
     ${media.mobileLarge`
-      font-size: 1.8rem;
+      font-family: 'Host Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: none;
     `}
   }
 
@@ -374,12 +383,17 @@ const MagazineStyling = styled.div`
     color: rgba(255, 255, 255, 0.65);
     max-width: 480px;
     margin: 12px 0 0;
+
+    ${media.mobileLarge`
+      font-size: 0.875rem;
+      margin: 0;
+    `}
   }
 
-  /* CTA button — pushed to bottom of content column */
+  /* CTA button */
   .list_cta {
     display: inline-block;
-    margin-top: auto; /* push to bottom */
+    margin-top: auto;
     padding: 14px 32px;
     border-radius: 999px;
     border: 2px solid #f1a01f;
@@ -399,9 +413,9 @@ const MagazineStyling = styled.div`
     }
 
     ${media.mobileLarge`
-      width: 100%;
-      display: block;
-      margin-top: 8px;
+      margin-top: 4px;
+      padding: 12px 28px;
+      font-size: 0.85rem;
     `}
   }
 
@@ -454,13 +468,13 @@ const MagazineStyling = styled.div`
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: top;
+      object-position: center;
       display: block;
       transition: transform 0.5s ease, opacity 0.4s ease;
     }
 
     ${media.mobileLarge`
-      height: 260px;
+      height: 410px;
     `}
   }
 
@@ -499,11 +513,15 @@ const MagazineStyling = styled.div`
   }
 
   .shelf_title {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.4;
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    line-height: 1.35;
     margin: 0;
+
+    ${media.mobileLarge`
+      font-size: 0.9rem;
+    `}
   }
 `;

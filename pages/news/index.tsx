@@ -205,6 +205,7 @@ const NewsPageStyling = styled.div`
 
     h1 {
       ${headingMixin}
+      font-family: 'Nohemi', sans-serif !important;
       color: ${Theme.colorPalette.ttcBlack};
     }
   }

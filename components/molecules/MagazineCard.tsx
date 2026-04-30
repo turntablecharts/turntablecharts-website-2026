@@ -17,9 +17,11 @@ const MagazineCard: React.FC<{ magazineItem: EditionArticleSummary }> = ({
       <div className="article_card-img">
         <Link href={`/magazine/${router.query.editionName}/${magazineItem.id}`}>
           <a>
-            <object data={magazineItem.headerImage} type="image/png">
-              <img src="/assets/ttcBgWhite.png" alt="fallback" />
-            </object>
+            <img
+              src={magazineItem.headerImage}
+              alt={magazineItem.title}
+              onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+            />
           </a>
         </Link>
       </div>
@@ -80,28 +82,37 @@ const MagazineCardStyling = styled.div`
   }
 
   .article_card-img {
-    height: 250px;
+    width: 100%;
+    aspect-ratio: 3 / 4;
     overflow: hidden;
+    background: #111;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
     ${media.tablet`
-    height: 200px;
+      aspect-ratio: 3 / 4;
     `}
-    ${media.mobileLarge`
-    height: 150px;
-    `}
-    cursor: pointer;
-    img, object {
-      max-width: 100%;
-      height: auto;
-      transition: transform 1s;
 
-    &:hover {
-      /* img, object { */
-        transform: scale(1.05);
-      /* } */
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      pointer-events: none;
+      transition: transform 0.4s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.03);
     }
   }
 

@@ -124,13 +124,13 @@ const SongCardStyling = styled.div`
     overflow: hidden;
     width: 657px;
     max-width: 100%;
-    height: 657px;
+    height: 768px;
     padding: 0;
 
     /* Full-bleed image */
     .img {
       width: 100%;
-      height: 100%;
+      height: 657px;
 
       img {
         width: 100%;
@@ -197,7 +197,7 @@ const SongCardStyling = styled.div`
       }
 
       .name_artist {
-        color: rgba(255, 255, 255, 0.65);
+        color: white;
         font-family: 'Host Grotesk', sans-serif;
         font-size: 0.875rem;
         font-weight: 400;
@@ -316,8 +316,8 @@ const SongCardStyling = styled.div`
       }
 
       .img {
-        width: 100%;
-        height: 100%;
+        width: 175px;
+        height: 175px;
         position: absolute;
         inset: 0;
 

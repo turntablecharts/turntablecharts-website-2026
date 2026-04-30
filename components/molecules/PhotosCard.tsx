@@ -20,6 +20,7 @@ const PhotosCard = ({ photoItem }: { photoItem: PhotoItem }) => {
           </Typography.Heading>
         </div>
       </div>
+
     </PhotosCardStyling>
   );
 };
@@ -30,17 +31,17 @@ const PhotosCardStyling = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
-  overflow: hidden;
   cursor: pointer;
   background-color: #000;
-  ${media.mobileLarge`
-    height: 358px;
-  `}
+  display: flex;
+  flex-direction: column;
+
   .photo_img {
     width: 100%;
     height: 100%;
     position: relative;
     overflow: hidden;
+    flex: 1;
 
     img {
       width: 100%;
@@ -83,10 +84,37 @@ const PhotosCardStyling = styled.div`
     line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: 0.02em;
+  }
+
+  /* Caption — hidden on desktop, shown on mobile */
+  .photo_caption {
+    display: none;
 
     ${media.mobileLarge`
-      font-size: 0.95rem;
+      display: block;
+      padding: 10px 4px 4px;
+
+      .caption_title {
+        font-family: 'Work Sans', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        line-height: 1.3;
+        text-align: left;
+        display: block;
+      }
     `}
   }
 
+  /* Mobile: fixed image size, auto-height card */
+  ${media.mobileLarge`
+    height: auto;
+
+    .photo_img {
+      height: 398px;
+      flex: none;
+    }
+  `}
 `;
