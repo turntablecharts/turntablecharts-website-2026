@@ -27,7 +27,7 @@ const Power100: React.FC = () => {
   const categories: PowerlistCategory[] = Array.isArray(rawCat)
     ? rawCat
     : Array.isArray(rawCat?.data)
-    ? rawCat.data
+    ? (rawCat as any).data
     : [];
 
   const allEntries: PowerlistEntry[] = Array.isArray(raw)
