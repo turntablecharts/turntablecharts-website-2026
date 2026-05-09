@@ -39,14 +39,6 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
   const [totalItems, setTotalItems] = useState(newsPage.totalItems);
   const [isFetching, setIsFetching] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   // IntersectionObserver sentinel ref
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -141,11 +133,20 @@ const News: React.FC<{ newsPage: NewsResponsePaginated }> = ({ newsPage }) => {
                 key={item.id}
                 className={`card_wrap ${isBig ? "card_wrap--big" : "card_wrap--small"}`}
               >
-                <NewsCard
-                  newsItem={item}
-                  variant={(isBig && !isMobile) ? "featured" : "compact"}
-                  accentColor={accentColor}
-                />
+                {isBig ? (
+                  <>
+                    {/* Desktop: featured card with accent colour */}
+                    <div className="slot_desktop">
+                      <NewsCard newsItem={item} variant="featured" accentColor={accentColor} />
+                    </div>
+                    {/* Mobile: plain compact card */}
+                    <div className="slot_mobile">
+                      <NewsCard newsItem={item} variant="compact" />
+                    </div>
+                  </>
+                ) : (
+                  <NewsCard newsItem={item} variant="compact" />
+                )}
               </div>
             );
           });
@@ -238,32 +239,50 @@ const NewsPageStyling = styled.div`
       overflow: hidden;
       animation: ${fadeInUp} 0.4s ease both;
 
-      /* compact — image is fixed height, text grows freely */
       &.card_wrap--small {
         grid-column: span 1;
       }
 
-      /* featured — needs a defined height for the CSS background image */
       &.card_wrap--big {
         grid-column: span 2;
         height: 320px;
       }
     }
 
-    /* Two columns on tablet */
+    /* Desktop: show featured, hide compact slot */
+    .slot_desktop { display: block; width: 100%; height: 100%; }
+    .slot_mobile  { display: none; }
+
+    /* Two columns on tablet/mobile — all cards identical compact */
     ${media.tablet`
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      row-gap: 36px;
+      gap: 16px;
+      row-gap: 28px;
       width: 90%;
 
-      .card_wrap--small {
-        grid-column: span 1;
+      /* Every card wrapper identical — single column, auto height */
+      .card_wrap--small,
+      .card_wrap--big {
+        grid-column: span 1 !important;
+        height: auto !important;
+        overflow: visible;
       }
 
-      .card_wrap--big {
-        grid-column: span 2;
-        height: 260px;
+      /* Swap: hide featured, show compact slot */
+      .slot_desktop { display: none; }
+      .slot_mobile  { display: block; width: 100%; }
+
+      /* Lock all card images to identical dimensions */
+      .card_wrap .news_card-img {
+        height: 180px !important;
+        width: 100% !important;
+
+        img {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
+          object-position: center !important;
+        }
       }
     `}
 
