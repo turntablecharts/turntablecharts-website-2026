@@ -4,7 +4,7 @@ import Theme from 'constants/Theme';
 import media from 'constants/MediaQuery';
 import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
-import { headingMixin, heroHeadingMixin } from 'constants/mixins';
+import { baseHeading, headingMixin, heroHeadingMixin } from 'constants/mixins';
 import CTAButton from 'components/atoms/ctaButton';
 import WantUpdates from 'components/molecules/WantUpdates';
 import Link from 'next/link';
@@ -142,26 +142,25 @@ const Home: React.FC<{
           </Typography.Heading>
         </div>
         <div className="news_cards">
-          {topNews.slice(0, 5).map((item, index) => {
-            const NEWS_ACCENT_COLORS = [
-              Theme.colorPalette.ttcBlue,
-              Theme.colorPalette.ttcOrange,
-              Theme.colorPalette.ttcGreen,
-              Theme.colorPalette.ttcDarkGreen,
-              Theme.colorPalette.ttcRed,
-            ];
-            const accentColor = index === 0
-              ? NEWS_ACCENT_COLORS[item.id % NEWS_ACCENT_COLORS.length]
-              : undefined;
-            return (
-              <NewsCard
-                key={item.id}
-                newsItem={item}
-                variant={index === 0 ? 'large' : 'compact'}
-                accentColor={accentColor}
-              />
-            );
-          })}
+          <NewsCard
+            newsItem={topNews[0]}
+            variant="large"
+            accentColor={(() => {
+              const NEWS_ACCENT_COLORS = [
+                Theme.colorPalette.ttcBlue,
+                Theme.colorPalette.ttcOrange,
+                Theme.colorPalette.ttcGreen,
+                Theme.colorPalette.ttcDarkGreen,
+                Theme.colorPalette.ttcRed,
+              ];
+              return NEWS_ACCENT_COLORS[topNews[0].id % NEWS_ACCENT_COLORS.length];
+            })()}
+          />
+          <div className="compact_news_cards">
+            {topNews.slice(1, 5).map((item) => (
+              <NewsCard key={item.id} newsItem={item} variant="compact" />
+            ))}
+          </div>
         </div>
         <span className="mobile_action">
           <CTAButton label="Read More News" to="/news" />
@@ -286,6 +285,7 @@ const IndexStyling = styled.div`
       text-align: center;
       .heading {
   ${headingMixin}
+      font-size: 70px;
     
     ${media.smallDesktop`
       font-size: 2rem;
@@ -301,18 +301,18 @@ const IndexStyling = styled.div`
   }
     .subheading {
     font-size: ${Theme.fontSizes.large};
-    letter-spacing: 1px;
+    letter-spacing: -2.5%;
     text-align: center;
     
     ${media.tablet`
       font-size: 0.875rem;
-      letter-spacing: 0.5px;
+    letter-spacing: -2.5%;
     `}
     
     ${media.mobileLarge`
       font-size: 12px;
       line-height: 1.6;
-      letter-spacing: 0.3px;
+    letter-spacing: -2.5%;
       margin-top: 3px;
       
       br {
@@ -322,7 +322,7 @@ const IndexStyling = styled.div`
     ${media.mobile`
       font-size: 12px;
       line-height: 1.6;
-      letter-spacing: 0.3px;
+    letter-spacing: -2.5%;
       margin-top: 3px;
       
       br {
@@ -332,7 +332,8 @@ const IndexStyling = styled.div`
   }
 
   .section_title-header {
-    ${headingMixin}
+    ${baseHeading}
+     
   }
     }
 
@@ -396,30 +397,32 @@ const IndexStyling = styled.div`
       `}
     }
     .news_cards {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 20px;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: auto;
 
-      > *:first-child {
-        grid-column: 1 / -1;
+      .compact_news_cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+
+        ${media.tablet`
+          grid-template-columns: repeat(2, 1fr);
+          gap: 15px;
+        `}
+
+        ${media.mobileLarge`
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        `}
       }
 
       ${media.tablet`
-        grid-template-columns: repeat(2, 1fr);
         gap: 15px;
-        
-        > *:first-child {
-          grid-column: 1 / -1;
-        }
       `}
-      ${media.mobileLarge`
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
 
-        > *:first-child {
-          grid-column: 1 / -1;
-        }
+      ${media.mobileLarge`
+        gap: 12px;
       `}
     }
 
@@ -553,8 +556,7 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
   .hero_container {
     width: 100%;
     max-width: 90%;
-    height: auto;
-    transform: rotate(0deg);
+    max-height: 427px;
     opacity: 1;
     position: absolute;
     top: 50%;
@@ -564,26 +566,27 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 48px;
+    gap: 20px;
 
-    
     ${media.smallDesktop`
       max-width: 85%;
-      gap: 28px;
+      gap: 16px;
     `}
-    
+
     ${media.tablet`
       max-width: 90%;
-      gap: 24px;
+      max-height: 427px;
+      gap: 14px;
       padding: 20px;
     `}
-    
+
     ${media.mobileLarge`
       max-width: 95%;
-      gap: 32px;
+      max-height: none;
+      gap: 24px;
       padding: 15px;
-     height: 80%;
-     justify-content: center;
+      height: 80%;
+      justify-content: center;
     `}
   }
   

@@ -225,52 +225,45 @@ const NewsPageStyling = styled.div`
     margin: 40px 0;
   }
 
-  /* Cards grid — alternating big/small pattern
-     Small : Big ratio = 320 : 500 (total row = 1140)
-     With 2 gaps of 24px each (48px total):
-       small width = (100% - 48px) × 320/1140  ≈ calc(28.07% - 13.5px)
-       big   width = (100% - 48px) × 500/1140  ≈ calc(43.86% - 21px)
-     This guarantees exactly 3 cards per row at ANY container width.
-  */
   .page_article_cards {
     max-width: 1300px;
     width: 90%;
     margin: 0 auto 0;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
-    row-gap: 32px;
-    justify-content: center;
+    row-gap: 40px;
 
     .card_wrap {
       overflow: hidden;
-      flex-shrink: 0;
       animation: ${fadeInUp} 0.4s ease both;
 
+      /* compact — image is fixed height, text grows freely */
       &.card_wrap--small {
-        width: calc(28.07% - 13.5px);
-        height: 320px;
+        grid-column: span 1;
       }
 
+      /* featured — needs a defined height for the CSS background image */
       &.card_wrap--big {
-        width: calc(43.86% - 21px);
-        height: 360px;
+        grid-column: span 2;
+        height: 320px;
       }
     }
 
-    /* Two columns on mobile/tablet */
+    /* Two columns on tablet */
     ${media.tablet`
-      display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
       row-gap: 36px;
       width: 90%;
 
-      .card_wrap--small,
+      .card_wrap--small {
+        grid-column: span 1;
+      }
+
       .card_wrap--big {
-        grid-column: span 1 !important;
-        width: 100% !important;
-        height: 280px;
+        grid-column: span 2;
+        height: 260px;
       }
     `}
 

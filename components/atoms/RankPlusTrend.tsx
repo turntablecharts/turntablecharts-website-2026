@@ -71,7 +71,7 @@ const RankStyling = styled.div`
     flex-shrink: 0;
 
     ${media.tablet`
-      font-size: 18px;
+      font-size: 14px;
       min-width: auto;
       text-align: center;
     `}
@@ -90,8 +90,8 @@ const RankStyling = styled.div`
 
     svg {
       ${media.tablet`
-        width: 16px;
-        height: 16px;
+        width: 12px;
+        height: 12px;
       `}
     }
   }

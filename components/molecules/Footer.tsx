@@ -26,7 +26,6 @@ const SOCIAL_LINKS = [
   { label: 'Instagram', href: 'https://www.instagram.com/turntablecharts/' },
   { label: 'Tiktok', href: 'https://www.tiktok.com/@turntablecharts' },
   { label: 'Youtube', href: 'https://www.youtube.com/@turntablecharts' },
-  { label: 'Linkedin', href: 'https://linkedin.com/company/turntablecharts' },
 ];
 
 const Footer = () => {
@@ -132,7 +131,7 @@ const Footer = () => {
               <span className="subscribe_highlight">Turntable Times</span>
             </h2>
             <p className="subscribe_body">
-              Enter your name and email to go behind the charts, the hits, and the headlines in Nigerian music.
+              Enter your name and email to subscribe to our newsletter & get the latest updates from TurnTable.
             </p>
             {subscribeBlock}
           </div>
@@ -163,7 +162,7 @@ const Footer = () => {
             <span className="subscribe_highlight">Turntable Times</span>
           </h2>
           <p className="subscribe_body">
-            Enter your name and email to go behind the charts, the hits, and the headlines in Nigerian music.
+            Enter your name and email to subscribe to our newsletter & get the latest updates from TurnTable.
           </p>
           {subscribeBlock}
         </div>
@@ -239,14 +238,14 @@ const FooterStyling = styled.footer`
   /* ── Desktop 3-col grid ── */
   .footer_main {
     display: grid;
-    grid-template-columns: 430px 1fr 2fr;
-    gap: 60px;
+    grid-template-columns: 400px min-content 1fr;
+    gap: 80px;
     align-items: center;
     padding: 60px 60px 0;
 
     ${media.smallDesktop`
-      grid-template-columns: 1fr 2fr;
-      gap: 32px;
+      grid-template-columns: min-content 1fr;
+      gap: 50px;
       padding: 50px 32px 0;
 
       .footer_cover {
@@ -348,9 +347,12 @@ const FooterStyling = styled.footer`
     text-decoration: none;
     text-align: left;
     transition: color 0.2s ease;
+    text-decoration: underline;
 
     &:hover {
       color: ${Theme.colorPalette.ttcYellow};
+    text-decoration: underline;
+
     }
   }
 
@@ -360,8 +362,8 @@ const FooterStyling = styled.footer`
       display: block;
 
       img {
-        width: 430px;
-        height: 470px;
+        width: 400px;
+        height: 400px;
         display: block;
         object-fit: contain;
       }
@@ -378,39 +380,47 @@ const FooterStyling = styled.footer`
   .footer_explore {
     display: flex;
     flex-direction: column;
-    gap: 80px;
     align-self: center;
-    padding-top: 20px;
+    justify-content: space-evenly;
+   height: 100%;
+    font-size: 1rem;
+
     
   }
 
   .explore_label {
     font-family: 'Host Grotesk', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 400;
     color: ${Theme.colorPalette.ttcYellow};
     letter-spacing: 0.02em;
+   
   }
 
   .explore_links {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    justify-content: space-evenly;
+    gap: 25px;
+    text-decoration: underline;
+    color: ${Theme.colorPalette.white};
+ 
   }
 
   .nav_link {
     font-family: 'Host Grotesk', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 400;
     color: ${Theme.colorPalette.white};
     text-decoration: none;
     transition: all 0.2s ease;
-    opacity: 0.7;
+    width: fit-content;
 
     &:hover {
       color: ${Theme.colorPalette.ttcYellow};
       opacity: 1;
       transform: translateX(4px);
+      text-decoration: underline;
     }
   }
 
@@ -424,7 +434,7 @@ const FooterStyling = styled.footer`
 
   .subscribe_heading {
     font-family: 'Nohemi', sans-serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
     font-weight: 900;
     text-transform: uppercase;
     line-height: 1;
@@ -450,12 +460,16 @@ const FooterStyling = styled.footer`
   }
 
   .subscribe_form {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
     gap: 12px;
-    align-items: stretch;
+    width: 100%;
+
+    ${media.tablet`
+      display: flex;
+    `}
 
     input {
-      flex: 1;
       background: ${Theme.colorPalette.white};
       border: none;
       outline: none;
@@ -464,7 +478,14 @@ const FooterStyling = styled.footer`
       font-size: 0.9rem;
       color: ${Theme.colorPalette.black};
       border-radius: 2px;
-      min-width: 0;
+      width: 100%;
+      
+      ${media.tablet`
+        width: auto;
+        flex: 1;
+        min-width: 0;
+      `}
+     
 
       &::placeholder {
         color: rgba(0, 0, 0, 0.45);
@@ -485,13 +506,17 @@ const FooterStyling = styled.footer`
       font-weight: 700;
       border-radius: 2px;
       cursor: pointer;
-      white-space: nowrap;
+      width: 100%;
       transition: background 0.2s ease;
-      flex-shrink: 0;
 
       &:hover {
         background: #e6961a;
       }
+      
+      ${media.tablet`
+        width: auto;
+        flex-shrink: 0;
+      `}
     }
   }
 
@@ -500,18 +525,23 @@ const FooterStyling = styled.footer`
     display: flex;
     align-items: flex-start;
     gap: 24px;
+    padding-right: 100px;
+
+    ${media.smallDesktop`
+      padding-right: 60px;
+    `}
   }
 
   /* ── Wordmark ── */
   .footer_wordmark {
     font-family: 'Nohemi', sans-serif;
-    font-size: clamp(80px, 16vw, 300px);
+    font-size: clamp(80px, 16vw, 240px);
     font-weight: 900;
     text-transform: uppercase;
     line-height: 0.85;
     letter-spacing: -6px;
     color: ${Theme.colorPalette.white};
-    padding: 20px 60px 0;
+    padding: 20px 5px 0;
     width: 100%;
     text-align: center;
     overflow-x: clip;
@@ -519,7 +549,7 @@ const FooterStyling = styled.footer`
     ${media.mobileLarge`
       font-size: clamp(48px, 16vw, 70px);
       letter-spacing: -2px;
-      padding: 20px 20px 0;
+      padding: 60px 20px 0;
     `}
   }
 
@@ -532,7 +562,7 @@ const FooterStyling = styled.footer`
     align-items: center;
     opacity: 0.9;
     transition: opacity 0.2s ease, transform 0.2s ease;
-
+margin-left: 10%;
     &:hover {
       opacity: 1;
       transform: translateY(-4px);
@@ -598,6 +628,7 @@ const FooterStyling = styled.footer`
     color: rgba(255, 255, 255, 0.65);
     text-decoration: none;
     transition: color 0.2s ease;
+    text-decoration: underline;
 
     &:hover {
       color: ${Theme.colorPalette.ttcYellow};

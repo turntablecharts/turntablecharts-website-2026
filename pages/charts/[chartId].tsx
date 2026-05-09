@@ -324,7 +324,12 @@ const SingleChartPageStyling = styled.div`
   .heading {
     padding-top: 8rem;
     ${headingMixin}
-  }
+
+    ${media.mobileLarge`
+      font-size: clamp(30px, 9.5vw, 46px);
+      white-space: nowrap;
+    `}
+    }
   
 
     .date_wrapper {

@@ -3,7 +3,9 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "components/atoms/typography";
 import { ChartItem } from "utility/ChartsApi/types";
-import ArrowRightOutline from "assets/icons/ArrowRightOutline.svg";
+import UpTrendIcon from "assets/icons/upTrend.svg";
+import DownTrendIcon from "assets/icons/downTrend.svg";
+import NoTrendIcon from "assets/icons/neutralTrend.svg";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
 
@@ -12,12 +14,12 @@ const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }>
   const renderTrendIndicator = () => {
     if (songItem.lastPosition === 0) {
       return (
-        <div style={{ padding: "4px 8px", backgroundColor: "#0F8F491A" }}>
+        <div style={{ padding: '4px 8px', backgroundColor: '#0F8F491A' }}>
           <Typography.Text
             style={{ color: Theme.colorPalette.ttcGreen }}
-            level="medium"
+            className="tag"
             weight="semiBold"
-            fontType="Inter"
+            fontType="WorkSans"
           >
             NEW
           </Typography.Text>
@@ -25,23 +27,23 @@ const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }>
       );
     } else if (songItem.lastPosition === -1) {
       return (
-        <div style={{ padding: "4px 8px", backgroundColor: "#F1A01F1A" }}>
+        <div style={{ padding: '4px 8px', backgroundColor: '#F1A01F1A' }}>
           <Typography.Text
             style={{ color: Theme.colorPalette.ttcYellow }}
-            level="medium"
+            className="tag"
             weight="semiBold"
-            fontType="Inter"
+            fontType="WorkSans"
           >
             RE-ENTRY
           </Typography.Text>
         </div>
       );
     } else if (songItem.rank < songItem.lastPosition) {
-      return <ArrowRightOutline className="trend_arrow up" />;
+      return <UpTrendIcon className="trend_arrow" />;
     } else if (songItem.rank > songItem.lastPosition) {
-      return <ArrowRightOutline className="trend_arrow down" />;
+      return <DownTrendIcon className="trend_arrow" />;
     } else {
-      return <ArrowRightOutline className="trend_arrow neutral" />;
+      return <NoTrendIcon className="trend_arrow" />;
     }
   };
 
@@ -104,18 +106,11 @@ const SongCardStyling = styled.div`
     width: 16px;
     height: 16px;
     flex-shrink: 0;
+  }
 
-    &.up {
-      transform: rotate(-90deg);
-      color: ${Theme.colorPalette.ttcGreen};
-    }
-    &.down {
-      transform: rotate(90deg);
-      color: ${Theme.colorPalette.ttcRed};
-    }
-    &.neutral {
-      color: ${Theme.colorPalette.ttcYellow};
-    }
+  .tag {
+    font-size: ${Theme.fontSizes.medium};
+    white-space: nowrap;
   }
 
   /* Large variant */
@@ -165,11 +160,6 @@ const SongCardStyling = styled.div`
       .trend_arrow {
         width: 16px;
         height: 16px;
-        color: white;
-
-        &.up    { transform: rotate(-90deg); color: white; }
-        &.down  { transform: rotate(90deg);  color: white; }
-        &.neutral { color: white; }
       }
     }
 
@@ -230,7 +220,6 @@ const SongCardStyling = styled.div`
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: 6px;
       flex-shrink: 0;
       min-width: 86px;
 
@@ -241,6 +230,10 @@ const SongCardStyling = styled.div`
         font-weight: 400;
         line-height: 1;
         min-width: 26px;
+      }
+
+      > :last-child {
+        margin: 0 auto;
       }
     }
 

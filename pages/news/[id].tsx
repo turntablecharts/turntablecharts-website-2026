@@ -274,12 +274,12 @@ const ArticleStyling = styled.main`
     width: 80vw;
     margin: 0 auto;
     overflow: hidden;
+    background-color: white;
 
     img {
       width: 100%;
       height: 630px;
-      object-fit: cover;
-      object-position: center 20%;
+      object-fit: contain;
       display: block;
     }
 
@@ -591,8 +591,8 @@ const ArticleStyling = styled.main`
 
   .latest_articles-title {
     ${headingMixin}
-    font-family: "Host Grotesk", sans-serif;
-    font-weight: 800;
+   
+    font-weight: 700;
     color: #000;
     text-align: left;
     margin: 0;
@@ -629,7 +629,6 @@ const ArticleStyling = styled.main`
   }
 
   .latest_card {
-    height: 320px;
     overflow: hidden;
 
     &:nth-child(4) {
@@ -637,9 +636,7 @@ const ArticleStyling = styled.main`
       ${media.tablet` display: block; `}
     }
 
-    ${media.tablet` height: auto; `}
     ${media.mobileLarge`
-      height: auto;
       .compact .news_card-img { height: 160px; }
     `}
 

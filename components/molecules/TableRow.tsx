@@ -100,6 +100,10 @@ const Td = styled.td`
     &:nth-child(3),
     &:nth-child(4),
     &:nth-child(5) { text-align: center; padding-left: 2px; padding-right: 2px; }
+
+    tr:last-child &:nth-child(5) {
+      border-radius: 0 0 12px 0;
+    }
   `}
 
   ${media.mobile`

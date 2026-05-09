@@ -7,6 +7,62 @@ import styled from 'styled-components';
 import { ChartItem } from 'utility/ChartsApi/types';
 import { truncateString } from 'utility/helpers';
 
+const AutoMarquee = ({ text }: { text: string }) => {
+  const containerRef = React.useRef<HTMLSpanElement>(null);
+  const textRef = React.useRef<HTMLSpanElement>(null);
+  const [dist, setDist] = React.useState(0);
+
+  // useLayoutEffect: fires synchronously after DOM paint — no flash of wrong state
+  React.useLayoutEffect(() => {
+    const measure = () => {
+      const container = containerRef.current;
+      const textEl = textRef.current;
+      if (!container || !textEl) return;
+
+      const cw = container.clientWidth;
+      if (cw === 0) return; // table not laid out yet — observer will re-fire
+
+      // inner span is always inline-block so scrollWidth = full text width, never clipped
+      const tw = textEl.scrollWidth;
+      setDist(tw > cw ? cw - tw - 8 : 0);
+    };
+
+    measure(); // synchronous first pass
+
+    // Re-measure whenever the container width changes (e.g. window resize, table reflow)
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;
+    if (ro && containerRef.current) ro.observe(containerRef.current);
+
+    // Re-measure once fonts finish loading (Work Sans may be wider than fallback)
+    document.fonts?.ready?.then(measure);
+
+    return () => ro?.disconnect();
+  }, [text]);
+
+  return (
+    <span
+      ref={containerRef}
+      style={{
+        display: 'block',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        width: '100%',
+        // @ts-ignore
+        '--slide-dist': `${dist}px`,
+      }}
+    >
+      <span
+        ref={textRef}
+        // always inline-block: scrollWidth is the true content width, not the clipped viewport
+        className={dist !== 0 ? 'auto-marquee-text' : ''}
+        style={{ display: 'inline-block' }}
+      >
+        {text}
+      </span>
+    </span>
+  );
+};
+
 const SongEntry = ({ song, setVid }: { song: ChartItem; setVid: (arg: string) => void }) => {
   const vidID = song.musicLink?.split('v=')[1]?.split('&')[0];
 
@@ -33,10 +89,10 @@ const SongEntry = ({ song, setVid }: { song: ChartItem; setVid: (arg: string) =>
           weight="semiBold"
           className="title"
         >
-          {song.title}
+          <AutoMarquee text={song.title} />
         </Typography.Text>
         <Typography.Text className="artiste" fontType="WorkSans" weight="medium" level="large">
-          {truncateString(song.artiste, 40)}
+          <AutoMarquee text={song.artiste} />
         </Typography.Text>
       </div>
     </SongEntryStyling>
@@ -112,5 +168,14 @@ const SongEntryStyling = styled.div<{ hasVideo?: boolean }>`
         font-size: 10px;
       `}
     }
+
+    .auto-marquee-text {
+      animation: autoMarquee 5s linear infinite alternate;
+    }
+  }
+
+  @keyframes autoMarquee {
+    0%, 20% { transform: translateX(0); }
+    80%, 100% { transform: translateX(var(--slide-dist)); }
   }
 `;

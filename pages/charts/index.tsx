@@ -16,21 +16,38 @@ const TTC_COLORS = [
   Theme.colorPalette.ttcBlack,
 ];
 
+const TV_SONGS_KEYWORDS = ['tv song', 'tv songs', 'television song'];
+
+const isTVSongs = (name: string) =>
+  TV_SONGS_KEYWORDS.some((k) => name.toLowerCase().includes(k));
+
+const TV_SONGS_DESCRIPTION =
+  'A defunct aggregated weekly airplay that combines plays & impressions from TV Stations in Nigeria. It was discontinued in December 2022, with the last chart dated week of Dec 2 — 8, 2022. Ayra Starr\'s "Rush" was the last No. 1 song on the chart.';
+
 export async function getStaticProps() {
   try {
     const chartCategories = await getChartCategories();
+
+    // Move TV Songs to last, patch its description
+    const patched: ChartCategory[] = chartCategories.data.map((cat) =>
+      isTVSongs(cat.name) ? { ...cat, description: TV_SONGS_DESCRIPTION } : cat
+    );
+    const tvSongs = patched.filter((c) => isTVSongs(c.name));
+    const rest = patched.filter((c) => !isTVSongs(c.name));
+    const ordered = [...rest, ...tvSongs];
+
     return {
       props: {
-        chartCategories: chartCategories.data,
+        chartCategories: ordered,
       },
-      revalidate: 3600, // In seconds
+      revalidate: 3600,
     };
   } catch (e) {
     return {
       props: {
         chartCategories: [],
       },
-      revalidate: 3600, // In seconds
+      revalidate: 3600,
     };
   }
 }

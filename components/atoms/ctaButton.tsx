@@ -52,7 +52,8 @@ const Wrapper = styled.div`
   }
 
   ${media.mobileLarge`
-    width: auto;
+    width: 70%;
+    max-width: 300px;
   `}
 `;
 
@@ -62,12 +63,15 @@ const Btn = styled.button`
   font-size: 13.52px;
   line-height: 100%;
   letter-spacing: -3%;
-  border: 1.83px solid #ffffff;
+  border: 0.5px solid #000000ff ;
+  box-shadow: 0px 0px 25px 0px #ffa600 inset;
+      backdrop-filter: blur(5px);
+
   padding: 24px 76px;
   border-radius: 31.22px;
-  background: transparent;
+  background: black;
   color: #fff;
-  box-shadow: none;
+ 
   cursor: pointer;
   position: relative;
   z-index: 1;
@@ -79,10 +83,12 @@ const Btn = styled.button`
     box-shadow: 0px 0px 25px 0px #ffa600 inset;
     border-color: transparent;
     transition: border-color 0s;
+   
   }
 
   ${media.mobileLarge`
-    padding: 16px 40px;
+    width: 100%;
+    padding: 24px 40px;
     font-size: 13px;
   `}
 `;

@@ -98,6 +98,14 @@ const Th = styled.th`
     border-radius: 0 12px 0 0;
   }
 
+  /* Center align the stat columns on desktop to match their row content */
+  &:nth-child(3),
+  &:nth-child(4),
+  &:nth-child(5),
+  &:nth-child(6) {
+    text-align: center;
+  }
+
   ${media.tablet`
     font-size: 0.72rem;
     padding: 12px 8px 12px 0;
@@ -107,7 +115,7 @@ const Th = styled.th`
     &:nth-child(6) { display: none; }
 
     /* Rank */
-    &:nth-child(1) { width: 64px; text-align: center !important; }
+    &:nth-child(1) { width: 60px; text-align: center !important; }
     /* Entry — gets remaining space automatically */
     &:nth-child(2) { width: auto; }
     /* Last Week */
@@ -115,7 +123,11 @@ const Th = styled.th`
     /* WoC */
     &:nth-child(4) { width: 36px; text-align: center; }
     /* Peak */
-    &:nth-child(5) { width: 36px; text-align: center; }
+    &:nth-child(5) { 
+      width: 36px; 
+      text-align: center;
+      border-radius: 0 12px 0 0;
+    }
   `}
 `;
 

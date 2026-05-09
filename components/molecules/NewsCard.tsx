@@ -7,6 +7,8 @@ import { NewsSummary } from "utility/NewsApi/types";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
 import MainArrow from "assets/icons/mainArrow.svg";
+import { baseHeading } from "constants/mixins";
+import RectangleGrad from "assets/RectangleGrad.png";
 
 const ACCENT_COLORS = [
   Theme.colorPalette.ttcBlue,
@@ -84,9 +86,11 @@ const NewsCard = ({
         <div className="news_card-img">
           <Link href={`/news/${newsItem.id}`}>
             <a>
-              <object data={newsItem.headerImageUri} type="image/png">
-                <img src="/assets/ttcBgWhite.png" alt="fallback" />
-              </object>
+              <img
+                src={newsItem.headerImageUri}
+                alt={newsItem.title}
+                onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+              />
             </a>
           </Link>
         </div>
@@ -207,9 +211,10 @@ const NewsCardStyling = styled.div`
     .hero_bg {
       position: absolute;
       inset: 0;
-      background-size: cover;
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
+      background-color: white;
       transition: transform 1s ease;
     }
 
@@ -240,11 +245,12 @@ const NewsCardStyling = styled.div`
 
 
       h2 {
+        ${baseHeading}
         color: white;
         font-size: clamp(1.8rem, 3vw, 3rem);
         line-height: 1.1;
         text-transform: uppercase;
-        font-family: 'Nohemi', sans-serif;
+        text-align:left;
       }
 
       p {
@@ -267,57 +273,49 @@ const NewsCardStyling = styled.div`
 
   /* ── Large variant ── */
   &.large {
+    display: flex;
     flex-direction: row;
+    width: 100%;
     height: 400px;
-    background-color: transparent;
 
     .news_card-img {
-      width: 55%;
-      height: 100%;
+      flex: 0 0 55%;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
+      background-color: white;
 
-      a {
-        height: 100%;
-        width: 100%;
-      }
+      a { display: block; width: 100%; height: 100%; }
 
-      img,
-      object {
+      img {
+        display: block;
         width: 100%;
         height: 100%;
+        object-fit: contain;
         transition: transform 1s;
-        object-fit: cover;
       }
 
-      &:hover {
-        img,
-        object {
-          transform: scale(1.05);
-        }
-      }
+      &:hover img { transform: scale(1.05); }
     }
 
     .news_card-content {
-      flex: 1.2;
-      padding: 40px;
+      flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      padding: 40px;
+      background-color: white;
+      color: black;
+      text-decoration: none;
       position: relative;
       overflow: hidden;
-      background-color: white;
-      text-decoration: none;
-      color: black;
 
       .featured_bg_overlay {
         position: absolute;
         inset: 0;
         background-color: var(--accent-color, ${Theme.colorPalette.ttcRed});
+        background-image:
+          repeating-linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+          repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+        background-size: 36px 36px;
         opacity: 0;
         transition: opacity 0.3s ease;
         z-index: 1;
@@ -331,25 +329,8 @@ const NewsCardStyling = styled.div`
         transition: color 0.3s ease;
       }
 
-      .featured_news_title {
-        font-family: 'Nohemi', sans-serif !important;
-        font-size: clamp(1.25rem, 2vw, 1.75rem);
-        font-weight: 700;
-        line-height: 1.15;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-      }
-
-      .news_card-date {
-        margin-top: auto;
-        p {
-          font-size: ${Theme.fontSizes.small};
-        }
-      }
-
       .news_card-category {
         margin-bottom: 12px;
-
         .category_label {
           font-family: 'Nohemi', sans-serif !important;
           font-weight: 600;
@@ -361,77 +342,90 @@ const NewsCardStyling = styled.div`
         }
       }
 
+      .featured_news_title {
+        font-family: 'Nohemi', sans-serif !important;
+        font-size: clamp(1.25rem, 2vw, 1.75rem);
+        font-weight: 700;
+        line-height: 1.15;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .news_card-date {
+        margin-top: auto;
+        p { font-size: ${Theme.fontSizes.small}; }
+      }
+
       .featured_arrow {
         position: absolute;
-        top: 32px;
-        right: 32px;
-        width: 48px;
-        height: 48px;
+        bottom: 32px; right: 32px;
+        width: 48px; height: 48px;
         opacity: 0;
         transform: translate(10px, -10px);
         transition: all 0.3s ease;
         z-index: 3;
-
-        svg {
-          width: 100%;
-          height: 100%;
-          rect { stroke: rgba(255, 255, 255, 0.7); }
-        }
+        svg { width: 100%; height: 100%; rect { stroke: rgba(255,255,255,0.7); } }
       }
 
-      ${media.tabletMin`
-        &:hover {
-          .featured_bg_overlay { opacity: 1; }
-          .featured_arrow { opacity: 1; transform: translate(0, 0); svg rect { stroke: white; } }
-          .category_label, .featured_news_title, .news_card-date p { color: white !important; }
-        }
-      `}
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url(${RectangleGrad.src});
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        mix-blend-mode: screen;
+        filter: blur(0.5px);
+        transform: translateY(10px);
+        transition: all 0.5s ease;
+        pointer-events: none;
+        z-index: 2;
+      }
 
-      &:active {
+      &:hover, &:focus, &:active {
         .featured_bg_overlay { opacity: 1; }
+        .featured_arrow { opacity: 1; transform: translate(0,0); svg rect { stroke: white; } }
         .category_label, .featured_news_title, .news_card-date p { color: white !important; }
+        &::after { opacity: 0.5; transform: translateY(0); }
       }
-
-      ${media.tabletMin`
-        padding: 50px;
-      `}
     }
 
     ${media.mobileLarge`
       flex-direction: column;
       height: auto;
-      width: 100%;
 
       .news_card-img {
+        flex: none;
         width: 100%;
-        height: 250px;
+        height: 260px;
+        background-color: white;
 
-        img,
-        object {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+        img {
+          object-fit: contain;
         }
       }
 
       .news_card-content {
-        flex: 1;
-        height: auto;
+        flex: none;
+        width: 100%;
+        height: 230px;
         padding: 20px;
-        gap: 12px;
-        overflow: visible;
 
+        .featured_news_title { font-size: 1.1rem !important; }
         .news_card-category p { font-size: 12px; }
-        .featured_news_title { font-size: 1.2rem !important; }
         .news_card-date p { font-size: 12px; }
+        .featured_arrow { display: none !important; }
       }
     `}
   }
 
   &.featured {
     cursor: pointer;
-    background-size: cover;
+    background-size: contain;
     background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
     position: relative;
     overflow: hidden;
 
@@ -445,21 +439,49 @@ const NewsCardStyling = styled.div`
       position: relative;
       z-index: 2;
       background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%);
+      
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url(${RectangleGrad.src});
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        mix-blend-mode: screen;
+        filter: blur(0.5px);
+        transform: translateY(10px);
+        transition: all 0.5s ease;
+        pointer-events: none;
+        z-index: 0;
+      }
     }
 
     .featured_bg_overlay {
       position: absolute;
       inset: 0;
       background-color: var(--accent-color, ${Theme.colorPalette.ttcRed});
+      background-image:
+        repeating-linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 36px 36px;
       opacity: 0;
       transition: opacity 0.3s ease;
       z-index: -1;
     }
 
-    ${media.tabletMin`
-      &:hover .featured_bg_overlay { opacity: 1; }
-    `}
-    &:active .featured_bg_overlay { opacity: 1; }
+    &:hover .featured_bg_overlay,
+    &:focus .featured_bg_overlay,
+    &:active .featured_bg_overlay { 
+      opacity: 1; 
+    }
+    
+    &:hover .featured_link::after,
+    &:focus .featured_link::after,
+    &:active .featured_link::after { 
+      opacity: 0.5; 
+      transform: translateY(0);
+    }
 
     /* Circular arrow — top right */
     .featured_arrow {
@@ -485,10 +507,17 @@ const NewsCardStyling = styled.div`
       }
     }
 
-    ${media.tabletMin`
-      &:hover .featured_arrow { opacity: 1; transform: translate(0, 0); svg rect { stroke: white; } }
+    &:hover .featured_arrow,
+    &:focus .featured_arrow,
+    &:active .featured_arrow {
+      opacity: 1;
+      transform: translate(0, 0);
+      svg rect { stroke: white; }
+    }
+
+    ${media.mobileLarge`
+      .featured_arrow { display: none !important; }
     `}
-    &:active .featured_arrow { opacity: 1; transform: translate(0, 0); svg rect { stroke: white; } }
 
     /* Content anchored to bottom */
     .featured_content {
@@ -535,12 +564,13 @@ const NewsCardStyling = styled.div`
       height: 220px;
       flex-shrink: 0;
       overflow: hidden;
+      background-color: white;
 
       img {
         width: 100%;
         height: 100%;
         transition: transform 1s;
-        object-fit: cover;
+        object-fit: contain;
         display: block;
       }
 
@@ -576,7 +606,6 @@ const NewsCardStyling = styled.div`
       .news_card-img {
         height: 160px;
       }
-  
     `}
   }
 `;

@@ -2,21 +2,31 @@
 import React from "react";
 import styled from "styled-components";
 import { ChartItem } from "utility/ChartsApi/types";
-import ArrowRightOutline from "assets/icons/ArrowRightOutline.svg";
+import UpTrendIcon from "assets/icons/upTrend.svg";
+import DownTrendIcon from "assets/icons/downTrend.svg";
+import NoTrendIcon from "assets/icons/neutralTrend.svg";
 import Theme from "constants/Theme";
 
 const MobileSongCard: React.FC<{ songItem: ChartItem }> = ({ songItem }) => {
     const renderTrend = () => {
         if (songItem.lastPosition === 0) {
-            return <span className="badge badge--new">NEW</span>;
+            return (
+                <div style={{ padding: '2px 5px', backgroundColor: '#0F8F491A' }}>
+                    <span className="badge badge--new">NEW</span>
+                </div>
+            );
         } else if (songItem.lastPosition === -1) {
-            return <span className="badge badge--reentry">RE-ENTRY</span>;
+            return (
+                <div style={{ padding: '2px 5px', backgroundColor: '#F1A01F1A' }}>
+                    <span className="badge badge--reentry">RE-ENTRY</span>
+                </div>
+            );
         } else if (songItem.rank < songItem.lastPosition) {
-            return <ArrowRightOutline className="trend_icon up" />;
+            return <UpTrendIcon className="trend_icon" />;
         } else if (songItem.rank > songItem.lastPosition) {
-            return <ArrowRightOutline className="trend_icon down" />;
+            return <DownTrendIcon className="trend_icon" />;
         } else {
-            return <ArrowRightOutline className="trend_icon neutral" />;
+            return <NoTrendIcon className="trend_icon" />;
         }
     };
 
@@ -87,29 +97,22 @@ const MobileCardStyling = styled.div`
     width: 12px;
     height: 12px;
     flex-shrink: 0;
-
-    &.up    { transform: rotate(-90deg); color: ${Theme.colorPalette.ttcGreen}; }
-    &.down  { transform: rotate(90deg);  color: ${Theme.colorPalette.ttcRed}; }
-    &.neutral { color: ${Theme.colorPalette.ttcYellow}; }
   }
 
   .badge {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Work Sans', sans-serif;
     font-size: 7px;
     font-weight: 700;
-    padding: 2px 4px;
-    border-radius: 2px;
     line-height: 1;
+    white-space: nowrap;
   }
 
   .badge--new {
-    background: ${Theme.colorPalette.ttcGreen};
-    color: ${Theme.colorPalette.white};
+    color: ${Theme.colorPalette.ttcGreen};
   }
 
   .badge--reentry {
-    background: ${Theme.colorPalette.ttcYellow};
-    color: ${Theme.colorPalette.black};
+    color: ${Theme.colorPalette.ttcYellow};
   }
 
   /* Fixed-height info block so it never varies */
