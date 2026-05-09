@@ -33,7 +33,7 @@ const Power100: React.FC = () => {
   const allEntries: PowerlistEntry[] = Array.isArray(raw)
     ? raw
     : Array.isArray(raw?.data)
-    ? raw.data
+    ? (raw as any).data
     : [];
 
   const entries: PowerlistEntry[] = activeCategory
@@ -117,13 +117,13 @@ const Power100: React.FC = () => {
               <p>
                 The concert industry is still growing. The streaming business continues to boom. But as investors pour
                 billions into artificial intelligence, rights holders are seizing a historic opportunity to drive the
-                value of music to new heights. The ranking of this year's top 40 reflects the force these leaders are
+                value of music to new heights. The ranking of this year&apos;s top 40 reflects the force these leaders are
                 showing as they forge strategic partnerships with new technology juggernauts to revolutionize the way
                 fans interact with the artists and songs they love.
               </p>
               <p>
-                With great power, of course, comes great responsibility — and the stakes are high. Here's to the
-                success of this year's honorees as they work to safeguard creators' rights and shepherd music into a
+                With great power, of course, comes great responsibility — and the stakes are high. Here&apos;s to the
+                success of this year&apos;s honorees as they work to safeguard creators&apos; rights and shepherd music into a
                 fruitful new era.
               </p>
             </div>

@@ -87,6 +87,7 @@ const SingleArticlePage: React.FC<{
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headings.length]);
 
   const articleUrl =
