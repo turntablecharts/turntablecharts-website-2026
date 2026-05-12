@@ -344,10 +344,11 @@ const NewsCardStyling = styled.div`
 
       .featured_news_title {
         font-family: 'Nohemi', sans-serif !important;
-        font-size: clamp(1.5rem, 2vw, 1.75rem);
-        font-weight: 700;
-        line-height: 1.15;
+        font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+        font-weight: 800;
+        line-height: 1.1;
         text-transform: uppercase;
+        letter-spacing: -0.01em;
         margin-bottom: 20px;
       }
 
