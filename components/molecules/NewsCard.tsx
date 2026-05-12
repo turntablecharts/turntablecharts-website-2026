@@ -344,7 +344,7 @@ const NewsCardStyling = styled.div`
 
       .featured_news_title {
         font-family: 'Nohemi', sans-serif !important;
-        font-size: clamp(1.25rem, 2vw, 1.75rem);
+        font-size: clamp(1.5rem, 2vw, 1.75rem);
         font-weight: 700;
         line-height: 1.15;
         text-transform: uppercase;
@@ -412,7 +412,7 @@ const NewsCardStyling = styled.div`
         height: 230px;
         padding: 20px;
 
-        .featured_news_title { font-size: 1.1rem !important; }
+        .featured_news_title { font-size: 1.3rem !important; }
         .news_card-category p { font-size: 12px; }
         .news_card-date p { font-size: 12px; }
         .featured_arrow { display: none !important; }

@@ -12,28 +12,23 @@ const AutoMarquee = ({ text }: { text: string }) => {
   const textRef = React.useRef<HTMLSpanElement>(null);
   const [dist, setDist] = React.useState(0);
 
-  // useLayoutEffect: fires synchronously after DOM paint — no flash of wrong state
   React.useLayoutEffect(() => {
     const measure = () => {
       const container = containerRef.current;
       const textEl = textRef.current;
       if (!container || !textEl) return;
 
-      const cw = container.clientWidth;
-      if (cw === 0) return; // table not laid out yet — observer will re-fire
+      const cw = container.getBoundingClientRect().width;
+      if (cw === 0) return;
 
-      // inner span is always inline-block so scrollWidth = full text width, never clipped
       const tw = textEl.scrollWidth;
-      setDist(tw > cw ? cw - tw - 8 : 0);
+      // Only set distance if text is actually wider than container
+      setDist(tw > cw ? cw - tw - 12 : 0);
     };
 
-    measure(); // synchronous first pass
-
-    // Re-measure whenever the container width changes (e.g. window resize, table reflow)
+    measure();
     const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;
     if (ro && containerRef.current) ro.observe(containerRef.current);
-
-    // Re-measure once fonts finish loading (Work Sans may be wider than fallback)
     document.fonts?.ready?.then(measure);
 
     return () => ro?.disconnect();
@@ -46,6 +41,7 @@ const AutoMarquee = ({ text }: { text: string }) => {
         display: 'block',
         overflow: 'hidden',
         whiteSpace: 'nowrap',
+        textOverflow: dist === 0 ? 'ellipsis' : 'clip',
         width: '100%',
         // @ts-ignore
         '--slide-dist': `${dist}px`,
@@ -53,9 +49,11 @@ const AutoMarquee = ({ text }: { text: string }) => {
     >
       <span
         ref={textRef}
-        // always inline-block: scrollWidth is the true content width, not the clipped viewport
         className={dist !== 0 ? 'auto-marquee-text' : ''}
-        style={{ display: 'inline-block' }}
+        style={{ 
+          display: 'inline-block',
+          maxWidth: 'none'
+        }}
       >
         {text}
       </span>

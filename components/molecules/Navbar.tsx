@@ -135,10 +135,10 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               </Typography.Text>
             </a>
           </Link>
-          <Link className="mobile_menu" href="/power100">
+          <Link className="mobile_menu" href="/powerlist25">
             <a onClick={() => {
               setIsMobileNavOpen(false);
-            }} className={router.pathname.startsWith('/power100') ? 'active' : ''}>
+            }} className={router.pathname.startsWith('/powerlist25') ? 'active' : ''}>
               <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 POWERLIST
               </Typography.Text>
@@ -203,6 +203,7 @@ const NavbarStyling = styled.div<{ pathname: string }>`
       background: transparent;
       position: relative;
     `}
+
 
   ${media.mobileLarge`
     padding:  10px;

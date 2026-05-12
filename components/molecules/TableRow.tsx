@@ -94,7 +94,7 @@ const Td = styled.td`
     &:nth-child(6) { display: none; }
 
     /* Entry cell — clip overflow so ellipsis works */
-    &:nth-child(2) { overflow: hidden; max-width: 0; }
+    &:nth-child(2) { overflow: hidden; max-width: 100%; }
 
     /* Stat columns — center their numbers */
     &:nth-child(3),

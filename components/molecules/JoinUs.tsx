@@ -16,7 +16,7 @@ const JoinUs = () => {
           <br /> both at home and/or globally in the last three years
         </Typography.Text>
       </div>
-      <CTAButton label="Get Started" to="/power100" />
+      <CTAButton label="Get Started" to="/powerlist25" />
 
       {/* <div className="join_texts">
         <Typography.Heading

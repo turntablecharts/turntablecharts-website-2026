@@ -1,23 +1,33 @@
+export interface PowerlistEdition {
+  id: number;
+  name: string;
+  description: string;
+  isActive: boolean;
+}
+
 export interface PowerlistCategory {
   id: number;
   name: string;
+  isActive: boolean;
 }
 
 export interface PowerlistEntry {
   id: number;
   rank: number;
   name: string;
-  title: string;
-  company: string;
-  category: string;
-  imageUri: string;
-  bio: string;
+  office: string;
+  remarks: string;
+  imageUrl: string;
+  powerlistEditionId: number;
+  powerlistCategoryId: number;
+  isActive: boolean;
 }
 
-export interface PowerlistCategoriesResponse {
-  data: PowerlistCategory[];
+export interface PowerlistResponse {
+  latestEdition: PowerlistEdition;
+  categories: PowerlistCategory[];
+  recognitions: PowerlistEntry[];
 }
 
-export interface PowerlistEntriesResponse {
-  data: PowerlistEntry[];
-}
+export type PowerlistCategoriesResponse = PowerlistCategory[];
+export type PowerlistEntriesResponse = PowerlistResponse;

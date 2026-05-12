@@ -10,17 +10,9 @@ import Theme from "constants/Theme";
 const MobileSongCard: React.FC<{ songItem: ChartItem }> = ({ songItem }) => {
     const renderTrend = () => {
         if (songItem.lastPosition === 0) {
-            return (
-                <div style={{ padding: '2px 5px', backgroundColor: '#0F8F491A' }}>
-                    <span className="badge badge--new">NEW</span>
-                </div>
-            );
+            return <span className="badge badge--new">NEW</span>;
         } else if (songItem.lastPosition === -1) {
-            return (
-                <div style={{ padding: '2px 5px', backgroundColor: '#F1A01F1A' }}>
-                    <span className="badge badge--reentry">RE-ENTRY</span>
-                </div>
-            );
+            return <span className="badge badge--reentry">RE-ENTRY</span>;
         } else if (songItem.rank < songItem.lastPosition) {
             return <UpTrendIcon className="trend_icon" />;
         } else if (songItem.rank > songItem.lastPosition) {
@@ -137,7 +129,7 @@ const MobileCardStyling = styled.div`
   }
 
   .mc_artist {
-    color: rgba(255, 255, 255, 0.5);
+    color: ${Theme.colorPalette.white};
     font-family: 'Host Grotesk', sans-serif;
     font-size: 0.6rem;
     font-weight: 400;

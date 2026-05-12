@@ -9,31 +9,74 @@ import NoTrendIcon from "assets/icons/neutralTrend.svg";
 import Theme from "constants/Theme";
 import media from "constants/MediaQuery";
 
+const AutoMarquee = ({ text }: { text: string }) => {
+  const containerRef = React.useRef<HTMLSpanElement>(null);
+  const textRef = React.useRef<HTMLSpanElement>(null);
+  const [dist, setDist] = React.useState(0);
+
+  React.useLayoutEffect(() => {
+    const measure = () => {
+      const container = containerRef.current;
+      const textEl = textRef.current;
+      if (!container || !textEl) return;
+      const cw = container.getBoundingClientRect().width;
+      if (cw === 0) return;
+      const tw = textEl.scrollWidth;
+      setDist(tw > cw ? cw - tw - 12 : 0);
+    };
+    measure();
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;
+    if (ro && containerRef.current) ro.observe(containerRef.current);
+    document.fonts?.ready?.then(measure);
+    return () => ro?.disconnect();
+  }, [text]);
+
+  return (
+    <span
+      ref={containerRef}
+      style={{
+        display: 'block',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: dist === 0 ? 'ellipsis' : 'clip',
+        width: '100%',
+        // @ts-ignore
+        '--slide-dist': `${dist}px`,
+      }}
+    >
+      <span
+        ref={textRef}
+        className={dist !== 0 ? 'auto-marquee-text' : ''}
+        style={{ display: 'inline-block', maxWidth: 'none' }}
+      >
+        {text}
+      </span>
+    </span>
+  );
+};
 
 const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }> = ({ songItem, variant = 'large' }) => {
-  const renderTrendIndicator = () => {
+  const renderTrendIndicator = (whiteMode = false) => {
     if (songItem.lastPosition === 0) {
-      return (
-        <div style={{ padding: '4px 8px', backgroundColor: '#0F8F491A' }}>
-          <Typography.Text
-            style={{ color: Theme.colorPalette.ttcGreen }}
-            className="tag"
-            weight="semiBold"
-            fontType="WorkSans"
-          >
+      return whiteMode ? (
+        <Typography.Text style={{ color: 'white' }} className="tag" weight="semiBold" fontType="WorkSans">
+          NEW
+        </Typography.Text>
+      ) : (
+        <div style={{ padding: '2px 6px', backgroundColor: '#0F8F491A', borderRadius: '20px' }}>
+          <Typography.Text style={{ color: Theme.colorPalette.ttcGreen }} className="tag" weight="semiBold" fontType="WorkSans">
             NEW
           </Typography.Text>
         </div>
       );
     } else if (songItem.lastPosition === -1) {
-      return (
-        <div style={{ padding: '4px 8px', backgroundColor: '#F1A01F1A' }}>
-          <Typography.Text
-            style={{ color: Theme.colorPalette.ttcYellow }}
-            className="tag"
-            weight="semiBold"
-            fontType="WorkSans"
-          >
+      return whiteMode ? (
+        <Typography.Text style={{ color: 'white' }} className="tag" weight="semiBold" fontType="WorkSans">
+          RE-ENTRY
+        </Typography.Text>
+      ) : (
+        <div style={{ padding: '2px 6px', backgroundColor: '#F1A01F1A', borderRadius: '20px' }}>
+          <Typography.Text style={{ color: Theme.colorPalette.ttcYellow }} className="tag" weight="semiBold" fontType="WorkSans">
             RE-ENTRY
           </Typography.Text>
         </div>
@@ -62,13 +105,19 @@ const SongCard: React.FC<{ songItem: ChartItem; variant?: 'large' | 'compact' }>
         {/* Rank badge — top-left overlay */}
         <div className="rank_badge">
           <span className="rank_num">{songItem.rank}</span>
-          {renderTrendIndicator()}
+          {renderTrendIndicator(true)}
         </div>
 
         {/* Info bar — pinned to bottom */}
         <div className="name">
-          <p className="name_title">{songItem.title}</p>
-          <p className="name_artist">{songItem.artiste}</p>
+          <div className="name_info">
+            <h3 className="name_title">
+              <AutoMarquee text={songItem.title} />
+            </h3>
+            <p className="name_artist">
+              <AutoMarquee text={songItem.artiste} />
+            </p>
+          </div>
         </div>
       </SongCardStyling>
     );
@@ -109,7 +158,7 @@ const SongCardStyling = styled.div`
   }
 
   .tag {
-    font-size: ${Theme.fontSizes.medium};
+    font-size: ${Theme.fontSizes.xxsmall};
     white-space: nowrap;
   }
 
@@ -160,6 +209,11 @@ const SongCardStyling = styled.div`
       .trend_arrow {
         width: 16px;
         height: 16px;
+        color: white;
+
+        &.up    { transform: rotate(-90deg); color: white; }
+        &.down  { transform: rotate(90deg);  color: white; }
+        &.neutral { color: white; }
       }
     }
 
@@ -177,19 +231,20 @@ const SongCardStyling = styled.div`
       .name_title {
         color: white;
         font-family: 'Host Grotesk', sans-serif;
-        font-size: 1.4rem;
+        font-size: 38px;
         font-weight: 700;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         margin: 0 0 4px;
-        letter-spacing: -0.3px;
+        letter-spacing: -2%;
+        line-height: 100%;
       }
 
       .name_artist {
         color: white;
         font-family: 'Host Grotesk', sans-serif;
-        font-size: 0.875rem;
+        font-size: 20px;
         font-weight: 400;
         white-space: nowrap;
         overflow: hidden;
@@ -269,7 +324,7 @@ const SongCardStyling = styled.div`
       }
 
       .name_artist {
-        color: rgba(255, 255, 255, 0.5);
+        color: white !important;
         font-family: 'Host Grotesk', sans-serif;
         font-size: 0.75rem;
         font-weight: 400;
@@ -291,10 +346,12 @@ const SongCardStyling = styled.div`
       .rank {
         position: absolute;
         top: 10px;
-        left: 10px;
+        left: 50%;
+        transform: translateX(-50%);
         z-index: 2;
         min-width: unset;
         gap: 4px;
+        justify-content: center;
 
         .rank_num {
           font-size: 16px;
@@ -326,19 +383,30 @@ const SongCardStyling = styled.div`
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
         padding: 24px 10px 10px;
         min-width: unset;
+        text-align: center;
 
         .name_title {
           font-size: 0.8rem;
           margin-bottom: 2px;
+          color: white;
         }
 
         .name_artist {
           font-size: 0.65rem;
+          color: white !important;
         }
       }
     `}
+  }
+
+  .auto-marquee-text {
+    animation: autoMarquee 5s linear infinite alternate;
+  }
+
+  @keyframes autoMarquee {
+    0%, 20% { transform: translateX(0); }
+    80%, 100% { transform: translateX(var(--slide-dist)); }
   }
 `;

@@ -18,7 +18,7 @@ const NAV_LINKS = [
   { label: 'Business', href: '/business' },
   { label: 'Certifications', href: '/certification' },
   { label: 'Gallery', href: '/gallery' },
-  { label: 'Power List', href: '/power100' },
+  { label: 'Power List', href: '/powerlist25' },
 ];
 
 const SOCIAL_LINKS = [

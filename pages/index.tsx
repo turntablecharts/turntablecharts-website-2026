@@ -596,7 +596,7 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
     gap: 10px;
     border-radius: 50px;
     border: 1px solid ${Theme.colorPalette.white};
-    padding: 5px;
+    padding: 5px 14px 5px 5px;
 
     .disc_image{
       width: 37px;
@@ -604,17 +604,18 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
       animation: ${spin} 6s linear infinite;
     }
     ${media.mobileLarge`
-      padding: 3px;
-      gap: 6px;
-      width: 80%;
-      justify-content: space-evenly;
+      padding: 3px 6px;
+      gap: 8px;
+      width: fit-content;
+      margin: 0 auto;
+      justify-content: center;
       svg {
         width: 20px;
         height: 20px;
       }
-        .subheading2{
-          font-size: 12px;
-        }
+      .subheading2{
+        font-size: 12px;
+      }
     `}
   }
   

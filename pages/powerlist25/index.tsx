@@ -2,42 +2,44 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Head from 'next/head';
-import { useQuery } from 'react-query';
+import { useQuery, useQueries } from 'react-query';
 import media from 'constants/MediaQuery';
-import { getPowerlistCategories, getPowerlist } from 'utility/PowerlistApi/api';
-import { PowerlistCategory, PowerlistEntry } from 'utility/PowerlistApi/types';
+import { getPowerlist, getPowerlistByCategory } from '../../utility/PowerlistApi/api';
+import { PowerlistCategory, PowerlistEntry } from '../../utility/PowerlistApi/types';
 
-const GOLD = '#C9A84C';
-const GOLD_DIM = 'rgba(201,168,76,0.15)';
+const GOLD = '#C5B57A';
+const GOLD_DIM = 'rgba(197,181,122,0.15)';
 
 const Power100: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { data: catData } = useQuery('powerlist-categories', getPowerlistCategories, {
+  // Use base endpoint to bootstrap categories (returns { categories: [...], recognitions: [] })
+  const { data: baseData } = useQuery('powerlist-base', getPowerlist, {
     staleTime: 1000 * 60 * 60,
   });
-  const { data: listData } = useQuery('powerlist-entries', getPowerlist, {
-    staleTime: 1000 * 60 * 60,
-  });
 
-  const raw = listData?.data;
-  const rawCat = catData?.data;
+  const categories: PowerlistCategory[] = (baseData?.data as any)?.categories ?? [];
 
-  const categories: PowerlistCategory[] = Array.isArray(rawCat)
-    ? rawCat
-    : Array.isArray(rawCat?.data)
-    ? (rawCat as any).data
-    : [];
+  // Fetch entries per category in parallel (base endpoint returns empty recognitions)
+  const categoryQueries = useQueries(
+    categories.map((cat) => ({
+      queryKey: ['powerlist-entries', cat.id],
+      queryFn: () => getPowerlistByCategory(cat.id),
+      staleTime: 1000 * 60 * 60,
+      enabled: categories.length > 0,
+    }))
+  );
 
-  const allEntries: PowerlistEntry[] = Array.isArray(raw)
-    ? raw
-    : Array.isArray(raw?.data)
-    ? (raw as any).data
-    : [];
+  const isLoading = baseData === undefined || categoryQueries.some((q) => q.isLoading);
+  const isError = categoryQueries.some((q) => q.isError);
+
+  const allEntries: PowerlistEntry[] = categoryQueries.flatMap(
+    (q) => q.data?.data?.recognitions ?? []
+  );
 
   const entries: PowerlistEntry[] = activeCategory
-    ? allEntries.filter((e) => e.category === categories.find((c) => c.id === activeCategory)?.name)
+    ? allEntries.filter((e) => e.powerlistCategoryId === activeCategory)
     : allEntries;
 
   const handleCategory = (id: number | null) => {
@@ -83,15 +85,15 @@ const Power100: React.FC = () => {
             <span />
             <span />
           </button>
-          <span className="mob_title">
-            {activeCategory ? categories.find((c) => c.id === activeCategory)?.name ?? 'TURNTABLE POWERLIST' : 'TURNTABLE POWERLIST'}
-          </span>
+          <span className="mob_title">TURNTABLE POWERLIST</span>
         </MobileBar>
 
         {/* ── Mobile category drawer ── */}
         <MobileDrawer className={mobileMenuOpen ? 'open' : ''}>
+          <div className="drawer_panel">
+            {categoryNav}
+          </div>
           <button className="drawer_close" onClick={() => setMobileMenuOpen(false)} aria-label="Close">✕</button>
-          {categoryNav}
         </MobileDrawer>
         {mobileMenuOpen && <DrawerOverlay onClick={() => setMobileMenuOpen(false)} />}
 
@@ -105,51 +107,73 @@ const Power100: React.FC = () => {
 
         {/* ── Main content ── */}
         <Main>
-          {/* Hero */}
-          <div className="hero">
-            <div className="hero_ttc_logo">
-              <img src="/assets/ttc-logo.png" alt="TurnTable Charts" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          {/* Hero — shown only when no category is selected */}
+          {!activeCategory && (
+            <div className="hero">
+              <div className="hero_ttc_logo">
+                <img src="/assets/ttc-logo.png" alt="TurnTable Charts" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              </div>
+              <div className="hero_image">
+                <img src="/assets/powerlist-logo.png" alt="Power List 2025" />
+              </div>
+              <div className="hero_intro">
+                <p>
+                  The concert industry is still growing. The streaming business continues to boom. But as investors pour
+                  billions into artificial intelligence, rights holders are seizing a historic opportunity to drive the
+                  value of music to new heights. The ranking of this year&apos;s top 40 reflects the force these leaders are
+                  showing as they forge strategic partnerships with new technology juggernauts to revolutionize the way
+                  fans interact with the artists and songs they love.
+                </p>
+                <p>
+                  With great power, of course, comes great responsibility — and the stakes are high. Here&apos;s to the
+                  success of this year&apos;s honorees as they work to safeguard creators&apos; rights and shepherd music into a
+                  fruitful new era.
+                </p>
+              </div>
             </div>
-            <div className="hero_image">
-              <img src="/assets/powerlist-logo.png" alt="Power List 2025" />
+          )}
+
+          {/* Category heading — shown when a category is active */}
+          {activeCategory && (
+            <div className="cat_heading">
+              <h2 className="cat_heading_text">
+                {categories.find((c) => c.id === activeCategory)?.name ?? ''}
+              </h2>
             </div>
-            <div className="hero_intro">
-              <p>
-                The concert industry is still growing. The streaming business continues to boom. But as investors pour
-                billions into artificial intelligence, rights holders are seizing a historic opportunity to drive the
-                value of music to new heights. The ranking of this year&apos;s top 40 reflects the force these leaders are
-                showing as they forge strategic partnerships with new technology juggernauts to revolutionize the way
-                fans interact with the artists and songs they love.
-              </p>
-              <p>
-                With great power, of course, comes great responsibility — and the stakes are high. Here&apos;s to the
-                success of this year&apos;s honorees as they work to safeguard creators&apos; rights and shepherd music into a
-                fruitful new era.
-              </p>
-            </div>
-          </div>
+          )}
 
           {/* Entries */}
           <div className="entries">
+            {isLoading && (
+              <div className="entries_state">Loading…</div>
+            )}
+            {isError && (
+              <div className="entries_state">Failed to load entries. Please try again.</div>
+            )}
+            {!isLoading && !isError && entries.length === 0 && (
+              <div className="entries_state">No entries found.</div>
+            )}
             {entries.map((entry) => (
               <div key={entry.id} className="entry">
                 <div className="entry_photo">
                   <img
-                    src={entry.imageUri}
+                    src={entry.imageUrl}
                     alt={entry.name}
-                    onError={(e) => { (e.target as HTMLImageElement).src = '/assets/images/placeholder.png'; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
                   />
                 </div>
                 <div className="entry_info">
                   <span className="entry_rank">{String(entry.rank).padStart(2, '0')}</span>
                   <div className="entry_divider" />
                   <span className="entry_name">{entry.name}</span>
-                  <span className="entry_title">{entry.title}{entry.company ? `, ${entry.company}` : ''}</span>
-                  {entry.category && (
-                    <span className="entry_tag">{entry.category.toUpperCase()}</span>
+                  <span className="entry_title">{entry.office}</span>
+                  {entry.powerlistCategoryId && (
+                    <span className="entry_tag">
+                      {categories.find((c) => c.id === entry.powerlistCategoryId)?.name?.toUpperCase() ?? ''}
+                    </span>
                   )}
-                  {entry.bio && <p className="entry_bio">{entry.bio}</p>}
                 </div>
+                {entry.remarks && <p className="entry_bio">{entry.remarks}</p>}
               </div>
             ))}
           </div>
@@ -168,9 +192,12 @@ const SIDEBAR_W = '300px';
 const PageWrap = styled.div`
   display: flex;
   min-height: 100vh;
-  background-color: #0a0a0a;
+  background-image: url('/assets/powerBG.png');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
   color: #fff;
-  padding-top: 70px; /* below navbar */
+  padding-top: 70px;
 
   ${media.mobileLarge`
     flex-direction: column;
@@ -229,31 +256,39 @@ const MobileDrawer = styled.div`
 
   ${media.mobileLarge`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
     position: fixed;
     top: 0;
     left: 0;
-    width: 82vw;
-    max-width: 340px;
-    height: 100vh;
-    background: #000;
+    right: 0;
+    bottom: 0;
     z-index: 500;
-    padding: 48px 28px 40px;
-    overflow-y: auto;
+    pointer-events: none;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
 
     &.open {
       transform: translateX(0);
+      pointer-events: all;
     }
   `}
+
+  .drawer_panel {
+    width: 82vw;
+    max-width: 340px;
+    height: 100vh;
+    background: #000;
+    overflow-y: auto;
+    padding: 80px 28px 40px;
+    flex-shrink: 0;
+  }
 
   .drawer_close {
     all: unset;
     cursor: pointer;
-    position: fixed;
-    top: 16px;
-    right: 16px;
+    margin-top: 90px;
+    margin-left: 12px;
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -263,14 +298,13 @@ const MobileDrawer = styled.div`
     justify-content: center;
     font-size: 1rem;
     color: #fff;
-    z-index: 501;
+    flex-shrink: 0;
   }
 
   .cat_nav {
     display: flex;
     flex-direction: column;
     gap: 0;
-    margin-top: 8px;
   }
 
   .cat_item {
@@ -358,14 +392,14 @@ const MobileCategoryStrip = styled.div`
 const Sidebar = styled.aside`
   width: ${SIDEBAR_W};
   flex-shrink: 0;
-  position: fixed;
+  position: sticky;
   top: 70px;
-  left: 0;
+  align-self: flex-start;
   height: calc(100vh - 70px);
   overflow-y: auto;
   padding: 40px 32px;
-  border-right: 1px solid rgba(255,255,255,0.06);
-  background: #0a0a0a;
+  border-right: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 
@@ -415,7 +449,6 @@ const Sidebar = styled.aside`
 /* ── Main content ── */
 const Main = styled.main`
   flex: 1;
-  margin-left: ${SIDEBAR_W};
   min-height: 100vh;
 
   ${media.mobileLarge`
@@ -429,7 +462,7 @@ const Main = styled.main`
     flex-direction: column;
     align-items: center;
     padding: 60px 80px 80px;
-    background: radial-gradient(ellipse at 60% 30%, rgba(201,168,76,0.06) 0%, transparent 60%), #0a0a0a;
+    background: transparent;
     border-bottom: 1px solid rgba(255,255,255,0.06);
 
     ${media.tablet`
@@ -487,17 +520,55 @@ const Main = styled.main`
     }
   }
 
+  /* ── Category heading (replaces hero when a category is active) ── */
+  .cat_heading {
+    padding: 60px 80px 20px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: white;
+    }
+
+    ${media.tablet` padding: 40px 40px 28px; `}
+    ${media.mobileLarge` padding: 28px 20px 20px; `}
+  }
+
+  .cat_heading_text {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+
   /* ── Entry cards ── */
   .entries {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
+  }
+
+  .entries_state {
+    padding: 80px 40px;
+    text-align: center;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.05em;
   }
 
   .entry {
     display: grid;
-    grid-template-columns: 55% 1fr;
-    min-height: 500px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    grid-template-columns: 530px 1fr;
+    margin-bottom: 12px;
 
     ${media.tablet`
       grid-template-columns: 1fr 1fr;
@@ -505,13 +576,16 @@ const Main = styled.main`
 
     ${media.mobileLarge`
       grid-template-columns: 1fr;
-      min-height: auto;
+      margin-bottom: 8px;
     `}
   }
 
   .entry_photo {
+    width: 530px;
+    height: 730px;
+    flex-shrink: 0;
     overflow: hidden;
-    max-height: 700px;
+    margin-left: 52px;
 
     img {
       width: 100%;
@@ -519,11 +593,18 @@ const Main = styled.main`
       object-fit: cover;
       object-position: top center;
       display: block;
-      filter: grayscale(20%);
     }
 
+    ${media.tablet`
+      width: 100%;
+      height: 480px;
+      margin-left: 0;
+    `}
+
     ${media.mobileLarge`
-      max-height: 420px;
+      width: 100%;
+      height: 360px;
+      margin-left: 0;
     `}
   }
 
@@ -531,15 +612,18 @@ const Main = styled.main`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 48px 52px;
-    background: #0a0a0a;
+    padding: 48px 52px 48px 52px;
+    margin-left: 52px;
+    background: transparent;
 
     ${media.tablet`
       padding: 32px 28px;
+      margin-left: 0;
     `}
 
     ${media.mobileLarge`
       padding: 28px 20px 36px;
+      margin-left: 0;
     `}
   }
 
@@ -583,26 +667,32 @@ const Main = styled.main`
   .entry_tag {
     display: inline-block;
     padding: 6px 16px;
-    border: 1px solid rgba(255,255,255,0.35);
+    border: 1px solid ${GOLD};
     border-radius: 100px;
     font-family: 'Work Sans', sans-serif;
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.75);
-    margin-bottom: 24px;
+    color: ${GOLD};
     align-self: flex-start;
   }
 
   .entry_bio {
+    grid-column: 1 / -1;
     font-family: 'Work Sans', sans-serif;
     font-size: 0.88rem;
     line-height: 1.8;
     color: rgba(255,255,255,0.6);
     margin: 0;
+    padding: 28px 52px 40px;
+
+    ${media.tablet`
+      padding: 24px 28px 36px;
+    `}
 
     ${media.mobileLarge`
-      display: none;
+      padding: 16px 20px 28px;
+      font-size: 0.82rem;
     `}
   }
 
