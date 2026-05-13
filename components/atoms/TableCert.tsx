@@ -43,28 +43,45 @@ export default TableCert;
 const TableCertStyling = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
 
   .collection {
-    position: relative;
-    /* display: flex; */
+    display: flex;
+    flex-direction: row;
     height: 40px;
 
     &.left {
-      left: -10.5px;
+      left: 0;
     }
-    ${media.mobileLarge`
-    height: 20px;
-
-    `}
   }
+
   .certs {
+    position: relative !important;
+    left: auto !important;
     width: 40px;
     height: 40px;
-    ${media.mobileLarge`
-    width: 25px;
-    height: 25px;
-    `}
+    flex-shrink: 0;
+    margin-left: -29px;
+
+    &:first-child { margin-left: 0; }
   }
+
+  ${media.mobileLarge`
+    .collection {
+      height: 18px !important;
+    }
+
+    .certs {
+      width: 18px !important;
+      height: 18px !important;
+      margin-left: -6px;
+
+      &:first-child { margin-left: 0; }
+    }
+
+    .isclaimed {
+      font-size: 9px !important;
+    }
+  `}
 `;

@@ -8,6 +8,7 @@ import styled, { keyframes } from "styled-components";
 import { getAllMagazineEditions } from "utility/MagazinesApi/api";
 import { MagazineEditions } from "utility/MagazinesApi/types";
 import ListViewIcon from "assets/icons/list.svg";
+import CTAButton from "components/atoms/ctaButton";
 
 export async function getStaticProps() {
   const magazineResponse = await getAllMagazineEditions();
@@ -133,9 +134,9 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({
                   Discover the stories shaping the music industry — curated
                   exclusively by TurnTable Charts.
                 </p>
-                <Link href={`/magazine/${edition.name}`}>
-                  <a className="list_cta">Read Magazine</a>
-                </Link>
+                <div style={{ marginTop: 'auto', marginBottom: '24px' }}>
+                  <CTAButton label="Read Magazine" to={`/magazine/${edition.name}`} />
+                </div>
               </div>
             </div>
           ))}
@@ -146,18 +147,20 @@ const Magazine: React.FC<{ magazineEditions: MagazineEditions[] }> = ({
       {mode === "shelf" && (
         <div className="shelf_view">
           {editions.map((edition) => (
-            <Link key={edition.id} href={`/magazine/${edition.name}`}>
-              <a className="shelf_card">
-                <div className="shelf_cover">
-                  <img src={edition.coverImageUrl} alt={edition.name} />
-                  {/* Hover overlay */}
-                  <div className="shelf_overlay">
-                    <span className="shelf_overlay-btn">Read Magazine</span>
+            <div key={edition.id} className="shelf_card">
+              <Link href={`/magazine/${edition.name}`}>
+                <a className="shelf_cover_link">
+                  <div className="shelf_cover">
+                    <img src={edition.coverImageUrl} alt={edition.name} />
                   </div>
-                </div>
-                <p className="shelf_title">{formatEditionDate(edition.name)}</p>
-              </a>
-            </Link>
+                </a>
+              </Link>
+              {/* Overlay sits over cover, outside the anchor */}
+              <div className="shelf_overlay">
+                <CTAButton label="Read Magazine" to={`/magazine/${edition.name}`} />
+              </div>
+              <p className="shelf_title">{formatEditionDate(edition.name)}</p>
+            </div>
           ))}
         </div>
       )}
@@ -298,11 +301,11 @@ const MagazineStyling = styled.div`
 
   /* Date label */
   .list_date {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.75rem;
+    font-family: "Host Grotesk", sans-serif;
+    font-size: 18px;
     font-weight: 600;
     color: #ffffff;
-    text-transform: uppercase;
+    text-transform: capitalize;
     letter-spacing: 1px;
     line-height: 1.6;
     word-break: break-word;
@@ -361,11 +364,11 @@ const MagazineStyling = styled.div`
   }
 
   .list_title {
-    font-family: "Anton", sans-serif;
+    font-family: "Host Grotesk", sans-serif;
     font-size: clamp(1.4rem, 2.5vw, 2.2rem);
     font-weight: 400;
     color: white;
-    text-transform: uppercase;
+    text-transform: capitalize;
     line-height: 1.1;
     margin: 0;
 
@@ -449,15 +452,19 @@ const MagazineStyling = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
-    text-decoration: none;
-    cursor: pointer;
     padding-bottom: 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     transition: border-color 0.25s ease;
+    position: relative;
 
     &:hover {
       border-bottom-color: transparent;
     }
+  }
+
+  .shelf_cover_link {
+    display: block;
+    text-decoration: none;
   }
 
   .shelf_cover {
@@ -483,25 +490,21 @@ const MagazineStyling = styled.div`
   /* Hover overlay */
   .shelf_overlay {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
     background: rgba(0, 0, 0, 0.55);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-  }
+    pointer-events: none;
 
-  .shelf_overlay-btn {
-    padding: 12px 28px;
-    border-radius: 999px;
-    border: 2px solid #f1a01f;
-    color: white;
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    ${media.mobileLarge`
+      height: 410px;
+    `}
   }
 
   .shelf_card:hover {
@@ -511,6 +514,7 @@ const MagazineStyling = styled.div`
     }
     .shelf_overlay {
       opacity: 1;
+      pointer-events: all;
     }
   }
 

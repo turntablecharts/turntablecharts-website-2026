@@ -1,7 +1,6 @@
 import MobileCertCard from 'components/atoms/MobileCertCard';
 import MobileCertEntry from 'components/atoms/MobileCertEntry';
 import TableCert from 'components/atoms/TableCert';
-import Typography from 'components/atoms/typography';
 import media from 'constants/MediaQuery';
 import Theme from 'constants/Theme';
 import { format } from 'date-fns';
@@ -14,27 +13,17 @@ import { TableContentLayout } from './TableLayout';
 const MOBILE_CERT_HEADER = {
   milestone: {
     key: 'milestone',
-    label: 'MILESTONE',
+    label: 'Milestones',
     active: true,
   },
   entry: {
     key: 'entry',
-    label: 'ENTRY',
-    active: true,
-  },
-  label: {
-    key: 'label',
-    label: 'LABEL',
+    label: 'Title',
     active: true,
   },
   certifiedDate: {
     key: 'certifiedDate',
-    label: 'CERTIFIED DATE',
-    active: true,
-  },
-  isClaimed: {
-    key: 'isClaimed',
-    label: ' ',
+    label: 'Certified Date',
     active: true,
   },
 };
@@ -64,11 +53,6 @@ const CERT_HEADER = {
     label: 'Certified Date',
     active: true,
   },
-  isClaimed: {
-    key: 'isClaimed',
-    label: ' ',
-    active: true,
-  },
 };
 
 const CertificationEligible: React.FC<{ certEntries: CertificationEntry[] }> = ({ certEntries }) => {
@@ -78,31 +62,12 @@ const CertificationEligible: React.FC<{ certEntries: CertificationEntry[] }> = (
     artiste: cur.artiste,
     format: cur.format,
     certifiedDate: format(new Date(cur.certifiedDate), 'PP'),
-    isClaimed: cur.isClaimed ? (
-      <Typography.Text className="isclaimed" uppercase fontType="WorkSans" level="medium" color="ttcGreen" weight="semiBold">
-        Certified
-      </Typography.Text>
-    ) : (
-      <Typography.Text className="isclaimed" uppercase fontType="WorkSans" level="medium" color="ttcYellow" weight="semiBold">
-        Claim plaque
-      </Typography.Text>
-    ),
   }));
 
   const mobileTableData = resolveUserTypeToTableData(certEntries, (cur) => ({
     milestone: <TableCert cert={cur.milestone} />,
     entry: <MobileCertEntry title={cur.title} artiste={cur.artiste} format={cur.format} />,
-    label: cur.label,
     certifiedDate: format(new Date(cur.certifiedDate), 'PP'),
-    isClaimed: cur.isClaimed ? (
-      <Typography.Text className="isclaimed" uppercase fontType="WorkSans" level="medium" color="ttcGreen" weight="semiBold">
-        Certified
-      </Typography.Text>
-    ) : (
-      <Typography.Text className="isclaimed" uppercase fontType="WorkSans" level="medium" color="ttcYellow" weight="semiBold">
-        Claim plaque
-      </Typography.Text>
-    ),
   }));
   return (
     <CertificationEligibleStyling>
@@ -132,17 +97,48 @@ const CertificationEligibleStyling = styled.div`
     margin-top: 20px;
   `}
 
-  /* ── Column widths ── */
-  th:nth-child(1), td:nth-child(1) { min-width: 220px; width: 220px; }
-  th:nth-child(2), td:nth-child(2) { min-width: 180px; }
-  th:nth-child(3), td:nth-child(3) { width: 140px; max-width: 140px; }
-  th:nth-child(4), td:nth-child(4) { width: 100px; }
-  th:nth-child(5), td:nth-child(5) { width: 140px; }
-  th:nth-child(6), td:nth-child(6) { width: 120px; white-space: nowrap; }
+  /* ── Column widths (desktop: evenly spaced) ── */
+  th, td { width: 20%; }
+  th:nth-child(5), td:nth-child(5) { text-align: left !important; }
+
+  ${media.tablet`
+    th:nth-child(1), td:nth-child(1) { min-width: 120px; width: 120px; }
+    th:nth-child(2), td:nth-child(2) { min-width: 0; }
+
+    /* All table text 10px on mobile */
+    td, th { font-size: 10px !important; }
+    td * { font-size: 10px !important; }
+
+    /* Title column — sentence case */
+    td:nth-child(2) {
+      text-transform: none !important;
+      * { text-transform: none !important; }
+    }
+
+    /* Table header sticky below tabs+search on mobile */
+    th { top: 200px !important; }
+
+    /* Left-align milestone and certified date headers/cells */
+    th:nth-child(1),
+    th:nth-child(3),
+    td:nth-child(3) { text-align: left !important; }
+
+    /* Narrow certified date so title gets more room */
+    th:nth-child(3), td:nth-child(3) { width: 78px !important; max-width: 78px !important; white-space: nowrap; }
+  `}
+
+  /* Override shared table background to black */
+  table, tbody { background: #000 !important; }
+  th {
+    background-color: #000 !important;
+    text-align: left !important;
+    top: 220px !important;
+    box-shadow: 0 -24px 0 0 #000;
+  }
 
   tr {
-    background-color: black;
-    td, .isclaimed {
+    background-color: #000;
+    td {
       font-family: ${Theme.typography.heading2};
       text-transform: uppercase;
       font-size: ${Theme.fontSizes.medium};
@@ -162,12 +158,7 @@ const CertificationEligibleStyling = styled.div`
   `}
   ${media.mobile`
     .desktop { display: none; }
-    .mobileLarge { display: none; }
-    .mobile {
-      display: block;
-      overflow: auto;
-      max-height: 90vh;
-      width: 100%;
-    }
+    .mobileLarge { display: block; }
+    .mobile { display: none; }
   `}
 `;

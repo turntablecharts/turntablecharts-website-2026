@@ -1,4 +1,3 @@
-import MobileCertCard from 'components/atoms/MobileCertCard';
 import MobileCertEntry from 'components/atoms/MobileCertEntry';
 import TableCert from 'components/atoms/TableCert';
 import media from 'constants/MediaQuery';
@@ -7,12 +6,12 @@ import { format } from 'date-fns';
 import React from 'react';
 import styled from 'styled-components';
 import { CertificationEntry } from 'utility/CertificationApi/api';
-import useMediaQuery, { resolveUserTypeToTableData } from 'utility/helpers';
+import { resolveUserTypeToTableData } from 'utility/helpers';
 import { TableContentLayout } from './TableLayout';
 
 const MOBILE_CERT_HEADER = {
-  milestone: { key: 'milestone', label: 'Milestone', active: true },
-  entry: { key: 'entry', label: 'Entry', active: true },
+  milestone: { key: 'milestone', label: 'Milestones', active: true },
+  entry: { key: 'entry', label: 'Title', active: true },
   certifiedDate: { key: 'certifiedDate', label: 'Certified Date', active: true },
 };
 
@@ -25,8 +24,6 @@ const CERT_HEADER = {
 };
 
 const CertificationDisplay: React.FC<{ certEntries: CertificationEntry[] }> = ({ certEntries }) => {
-  const matchesMobileLarge = useMediaQuery('(max-width: 700px)');
-
   const tableData = resolveUserTypeToTableData(certEntries, (cur) => ({
     milestone: <TableCert cert={cur.milestone} />,
     title: cur.title,
@@ -49,11 +46,6 @@ const CertificationDisplay: React.FC<{ certEntries: CertificationEntry[] }> = ({
       <div className="mobileLarge">
         <TableContentLayout columns={MOBILE_CERT_HEADER} data={mobileTableData} />
       </div>
-      <div className="mobile">
-        {certEntries.map((entry) => (
-          <MobileCertCard isDisplay key={entry.id} entry={entry} />
-        ))}
-      </div>
     </CertificationDisplayStyling>
   );
 };
@@ -65,17 +57,22 @@ const CertificationDisplayStyling = styled.div`
 
   ${media.tablet` margin-top: 20px; `}
 
-  /* ── Column widths ── */
-  th:nth-child(1), td:nth-child(1) { min-width: 220px; width: 220px; text-align: center; }
-  th:nth-child(2), td:nth-child(2) { min-width: 180px; }
-  th:nth-child(3), td:nth-child(3) { width: 140px; max-width: 140px; }
-  th:nth-child(4), td:nth-child(4) { width: 100px; }
-  th:nth-child(5), td:nth-child(5) { width: 140px; }
+  /* ── Column widths (desktop: evenly spaced) ── */
+  th, td { width: 20%; }
+  th:nth-child(5), td:nth-child(5) { text-align: left !important; }
+
+  /* Override shared table background to black */
+  table, tbody { background: #000 !important; }
+  th {
+    background-color: #000 !important;
+    text-align: left !important;
+    top: 220px !important;
+    box-shadow: 0 -24px 0 0 #000;
+  }
 
   tr {
-    background: black;
-
-    td, .isclaimed {
+    background-color: #000;
+    td {
       font-family: ${Theme.typography.heading2};
       text-transform: uppercase;
       font-size: ${Theme.fontSizes.medium};
@@ -85,7 +82,6 @@ const CertificationDisplayStyling = styled.div`
   }
 
   .mobileLarge { display: none; }
-  .mobile { display: none; }
 
   ${media.tablet`
     .desktop { display: none; }
@@ -93,12 +89,29 @@ const CertificationDisplayStyling = styled.div`
   `}
   ${media.mobile`
     .desktop { display: none; }
-    .mobileLarge { display: none; }
-    .mobile {
-      display: block;
-      overflow: auto;
-      max-height: 90vh;
-      width: 100%;
+    .mobileLarge { display: block; }
+  `}
+
+  ${media.tablet`
+    th:nth-child(1), td:nth-child(1) { min-width: 120px; width: 120px; }
+    th:nth-child(2), td:nth-child(2) { min-width: 0; }
+
+    td, th { font-size: 10px !important; }
+    td * { font-size: 10px !important; }
+
+    td:nth-child(2) {
+      text-transform: none !important;
+      * { text-transform: none !important; }
     }
+
+    th { top: 200px !important; }
+
+    /* Left-align milestone and certified date headers/cells */
+    th:nth-child(1),
+    th:nth-child(3),
+    td:nth-child(3) { text-align: left !important; }
+
+    /* Narrow certified date so title gets more room */
+    th:nth-child(3), td:nth-child(3) { width: 78px !important; max-width: 78px !important; white-space: nowrap; }
   `}
 `;

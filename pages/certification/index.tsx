@@ -23,10 +23,10 @@ const Certification: React.FC<{ certEntries: CertificationEntry[] }> = ({ certEn
   const query = search.trim().toLowerCase();
   const filteredEntries = query
     ? certEntries.filter(
-      (e) =>
-        e.title.toLowerCase().includes(query) ||
-        e.artiste.toLowerCase().includes(query)
-    )
+        (e) =>
+          e.title.toLowerCase().includes(query) ||
+          e.artiste.toLowerCase().includes(query)
+      )
     : certEntries;
 
   const certificationTabs = [
@@ -63,23 +63,25 @@ const Certification: React.FC<{ certEntries: CertificationEntry[] }> = ({ certEn
 
       {/* ── Search bar (Eligible Songs + Display only) ── */}
       {activeTabIndex !== 1 && (
-        <div className="cert_search">
-          <svg
-            className="cert_search-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden="true"
-          >
-            <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
-            <path d="M16.5 16.5L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-          <input
-            className="cert_search-input"
-            type="text"
-            placeholder="Search by song or artiste"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        <div className="cert_search_wrap">
+          <div className="cert_search">
+            <svg
+              className="cert_search-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+              <path d="M16.5 16.5L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            <input
+              className="cert_search-input"
+              type="text"
+              placeholder="Search by song or artiste"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
         </div>
       )}
 
@@ -108,14 +110,19 @@ const CertificationPageStyling = styled.div`
     align-items: center;
     justify-content: center;
     gap: 60px;
-    padding: 1rem 0;
-    margin-bottom: 32px;
+    padding: 1rem 0 2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 70px;
+    z-index: 50;
+    background: #000;
 
     ${media.tablet` gap: 32px; `}
     ${media.mobileLarge`
       gap: 0;
       justify-content: space-between;
+      padding-left: 12px;
+      padding-right: 12px;
     `}
   }
 
@@ -155,6 +162,15 @@ const CertificationPageStyling = styled.div`
     ${media.mobileLarge` font-size: 0.875rem; `}
   }
 
+  /* ── Search wrapper (full-width sticky) ── */
+  .cert_search_wrap {
+    position: sticky;
+    top: 132px;
+    z-index: 49;
+    background: #000;
+    padding: 16px 0 20px;
+  }
+
   /* ── Search bar ── */
   .cert_search {
     display: flex;
@@ -165,7 +181,7 @@ const CertificationPageStyling = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 999px;
     padding: 10px 18px;
-    margin: 0 auto 40px;
+    margin: 0 auto;
 
     ${media.mobileLarge`
       width: 100%;

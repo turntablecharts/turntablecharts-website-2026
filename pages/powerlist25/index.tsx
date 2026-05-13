@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Head from 'next/head';
-import { useQuery, useQueries } from 'react-query';
+import { useQuery } from 'react-query';
+import ReactMarkdown from 'react-markdown';
 import media from 'constants/MediaQuery';
 import { getPowerlist, getPowerlistByCategory } from '../../utility/PowerlistApi/api';
 import { PowerlistCategory, PowerlistEntry } from '../../utility/PowerlistApi/types';
@@ -14,37 +15,34 @@ const Power100: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Use base endpoint to bootstrap categories (returns { categories: [...], recognitions: [] })
-  const { data: baseData } = useQuery('powerlist-base', getPowerlist, {
-    staleTime: 1000 * 60 * 60,
-  });
+  // Base call (no categoryId) returns all entries with correct unique ranks + categories
+  const { data: baseData, isLoading: baseLoading, isError: baseError } = useQuery(
+    'powerlist-base',
+    getPowerlist,
+    { staleTime: 1000 * 60 * 60 }
+  );
 
   const categories: PowerlistCategory[] = (baseData?.data as any)?.categories ?? [];
+  const allEntries: PowerlistEntry[] = (baseData?.data as any)?.recognitions ?? [];
 
-  // Fetch entries per category in parallel (base endpoint returns empty recognitions)
-  const categoryQueries = useQueries(
-    categories.map((cat) => ({
-      queryKey: ['powerlist-entries', cat.id],
-      queryFn: () => getPowerlistByCategory(cat.id),
-      staleTime: 1000 * 60 * 60,
-      enabled: categories.length > 0,
-    }))
+  // Only fetch by category when one is actively selected
+  const { data: catData, isLoading: catLoading, isError: catError } = useQuery(
+    ['powerlist-category', activeCategory],
+    () => getPowerlistByCategory(activeCategory!),
+    { staleTime: 1000 * 60 * 60, enabled: activeCategory !== null }
   );
 
-  const isLoading = baseData === undefined || categoryQueries.some((q) => q.isLoading);
-  const isError = categoryQueries.some((q) => q.isError);
-
-  const allEntries: PowerlistEntry[] = categoryQueries.flatMap(
-    (q) => q.data?.data?.recognitions ?? []
-  );
+  const isLoading = baseLoading || (activeCategory !== null && catLoading);
+  const isError = baseError || (activeCategory !== null && catError);
 
   const entries: PowerlistEntry[] = activeCategory
-    ? allEntries.filter((e) => e.powerlistCategoryId === activeCategory)
+    ? (catData?.data as any)?.recognitions ?? []
     : allEntries;
 
   const handleCategory = (id: number | null) => {
     setActiveCategory(id);
     setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const categoryNav = (
@@ -173,7 +171,11 @@ const Power100: React.FC = () => {
                     </span>
                   )}
                 </div>
-                {entry.remarks && <p className="entry_bio">{entry.remarks}</p>}
+                {entry.remarks && (
+                  <div className="entry_bio">
+                    <ReactMarkdown>{entry.remarks}</ReactMarkdown>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -681,10 +683,38 @@ const Main = styled.main`
     grid-column: 1 / -1;
     font-family: 'Work Sans', sans-serif;
     font-size: 0.88rem;
-    line-height: 1.8;
-    color: rgba(255,255,255,0.6);
+    line-height: 1.85;
+    color: rgba(255,255,255,0.65);
     margin: 0;
     padding: 28px 52px 40px;
+
+    p { margin-bottom: 1.2em; &:last-child { margin-bottom: 0; } }
+
+    h1, h2, h3 {
+      font-family: 'Nohemi', sans-serif;
+      font-weight: 700;
+      color: #fff;
+      margin: 1.6em 0 0.5em;
+    }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.2rem; }
+    h3 { font-size: 1rem; }
+
+    strong { font-weight: 700; color: rgba(255,255,255,0.9); }
+    em { font-style: italic; color: rgba(255,255,255,0.75); }
+
+    blockquote {
+      border-left: 3px solid ${GOLD};
+      margin-left: 0;
+      padding: 6px 20px;
+      font-style: italic;
+      color: rgba(255,255,255,0.5);
+    }
+
+    a { color: ${GOLD}; text-decoration: underline; }
+
+    ul, ol { padding-left: 1.4em; margin-bottom: 1.2em; }
+    li { margin-bottom: 0.4em; }
 
     ${media.tablet`
       padding: 24px 28px 36px;
