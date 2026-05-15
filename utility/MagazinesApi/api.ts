@@ -12,6 +12,13 @@ export const getAllMagazineEditions = async () => {
   return response;
 };
 
+export const getOnlyAllMagazineEditions = async (isMagazine: boolean) => {
+  const response = await TTCRequest.get<MagazineEditions[]>(
+    `/api/author/magazine/editions?isMagazine=${isMagazine}`
+  );
+  return response;
+};
+
 export const getSingleMagazineEditionByName = async (editionName: string) => {
   const response = await TTCRequest.get<MagazineEditionArticles>(
     `/api/author/magazine/edition/${editionName}`

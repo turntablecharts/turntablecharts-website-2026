@@ -48,7 +48,7 @@ const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ c
 
           {/* CENTRE: "Open Folder" — visible only on hover */}
           <div className="chart_open">
-            <span>(Open Folder)</span>
+            <span>(Go to Chart)</span>
           </div>
 
           {/* BOTTOM: category name + description + arrow */}

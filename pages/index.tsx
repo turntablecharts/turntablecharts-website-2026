@@ -22,7 +22,7 @@ import HeroWav from 'assets/icons/heroWav.svg';
 import TTCIconDisc from 'assets/icons/disc.svg';
 import Marquee from 'components/molecules/Marquee';
 import RectangleGrad from 'assets/RectangleGrad.png';
-import { getAllMagazineEditions } from 'utility/MagazinesApi/api';
+import { getOnlyAllMagazineEditions } from 'utility/MagazinesApi/api';
 import { MagazineEditions } from 'utility/MagazinesApi/types';
 import MagazineSlider from 'components/molecules/MagazineSlider';
 import SongCard from 'components/molecules/SongCard';
@@ -36,7 +36,7 @@ export async function getStaticProps() {
 
   const photoResponse = await getPhotosByPageNumber(1);
 
-  const magazinesResponse = await getAllMagazineEditions();
+  const magazinesResponse = await getOnlyAllMagazineEditions(true);
 
   // Sort magazines by ID descending to get the latest ones
   const sortedMagazines = magazinesResponse.data.sort((a, b) => b.id - a.id);

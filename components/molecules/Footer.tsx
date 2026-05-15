@@ -24,8 +24,8 @@ const NAV_LINKS = [
 const SOCIAL_LINKS = [
   { label: 'X', href: 'https://twitter.com/TurntableCharts' },
   { label: 'Instagram', href: 'https://www.instagram.com/turntablecharts/' },
-  { label: 'Tiktok', href: 'https://www.tiktok.com/@turntablecharts' },
-  { label: 'Youtube', href: 'https://www.youtube.com/@turntablecharts' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@turntablecharts' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@turntablecharts' },
 ];
 
 const Footer = () => {
