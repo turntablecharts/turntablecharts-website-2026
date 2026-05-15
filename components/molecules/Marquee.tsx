@@ -12,9 +12,9 @@ interface MarqueeProps {
 
 const FLAGSHIP_ITEMS = [
   'Official Nigeria Top 100',
-  'Official Top Artists 100',
-  'Official Top Albums 100',
-  'Official Top Producers 100',
+  'Official Artiste Top 100',
+  'Official Top 100 Albums',
+  'Official Producer Top 100',
 ];
 
 const GENRE_ITEMS = [

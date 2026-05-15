@@ -83,7 +83,7 @@ const Power100: React.FC = () => {
             <span />
             <span />
           </button>
-          <span className="mob_title">TURNTABLE POWERLIST</span>
+          <span className="mob_title">TURNTABLE POWER LIST</span>
         </MobileBar>
 
         {/* ── Mobile category drawer ── */}

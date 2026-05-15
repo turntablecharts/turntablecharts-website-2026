@@ -140,7 +140,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               setIsMobileNavOpen(false);
             }} className={router.pathname.startsWith('/powerlist25') ? 'active' : ''}>
               <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
-                POWERLIST
+                POWER LIST
               </Typography.Text>
             </a>
           </Link>
