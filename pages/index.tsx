@@ -176,7 +176,7 @@ const Home: React.FC<{
             Industry Digest
           </Typography.Heading>
           <Typography.Text weight="semiBold" className="subheading" fontType="OpenSans">
-            TurnTable Chart&apos;s quarterly issue delivering robust data, insights, and context on
+            TurnTable&apos;s quarterly issue delivering robust data, insights, and context on
             <br />
             the albums, songs, artistes, and labels shaping Nigerian music.
           </Typography.Text>
