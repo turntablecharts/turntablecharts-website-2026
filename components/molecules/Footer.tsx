@@ -17,8 +17,8 @@ const NAV_LINKS = [
   { label: 'Magazines', href: '/magazine' },
   { label: 'Business', href: '/business' },
   { label: 'Certifications', href: '/certification' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Power List', href: '/powerlist25' },
+  // { label: 'Gallery', href: '/gallery' },
+  // { label: 'Power List', href: '/powerlist25' },
 ];
 
 const SOCIAL_LINKS = [
