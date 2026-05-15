@@ -15,15 +15,17 @@ const FLAGSHIP_ITEMS = [
   'Official Artiste Top 100',
   'Official Top 100 Albums',
   'Official Producer Top 100',
+  'Official Radio Songs',
+  'Official Streaming Songs'
 ];
 
 const GENRE_ITEMS = [
-  'Afrobeats Top 50',
-  'Highlife Top 50',
-  'Gospel Top 50',
-  'TV Songs Top 50',
-  'Streaming Top 50',
-  'Airplay Top 50',
+  'Top Afro-POP Songs',
+  'Top Afro-R&B Songs',
+  'Top Gospel Songs',
+  'Top Alternative/Dancehall Songs',
+  'Top Traditional Songs',
+  'Top African Dance/EDM Songs',
 ];
 
 const Marquee: React.FC<MarqueeProps> = ({ variant = 'green', chartType = 'flagship' }) => {
