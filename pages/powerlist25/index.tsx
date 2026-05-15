@@ -116,16 +116,10 @@ const Power100: React.FC = () => {
               </div>
               <div className="hero_intro">
                 <p>
-                  The concert industry is still growing. The streaming business continues to boom. But as investors pour
-                  billions into artificial intelligence, rights holders are seizing a historic opportunity to drive the
-                  value of music to new heights. The ranking of this year&apos;s top 40 reflects the force these leaders are
-                  showing as they forge strategic partnerships with new technology juggernauts to revolutionize the way
-                  fans interact with the artists and songs they love.
+                 The TurnTable Power List honours the most impactful music executives who have shaped culture and contributed to the growth of Nigerian music during the year in review. It recognises leadership, influence, and long-term contribution across the ecosystem.
                 </p>
                 <p>
-                  With great power, of course, comes great responsibility — and the stakes are high. Here&apos;s to the
-                  success of this year&apos;s honorees as they work to safeguard creators&apos; rights and shepherd music into a
-                  fruitful new era.
+                 Now in its 5th edition and the most expanded version yet, the list is determined entirely by the TurnTable editorial team through a system that weighs chart performance and cultural impact. This edition also introduces new award criteria across the different sub-sectors of Nigerian music, in addition to sub-category awards spotlighting specific areas of excellence and contribution within the industry.
                 </p>
               </div>
             </div>
