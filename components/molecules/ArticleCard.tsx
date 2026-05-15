@@ -8,12 +8,13 @@ import { NewsItem } from "utility/NewsApi/types";
 import { calculateReadingTime } from "utility/helpers";
 import { format } from "date-fns";
 import Link from "next/link";
+import { createNewsSlug } from "utility/slug";
 
 const ArticleCard: React.FC<{ newsItem: NewsItem }> = ({ newsItem }) => {
   return (
     <ArticleCardStyling>
       <div className="article_card-img">
-        <Link href={`/news/${newsItem.id}`}>
+        <Link href={`/news/${createNewsSlug(newsItem.id, newsItem.title)}`}>
           <a>
             <object data={newsItem.headerImageUri} type="image/png">
               <img src="/assets/ttcBgWhite.png" alt="fallback" />

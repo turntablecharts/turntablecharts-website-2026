@@ -9,6 +9,7 @@ import media from "constants/MediaQuery";
 import MainArrow from "assets/icons/mainArrow.svg";
 import { baseHeading } from "constants/mixins";
 import RectangleGrad from "assets/RectangleGrad.png";
+import { createNewsSlug } from "utility/slug";
 
 const ACCENT_COLORS = [
   Theme.colorPalette.ttcBlue,
@@ -53,7 +54,7 @@ const NewsCard = ({
   if (variant === "hero") {
     return (
       <NewsCardStyling className="hero">
-        <Link href={`/news/${newsItem.id}`}>
+        <Link href={`/news/${createNewsSlug(newsItem.id, newsItem.title)}`}>
           <a className="hero_link">
             <div
               className="hero_bg"
@@ -84,7 +85,7 @@ const NewsCard = ({
         style={{ '--accent-color': currentColor } as any}
       >
         <div className="news_card-img">
-          <Link href={`/news/${newsItem.id}`}>
+          <Link href={`/news/${createNewsSlug(newsItem.id, newsItem.title)}`}>
             <a>
               <img
                 src={newsItem.headerImageUri}
@@ -94,7 +95,7 @@ const NewsCard = ({
             </a>
           </Link>
         </div>
-        <Link href={`/news/${newsItem.id}`}>
+        <Link href={`/news/${createNewsSlug(newsItem.id, newsItem.title)}`}>
           <a className="news_card-content" onMouseEnter={cycleColor} onTouchStart={cycleColor}>
             {/* Hover color reveal */}
             <div className="featured_bg_overlay" />
@@ -131,7 +132,7 @@ const NewsCard = ({
           '--accent-color': accentColor ?? Theme.colorPalette.ttcRed
         } as any}
       >
-        <Link href={`/news/${newsItem.id}`}>
+        <Link href={`/news/${createNewsSlug(newsItem.id, newsItem.title)}`}>
           <a className="featured_link">
             {/* Colored overlay revealed on hover */}
             <div className="featured_bg_overlay" />
@@ -157,7 +158,7 @@ const NewsCard = ({
   /* ── Compact (default) ── */
   return (
     <NewsCardStyling className={variant}>
-      <Link href={`/news/${newsItem.id}`}>
+      <Link href={`/news/${createNewsSlug(newsItem.id, newsItem.title)}`}>
         <a className="compact_link">
           <div className="news_card-img">
             <img

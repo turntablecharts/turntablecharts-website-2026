@@ -11,11 +11,13 @@ import media from "constants/MediaQuery";
 import { headingMixin } from "constants/mixins";
 import Link from "next/link";
 import ArrowOutline from "assets/icons/ArrowOutline.svg";
+import { toSlug, createNewsSlug, extractIdFromSlug } from "utility/slug";
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const newsId = context.params?.id;
+  const slug = context.params?.id as string;
+  const newsId = extractIdFromSlug(slug);
   const [news, newsResponse] = await Promise.all([
-    getSingleNewsById(newsId as string),
+    getSingleNewsById(newsId),
     getNewsByPageNumber(1),
   ]);
 
@@ -36,7 +38,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const newsList = await getNewsByPageNumber(1);
   const paths = newsList.data.news.map((n) => ({
-    params: { id: n.id.toString() },
+    params: { id: createNewsSlug(n.id, n.title) },
   }));
   return { paths, fallback: "blocking" };
 };
@@ -47,9 +49,6 @@ const formatDate = (dateString: string) =>
     day: "numeric",
     year: "numeric",
   }).toUpperCase();
-
-const toSlug = (text: string) =>
-  text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 const SingleArticlePage: React.FC<{
   selectedNews: NewsItem;
@@ -90,10 +89,11 @@ const SingleArticlePage: React.FC<{
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headings.length]);
 
+  const slug = createNewsSlug(selectedNews.id, selectedNews.title);
   const articleUrl =
     typeof window !== "undefined"
       ? window.location.href
-      : `https://www.turntablecharts.com/news/${selectedNews.id}`;
+      : `https://www.turntablecharts.com/news/${slug}`;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(articleUrl).then(() => {
@@ -102,8 +102,9 @@ const SingleArticlePage: React.FC<{
     });
   };
 
-  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://www.turntablecharts.com/news/${selectedNews.id}`)}`;
-  const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://www.turntablecharts.com/news/${selectedNews.id}`)}&text=${encodeURIComponent(selectedNews.title)}`;
+  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`;
+  const twitterText = `📻 ${selectedNews.title}\n\n@TurntableCharts #MusicNews`;
+  const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(twitterText)}`;
 
   // Custom ReactMarkdown renderers — add IDs to headings
   const mdComponents: any = {
@@ -119,10 +120,20 @@ const SingleArticlePage: React.FC<{
         <meta name="description" content={selectedNews.description} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@TurntableCharts" />
-        <meta property="og:url" content={`https://www.turntablecharts.com/news/${selectedNews.id}`} />
+        <meta name="twitter:creator" content="@TurntableCharts" />
+        <meta name="twitter:title" content={selectedNews.title} />
+        <meta name="twitter:description" content={selectedNews.description} />
+        <meta name="twitter:image" content={selectedNews.headerImageUri} />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="TurnTable Charts" />
+        <meta property="og:url" content={articleUrl} />
         <meta property="og:title" content={selectedNews.title} />
         <meta property="og:description" content={selectedNews.description} />
         <meta property="og:image" content={selectedNews.headerImageUri} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="article:published_time" content={selectedNews.dateCreated} />
+        <meta property="article:author" content="TurnTable Charts" />
       </Head>
 
       {/* ── Hero image — full bleed, before everything ── */}
