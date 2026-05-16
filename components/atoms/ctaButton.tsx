@@ -63,7 +63,7 @@ const Btn = styled.button`
   font-size: 13.52px;
   line-height: 100%;
   letter-spacing: -3%;
-  border: 0.5px solid #000000ff ;
+  border: none;
   box-shadow: 0px 0px 25px 0px #ffa600 inset;
       backdrop-filter: blur(5px);
 

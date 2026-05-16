@@ -14,6 +14,7 @@ const GOLD_DIM = 'rgba(197,181,122,0.15)';
 const Power100: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const sidebarRef = React.useRef<HTMLElement>(null);
 
   // Base call (no categoryId) returns all entries with correct unique ranks + categories
   const { data: baseData, isLoading: baseLoading, isError: baseError } = useQuery(
@@ -43,6 +44,7 @@ const Power100: React.FC = () => {
     setActiveCategory(id);
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    sidebarRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const categoryNav = (
@@ -96,7 +98,7 @@ const Power100: React.FC = () => {
         {mobileMenuOpen && <DrawerOverlay onClick={() => setMobileMenuOpen(false)} />}
 
         {/* ── Desktop sidebar ── */}
-        <Sidebar>
+        <Sidebar ref={sidebarRef}>
           <div className="sidebar_logo">
             <img src="/assets/powerlist-logo.png" alt="Power List 2025" className="sidebar_hero_img" />
           </div>

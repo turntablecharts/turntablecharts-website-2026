@@ -212,10 +212,9 @@ const NewsCardStyling = styled.div`
     .hero_bg {
       position: absolute;
       inset: 0;
-      background-size: contain;
+      background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      background-color: white;
       transition: transform 1s ease;
     }
 
@@ -282,15 +281,20 @@ const NewsCardStyling = styled.div`
     .news_card-img {
       flex: 0 0 55%;
       overflow: hidden;
-      background-color: white;
+      position: relative;
 
-      a { display: block; width: 100%; height: 100%; }
+      a {
+        display: block;
+        position: absolute;
+        inset: 0;
+      }
 
       img {
         display: block;
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
+        object-position: center;
         transition: transform 1s;
       }
 
@@ -401,10 +405,9 @@ const NewsCardStyling = styled.div`
         flex: none;
         width: 100%;
         height: 260px;
-        background-color: white;
 
         img {
-          object-fit: contain;
+          object-fit: cover;
         }
       }
 
@@ -424,10 +427,9 @@ const NewsCardStyling = styled.div`
 
   &.featured {
     cursor: pointer;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: white;
     position: relative;
     overflow: hidden;
 
@@ -563,16 +565,16 @@ const NewsCardStyling = styled.div`
 
     .news_card-img {
       width: 100%;
-      height: 220px;
+      height: 260px;
       flex-shrink: 0;
       overflow: hidden;
-      background-color: white;
 
       img {
         width: 100%;
         height: 100%;
         transition: transform 1s;
-        object-fit: contain;
+        object-fit: cover;
+        object-position: center;
         display: block;
       }
 

@@ -17,7 +17,7 @@ const RankPlusTrend = ({ song }: { song: ChartItem }) => {
       </Typography.Text>
       <div className="tag_wrapper">
         {song.lastPosition === 0 ? (
-          <div style={{ padding: '4px 8px', backgroundColor: '#0F8F491A' }}>
+          <div style={{ padding: '2px 6px', backgroundColor: '#0F8F491A', borderRadius: '20px' }}>
             <Typography.Text
               style={{ color: Theme.colorPalette.ttcGreen }}
               className="tag"
@@ -28,7 +28,7 @@ const RankPlusTrend = ({ song }: { song: ChartItem }) => {
             </Typography.Text>
           </div>
         ) : song.lastPosition === -1 ? (
-          <div style={{ padding: '4px 8px', backgroundColor: '#F1A01F1A' }}>
+          <div style={{ padding: '2px 6px', backgroundColor: '#F1A01F1A', borderRadius: '20px' }}>
             <Typography.Text
               style={{ color: Theme.colorPalette.ttcYellow }}
               weight="semiBold"
@@ -75,6 +75,10 @@ const RankStyling = styled.div`
       min-width: auto;
       text-align: center;
     `}
+
+    ${media.mobileLarge`
+      font-size: 11px;
+    `}
   }
 
   .tag_wrapper {
@@ -93,6 +97,11 @@ const RankStyling = styled.div`
         width: 12px;
         height: 12px;
       `}
+
+      ${media.mobileLarge`
+        width: 10px;
+        height: 10px;
+      `}
     }
   }
 
@@ -102,6 +111,10 @@ const RankStyling = styled.div`
 
     ${media.tablet`
       font-size: 9px;
+    `}
+
+    ${media.mobileLarge`
+      font-size: 7px;
     `}
   }
 `;

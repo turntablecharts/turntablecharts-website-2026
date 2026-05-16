@@ -400,6 +400,9 @@ const IndexStyling = styled.div`
       display: flex;
       flex-direction: column;
       gap: 20px;
+      /* Pull the card out of the section's horizontal padding so it goes full-bleed */
+      margin-left: -3rem;
+      margin-right: -3rem;
 
       .compact_news_cards {
         display: grid;
@@ -419,10 +422,14 @@ const IndexStyling = styled.div`
 
       ${media.tablet`
         gap: 15px;
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
       `}
 
       ${media.mobileLarge`
         gap: 12px;
+        margin-left: -1rem;
+        margin-right: -1rem;
       `}
     }
 

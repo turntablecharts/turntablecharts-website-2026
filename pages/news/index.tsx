@@ -245,13 +245,34 @@ const NewsPageStyling = styled.div`
 
       &.card_wrap--big {
         grid-column: span 2;
-        height: 320px;
+        height: 400px;
       }
     }
 
     /* Desktop: show featured, hide compact slot */
     .slot_desktop { display: block; width: 100%; height: 100%; }
     .slot_mobile  { display: none; }
+
+    /* Small desktop (768–1024px): 2-col, big card full-width */
+    ${media.smallDesktop`
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      row-gap: 32px;
+
+      .card_wrap--big {
+        grid-column: span 2;
+        height: 360px;
+      }
+
+      .card_wrap--small {
+        grid-column: span 1;
+        height: auto;
+      }
+
+      .card_wrap .news_card-img {
+        height: 220px;
+      }
+    `}
 
     /* Two columns on tablet/mobile — all cards identical compact */
     ${media.tablet`
