@@ -39,7 +39,7 @@ const CertificationApplication = () => {
                 All requests for the TCSN certification program should be sent to <a className="yellow" href="mailto:tcsn@turntablecharts.com">tcsn@turntablecharts.com</a> for
                 approval with the following filled out in the request sheet (download sheet here). Please note that the required information must be
                 complete in the excel sheet for a certification request to be considered. Also, do familiarize yourself with the details of the Excel
-                sheet and reach out to <a className="yellow" href="mailto:tcsn@turntablecharts.com">tcsn@turntablecharts.com</a> if you have any questions.
+                sheet and reach out to <a className="yellow" href="mailto:awards@turntablecharts.com">awards@turntablecharts.com</a> if you have any questions.
               </Typography.Text>
             </li>
             <li>
@@ -76,7 +76,7 @@ const CertificationApplication = () => {
               <Typography.Text fontType="WorkSans" level="xlarge">
                 You may submit multiple titles for certification on the request sheet and receive a bulk discount. This discount only applies to
                 titles that have the same billing contact, submitted on one request and available on one invoice. For more information on the
-                discount, kindly email <a className="yellow" href="mailto:tcsn@turntablecharts.com">tcsn@turntablecharts.com</a>.
+                discount, kindly email <a className="yellow" href="mailto:awards@turntablecharts.com">awards@turntablecharts.com</a>.
               </Typography.Text>
             </li>
             <li>
