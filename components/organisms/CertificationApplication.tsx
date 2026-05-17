@@ -96,7 +96,7 @@ const CertificationApplication = () => {
         </div>
         <div className="page_content-section">
           <Typography.Text fontType="WorkSans" level="xlarge" weight="semiBold">
-            If you have any question, email <a className="yellow" href="mailto:tcsn@turntablecharts.com">tcsn@turntablecharts.com</a>.
+            If you have any question, email <a className="yellow" href="mailto:awards@turntablecharts.com">awards@turntablecharts.com</a>.
           </Typography.Text>
         </div>
         <div className="page_content-section">
