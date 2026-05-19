@@ -3,12 +3,22 @@ import axios from 'axios';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // --- Basic Security Layer: Prevent direct browser access/scraping ---
+  const secFetchSite = req.headers['sec-fetch-site'];
   const referer = req.headers.referer || '';
-  const host = req.headers.host || '';
+  const host = (req.headers['x-forwarded-host'] as string) || req.headers.host || '';
   
-  // Block the request if there is no referer (direct hit) or the referer doesn't match the site's host
-  if (!referer || !referer.includes(host)) {
-    return res.status(403).json({ error: 'Forbidden: not allowed.' });
+  // 1. Validate using modern browser Sec-Fetch-Site headers if present
+  if (secFetchSite) {
+    if (secFetchSite !== 'same-origin' && secFetchSite !== 'same-site') {
+      return res.status(403).json({ error: 'Forbidden: not allowed.' });
+    }
+  } else {
+    // 2. Fallback to Referer validation (handles older browsers and local environments)
+    const cleanHost = host.replace(/^www\./, '');
+    const isAllowed = referer.includes(cleanHost) || referer.includes('localhost') || referer.includes('127.0.0.1');
+    if (!referer || !isAllowed) {
+      return res.status(403).json({ error: 'Forbidden: not allowed.' });
+    }
   }
 
   const { path, ...queryParams } = req.query;
