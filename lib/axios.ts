@@ -23,9 +23,29 @@ if (!isBrowser) {
 }
 
 const requestResponseHandler = (response: any) => {
+  if (response.data && typeof response.data.payload === 'string') {
+    try {
+      const decodedData = atob(response.data.payload);
+      response.data = JSON.parse(decodedData);
+    } catch (e) {
+      console.error("Failed to decode obfuscated response payload:", e);
+    }
+  }
   return response;
 };
 
-TTCRequest.interceptors.response.use(requestResponseHandler);
+const requestErrorHandler = (error: any) => {
+  if (error.response && error.response.data && typeof error.response.data.payload === 'string') {
+    try {
+      const decodedData = atob(error.response.data.payload);
+      error.response.data = JSON.parse(decodedData);
+    } catch (e) {
+      console.error("Failed to decode obfuscated error payload:", e);
+    }
+  }
+  return Promise.reject(error);
+};
+
+TTCRequest.interceptors.response.use(requestResponseHandler, requestErrorHandler);
 
 export default TTCRequest;

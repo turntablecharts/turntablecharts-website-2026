@@ -18,11 +18,7 @@ import {
 } from "utility/MagazinesApi/types";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const editions = await getAllMagazineEditions();
-  const paths = editions.data.map((edition) => ({
-    params: { editionName: edition.name.toString() },
-  }));
-  return { paths, fallback: "blocking" };
+  return { paths: [], fallback: "blocking" };
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {

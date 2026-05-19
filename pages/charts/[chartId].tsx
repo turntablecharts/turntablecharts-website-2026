@@ -91,22 +91,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  try {
-    const chartCategories = await getChartCategories();
-    const paths = chartCategories.data.slice(10).map((chart) => ({
-      params: { chartId: chart.id.toString() },
-    }));
-
-    return {
-      paths: paths,
-      fallback: 'blocking',
-    };
-  } catch (e) {
-    return {
-      paths: [''],
-      fallback: 'blocking',
-    };
-  }
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
 };
 
 const colourLastWords = (title: string) => {

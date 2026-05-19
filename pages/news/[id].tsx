@@ -36,11 +36,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const newsList = await getNewsByPageNumber(1);
-  const paths = newsList.data.news.map((n) => ({
-    params: { id: createNewsSlug(n.id, n.title) },
-  }));
-  return { paths, fallback: "blocking" };
+  return { paths: [], fallback: "blocking" };
 };
 
 const formatDate = (dateString: string) =>

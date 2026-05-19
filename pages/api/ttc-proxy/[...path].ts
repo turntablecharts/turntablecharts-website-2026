@@ -3,14 +3,12 @@ import axios from 'axios';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // --- Basic Security Layer: Prevent direct browser access/scraping ---
-  if (process.env.NODE_ENV === 'production') {
-    const referer = req.headers.referer || '';
-    const host = req.headers.host || '';
-    
-    // Block the request if there is no referer (direct hit) or the referer doesn't match the site's host
-    if (!referer || !referer.includes(host)) {
-      return res.status(403).json({ error: 'Forbidden: not allowed.' });
-    }
+  const referer = req.headers.referer || '';
+  const host = req.headers.host || '';
+  
+  // Block the request if there is no referer (direct hit) or the referer doesn't match the site's host
+  if (!referer || !referer.includes(host)) {
+    return res.status(403).json({ error: 'Forbidden: not allowed.' });
   }
 
   const { path, ...queryParams } = req.query;
@@ -49,15 +47,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       timeout: 30000, // 30 seconds
     });
 
-    // Return the response data and status code back to the client
-    return res.status(response.status).json(response.data);
+    // Return the response data and status code back to the client, obfuscated as a Base64 string
+    const rawString = typeof response.data === 'string' ? response.data : JSON.stringify(response.data);
+    const obfuscatedPayload = Buffer.from(rawString).toString('base64');
+    return res.status(response.status).json({ payload: obfuscatedPayload });
   } catch (error: any) {
     console.error('Proxy Endpoint Error:', error.message);
     
     if (error.response) {
-      return res.status(error.response.status).json(error.response.data);
+      const errorString = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
+      const obfuscatedPayload = Buffer.from(errorString).toString('base64');
+      return res.status(error.response.status).json({ payload: obfuscatedPayload });
     }
     
-    return res.status(500).json({ error: 'Proxy could not reach the backend service.' });
+    const fallbackErrorString = JSON.stringify({ error: 'Proxy could not reach the backend service.' });
+    const obfuscatedPayload = Buffer.from(fallbackErrorString).toString('base64');
+    return res.status(500).json({ payload: obfuscatedPayload });
   }
 }
