@@ -2,6 +2,17 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // --- Basic Security Layer: Prevent direct browser access/scraping ---
+  if (process.env.NODE_ENV === 'production') {
+    const referer = req.headers.referer || '';
+    const host = req.headers.host || '';
+    
+    // Block the request if there is no referer (direct hit) or the referer doesn't match the site's host
+    if (!referer || !referer.includes(host)) {
+      return res.status(403).json({ error: 'Forbidden: not allowed.' });
+    }
+  }
+
   const { path, ...queryParams } = req.query;
 
   // Reconstruct the target URL path (e.g. ['charts', 'weekly'] -> 'charts/weekly')
