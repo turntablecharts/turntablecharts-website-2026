@@ -93,7 +93,10 @@ const EditionName: React.FC<{
                   <a className="text_item">
                     <span className="text_item-title">{article.title}</span>
                     {article.writer && (
-                      <span className="text_item-writer">{article.writer}</span>
+                      <span
+                        className="text_item-writer"
+                        dangerouslySetInnerHTML={{ __html: article.writer }}
+                      />
                     )}
                   </a>
                 </Link>

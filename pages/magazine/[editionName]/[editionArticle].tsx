@@ -5,6 +5,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import React from "react";
 import styled from "styled-components";
 import { getSingleMagazineArticleById } from "utility/MagazinesApi/api";
@@ -75,11 +76,9 @@ const EditionArticlePage: React.FC<{
           {selectedArticle.description && (
             <p className="article_lead">{selectedArticle.description}</p>
           )}
-          {/\/?[a-z][\s\S]*>/i.test(selectedArticle.content) ? (
-            <div dangerouslySetInnerHTML={{ __html: selectedArticle.content }} />
-          ) : (
-            <ReactMarkdown>{selectedArticle.content}</ReactMarkdown>
-          )}
+          <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+            {selectedArticle.content}
+          </ReactMarkdown>
         </div>
 
         {/* Back link */}
