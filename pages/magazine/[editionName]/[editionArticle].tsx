@@ -76,7 +76,7 @@ const EditionArticlePage: React.FC<{
           {selectedArticle.description && (
             <p className="article_lead">{selectedArticle.description}</p>
           )}
-          <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+          <ReactMarkdown rehypePlugins={[rehypeRaw as any]}>
             {selectedArticle.content}
           </ReactMarkdown>
         </div>
