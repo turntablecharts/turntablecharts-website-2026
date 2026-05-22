@@ -10,7 +10,9 @@ const TTCRequest = axios.create({
   baseURL: baseUrl,
   timeout: 180000,
   headers: {
-    "x-api-key": process.env.NEXT_PUBLIC_TTC_API_KEY || "",
+    // Server-side: use the private TTC_API_KEY to authenticate directly with the backend.
+    // Browser-side: requests go through /api/ttc-proxy which injects the key, so no key needed here.
+    ...(isBrowser ? {} : { "x-api-key": process.env.TTC_API_KEY || "" }),
   },
 });
 
