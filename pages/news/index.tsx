@@ -28,7 +28,7 @@ export async function getStaticProps() {
     props: {
       newsPage: newsResponse.data,
     },
-    revalidate: 3600,
+    revalidate: 1800,
   };
 }
 

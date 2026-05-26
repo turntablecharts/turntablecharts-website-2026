@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const secFetchSite = req.headers['sec-fetch-site'];
   const referer = req.headers.referer || '';
   const host = (req.headers['x-forwarded-host'] as string) || req.headers.host || '';
-  
+
   // 1. Validate using modern browser Sec-Fetch-Site headers if present
   if (secFetchSite) {
     if (secFetchSite !== 'same-origin' && secFetchSite !== 'same-site') {
@@ -25,9 +25,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // Reconstruct the target URL path (e.g. ['charts', 'weekly'] -> 'charts/weekly')
   const targetPath = Array.isArray(path) ? path.join('/') : path || '';
-  
-  const backendBaseUrl = process.env.TTC_BACKEND_URL || 'https://turntablechartsapi.azurewebsites.net';
-  
+
+  const backendBaseUrl = process.env.TTC_BACKEND_URL || 'https://turntablecharts-api.azurewebsites.net';
+
   // Reconstruct query parameters
   const queryString = new URLSearchParams(queryParams as Record<string, string>).toString();
   const targetUrl = `${backendBaseUrl}/${targetPath}${queryString ? `?${queryString}` : ''}`;
@@ -63,13 +63,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(response.status).json({ payload: obfuscatedPayload });
   } catch (error: any) {
     console.error('Proxy Endpoint Error:', error.message);
-    
+
     if (error.response) {
       const errorString = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
       const obfuscatedPayload = Buffer.from(errorString).toString('base64');
       return res.status(error.response.status).json({ payload: obfuscatedPayload });
     }
-    
+
     const fallbackErrorString = JSON.stringify({ error: 'Proxy could not reach the backend service.' });
     const obfuscatedPayload = Buffer.from(fallbackErrorString).toString('base64');
     return res.status(500).json({ payload: obfuscatedPayload });

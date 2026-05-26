@@ -29,10 +29,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
           .filter((n) => n.id.toString() !== newsId)
           .slice(0, 4),
       },
-      revalidate: 3600,
+      revalidate: 1800,
     };
   }
-  return { revalidate: 3600, notFound: true };
+  return { revalidate: 1800, notFound: true };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {

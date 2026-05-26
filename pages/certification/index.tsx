@@ -12,7 +12,7 @@ export async function getStaticProps() {
   const certEntriesResponse = await getAllCertificationEntry();
   return {
     props: { certEntries: certEntriesResponse.data },
-    revalidate: 3600,
+    revalidate: 1800,
   };
 }
 

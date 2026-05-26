@@ -24,7 +24,7 @@ const Form = () => {
     console.log(formData);
     try {
       // Send a POST request to the powerlist API
-      const response = await fetch('https://turntablechartsapi.azurewebsites.net/api/public/powerList', {
+      const response = await fetch('https://turntablecharts-api.azurewebsites.net/api/public/powerList', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

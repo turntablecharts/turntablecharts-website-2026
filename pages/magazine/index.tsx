@@ -14,7 +14,7 @@ export async function getStaticProps() {
   const magazineResponse = await getAllMagazineEditions();
   return {
     props: { magazineEditions: magazineResponse.data },
-    revalidate: 3600,
+    revalidate: 1800,
   };
 }
 

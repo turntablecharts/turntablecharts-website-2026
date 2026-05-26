@@ -4,7 +4,7 @@ const isBrowser = typeof window !== 'undefined';
 
 const baseUrl = isBrowser
   ? "/api/ttc-proxy"
-  : (process.env.TTC_BACKEND_URL || "https://turntablechartsapi.azurewebsites.net");
+  : (process.env.TTC_BACKEND_URL || "https://turntablecharts-api.azurewebsites.net");
 
 const TTCRequest = axios.create({
   baseURL: baseUrl,

@@ -17,7 +17,7 @@ export async function getStaticProps() {
       initialPhotos: all.filter((item) => item.galleryType === 2),
       totalItems: photoResponse.data.totalItems,
     },
-    revalidate: 3600,
+    revalidate: 1800,
   };
 }
 

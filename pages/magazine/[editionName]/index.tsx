@@ -34,10 +34,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
         editionArticles: articlesRes.data,
         coverImageUrl: matchedEdition?.coverImageUrl ?? null,
       },
-      revalidate: 3600,
+      revalidate: 1800,
     };
   }
-  return { notFound: true, revalidate: 3600 };
+  return { notFound: true, revalidate: 1800 };
 };
 
 const EditionName: React.FC<{

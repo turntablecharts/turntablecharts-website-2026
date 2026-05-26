@@ -40,14 +40,14 @@ export async function getStaticProps() {
       props: {
         chartCategories: ordered,
       },
-      revalidate: 3600,
+      revalidate: 1800,
     };
   } catch (e) {
     return {
       props: {
         chartCategories: [],
       },
-      revalidate: 3600,
+      revalidate: 1800,
     };
   }
 }

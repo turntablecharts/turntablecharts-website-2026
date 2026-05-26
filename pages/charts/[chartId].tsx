@@ -72,7 +72,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         props: {
           chartData: response.data,
         },
-        revalidate: 3600,
+        revalidate: 1800,
       };
     }
   } catch (e) {
@@ -80,13 +80,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
       props: {
         chartData: [],
       },
-      revalidate: 3600,
+      revalidate: 1800,
     };
   }
 
   return {
     notFound: true,
-    revalidate: 3600,
+    revalidate: 1800,
   };
 };
 
