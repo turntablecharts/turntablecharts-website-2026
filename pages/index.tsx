@@ -93,6 +93,9 @@ const Home: React.FC<{
             tracked across radio and streaming platforms in Nigeria every week.
           </Typography.Text>
           <CTAButton label="Explore the Charts" to="/charts" />
+          <p className="hero_attribution">
+            Photo by Anonymous via <a href="https://magnific.com" target="_blank" rel="noreferrer">magnific.com</a>
+          </p>
         </div>
 
         <div className="hero_wave">
@@ -709,6 +712,31 @@ const HeroStyling = styled.div<{ $bgImage: string }>`
     `}
   }
    
+  .hero_attribution {
+    margin-top: 14px;
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.6rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.35);
+    text-align: center;
+
+    a {
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+
+      &:hover {
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: underline;
+      }
+    }
+
+    ${media.mobileLarge`
+      font-size: 0.5rem;
+      margin-top: 10px;
+    `}
+  }
+
   .hero_right {
     /* flex: 1; */
     img {
