@@ -90,7 +90,7 @@ const Home: React.FC<{
           <Typography.Text weight="semiBold" className="subheading" fontType="OpenSans">
             TurnTable Charts brings to you the best performing songs, artistes, albums and producers
             <br />
-            tracked across radio and streaming platforms in Nigeria every week.
+            &nbsp;tracked across radio and streaming platforms in Nigeria every week.
           </Typography.Text>
           <CTAButton label="Explore the Charts" to="/charts" />
           <p className="hero_attribution">
