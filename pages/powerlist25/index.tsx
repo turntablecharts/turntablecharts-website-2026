@@ -118,10 +118,19 @@ const Power100: React.FC = () => {
               </div>
               <div className="hero_intro">
                 <p>
-                 The TurnTable Power List honours the most impactful music executives who have shaped culture and contributed to the growth of Nigerian music during the year in review. It recognises leadership, influence, and long-term contribution across the ecosystem.
+                  The TurnTable 2025 Power List shines a light on the people shaping one of the most important cultural movements of this era — from boardrooms and recording studios to stages, strategy meetings, and the wider ecosystem where influence is built. These are the executives, managers, creatives, tastemakers, and industry players translating ideas into outcomes: breaking artists, closing landmark deals, building careers, and creating pathways for Nigerian music to reach even greater heights.
                 </p>
                 <p>
-                 Now in its 5th edition and the most expanded version yet, the list is determined entirely by the TurnTable editorial team through a system that weighs chart performance and cultural impact. This edition also introduces new award criteria across the different sub-sectors of Nigerian music, in addition to sub-category awards spotlighting specific areas of excellence and contribution within the industry.
+                  As Afrobeats and Nigerian music continue to expand their footprint across global markets, the conversations have grown bigger and the stakes have grown higher. Behind every chart run, sold-out venue, viral moment, and career-defining release is a network of people making critical decisions and laying the groundwork for long-term success. The names on this list represent that engine room — the individuals whose work often happens behind the scenes, but whose impact is felt across the industry and beyond.
+                </p>
+                <p>
+                  Now in its fifth edition, the TurnTable Power List returns in its most expansive form yet. The list is determined entirely by the TurnTable editorial team through a framework that considers both measurable success and broader cultural impact, recognising influence not just through numbers, but through the ability to shape conversations, create opportunities, and shift the direction of the industry.
+                </p>
+                <p>
+                  This year&rsquo;s edition also introduces refined award criteria across the different sectors of the Nigerian music business, alongside sub-category recognitions designed to spotlight specific areas of excellence and contribution within the ecosystem. As the industry continues to evolve, so too does the way impact is identified and celebrated.
+                </p>
+                <p>
+                  For the first time, the TurnTable Power List also extends recognition beyond Nigeria&rsquo;s borders to include non-Nigerian music executives whose work intersects significantly with African music. Eligible individuals include executives and managers working with African acts, industry leaders based across the continent, and global figures whose repertoire or contributions recorded substantial success during the year under review. This expansion reflects the increasingly interconnected nature of today&rsquo;s music business and acknowledges the wider network of people helping Nigerian and African music continue its rise on the global stage.
                 </p>
               </div>
             </div>
@@ -170,6 +179,14 @@ const Power100: React.FC = () => {
                 {entry.remarks && (
                   <div className="entry_bio">
                     <ReactMarkdown>{entry.remarks}</ReactMarkdown>
+                  </div>
+                )}
+                {entry.comments && (
+                  <div className="entry_comment">
+                    <ReactMarkdown>{entry.comments}</ReactMarkdown>
+                    {entry.commentWriter && (
+                      <cite className="comment_attribution">— {entry.commentWriter}</cite>
+                    )}
                   </div>
                 )}
               </div>
@@ -674,8 +691,7 @@ const Main = styled.main`
     color: ${GOLD};
     align-self: flex-start;
   }
-
-  .entry_bio {
+.entry_bio {
     grid-column: 1 / -1;
     font-family: 'Work Sans', sans-serif;
     font-size: 0.88rem;
@@ -683,6 +699,17 @@ const Main = styled.main`
     color: rgba(255,255,255,0.65);
     margin: 0;
     padding: 28px 52px 40px;
+
+    .block_label {
+      display: block;
+      font-family: 'Nohemi', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 14px;
+    }
 
     p { margin-bottom: 1.2em; &:last-child { margin-bottom: 0; } }
 
@@ -720,7 +747,67 @@ const Main = styled.main`
       padding: 16px 20px 28px;
       font-size: 0.82rem;
     `}
-  }
+}
+.entry_comment {
+    grid-column: 1 / -1;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.8);
+    margin: 0 52px 40px;
+    padding: 28px 36px;
+    background: ${GOLD_DIM};
+    border-left: 3px solid ${GOLD};
+    border-radius: 0 8px 8px 0;
+    position: relative;
+
+    .block_label {
+      display: block;
+      font-family: 'Nohemi', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: ${GOLD};
+      margin-bottom: 14px;
+    }
+
+    p {
+      font-style: italic;
+      margin-bottom: 1em;
+      &:last-child { margin-bottom: 0; }
+    }
+
+    p:first-of-type::before { content: '“'; }
+    p:last-of-type::after { content: '”'; }
+
+    strong { font-weight: 700; color: #fff; }
+    em { font-style: normal; } /* avoid double-italic inside an already-italic quote */
+
+    a { color: ${GOLD}; text-decoration: underline; }
+
+    .comment_attribution {
+      display: block;
+      margin-top: 16px;
+      font-family: 'Nohemi', sans-serif;
+      font-style: normal;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: ${GOLD};
+    }
+
+    ${media.tablet`
+      margin: 0 28px 36px;
+      padding: 24px 28px;
+    `}
+
+    ${media.mobileLarge`
+      margin: 0 20px 28px;
+      padding: 20px 24px;
+      font-size: 0.85rem;
+    `}
+}
 
   /* ── Shared cat_nav styles for mobile drawer ── */
   .cat_nav {

@@ -21,6 +21,8 @@ export interface PowerlistEntry {
   powerlistEditionId: number;
   powerlistCategoryId: number;
   isActive: boolean;
+  comments: string;
+  commentWriter: string;
 }
 
 export interface PowerlistResponse {
