@@ -66,6 +66,14 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             <NavHover className="nav_glow" />
           </a>
         </Link>
+        <Link href="/powerlist25">
+          <a className={`menus_menu ${router.pathname.startsWith('/powerlist25') ? 'active' : ''}`}>
+            <Typography.Text className='menus_text' fontType="HostGrotesk" weight="semiBold">
+              POWERLIST
+            </Typography.Text>
+            <NavHover className="nav_glow" />
+          </a>
+        </Link>
       </nav>
       <div className={`mobile_menus ${isMobileNavOpen ? 'open' : ''}`}>
         <nav className="menuContainer">

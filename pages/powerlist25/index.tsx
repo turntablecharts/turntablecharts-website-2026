@@ -132,6 +132,9 @@ const Power100: React.FC = () => {
                 <p>
                   For the first time, the TurnTable Power List also extends recognition beyond Nigeria&rsquo;s borders to include non-Nigerian music executives whose work intersects significantly with African music. Eligible individuals include executives and managers working with African acts, industry leaders based across the continent, and global figures whose repertoire or contributions recorded substantial success during the year under review. This expansion reflects the increasingly interconnected nature of today&rsquo;s music business and acknowledges the wider network of people helping Nigerian and African music continue its rise on the global stage.
                 </p>
+                <p style={{ fontSize: '.6rem', fontStyle: 'italic' }}>
+                  The TurnTable Power List is not ranked beyond the recipient of the Executive of the Year award. Except for the individual named Executive of the Year, all honorees are presented in a purely editorial manner. In instances where more than one individual appears under the same position on the TurnTable Power List, it reflects the shared nature of their contribution. These individuals are closely associated with the same artist, company, or institution whose impact during the period under review played a significant role in their inclusion on the list.
+                </p>
               </div>
             </div>
           )}
