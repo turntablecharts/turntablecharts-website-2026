@@ -134,7 +134,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
                 GALLERY
               </Typography.Text>
             </a>
-          </Link>
+          </Link> */}
           <Link className="mobile_menu" href="/powerlist25">
             <a onClick={() => {
               setIsMobileNavOpen(false);
@@ -143,7 +143,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
                 POWER LIST
               </Typography.Text>
             </a>
-          </Link> */}
+          </Link>
         </nav>
         <div className="mobile_socials">
           <a href="https://www.instagram.com/turntablecharts/" target="_blank" rel="noreferrer" aria-label="Instagram">
