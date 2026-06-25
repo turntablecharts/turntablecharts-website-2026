@@ -105,15 +105,15 @@ const NominatePage: React.FC = () => {
                     onChange={(e) => setField(e.target.value)}
                     disabled={status === 'loading'}
                   >
-                    <option value="producer">Producer</option>
-                    <option value="artist">Artist</option>
-                    <option value="engineer">Engineer</option>
-                    <option value="songwriter">Songwriter</option>
-                    <option value="musicExecutive">Music Executive</option>
-                    <option value="mediaPersonnel">Media Personnel</option>
-                    <option value="writer">Writer</option>
-                    <option value="creative">Creative</option>
-                    <option value="influencer">Influencer</option>
+                    <option value="streaming">Streaming</option>
+                    <option value="traditionalMedia">Traditional Media</option>
+                    <option value="liveEntertainment">Live Entertainment</option>
+                    <option value="oaps">OAPs</option>
+                    <option value="djs">DJs</option>
+                    <option value="musicExecutives">Music Executives</option>
+                    <option value="foundersOfCulturePlatforms">Founders of Culture Platforms</option>
+                    <option value="podcasters">Podcasters</option>
+                    <option value="hosts">Hosts</option>
                     <option value="others">Others</option>
                   </select>
                   <span className="select_arrow">▾</span>
