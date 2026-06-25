@@ -21,3 +21,14 @@ export const getPowerlistByCategory = async (categoryId: number | string) => {
   );
   return response;
 };
+
+export interface PowerlistNominationPayload {
+  name: string;
+  field: string;
+  achievement: string;
+}
+
+export const submitPowerlistNomination = async (payload: PowerlistNominationPayload) => {
+  const response = await TTCRequest.post('/api/public/powerList', payload);
+  return response;
+};
