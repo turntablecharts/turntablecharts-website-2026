@@ -95,7 +95,7 @@ const NominatePage: React.FC = () => {
 
               <FieldGroup>
                 <label htmlFor="nom_field" className="field_label">
-                  Their field of music
+                  Their Field in Culture
                 </label>
                 <div className="select_wrap">
                   <select
@@ -122,7 +122,7 @@ const NominatePage: React.FC = () => {
 
               <FieldGroup>
                 <label htmlFor="nom_achievement" className="field_label">
-                  Their achievement(s) in the past 3 years
+                  Their achievements, work and contributions to culture between August 2025 and July 2026
                 </label>
                 <textarea
                   id="nom_achievement"
