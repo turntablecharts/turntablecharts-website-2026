@@ -65,8 +65,8 @@ const NominatePage: React.FC = () => {
               <div className="success_icon">✓</div>
               <h2 className="success_heading">Nomination Received</h2>
               <p className="success_body">
-                Thank you for your nomination. Our team will review your
-                submission as part of the Power List 2025 selection process.
+                Thank you for your nomination. Our editorial team will review your
+                submission as part of the selection process.
               </p>
               <button
                 className="success_again"
