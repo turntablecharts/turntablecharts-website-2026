@@ -319,7 +319,7 @@ const MyTurnTable = () => {
           </div>
           <div className="wrapped_content" id="saveWrapped">
             <img
-              src="/assets/ttc-logo.png"
+              src="/assets/ttc-new.png"
               style={{
                 height: "30px",
                 // width: "102px",

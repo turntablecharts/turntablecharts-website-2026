@@ -33,7 +33,7 @@ const ChartCard: React.FC<{ category: ChartCategory; cardColor: string }> = ({ c
           {category.topSong && (
             <div className="chart_topper">
               <div className="chart_topper-img">
-                <img src={category.topSong.imageUri} alt="" />
+                <img src={category.topSong.imageUri} alt="" onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}/>
               </div>
               <div className="chart_topper-details">
                 <Typography.Text fontType="WorkSans" level="xlarge" weight="extraBold">

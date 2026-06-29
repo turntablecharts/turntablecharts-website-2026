@@ -17,7 +17,7 @@ const ArticleCard: React.FC<{ newsItem: NewsItem }> = ({ newsItem }) => {
         <Link href={`/news/${createNewsSlug(newsItem.id, newsItem.title)}`}>
           <a>
             <object data={newsItem.headerImageUri} type="image/png">
-              <img src="/assets/ttcBgWhite.png" alt="fallback" />
+              <img src="/assets/ttc-new.png" alt="fallback" />
             </object>
           </a>
         </Link>
@@ -80,7 +80,7 @@ const ArticleCardStyling = styled.div`
       position: absolute;
       height: 50px;
       width: 50px;
-      background-image: url('/assets/ttcBgWhite.png');
+      background-image: url('/assets/ttc-new.png');
       }
 
     &:hover {

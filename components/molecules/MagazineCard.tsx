@@ -20,7 +20,7 @@ const MagazineCard: React.FC<{ magazineItem: EditionArticleSummary }> = ({
             <img
               src={magazineItem.headerImage}
               alt={magazineItem.title}
-              onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+              onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
             />
           </a>
         </Link>

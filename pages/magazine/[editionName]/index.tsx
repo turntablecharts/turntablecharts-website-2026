@@ -77,7 +77,7 @@ const EditionName: React.FC<{
                 <img
                   src={coverImageUrl || cover.headerImage}
                   alt={editionArticles.name}
-                  onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                  onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
                 />
               </a>
             </Link>
@@ -116,7 +116,7 @@ const EditionName: React.FC<{
                 <img
                   src={cover.headerImage}
                   alt={cover.title}
-                  onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                  onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
                 />
               </a>
             </Link>
@@ -133,7 +133,7 @@ const EditionName: React.FC<{
                       <img
                         src={article.headerImage}
                         alt={article.title}
-                        onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                        onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
                       />
                     </div>
                     <h3 className="thumb_item-title">{article.title}</h3>

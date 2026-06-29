@@ -78,17 +78,17 @@ const MagazineSlider: React.FC<MagazineSliderProps> = ({ magazines }) => {
         >
           <MagazineItem position="left" onClick={() => { if (!isDragging.current) prev(); }}>
             <MagazineImage>
-              <img src={left.coverImageUrl} alt={left.name} onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }} />
+              <img src={left.coverImageUrl} alt={left.name} onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }} />
             </MagazineImage>
           </MagazineItem>
           <MagazineItem position="center" onClick={handleCenterClick}>
             <MagazineImage>
-              <img src={center.coverImageUrl} alt={center.name} onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }} />
+              <img src={center.coverImageUrl} alt={center.name} onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }} />
             </MagazineImage>
           </MagazineItem>
           <MagazineItem position="right" onClick={() => { if (!isDragging.current) next(); }}>
             <MagazineImage>
-              <img src={right.coverImageUrl} alt={right.name} onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }} />
+              <img src={right.coverImageUrl} alt={right.name} onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }} />
             </MagazineImage>
           </MagazineItem>
         </Stage>
@@ -107,7 +107,7 @@ const MagazineSlider: React.FC<MagazineSliderProps> = ({ magazines }) => {
               <img
                 src={mag.coverImageUrl}
                 alt={mag.name}
-                onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
               />
             </MobileCard>
           ))}

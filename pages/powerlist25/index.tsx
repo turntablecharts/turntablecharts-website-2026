@@ -124,7 +124,7 @@ const Power100: React.FC = () => {
           {!activeCategory && (
             <div className="hero">
               <div className="hero_ttc_logo">
-                <img src="/assets/ttc-logo.png" alt="TurnTable Charts" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                <img src="/assets/ttc-new.png" alt="TurnTable Charts" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
               </div>
               <div className="hero_image">
                 <img src="/assets/powerlist-logo.png" alt="Power List 2025" />
@@ -178,7 +178,7 @@ const Power100: React.FC = () => {
                   <img
                     src={entry.imageUrl}
                     alt={entry.name}
-                    onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
                   />
                 </div>
                 <div className="entry_info">

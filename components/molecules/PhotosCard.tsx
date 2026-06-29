@@ -10,9 +10,9 @@ const PhotosCard = ({ photoItem }: { photoItem: PhotoItem }) => {
     <PhotosCardStyling>
       <div className="photo_img">
         <img
-          src={photoItem.link || "/assets/ttcBgWhite.png"}
+          src={photoItem.link || "/assets/ttc-new.png"}
           alt={photoItem.title || "Photo"}
-          onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+          onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
         />
         <div className="photo_overlay">
           <Typography.Heading fontType="Nohemi" weight="black" level={4} className="overlay_title">

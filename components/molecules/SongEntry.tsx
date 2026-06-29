@@ -78,7 +78,7 @@ const SongEntry = ({ song, setVid }: { song: ChartItem; setVid: (arg: string) =>
         <img
           src={song.imageUri}
           alt={song.title}
-          onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+          onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
         />
       </div>
       <div className="entry_name">

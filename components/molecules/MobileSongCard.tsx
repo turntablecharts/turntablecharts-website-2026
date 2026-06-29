@@ -28,7 +28,7 @@ const MobileSongCard: React.FC<{ songItem: ChartItem }> = ({ songItem }) => {
                 <img
                     src={songItem.imageUri}
                     alt={songItem.title}
-                    onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
                 />
             </div>
             <div className="mc_rank_row">

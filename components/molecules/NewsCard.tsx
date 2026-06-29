@@ -59,7 +59,7 @@ const NewsCard = ({
             <div
               className="hero_bg"
               style={{
-                backgroundImage: `url(${newsItem.headerImageUri}), url('/assets/ttcBgWhite.png')`,
+                backgroundImage: `url(${newsItem.headerImageUri}), url('/assets/ttc-new.png')`,
               }}
             />
             <div className="hero_overlay" />
@@ -90,7 +90,7 @@ const NewsCard = ({
               <img
                 src={newsItem.headerImageUri}
                 alt={newsItem.title}
-                onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+                onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
               />
             </a>
           </Link>
@@ -164,7 +164,7 @@ const NewsCard = ({
             <img
               src={newsItem.headerImageUri}
               alt={newsItem.title}
-              onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttcBgWhite.png'; }}
+              onError={(e) => { (e.target as HTMLImageElement).src = '/assets/ttc-new.png'; }}
             />
           </div>
           <div className="news_card-content">
