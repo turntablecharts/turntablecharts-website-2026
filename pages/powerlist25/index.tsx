@@ -163,7 +163,7 @@ const Power100: React.FC = () => {
 
           {/* Entries */}
           <div className="entries">
-            {isLoading && (
+            {isLoading && activeCategory != 'african-global' && (
               <div className="entries_state">Loading…</div>
             )}
             {isError && (
