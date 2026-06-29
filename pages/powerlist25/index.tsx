@@ -7,12 +7,13 @@ import ReactMarkdown from 'react-markdown';
 import media from 'constants/MediaQuery';
 import { getPowerlist, getPowerlistByCategory } from '../../utility/PowerlistApi/api';
 import { PowerlistCategory, PowerlistEntry } from '../../utility/PowerlistApi/types';
+import AfricanGlobalHonorees from './african';
 
 const GOLD = '#C5B57A';
 const GOLD_DIM = 'rgba(197,181,122,0.15)';
 
 const Power100: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<number | 'african-global' | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const sidebarRef = React.useRef<HTMLElement>(null);
 
@@ -28,10 +29,14 @@ const Power100: React.FC = () => {
 
   // Only fetch by category when one is actively selected
   const { data: catData, isLoading: catLoading, isError: catError } = useQuery(
-    ['powerlist-category', activeCategory],
-    () => getPowerlistByCategory(activeCategory!),
-    { staleTime: 1000 * 60 * 60, enabled: activeCategory !== null }
-  );
+  ['powerlist-category', activeCategory],
+  () => getPowerlistByCategory(activeCategory as number),
+  {
+    staleTime: 1000 * 60 * 60,
+    // only fetch when a real numeric category is selected
+    enabled: activeCategory !== null && activeCategory !== 'african-global',
+  }
+);
 
   const isLoading = baseLoading || (activeCategory !== null && catLoading);
   const isError = baseError || (activeCategory !== null && catError);
@@ -40,7 +45,7 @@ const Power100: React.FC = () => {
     ? (catData?.data as any)?.recognitions ?? []
     : allEntries;
 
-  const handleCategory = (id: number | null) => {
+  const handleCategory = (id: number | 'african-global' | null) => {
     setActiveCategory(id);
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -49,22 +54,30 @@ const Power100: React.FC = () => {
 
   const categoryNav = (
     <nav className="cat_nav">
+    <button
+      className={`cat_item ${activeCategory === null ? 'active' : ''}`}
+      onClick={() => handleCategory(null)}
+    >
+      ALL
+    </button>
+    {categories.map((cat) => (
       <button
-        className={`cat_item ${activeCategory === null ? 'active' : ''}`}
-        onClick={() => handleCategory(null)}
+        key={cat.id}
+        className={`cat_item ${activeCategory === cat.id ? 'active' : ''}`}
+        onClick={() => handleCategory(cat.id)}
       >
-        ALL
+        {cat.name}
       </button>
-      {categories.map((cat) => (
-        <button
-          key={cat.id}
-          className={`cat_item ${activeCategory === cat.id ? 'active' : ''}`}
-          onClick={() => handleCategory(cat.id)}
-        >
-          {cat.name}
-        </button>
-      ))}
-    </nav>
+    ))}
+
+    {/* ── Static: African & Global ── */}
+    <button
+      className={`cat_item ${activeCategory === 'african-global' ? 'active' : ''}`}
+      onClick={() => handleCategory('african-global')}
+    >
+      African &amp; Global
+    </button>
+  </nav>
   );
 
   return (
@@ -156,7 +169,7 @@ const Power100: React.FC = () => {
             {isError && (
               <div className="entries_state">Failed to load entries. Please try again.</div>
             )}
-            {!isLoading && !isError && entries.length === 0 && (
+            {!isLoading && !isError && entries.length === 0 &&  activeCategory != 'african-global' && (
               <div className="entries_state">No entries found.</div>
             )}
             {entries.map((entry) => (
@@ -195,6 +208,8 @@ const Power100: React.FC = () => {
               </div>
             ))}
           </div>
+          {activeCategory === 'african-global' && <AfricanGlobalHonorees />}
+
         </Main>
       </PageWrap>
     </>
