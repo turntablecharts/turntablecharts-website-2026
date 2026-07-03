@@ -17,14 +17,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   return (
     <AppContainer>
-      <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=G-255HX44CTW`} />
+      <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=G-BMYJ7V6KEW`} />
       <Script strategy="lazyOnload" id="google-analytics">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-255HX44CTW');
+          gtag('config', 'G-BMYJ7V6KEW');
         `}
       </Script>
       <Head>
