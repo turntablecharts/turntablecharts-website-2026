@@ -4,8 +4,8 @@ import Head from 'next/head';
 import media from 'constants/MediaQuery';
 import { submitPowerlistNomination } from '../../../utility/PowerlistApi/api';
 
-const GOLD = '#C5B57A';
-const GOLD_DIM = 'rgba(197,181,122,0.12)';
+const ACCENT = '#2BB673';
+const ACCENT_DIM = 'rgba(43,182,115,0.12)';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
@@ -180,7 +180,7 @@ const fadeUp = keyframes`
 
 const PageWrap = styled.div`
   min-height: 100vh;
-  background-image: url('/assets/powerBG.png');
+  background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/assets/powerBG.png');
   background-size: cover;
   background-position: center top;
   background-attachment: fixed;
@@ -207,7 +207,7 @@ const PageHeader = styled.header`
   .logo_wrap {
     margin-bottom: 18px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .u30_logo {
@@ -218,12 +218,14 @@ const PageHeader = styled.header`
   }
 
   .page_title {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Nohemi', sans-serif;
     font-size: clamp(3rem, 8vw, 5.5rem);
-    font-weight: 400;
+    font-weight: 900;
+    font-variation-settings: 'wght' 900;
+    font-stretch: condensed;
     color: #fff;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: -0.02em;
     margin: 0 0 14px;
     line-height: 1;
   }
@@ -231,7 +233,7 @@ const PageHeader = styled.header`
   .page_title_bar {
     width: 72px;
     height: 3px;
-    background: ${GOLD};
+    background: ${ACCENT};
     border-radius: 2px;
     margin-bottom: 24px;
     opacity: 0.85;
@@ -263,7 +265,7 @@ const FieldGroup = styled.div`
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: ${GOLD};
+    color: ${ACCENT};
   }
 
   .field_input,
@@ -284,8 +286,8 @@ const FieldGroup = styled.div`
     }
 
     &:focus {
-      border-color: ${GOLD};
-      background: rgba(197, 181, 122, 0.05);
+      border-color: ${ACCENT};
+      background: rgba(43,182,115,0.05);
     }
 
     &:disabled {
@@ -349,7 +351,7 @@ const SubmitBtn = styled.button`
   width: 100%;
   border: none;
   border-radius: 6px;
-  background: ${GOLD};
+  background: ${ACCENT};
   color: #000;
   font-family: 'Anton', sans-serif;
   font-size: 1rem;
@@ -401,8 +403,8 @@ const SuccessBox = styled.div`
   align-items: flex-start;
   gap: 16px;
   padding: 40px;
-  background: ${GOLD_DIM};
-  border: 1px solid rgba(197, 181, 122, 0.22);
+  background: ${ACCENT_DIM};
+  border: 1px solid rgba(43, 182, 115, 0.22);
   border-radius: 8px;
   animation: ${fadeUp} 0.4s ease both;
 
@@ -410,7 +412,7 @@ const SuccessBox = styled.div`
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: ${GOLD};
+    background: ${ACCENT};
     color: #000;
     font-size: 1.4rem;
     font-weight: 700;
@@ -423,7 +425,7 @@ const SuccessBox = styled.div`
     font-family: 'Anton', sans-serif;
     font-size: 2rem;
     font-weight: 400;
-    color: ${GOLD};
+    color: ${ACCENT};
     letter-spacing: 0.04em;
     margin: 0;
   }
@@ -439,8 +441,8 @@ const SuccessBox = styled.div`
   .success_again {
     margin-top: 8px;
     background: none;
-    border: 1px solid ${GOLD};
-    color: ${GOLD};
+    border: 1px solid ${ACCENT};
+    color: ${ACCENT};
     font-family: 'Anton', sans-serif;
     font-size: 0.85rem;
     letter-spacing: 0.08em;
@@ -450,7 +452,7 @@ const SuccessBox = styled.div`
     transition: background 0.2s ease, color 0.2s ease;
 
     &:hover {
-      background: ${GOLD};
+      background: ${ACCENT};
       color: #000;
     }
   }
