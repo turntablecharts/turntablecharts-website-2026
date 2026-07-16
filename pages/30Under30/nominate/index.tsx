@@ -51,6 +51,13 @@ const NominatePage: React.FC = () => {
       <PageWrap>
         <PageInner>
           <PageHeader>
+            <div className="logo_wrap">
+              <img
+                src="/assets/30U30_PH.png"
+                alt="30U30 PH logo"
+                className="u30_logo"
+              />
+            </div>
             <h1 className="page_title">NOMINATE</h1>
             <div className="page_title_bar" />
             <p className="page_subtitle">
@@ -196,6 +203,19 @@ const PageInner = styled.div`
 
 const PageHeader = styled.header`
   margin-bottom: 48px;
+
+  .logo_wrap {
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .u30_logo {
+    height: 72px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
 
   .page_title {
     font-family: 'Anton', sans-serif;
