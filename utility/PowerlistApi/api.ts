@@ -1,5 +1,14 @@
 import TTCRequest from 'lib/axios';
-import { PowerlistCategoriesResponse, PowerlistEntriesResponse } from './types';
+import {
+  PowerlistCategoriesResponse,
+  PowerlistEntriesResponse,
+  Under30Entry,
+} from './types';
+
+export const get30Under30 = async () => {
+  const response = await TTCRequest.get<Under30Entry[]>('/api/UnderThirty');
+  return response;
+};
 
 export const getPowerlistCategories = async () => {
   const response = await TTCRequest.get<PowerlistCategoriesResponse>(

@@ -33,3 +33,17 @@ export interface PowerlistResponse {
 
 export type PowerlistCategoriesResponse = PowerlistCategory[];
 export type PowerlistEntriesResponse = PowerlistResponse;
+
+export interface Under30Entry {
+  id: number | string;
+  image: string;
+  headerquote: string;
+  name: string;
+  age: number;
+  role: string;
+  bio: string;
+  citation: string;
+  citationAuthor: string;
+  dateAdded: string;
+  isActive: boolean;
+}
