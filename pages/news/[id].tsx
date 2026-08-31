@@ -129,7 +129,7 @@ const SingleArticlePage: React.FC<{
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="article:published_time" content={selectedNews.dateCreated} />
-        <meta property="article:author" content="TurnTable Charts" />
+        <meta property="article:author" content={selectedNews.ttcUser?.firstName}/>
       </Head>
 
       {/* ── Hero image — full bleed, before everything ── */}
@@ -142,7 +142,7 @@ const SingleArticlePage: React.FC<{
         {/* Meta row */}
         <div className="article_meta">
           <span className="article_meta-left">
-            BY <span className="article_meta-brand">TURNTABLE CHARTS</span>
+            BY <span className="article_meta-brand">{selectedNews.ttcUser?.firstName}, {selectedNews.ttcUser?.lastName}</span>
             <span className="article_meta-dot">•</span>
             {readTime} MIN READ
           </span>
@@ -151,7 +151,7 @@ const SingleArticlePage: React.FC<{
 
         {/* Mobile-only stacked meta */}
         <div className="article_meta_mobile">
-          <span className="article_meta_mobile-brand">BY <span>TURNTABLE CHARTS</span></span>
+          <span className="article_meta_mobile-brand">BY <span>{selectedNews.ttcUser?.firstName}, {selectedNews.ttcUser?.lastName}</span></span>
           <span className="article_meta_mobile-date">{formatDate(selectedNews.dateCreated)}</span>
           <span className="article_meta_mobile-read">{readTime} MIN READ</span>
         </div>
