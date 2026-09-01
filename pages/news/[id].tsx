@@ -142,7 +142,7 @@ const SingleArticlePage: React.FC<{
         {/* Meta row */}
         <div className="article_meta">
           <span className="article_meta-left">
-            BY <span className="article_meta-brand">{selectedNews.ttcUser?.firstName}, {selectedNews.ttcUser?.lastName}</span>
+            BY <span className="article_meta-brand">{selectedNews.ttcUser?.firstName} {selectedNews.ttcUser?.lastName}</span>
             <span className="article_meta-dot">•</span>
             {readTime} MIN READ
           </span>
@@ -151,7 +151,7 @@ const SingleArticlePage: React.FC<{
 
         {/* Mobile-only stacked meta */}
         <div className="article_meta_mobile">
-          <span className="article_meta_mobile-brand">BY <span>{selectedNews.ttcUser?.firstName}, {selectedNews.ttcUser?.lastName}</span></span>
+          <span className="article_meta_mobile-brand">BY <span>{selectedNews.ttcUser?.firstName} {selectedNews.ttcUser?.lastName}</span></span>
           <span className="article_meta_mobile-date">{formatDate(selectedNews.dateCreated)}</span>
           <span className="article_meta_mobile-read">{readTime} MIN READ</span>
         </div>
