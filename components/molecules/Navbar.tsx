@@ -21,7 +21,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
       <div onClick={() => isMobileNavOpen && setIsMobileNavOpen(false)} className="logo">
         <Link href="/">
           <a>
-            <TTCLogo style={{ height: '1.8rem', width: '100px' }} />
+            <TTCLogo style={{ height: '3rem', width: '150px' }} />
           </a>
         </Link>
       </div>

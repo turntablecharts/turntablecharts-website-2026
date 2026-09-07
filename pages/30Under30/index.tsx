@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import media from 'constants/MediaQuery';
@@ -9,10 +10,22 @@ import { get30Under30 } from '../../utility/PowerlistApi/api';
 import { Under30Entry } from '../../utility/PowerlistApi/types';
 
 const ACCENT = Theme.colorPalette.ttcYellow;
+const HERO_IMAGES = [
+  'Frame 1618869463.png',
+  'Frame 1618869464.png',
+  'Frame 1618869465.png',
+  'Frame 1618869466.png',
+  'Frame 1618869467.png',
+  'Frame 1618869468.png',
+  'Frame 1618869469.png',
+  'Frame 1618869470.png',
+  'Group 687.png',
+].map((filename) => `/assets/30under30/${encodeURIComponent(filename)}`);
 
 const ThirtyUnderThirty: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'first' | 'last'>('all');
-  const [selectedEntry, setSelectedEntry] = useState<Under30Entry | null>(null);
+  const [heroSlide, setHeroSlide] = useState(0);
+  const [isHeroPaused, setIsHeroPaused] = useState(false);
   const { data, isLoading, isError } = useQuery('30-under-30', get30Under30, {
     staleTime: 1000 * 60 * 60,
   });
@@ -25,13 +38,16 @@ const ThirtyUnderThirty: React.FC = () => {
       : entries.slice(15, 30);
 
   useEffect(() => {
-    if (!selectedEntry) return undefined;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setSelectedEntry(null);
-    };
-    document.addEventListener('keydown', closeOnEscape);
-    return () => document.removeEventListener('keydown', closeOnEscape);
-  }, [selectedEntry]);
+    if (isHeroPaused) return undefined;
+    const interval = window.setInterval(() => {
+      setHeroSlide((currentSlide) => (currentSlide + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => window.clearInterval(interval);
+  }, [isHeroPaused]);
+
+  const moveHero = (direction: number) => {
+    setHeroSlide((currentSlide) => (currentSlide + direction + HERO_IMAGES.length) % HERO_IMAGES.length);
+  };
 
   return (
     <>
@@ -40,16 +56,30 @@ const ThirtyUnderThirty: React.FC = () => {
         <meta name="description" content="Meet TurnTable Charts' 30 Under 30 class of 2026." />
       </Head>
       <Page>
-        <Hero>
-          <HeroImage src="/assets/stackedhero.png" alt="TurnTable Charts 30 Under 30" />
-          <HeroLogo src="/assets/ttc-new.png" alt="TurnTable Charts" />
+        <Hero
+          onMouseEnter={() => setIsHeroPaused(true)}
+          onMouseLeave={() => setIsHeroPaused(false)}
+          onFocus={() => setIsHeroPaused(true)}
+          onBlur={() => setIsHeroPaused(false)}
+        >
+          <HeroImage
+            key={HERO_IMAGES[heroSlide]}
+            src={HERO_IMAGES[heroSlide]}
+            alt={`TurnTable Charts 30 Under 30, slide ${heroSlide + 1}`}
+          />
+          <HeroLogo src="/assets/under30logo.svg" alt="TurnTable Charts 30 Under 30" />
+          <HeroControl type="button" className="previous" onClick={() => moveHero(-1)} aria-label="Previous hero image">&#8592;</HeroControl>
+          <HeroControl type="button" className="next" onClick={() => moveHero(1)} aria-label="Next hero image">&#8594;</HeroControl>
         </Hero>
 
         <Intro>
           <div>
             <h2>Inside TurnTable Charts&apos;<br />30 Under 30 Class of 2026</h2>
-            <p>Every year, TurnTable&apos;s 30 Under 30 list shines a light on the young professionals driving the business of Nigerian music forward. The Class of 2026 is a reflection of the industry&apos;s energy and ambition: the marketers, label executives, distributors, brand specialists, managers and more who are quietly shaping the sound and structure of today&apos;s Afrobeats.</p>
-            <p>They are the people behind the hits, mastering complex distribution, building new audiences, and creating pathways for artists to reach wider communities. This is a celebration of the work that keeps the culture moving.</p>
+            <p>Every year, TurnTable&apos;s 30 Under 30 list shines a light on the young professionals driving the business of Nigerian music forward. The Class of 2025 is a reflection of the industry&apos;s energy and ambition. It is made up of marketers, label executives, distributors, brand specialists, tour managers and more, who are quietly shaping the sound and structure of today&apos;s Afrobeats.</p>
+            <p>They are the people behind the hits. The ones building strategies that move a song from the studio to the streets, and from the streets to the charts. Some are mastering the complex world of distribution, making sure music reaches audiences in Lagos, London, New York and beyond. Others are finding creative ways to tell artiste stories through campaigns, media partnerships and cultural moments that connect deeply with fans.</p>
+            <p>This year&apos;s class has a clear understanding of how to build careers, not just viral moments. They use data to guide decisions, read the pulse of youth culture and understand the business mechanics that turn popularity into longevity. Their work is about more than breaking records; it is about building the infrastructure that keeps artists relevant and thriving.</p>
+            <p>In a fast moving and competitive market, these executives are proving that influence is not defined by age. They bring agility, fresh thinking and a deep understanding of what drives music consumption today. They are as fluent in the language of digital trends as they are in the details of contracts and tour schedules.</p>
+            <p>The Class of 2025 is a sign of where Nigerian music is headed. Outward to new audiences around the world, upward in cultural influence, and inward toward more sustainable systems for artists and teams. They are not just witnessing the growth of the industry. They are the ones making it happen.</p>
           </div>
         </Intro>
 
@@ -68,33 +98,21 @@ const ThirtyUnderThirty: React.FC = () => {
           {!isLoading && !isError && entries.length === 0 && <State>No honorees have been published yet.</State>}
           <Grid>
             {visibleEntries.map((entry, index) => (
-              <Honoree key={entry.id} type="button" onClick={() => setSelectedEntry(entry)} aria-label={`View ${entry.name}`}>
-                <div className="photo">
-                  {entry.image ? <img src={entry.image} alt={entry.name} /> : <div className="photo_placeholder">{String(index + 1).padStart(2, '0')}</div>}
-                </div>
-                <div className="details">
-                  <h3>{entry.name}</h3>
-                  <p>{entry.age} / {entry.role}</p>
-                </div>
-              </Honoree>
+              <Link key={entry.id} href={`/30Under30/${entry.id}`} passHref>
+                <HonoreeLink aria-label={`View ${entry.name}`}>
+                  <div className="photo">
+                    {entry.image ? <img src={entry.image} alt={entry.name} /> : <div className="photo_placeholder">{String(index + 1).padStart(2, '0')}</div>}
+                  </div>
+                  <div className="details">
+                    <h3>{entry.name}</h3>
+                    <p>{entry.age} / {entry.role}</p>
+                  </div>
+                </HonoreeLink>
+              </Link>
             ))}
           </Grid>
         </ListSection>
       </Page>
-      {selectedEntry && (
-        <ModalOverlay role="presentation" onMouseDown={() => setSelectedEntry(null)}>
-          <Modal role="dialog" aria-modal="true" aria-label={selectedEntry.name} onMouseDown={(event) => event.stopPropagation()}>
-            <ModalClose type="button" onClick={() => setSelectedEntry(null)} aria-label="Close">&times;</ModalClose>
-            <div className="modal_photo">
-              {selectedEntry.image && <img src={selectedEntry.image} alt={selectedEntry.name} />}
-            </div>
-            <div className="modal_details">
-              <h2>{selectedEntry.name}</h2>
-              <p>{selectedEntry.age} / {selectedEntry.role}</p>
-            </div>
-          </Modal>
-        </ModalOverlay>
-      )}
     </>
   );
 };
@@ -108,8 +126,8 @@ const Page = styled.main`
 `;
 
 const Hero = styled.section`
-  height: min(46vw, 620px);
-  min-height: 360px;
+  height: min(60vw, 800px);
+  min-height: 420px;
   position: relative;
   overflow: hidden;
   background: #111;
@@ -122,23 +140,34 @@ const HeroImage = styled.img`
   object-fit: cover;
   object-position: center;
   filter: saturate(.8) contrast(1.05);
+  animation: heroImageIn .65s ease;
+  @keyframes heroImageIn { from { opacity: .5; transform: scale(1.02); } to { opacity: 1; transform: scale(1); } }
+`;
+
+const HeroControl = styled.button`
+  position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; border: .59px solid white; border-radius: 11.87px; background: rgba(255,255,255,.18); color: white; cursor: pointer; font-size: 1.1rem; line-height: 1; opacity: .5; transform: translateY(-50%); transition: background .2s ease, opacity .2s ease;
+  &:hover, &:focus-visible { background: rgba(255,255,255,.34); opacity: .8; outline: none; }
+  &.previous { left: 24px; }
+  &.next { right: 24px; }
+  ${media.mobileLarge`display: none;`}
 `;
 
 const HeroLogo = styled.img`
   position: absolute;
-  width: 190px;
+  width: 240px;
   height: auto;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  filter: brightness(0) invert(1);
+  bottom: 34px;
+  transform: translateX(-50%);
+  ${media.mobileLarge`width: 170px; bottom: 24px;`}
 `;
 
 const Intro = styled.section`
   display: block; max-width: 1180px; margin: 0 auto; padding: 110px 7vw; color: #050505;
-  h2 { font-family: 'Nohemi', sans-serif; font-size: clamp(2.2rem, 4.4vw, 4.4rem); line-height: .98; text-transform: uppercase; margin: 0 0 34px; }
-  p { max-width: 720px; color: #000; font-size: .86rem; font-weight: 400; line-height: 1.8; margin: 0 0 18px; }
-  ${media.mobileLarge`padding: 70px 24px;`}
+  h2 { max-width: 1180px; font-family: 'Nohemi', sans-serif; font-weight: 800; font-style: normal; font-size: 64px; line-height: 105%; letter-spacing: 0; text-transform: uppercase; margin: 0 0 34px; }
+         p { max-width: 1180px; color: #000; font-family: 'Work Sans', sans-serif; font-size: 16px; font-weight: 500; font-style: normal; line-height: 27px; letter-spacing: -0.02em; text-align: justify; margin: 0 0 33px; }
+  p:last-child { margin-bottom: 0; }
+  ${media.mobileLarge`padding: 75px 20px; h2 { font-size: 24px; } p { max-width: none; font-size: 14px; line-height: 27px; text-align: justify; }`}
 `;
 
 const ListSection = styled.section`
@@ -149,11 +178,11 @@ const ListSection = styled.section`
 `;
 
 const ListHeader = styled.div`
-  max-width: 1180px; margin: 0 auto 30px; text-align: center;
-  h2 { font-family: 'Nohemi', sans-serif; font-size: clamp(3rem, 7vw, 7rem); line-height: .86; text-transform: uppercase; margin: 18px 0 0; }
+  position: relative; z-index: 1; max-width: 1180px; margin: 0 auto 30px; text-align: center;
+  h2 { color: white; font-family: 'Nohemi', sans-serif; font-weight: 800; font-style: normal; font-size: 96px; line-height: 92%; letter-spacing: 0; text-align: center; text-transform: uppercase; margin: 18px 0 0; }
   h2 span { color: ${ACCENT}; }
-  p { color: rgba(255,255,255,.62); font-size: .72rem; line-height: 1.6; max-width: 420px; margin: 24px auto 0; }
-  ${media.mobileLarge`h2 { font-size: 16vw; }`}
+  p { max-width: 420px; margin: 24px auto 0; color: rgba(255, 255, 255, 1); font-family: 'Work Sans', sans-serif; font-weight: 500; font-style: normal; font-size: 20px; line-height: 25px; letter-spacing: -0.02em; }
+  ${media.mobileLarge`h2 { font-size: 36px; } p { font-size: 16px; line-height: 25px; text-align: center; }`}
 `;
 
 const Filters = styled.div`
@@ -168,8 +197,8 @@ const Grid = styled.div`
   ${media.mobileLarge`grid-template-columns: 1fr; max-width: 430px;`}
 `;
 
-const Honoree = styled.button`
-  width: 100%; border: 0; padding: 0; color: inherit; text-align: left; cursor: pointer; background: transparent; font: inherit;
+const HonoreeLink = styled.a`
+  display: block; width: 100%; border: 0; padding: 0; color: inherit; text-align: left; cursor: pointer; background: transparent; font: inherit; text-decoration: none;
   .photo { aspect-ratio: 1 / 1.05; overflow: hidden; background: #242424; }
   .photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
   &:hover .photo img, &:focus-visible .photo img { transform: scale(1.04); }
@@ -183,21 +212,4 @@ const Honoree = styled.button`
 
 const State = styled.p`
   max-width: 1180px; margin: 60px auto; color: rgba(255,255,255,.65); text-align: center;
-`;
-
-const ModalOverlay = styled.div`
-  position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,.82);
-`;
-
-const Modal = styled.div`
-  width: min(520px, 100%); position: relative; background: #111; color: white; box-shadow: 0 20px 80px rgba(0,0,0,.5);
-  .modal_photo { aspect-ratio: 1 / 1.05; max-height: 62vh; background: #242424; overflow: hidden; }
-  .modal_photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .modal_details { padding: 22px 24px 26px; }
-  h2 { font: 700 clamp(1.4rem, 4vw, 2rem) 'Nohemi'; text-transform: uppercase; margin: 0 0 7px; }
-  p { color: ${ACCENT}; font-size: .76rem; text-transform: uppercase; margin: 0; }
-`;
-
-const ModalClose = styled.button`
-  position: absolute; z-index: 1; top: 12px; right: 12px; width: 34px; height: 34px; border: 1px solid rgba(255,255,255,.7); border-radius: 50%; background: #090909; color: white; cursor: pointer; font-size: 1.5rem; line-height: 1;
 `;
