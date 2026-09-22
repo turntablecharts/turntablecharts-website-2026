@@ -67,7 +67,7 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
           </a>
         </Link>
         <Link href="/powerlist25/v2">
-          <a className={`menus_menu ${router.pathname.startsWith('/powerlist25') ? 'active' : ''}`}>
+          <a className={`menus_menu ${router.pathname.startsWith('/powerlist25/v2') ? 'active' : ''}`}>
             <Typography.Text className='menus_text' fontType="HostGrotesk" weight="semiBold">
               POWERLIST
             </Typography.Text>
@@ -143,10 +143,10 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
               </Typography.Text>
             </a>
           </Link> */}
-          <Link className="mobile_menu" href="/powerlist25">
+          <Link className="mobile_menu" href="/powerlist25/v2">
             <a onClick={() => {
               setIsMobileNavOpen(false);
-            }} className={router.pathname.startsWith('/powerlist25') ? 'active' : ''}>
+            }} className={router.pathname.startsWith('/powerlist25/v2') ? 'active' : ''}>
               <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 POWER LIST
               </Typography.Text>
