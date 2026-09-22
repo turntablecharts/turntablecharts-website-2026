@@ -10,6 +10,11 @@ export const get30Under30 = async () => {
   return response;
 };
 
+export const get30Under30ById = async (id: number | string) => {
+  const response = await TTCRequest.get<Under30Entry>(`/api/UnderThirty/${id}`);
+  return response;
+};
+
 export const getPowerlistCategories = async () => {
   const response = await TTCRequest.get<PowerlistCategoriesResponse>(
     '/api/Powerlist/categories'

@@ -105,7 +105,7 @@ const ThirtyUnderThirty: React.FC = () => {
                   </div>
                   <div className="details">
                     <h3>{entry.name}</h3>
-                    <p>{entry.age} / {entry.role}</p>
+                    <p> {entry.role}</p>
                   </div>
                 </HonoreeLink>
               </Link>
