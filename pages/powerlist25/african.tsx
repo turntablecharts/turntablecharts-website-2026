@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import media from 'constants/MediaQuery';
+import Theme from 'constants/Theme';
 
 const GOLD = '#C5B57A';
+const AFRICAN_ACCENT = Theme.colorPalette.ttcYellow;
 
 // ── Use this as a sentinel id to wire up the sidebar button ──
 export const AFRICAN_GLOBAL_ID = 'african-global' as const;
@@ -15,7 +17,7 @@ interface StaticHonoree {
   grouped?: boolean;
 }
 
-const HONOREES: StaticHonoree[] = [
+export const HONOREES: StaticHonoree[] = [
   {
     name: 'Alexa Rae Perkins',
     industry: 'Management',
@@ -167,6 +169,23 @@ const AfricanGlobalHonorees: React.FC = () => (
   </SectionWrap>
 );
 
+export const AfricanGlobalHonoreesV2: React.FC = () => (
+  <AfricanV2Grid>
+    {HONOREES.map((honoree, index) => (
+      <AfricanV2Card key={`${honoree.name}-v2-${index}`} className={honoree.grouped ? 'grouped' : ''}>
+        <div className="card_topline">
+          <span className="card_rank">{String(index + 1).padStart(2, '0')}</span>
+          <span className="card_label">{honoree.industry}</span>
+        </div>
+        <div className="card_copy">
+          <h2>{honoree.name}</h2>
+          <p>{honoree.bio}</p>
+        </div>
+      </AfricanV2Card>
+    ))}
+  </AfricanV2Grid>
+);
+
 export default AfricanGlobalHonorees;
 
 /* ─────────────────────── Styles ─────────────────────── */
@@ -279,4 +298,34 @@ const Card = styled.div`
 
     .card_bio { font-size: 0.82rem; }
   `}
+`;
+
+const AfricanV2Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 24px;
+  ${media.tablet`grid-template-columns: repeat(2, minmax(0, 1fr));`}
+  ${media.mobileLarge`grid-template-columns: 1fr; gap: 10px; padding-top: 16px;`}
+`;
+
+const AfricanV2Card = styled.article`
+  position: relative;
+  min-height: 330px;
+  padding: 22px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #0d0d0d, #21170d);
+  color: #fff;
+  &::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.42)); }
+  &:nth-child(3n + 2) { background: linear-gradient(145deg, #111, #2a1908); }
+  &:nth-child(3n + 3) { background: linear-gradient(145deg, #0d0d0d, #28200d); }
+  &.grouped { filter: saturate(.72); }
+  .card_topline, .card_copy { position: relative; z-index: 1; }
+  .card_topline { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .card_rank { color: ${AFRICAN_ACCENT}; font: 900 2.6rem / 1 'Nohemi', sans-serif; }
+  .card_label { color: rgba(255,255,255,.8); font: 700 .58rem / 1.2 'Work Sans', sans-serif; letter-spacing: .1em; text-transform: uppercase; text-align: right; }
+  .card_copy { margin-top: 70px; }
+  h2 { margin: 0 0 12px; color: #fff; font: 700 clamp(1.1rem, 1.7vw, 1.45rem) / 1.05 'Nohemi', sans-serif; text-transform: uppercase; }
+  p { margin: 0; color: rgba(255,255,255,.8); font: 400 .75rem / 1.55 'Work Sans', sans-serif; }
+  ${media.mobileLarge`min-height: 280px; padding: 20px; .card_copy { margin-top: 48px; } h2 { font-size: 1.25rem; } p { font-size: .72rem; }`}
 `;
