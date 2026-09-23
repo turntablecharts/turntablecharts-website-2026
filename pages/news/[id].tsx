@@ -274,30 +274,33 @@ export default SingleArticlePage;
 const ArticleStyling = styled.main`
   width: 100%;
   background-color: white;
-  padding-top: 80px;
+  padding-top: 88px;
   padding-bottom: 120px;
+  ${media.mobileLarge`padding-top: 70px;`}
 
   /* ── Hero image — same width as article content ── */
   .article_hero {
     width: 80vw;
+    height: clamp(560px, 50vw, 920px);
     margin: 0 auto;
     overflow: hidden;
-    background-color: white;
+    background-color: #111;
 
     img {
       width: 100%;
-      height: 630px;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
       display: block;
     }
 
     ${media.smallDesktop` width: 88vw; `}
-    ${media.tablet` width: 92vw; img { height: 420px; } `}
+    ${media.tablet` width: 92vw; height: 520px; `}
     ${media.mobileLarge`
       width: 100%;
-      padding: 0 20px;
-      box-sizing: border-box;
-      img { height: 290px; }
+      height: auto;
+      aspect-ratio: 4 / 5;
+      img { object-position: center top; }
     `}
   }
 
