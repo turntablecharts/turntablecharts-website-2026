@@ -41,7 +41,7 @@ const ThirtyUnderThirty: React.FC = () => {
     if (isHeroPaused) return undefined;
     const interval = window.setInterval(() => {
       setHeroSlide((currentSlide) => (currentSlide + 1) % HERO_IMAGES.length);
-    }, 5000);
+    }, 50000);
     return () => window.clearInterval(interval);
   }, [isHeroPaused]);
 
@@ -53,7 +53,7 @@ const ThirtyUnderThirty: React.FC = () => {
     <>
       <Head>
         <title>30 Under 30 | TurnTable Charts</title>
-        <meta name="description" content="Meet TurnTable Charts' 30 Under 30 class of 2026." />
+        <meta name="description" content="Meet TurnTable 30 Under 30 class of 2026." />
       </Head>
       <Page>
         <Hero
@@ -65,7 +65,7 @@ const ThirtyUnderThirty: React.FC = () => {
           <HeroImage
             key={HERO_IMAGES[heroSlide]}
             src={HERO_IMAGES[heroSlide]}
-            alt={`TurnTable Charts 30 Under 30, slide ${heroSlide + 1}`}
+            alt={`TurnTable 30 Under 30, slide ${heroSlide + 1}`}
           />
           <HeroLogo src="/assets/under30logo.svg" alt="TurnTable Charts 30 Under 30" />
           <HeroControl type="button" className="previous" onClick={() => moveHero(-1)} aria-label="Previous hero image">&#8592;</HeroControl>
@@ -74,7 +74,7 @@ const ThirtyUnderThirty: React.FC = () => {
 
         <Intro>
           <div>
-            <h2>Inside TurnTable Charts&apos;<br />30 Under 30 Class of 2026</h2>
+            <h2>Inside TurnTable<br />30 Under 30 Class of 2026</h2>
             <p>Every year, TurnTable&apos;s 30 Under 30 list shines a light on the young professionals driving the business of Nigerian music forward. The Class of 2025 is a reflection of the industry&apos;s energy and ambition. It is made up of marketers, label executives, distributors, brand specialists, tour managers and more, who are quietly shaping the sound and structure of today&apos;s Afrobeats.</p>
             <p>They are the people behind the hits. The ones building strategies that move a song from the studio to the streets, and from the streets to the charts. Some are mastering the complex world of distribution, making sure music reaches audiences in Lagos, London, New York and beyond. Others are finding creative ways to tell artiste stories through campaigns, media partnerships and cultural moments that connect deeply with fans.</p>
             <p>This year&apos;s class has a clear understanding of how to build careers, not just viral moments. They use data to guide decisions, read the pulse of youth culture and understand the business mechanics that turn popularity into longevity. Their work is about more than breaking records; it is about building the infrastructure that keeps artists relevant and thriving.</p>
@@ -123,14 +123,20 @@ const Page = styled.main`
   background: #f4f1eb;
   color: #0c0c0c;
   font-family: 'Work Sans', sans-serif;
+  padding-top: 88px;
+  ${media.mobileLarge`padding-top: 70px;`}
 `;
 
 const Hero = styled.section`
-  height: min(60vw, 800px);
-  min-height: 420px;
+  aspect-ratio: 1920 / 892;
   position: relative;
   overflow: hidden;
   background: #111;
+  ${media.mobileLarge`
+    aspect-ratio: auto;
+    height: min(120vw, 620px);
+    min-height: 420px;
+  `}
 `;
 
 const HeroImage = styled.img`
