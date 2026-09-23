@@ -63,29 +63,40 @@ const PowerlistAlternative: React.FC = () => {
             <AfricanGlobalHonoreesV2 />
           ) : (
             <>
-              <ListMeta>{isLoading ? 'Loading the list...' : `${visibleEntries.length} honorees`}</ListMeta>
+              <ListMeta>{isLoading ? '\u00a0' : `${visibleEntries.length} honorees`}</ListMeta>
               {isError && <State>We couldn&apos;t load the Powerlist right now. Please try again.</State>}
               {!isLoading && !isError && visibleEntries.length === 0 && <State>No honorees found in this category.</State>}
-              <Entries>
-                {visibleEntries.map((entry) => (
-                  <Link key={entry.id} href={`/powerlist25/v2/${entry.id}`} passHref>
-                    <Entry aria-label={`Read about ${entry.name}`}>
-                      <EntryPhoto>
-                        {entry.imageUrl ? <img src={entry.imageUrl} alt={entry.name} /> : <span>{String(entry.rank).padStart(2, '0')}</span>}
-                      </EntryPhoto>
-                      <EntryPanel>
-                        <Rank>{String(entry.rank).padStart(2, '0')}</Rank>
-                        <EntryMain>
-                          <Name>{entry.name}</Name>
-                          <Office>{entry.office}</Office>
-                        </EntryMain>
-                        <Category>
-                          {categories.find((category) => category.id === entry.powerlistCategoryId)?.name ?? 'Powerlist'}
-                        </Category>
-                      </EntryPanel>
-                    </Entry>
-                  </Link>
-                ))}
+              <Entries aria-busy={isLoading} aria-label={isLoading ? 'Loading Powerlist honorees' : undefined}>
+                {isLoading
+                  ? Array.from({ length: 6 }, (_, index) => (
+                    <EntrySkeleton key={index} aria-hidden="true">
+                      <span className="rank" />
+                      <span className="category" />
+                      <div className="copy">
+                        <span className="name" />
+                        <span className="office" />
+                      </div>
+                    </EntrySkeleton>
+                  ))
+                  : visibleEntries.map((entry) => (
+                    <Link key={entry.id} href={`/powerlist25/v2/${entry.id}`} passHref>
+                      <Entry aria-label={`Read about ${entry.name}`}>
+                        <EntryPhoto>
+                          {entry.imageUrl ? <img src={entry.imageUrl} alt={entry.name} /> : <span>{String(entry.rank).padStart(2, '0')}</span>}
+                        </EntryPhoto>
+                        <EntryPanel>
+                          <Rank>{String(entry.rank).padStart(2, '0')}</Rank>
+                          <EntryMain>
+                            <Name>{entry.name}</Name>
+                            <Office>{entry.office}</Office>
+                          </EntryMain>
+                          <Category>
+                            {categories.find((category) => category.id === entry.powerlistCategoryId)?.name ?? 'Powerlist'}
+                          </Category>
+                        </EntryPanel>
+                      </Entry>
+                    </Link>
+                  ))}
               </Entries>
             </>
           )}
@@ -174,6 +185,35 @@ const Entries = styled.div`
   gap: 18px;
   ${media.tablet`grid-template-columns: repeat(2, minmax(0, 1fr));`}
   ${media.mobileLarge`grid-template-columns: 1fr; gap: 12px;`}
+`;
+
+const EntrySkeleton = styled.div`
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #181818;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, transparent 25%, rgba(255,255,255,.08) 45%, transparent 65%);
+    background-size: 220% 100%;
+    animation: powerlistShimmer 1.5s ease-in-out infinite;
+  }
+  span { position: absolute; display: block; border-radius: 2px; background: #2b2b2b; }
+  .rank { top: 20px; left: 20px; width: 58px; height: 52px; }
+  .category { top: 22px; right: 20px; width: 92px; height: 10px; }
+  .copy { position: absolute; right: 20px; bottom: 22px; left: 20px; height: 58px; }
+  .name { top: 0; left: 0; width: 72%; height: 20px; }
+  .office { bottom: 0; left: 0; width: 48%; height: 12px; }
+  @keyframes powerlistShimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &::before { animation: none; }
+  }
 `;
 
 const Entry = styled.a`
