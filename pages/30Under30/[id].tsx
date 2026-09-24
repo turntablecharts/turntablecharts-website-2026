@@ -11,6 +11,11 @@ import { get30Under30ById } from '../../utility/PowerlistApi/api';
 
 const ACCENT = Theme.colorPalette.ttcYellow;
 
+const withLineBreaks = (text: string) =>
+	text
+		.replace(/(?:\\r)?\\n|<br\s*\/?>/gi, '\n')
+		.replace(/[ \t]*\r?\n(?:[ \t]*\r?\n)*[ \t]*/g, '\n\n');
+
 const UnderThirtyProfile: React.FC = () => {
 	const router = useRouter();
 	const profileId = router.query.id;
@@ -44,10 +49,10 @@ const UnderThirtyProfile: React.FC = () => {
 				<Content>
 					<h1>{profile.name}</h1>
 					<Eyebrow>Bio</Eyebrow>
-					<Body>{profile.bio}</Body>
+					<Body>{withLineBreaks(profile.bio)}</Body>
 					<Citation>
 						<span className="mark">“</span>
-						<p>{profile.citation}</p>
+						<p>{withLineBreaks(profile.citation)}</p>
 						{profile.citationAuthor && <cite>Written by {profile.citationAuthor}</cite>}
 					</Citation>
 				</Content>
@@ -188,14 +193,14 @@ const Eyebrow = styled.p`
 `;
 
 const Body = styled.p`
-	max-width: 930px; margin: 0 0 62px; color: #ddd; text-align: justify; font: 400 1rem / 1.8 'Work Sans', sans-serif;
+	max-width: 930px; margin: 0 0 62px; color: #ddd; text-align: justify; white-space: pre-line; font: 400 1rem / 1.8 'Work Sans', sans-serif;
 	${media.mobileLarge`font-size: .68rem; line-height: 1.65; letter-spacing: -0.1px; margin-bottom: 38px;`}
 `;
 
 const Citation = styled.blockquote`
 	position: relative; max-width: 940px; margin: 0; text-align: justify; padding: 52px 64px 46px; border: 3px solid ${ACCENT}; color: #ddd; font-family: 'Work Sans', sans-serif;
 	.mark { display: block; color: ${ACCENT}; font: 800 2.1rem / 1 'Georgia', serif; }
-	p { margin: 0 0 44px; font: 400 1rem / 1.8 'Work Sans', sans-serif; }
+	p { margin: 0 0 44px; white-space: pre-line; font: 400 1rem / 1.8 'Work Sans', sans-serif; }
 	cite { color: ${ACCENT}; font-size: .73rem; font-style: normal; font-weight: 700; text-transform: none; }
 	${media.mobileLarge`padding: 26px 20px 30px; border-width: 2px; p { margin-bottom: 30px; font-size: .78rem; line-height: 1.65; } cite { font-size: .6rem; }`}
 `;

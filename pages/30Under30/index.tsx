@@ -93,11 +93,19 @@ const ThirtyUnderThirty: React.FC = () => {
               <button key={value} className={filter === value ? 'active' : ''} onClick={() => setFilter(value)} role="tab" aria-selected={filter === value}>{label}</button>
             ))}
           </Filters>
-          {isLoading && <State>Loading the class...</State>}
+          {isLoading && <ScreenReaderStatus role="status">Loading honorees</ScreenReaderStatus>}
           {isError && <State>We couldn&apos;t load the class right now. Please try again.</State>}
           {!isLoading && !isError && entries.length === 0 && <State>No honorees have been published yet.</State>}
-          <Grid>
-            {visibleEntries.map((entry, index) => (
+          <Grid aria-busy={isLoading}>
+            {isLoading ? Array.from({ length: 6 }, (_, index) => (
+              <SkeletonHonoree key={index} aria-hidden="true">
+                <div className="photo" />
+                <div className="details">
+                  <span className="name" />
+                  <span className="role" />
+                </div>
+              </SkeletonHonoree>
+            )) : visibleEntries.map((entry, index) => (
               <Link key={entry.id} href={`/30Under30/${entry.id}`} passHref>
                 <HonoreeLink aria-label={`View ${entry.name}`}>
                   <div className="photo">
@@ -214,6 +222,29 @@ const HonoreeLink = styled.a`
   h3 { color: white; font: 700 1.05rem 'Nohemi'; text-transform: uppercase; margin: 7px 0 3px; }
   &:hover h3, &:focus-visible h3 { color: ${Theme.colorPalette.ttcYellow}; text-decoration: underline; text-underline-offset: 3px; }
   p { color: rgba(255,255,255,.55); font-size: .66rem; text-transform: uppercase; margin: 0; }
+`;
+
+const SkeletonHonoree = styled.div`
+  width: 100%;
+  .photo { aspect-ratio: 1 / 1.05; }
+  .details { padding: 23px 5px 0; display: grid; gap: 10px; }
+  .name, .role { display: block; height: 16px; }
+  .name { width: 72%; }
+  .role { width: 48%; height: 11px; }
+  .photo, .name, .role {
+    background: linear-gradient(90deg, #242424 25%, #383838 50%, #242424 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+  }
+  @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .photo, .name, .role { animation: none; }
+  }
+`;
+
+const ScreenReaderStatus = styled.span`
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
 `;
 
 const State = styled.p`
