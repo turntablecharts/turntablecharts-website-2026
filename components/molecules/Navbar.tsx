@@ -191,6 +191,7 @@ export default Navbar;
 
 const NavbarStyling = styled.div<{ pathname: string }>`
   padding: 20px 60px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -227,6 +228,11 @@ const NavbarStyling = styled.div<{ pathname: string }>`
   .logo {
     position: relative;
     z-index: 1004;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
 
     ${media.mobileLarge`
       svg {

@@ -90,14 +90,15 @@ export default ChartSubNav;
 
 const SubNavBar = styled.div`
   position: fixed;
-  top: 70px;
+  top: 88px;
   left: 0;
   right: 0;
   z-index: 998;
   background-color: ${Theme.colorPalette.white};
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 0;
 
   ${media.mobileLarge`
+    top: 70px;
     background-color: ${Theme.colorPalette.black};
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   `}
@@ -105,9 +106,10 @@ const SubNavBar = styled.div`
 
 const DesktopNav = styled.nav`
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   gap: 0;
+  height: 54px;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px;
@@ -123,7 +125,8 @@ const DesktopNav = styled.nav`
 const NavTab = styled.a`
   display: inline-flex;
   align-items: center;
-  padding: 12px 14px;
+  height: 100%;
+  padding: 0 14px;
   font-family: 'Host Grotesk', sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
