@@ -35,10 +35,10 @@ const Certification: React.FC<{ certEntries: CertificationEntry[] }> = ({ certEn
       component: <CertificationEligible certEntries={filteredEntries} />,
     },
     { title: 'Application', component: <CertificationApplication /> },
-    {
-      title: 'Display',
-      component: <CertificationDisplay certEntries={filteredEntries} />,
-    },
+    // {
+    //   title: 'Display',
+    //   component: <CertificationDisplay certEntries={filteredEntries} />,
+    // },
   ];
 
   return (
