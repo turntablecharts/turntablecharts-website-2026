@@ -11,14 +11,14 @@ import { TableContentLayout } from './TableLayout';
 
 const MOBILE_CERT_HEADER = {
   milestone: { key: 'milestone', label: 'Milestones', active: true },
-  entry: { key: 'entry', label: 'Title', active: true },
+  entry: { key: 'entry', label: 'Certified Title', active: true },
   certifiedDate: { key: 'certifiedDate', label: 'Certified Date', active: true },
 };
 
 const CERT_HEADER = {
   milestone: { key: 'milestone', label: 'Milestones', active: true },
   title: { key: 'title', label: 'Title', active: true },
-  artiste: { key: 'artiste', label: 'Artiste', active: true },
+  artiste: { key: 'artiste', label: 'Certified Artist', active: true },
   format: { key: 'format', label: 'Format', active: true },
   certifiedDate: { key: 'certifiedDate', label: 'Certified Date', active: true },
 };

@@ -23,7 +23,7 @@ const MOBILE_CERT_HEADER = {
   },
   certifiedDate: {
     key: 'certifiedDate',
-    label: 'Certified Date',
+    label: 'Eligibility Date',
     active: true,
   },
 };
@@ -50,7 +50,7 @@ const CERT_HEADER = {
   },
   certifiedDate: {
     key: 'certifiedDate',
-    label: 'Certified Date',
+    label: 'Eligibility Date',
     active: true,
   },
 };
