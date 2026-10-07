@@ -67,7 +67,7 @@ const ThirtyUnderThirty: React.FC = () => {
             src={HERO_IMAGES[heroSlide]}
             alt={`TurnTable 30 Under 30, slide ${heroSlide + 1}`}
           />
-          <HeroLogo src="/assets/under30logo.svg" alt="TurnTable Charts 30 Under 30" />
+          <HeroLogo src="/assets/30under30logo.svg" alt="TurnTable 30 Under 30" />
           <HeroControl type="button" className="previous" onClick={() => moveHero(-1)} aria-label="Previous hero image">&#8592;</HeroControl>
           <HeroControl type="button" className="next" onClick={() => moveHero(1)} aria-label="Next hero image">&#8594;</HeroControl>
         </Hero>

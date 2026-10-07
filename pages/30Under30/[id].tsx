@@ -33,7 +33,7 @@ const UnderThirtyProfile: React.FC = () => {
 	return (
 		<Page>
 			<Head>
-				<title>{profile.name} | TurnTable Charts 30 Under 30</title>
+				<title>{profile.name} | TurnTable 30 Under 30</title>
 				<meta name="description" content={`${profile.name}, ${profile.role}. TurnTable Charts 30 Under 30.`} />
 			</Head>
 			<Profile>
