@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { label: 'Certifications', href: '/certification' },
   // { label: 'Gallery', href: '/gallery' },
   { label: 'Power List', href: '/powerlist25/v2' },
+  { label: '30 Under 30', href: '/30Under30' },
 ];
 
 const SOCIAL_LINKS = [

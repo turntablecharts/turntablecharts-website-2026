@@ -74,6 +74,14 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             <NavHover className="nav_glow" />
           </a>
         </Link>
+        <Link href="/30Under30">
+          <a className={`menus_menu ${router.pathname.startsWith('/30Under30') ? 'active' : ''}`}>
+            <Typography.Text className='menus_text' fontType="HostGrotesk" weight="semiBold">
+              30 UNDER 30
+            </Typography.Text>
+            <NavHover className="nav_glow" />
+          </a>
+        </Link>
       </nav>
       <div className={`mobile_menus ${isMobileNavOpen ? 'open' : ''}`}>
         <nav className="menuContainer">
@@ -149,6 +157,16 @@ const Navbar = ({ onSearchOpen }: { onSearchOpen?: () => void }) => {
             }} className={router.pathname.startsWith('/powerlist25/v2') ? 'active' : ''}>
               <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
                 POWER LIST
+              </Typography.Text>
+            </a>
+          </Link>
+          <Link className="mobile_menu" href="/30Under30">
+            <a
+              onClick={() => setIsMobileNavOpen(false)}
+              className={router.pathname.startsWith('/30Under30') ? 'active' : ''}
+            >
+              <Typography.Text level="regular" fontType="HostGrotesk" weight="semiBold">
+                30 UNDER 30
               </Typography.Text>
             </a>
           </Link>

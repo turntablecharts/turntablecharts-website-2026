@@ -50,11 +50,13 @@ const UnderThirtyProfile: React.FC = () => {
 					<h1>{profile.name}</h1>
 					<Eyebrow>Bio</Eyebrow>
 					<Body>{withLineBreaks(profile.bio)}</Body>
-					<Citation>
-						<span className="mark">“</span>
-						<p>{withLineBreaks(profile.citation)}</p>
-						{profile.citationAuthor && <cite>Written by {profile.citationAuthor}</cite>}
-					</Citation>
+					{ profile.citation && (
+						<Citation>
+							<span className="mark">“</span>
+							<p>{withLineBreaks(profile.citation)}</p>
+							{profile.citationAuthor && <cite>Written by {profile.citationAuthor}</cite>}
+						</Citation>
+					)}
 				</Content>
 			</Profile>
 		</Page>
