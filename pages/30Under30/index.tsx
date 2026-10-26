@@ -12,14 +12,14 @@ import { Under30Entry } from '../../utility/PowerlistApi/types';
 const ACCENT = Theme.colorPalette.ttcYellow;
 const HERO_IMAGES = [
   'Frame 1618869463.png',
-  'Frame 1618869464.png',
-  'Frame 1618869465.png',
-  'Frame 1618869466.png',
-  'Frame 1618869467.png',
-  'Frame 1618869468.png',
-  'Frame 1618869469.png',
-  'Frame 1618869470.png',
-  'Group 687.png',
+  // 'Frame 1618869464.png',
+  // 'Frame 1618869465.png',
+  // 'Frame 1618869466.png',
+  // 'Frame 1618869467.png',
+  // 'Frame 1618869468.png',
+  // 'Frame 1618869469.png',
+  // 'Frame 1618869470.png',
+  // 'Group 687.png',
 ].map((filename) => `/assets/30under30/${encodeURIComponent(filename)}`);
 
 const ThirtyUnderThirty: React.FC = () => {
