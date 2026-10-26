@@ -84,11 +84,11 @@ const ThirtyUnderThirty: React.FC = () => {
             <h2>Meet the list<br /><span>makers.</span></h2>
             <p>30 honorees for 2026. The list on these pages follows no particular order.</p>
           </ListHeader>
-          <Filters role="tablist" aria-label="Filter honorees">
+          {/* <Filters role="tablist" aria-label="Filter honorees">
             {([['all', 'All'], ['first', '01 - 15'], ['last', '16 - 30']] as const).map(([value, label]) => (
               <button key={value} className={filter === value ? 'active' : ''} onClick={() => setFilter(value)} role="tab" aria-selected={filter === value}>{label}</button>
             ))}
-          </Filters>
+          </Filters> */}
           {isLoading && <ScreenReaderStatus role="status">Loading honorees</ScreenReaderStatus>}
           {isError && <State>We couldn&apos;t load the class right now. Please try again.</State>}
           {!isLoading && !isError && entries.length === 0 && <State>No honorees have been published yet.</State>}
