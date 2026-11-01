@@ -1,5 +1,5 @@
 import Theme from 'constants/Theme';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getChartCategories } from 'utility/ChartsApi/api';
 import { ChartCategory } from 'utility/ChartsApi/types';
@@ -24,21 +24,22 @@ const isTVSongs = (name: string) =>
 const TV_SONGS_DESCRIPTION =
   'A defunct aggregated weekly airplay that combines plays & impressions from TV Stations in Nigeria. It was discontinued in December 2022, with the last chart dated week of Dec 2 — 8, 2022. Ayra Starr\'s "Rush" was the last No. 1 song on the chart.';
 
+const prepareChartCategories = (chartCategories: ChartCategory[]) => {
+  const patched = chartCategories.map((cat) =>
+    isTVSongs(cat.name) ? { ...cat, description: TV_SONGS_DESCRIPTION } : cat
+  );
+  const tvSongs = patched.filter((cat) => isTVSongs(cat.name));
+  const rest = patched.filter((cat) => !isTVSongs(cat.name));
+  return [...rest, ...tvSongs];
+};
+
 export async function getStaticProps() {
   try {
     const chartCategories = await getChartCategories();
 
-    // Move TV Songs to last, patch its description
-    const patched: ChartCategory[] = chartCategories.data.map((cat) =>
-      isTVSongs(cat.name) ? { ...cat, description: TV_SONGS_DESCRIPTION } : cat
-    );
-    const tvSongs = patched.filter((c) => isTVSongs(c.name));
-    const rest = patched.filter((c) => !isTVSongs(c.name));
-    const ordered = [...rest, ...tvSongs];
-
     return {
       props: {
-        chartCategories: ordered,
+        chartCategories: prepareChartCategories(chartCategories.data),
       },
       revalidate: 1800,
     };
@@ -55,9 +56,33 @@ export async function getStaticProps() {
 const Charts: React.FC<{
   chartCategories: ChartCategory[];
 }> = ({ chartCategories }) => {
+  const [categories, setCategories] = useState(chartCategories);
+  const [loadError, setLoadError] = useState(false);
+  const [activeCategory, setActiveCategory] = useState('');
+
+  useEffect(() => {
+    if (categories.length > 0) return;
+
+    let isCurrent = true;
+    getChartCategories()
+      .then((response) => {
+        if (!isCurrent) return;
+        const loadedCategories = prepareChartCategories(response.data);
+        setCategories(loadedCategories);
+        setLoadError(loadedCategories.length === 0);
+      })
+      .catch(() => {
+        if (isCurrent) setLoadError(true);
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [categories.length]);
+
   let sortedCategories: { [key: string]: ChartCategory[] } = {};
 
-  chartCategories.forEach((category) => {
+  categories.forEach((category) => {
     if (!sortedCategories[category.heading]) {
       sortedCategories[category.heading] = [category];
     } else {
@@ -68,7 +93,7 @@ const Charts: React.FC<{
     }
   });
 
-  const [activeCategory, setActiveCategory] = useState(Object.keys(sortedCategories)[0]);
+  const selectedCategory = activeCategory || Object.keys(sortedCategories)[0];
 
   return (
     <ChartPageStyling>
@@ -79,15 +104,21 @@ const Charts: React.FC<{
         {Object.keys(sortedCategories)
           .filter((header) => header && header.trim() !== '')
           .map((header) => (
-            <button key={header} onClick={() => setActiveCategory(header)} className={`chart_tab ${activeCategory === header ? 'active' : ''}`}>
+            <button key={header} onClick={() => setActiveCategory(header)} className={`chart_tab ${selectedCategory === header ? 'active' : ''}`}>
               {header}
             </button>
           ))}
       </div>
       <div className="chart_categories">
-        {sortedCategories[activeCategory]?.map((category, index) => (
-          <ChartCard key={category.id} category={category} cardColor={TTC_COLORS[index % TTC_COLORS.length]} />
-        ))}
+        {categories.length === 0 ? (
+          <div className="chart_status" role="status">
+            {loadError ? 'Charts are temporarily unavailable. Please try again later.' : 'Loading charts...'}
+          </div>
+        ) : (
+          sortedCategories[selectedCategory]?.map((category, index) => (
+            <ChartCard key={category.id} category={category} cardColor={TTC_COLORS[index % TTC_COLORS.length]} />
+          ))
+        )}
       </div>
     </ChartPageStyling>
   );
@@ -186,5 +217,12 @@ const ChartPageStyling = styled.div`
         grid-column: auto;
       }
     `}
+
+    .chart_status {
+      grid-column: 1 / -1;
+      padding: 2rem 1rem;
+      color: white;
+      text-align: center;
+    }
   }
 `;

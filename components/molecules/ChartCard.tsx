@@ -115,7 +115,8 @@ const ChartCardStyling = styled.div<{ $cardColor: string }>`
   &:active::after { opacity: 0.5; transform: translateY(0); }
   &:active { color: white; }
 ${media.mobileLarge`
-   height: 450px;
+    height: auto;
+    min-height: 340px;
   `}
 
   /* ── Gradient Overlay (PNG) ── */
@@ -147,6 +148,9 @@ ${media.mobileLarge`
 
     ${media.mobileLarge`
       padding: 20px;
+      box-sizing: border-box;
+      min-height: 340px;
+      height: auto;
     `}
   }
 
