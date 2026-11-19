@@ -8,9 +8,10 @@ import {
 } from './types';
 
 const MIN_ANSWER_LENGTH = 4;
-const MAX_ANSWER_LENGTH = 15;
+const MAX_ANSWER_LENGTH = 12;
 const GRID_SIZE = 17;
 const TARGET_WORDS = 10;
+const MAX_CANDIDATES = 42;
 
 type MutableCell = CrosswordCell;
 type RawPlacement = Omit<CrosswordPlacement, 'id' | 'number' | 'row' | 'col'> & {
@@ -54,14 +55,23 @@ const shuffled = <T,>(items: T[], random: () => number) => {
   return result;
 };
 
-const getClue = (item: ChartItem, kind: 'song' | 'artist' | 'producer') => {
+const countCredits = (value: string) =>
+  value.split(/\s*,\s*|\s*&\s*|\s+and\s+|\s+feat\.?\s+|\s+ft\.?\s+|\s+with\s+/i)
+    .map((credit) => credit.trim())
+    .filter(Boolean).length;
+
+const getClue = (item: ChartItem, kind: 'song' | 'artist' | 'producer', value: string) => {
   if (kind === 'song') {
-    return `Song by ${item.artiste} at No. ${item.rank} on this week's chart.`;
+    return `Song at No. ${item.rank}, performed by ${item.artiste}.`;
   }
   if (kind === 'artist') {
-    return `Artist behind “${item.title},” currently at No. ${item.rank}.`;
+    const credits = countCredits(value);
+    const noun = credits === 1 ? 'artiste' : 'artistes';
+    return `${credits} ${noun} credited on “${item.title}” at No. ${item.rank}.`;
   }
-  return `Producer credited on “${item.title}” at No. ${item.rank}.`;
+  const credits = countCredits(value);
+  const noun = credits === 1 ? 'producer' : 'producers';
+  return `${credits} ${noun} credited on “${item.title}” at No. ${item.rank}.`;
 };
 
 export const buildCandidates = (chart: ChartsByCategoryResponse): CrosswordCandidate[] => {
@@ -79,7 +89,7 @@ export const buildCandidates = (chart: ChartsByCategoryResponse): CrosswordCandi
       answer,
       displayAnswer: value.trim(),
       kind,
-      clue: getClue(item, kind),
+      clue: getClue(item, kind, value),
       rank: item.rank,
     };
 
@@ -97,7 +107,13 @@ export const buildCandidates = (chart: ChartsByCategoryResponse): CrosswordCandi
       producers.forEach((producer) => add(item, producer, 'producer'));
     });
 
-  return Array.from(candidates.values());
+  return Array.from(candidates.values())
+    .sort((a, b) => {
+      const scoreA = a.rank * 2 + a.answer.length + (a.kind === 'producer' ? 8 : 0);
+      const scoreB = b.rank * 2 + b.answer.length + (b.kind === 'producer' ? 8 : 0);
+      return scoreA - scoreB;
+    })
+    .slice(0, MAX_CANDIDATES);
 };
 
 const cellKey = (row: number, col: number) => `${row}:${col}`;
@@ -251,7 +267,7 @@ export const generateCrossword = (chart: ChartsByCategoryResponse): CrosswordPuz
   const candidates = buildCandidates(chart);
   if (candidates.length < 5) return null;
 
-  const puzzleId = `${chart.chartCategoryId}-${chart.id}-${chart.weekNumber}-${new Date(chart.dateCreated).toISOString().slice(0, 10)}`;
+  const puzzleId = `v2-${chart.chartCategoryId}-${chart.id}-${chart.weekNumber}-${new Date(chart.dateCreated).toISOString().slice(0, 10)}`;
   const random = seededRandom(hashSeed(puzzleId));
   let best: ReturnType<typeof growLayout> | null = null;
   let bestScore = -1;

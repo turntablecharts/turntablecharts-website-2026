@@ -41,6 +41,7 @@ const formatChartWeek = (dateValue: string) => {
 };
 
 const CrosswordGame: React.FC<Props> = ({ puzzle }) => {
+  const maxReveals = Math.floor(Object.keys(puzzle.cells).length / 2);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [selectedId, setSelectedId] = useState(puzzle.placements[0]?.id ?? 0);
   const [selectedDirection, setSelectedDirection] = useState<CrosswordDirection>(puzzle.placements[0]?.direction ?? 'across');
@@ -48,6 +49,7 @@ const CrosswordGame: React.FC<Props> = ({ puzzle }) => {
     puzzle.placements[0] ? { row: puzzle.placements[0].row, col: puzzle.placements[0].col } : null,
   );
   const [checkedCells, setCheckedCells] = useState<Set<string>>(new Set());
+  const [revealsRemaining, setRevealsRemaining] = useState(maxReveals);
   const [elapsed, setElapsed] = useState(0);
   const [completedAt, setCompletedAt] = useState<number>();
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -58,6 +60,7 @@ const CrosswordGame: React.FC<Props> = ({ puzzle }) => {
   const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const scoreCardRef = useRef<HTMLDivElement | null>(null);
   const storageKey = `ttc-crossword-progress:${puzzle.id}`;
+  const revealStorageKey = `ttc-crossword-reveals-v2:${puzzle.id}`;
 
   const selectedPlacement = useMemo(
     () => puzzle.placements.find((placement) => placement.id === selectedId) ?? puzzle.placements[0],
@@ -90,11 +93,24 @@ const CrosswordGame: React.FC<Props> = ({ puzzle }) => {
         setElapsed(parsed.elapsed ?? 0);
         setCompletedAt(parsed.completedAt);
       }
+      const storedReveals = window.localStorage.getItem(revealStorageKey);
+      if (storedReveals !== null) {
+        const remaining = Number(storedReveals);
+        if (Number.isInteger(remaining)) {
+          setRevealsRemaining(Math.max(0, Math.min(maxReveals, remaining)));
+        }
+      }
     } catch {
       window.localStorage.removeItem(storageKey);
+      window.localStorage.removeItem(revealStorageKey);
     }
     setHydrated(true);
-  }, [storageKey]);
+  }, [maxReveals, revealStorageKey, storageKey]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    window.localStorage.setItem(revealStorageKey, String(revealsRemaining));
+  }, [hydrated, revealStorageKey, revealsRemaining]);
 
   useEffect(() => {
     if (!hydrated || completedAt || isSubmitted) return undefined;
@@ -175,11 +191,12 @@ const CrosswordGame: React.FC<Props> = ({ puzzle }) => {
   };
 
   const revealLetter = () => {
-    if (!selectedPosition || completedAt) return;
+    if (!selectedPosition || completedAt || isSubmitted || revealsRemaining <= 0) return;
     const key = positionKey(selectedPosition.row, selectedPosition.col);
     const cell = puzzle.cells[key];
     if (!cell) return;
     setAnswers((current) => ({ ...current, [key]: cell.answer }));
+    setRevealsRemaining((remaining) => Math.max(0, remaining - 1));
     setCheckedCells(new Set());
     moveWithinWord(1);
   };
@@ -192,6 +209,7 @@ const CrosswordGame: React.FC<Props> = ({ puzzle }) => {
     setCompletedAt(undefined);
     setIsSubmitted(false);
     setScoreCardImage(null);
+    setRevealsRemaining(maxReveals);
     if (puzzle.placements[0]) choosePlacement(puzzle.placements[0]);
   };
 
@@ -374,7 +392,13 @@ const CrosswordGame: React.FC<Props> = ({ puzzle }) => {
       </Workspace>
       <Toolbar aria-label="Crossword controls">
         <button type="button" onClick={checkPuzzle}>Check</button>
-        <button type="button" onClick={revealLetter} disabled={Boolean(completedAt)}>Reveal letter</button>
+        <button
+          type="button"
+          onClick={revealLetter}
+          disabled={Boolean(completedAt) || isSubmitted || revealsRemaining === 0}
+        >
+          Reveal letter ({revealsRemaining})
+        </button>
         <button type="button" onClick={clearPuzzle}>Clear</button>
         <button type="button" onClick={submitPuzzle} disabled={isSubmitted || isGeneratingCard}>
           {isGeneratingCard ? 'Creating…' : 'Submit'}
