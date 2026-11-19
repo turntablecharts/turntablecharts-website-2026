@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
 import Theme from 'constants/Theme';
 import media from 'constants/MediaQuery';
@@ -404,6 +405,9 @@ const CrosswordGame: React.FC<Props> = ({ puzzle }) => {
           {isGeneratingCard ? 'Creating…' : 'Submit'}
         </button>
       </Toolbar>
+      <Link href={`/charts/${puzzle.chartCategoryId}`}>
+        <SourceChartLink>View the Top 100 chart ↗</SourceChartLink>
+      </Link>
       <CluesColumn aria-label="Crossword clues">
         <ClueGroup title="Across" items={across} selectedId={selectedId} onSelect={choosePlacement} />
         <ClueGroup title="Down" items={down} selectedId={selectedId} onSelect={choosePlacement} />
@@ -625,6 +629,17 @@ const Toolbar = styled.div`
   button:focus-visible { opacity: .65; outline: none; }
   button:disabled { opacity: .35; cursor: not-allowed; }
   ${media.mobileLarge`button { flex: 1; padding: 0 8px; }`}
+`;
+
+const SourceChartLink = styled.a`
+  display: block;
+  width: fit-content;
+  margin: 12px auto 0;
+  color: #111;
+  font: 600 .68rem 'Work Sans', sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  &:hover { color: #c42d1e; }
 `;
 
 const ClueHeading = styled.h2`
