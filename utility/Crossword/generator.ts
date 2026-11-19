@@ -8,10 +8,9 @@ import {
 } from './types';
 
 const MIN_ANSWER_LENGTH = 4;
-const MAX_ANSWER_LENGTH = 12;
+const MAX_ANSWER_LENGTH = 15;
 const GRID_SIZE = 17;
 const TARGET_WORDS = 10;
-const MAX_CANDIDATES = 42;
 
 type MutableCell = CrosswordCell;
 type RawPlacement = Omit<CrosswordPlacement, 'id' | 'number' | 'row' | 'col'> & {
@@ -112,8 +111,7 @@ export const buildCandidates = (chart: ChartsByCategoryResponse): CrosswordCandi
       const scoreA = a.rank * 2 + a.answer.length + (a.kind === 'producer' ? 8 : 0);
       const scoreB = b.rank * 2 + b.answer.length + (b.kind === 'producer' ? 8 : 0);
       return scoreA - scoreB;
-    })
-    .slice(0, MAX_CANDIDATES);
+    });
 };
 
 const cellKey = (row: number, col: number) => `${row}:${col}`;
@@ -267,7 +265,7 @@ export const generateCrossword = (chart: ChartsByCategoryResponse): CrosswordPuz
   const candidates = buildCandidates(chart);
   if (candidates.length < 5) return null;
 
-  const puzzleId = `v2-${chart.chartCategoryId}-${chart.id}-${chart.weekNumber}-${new Date(chart.dateCreated).toISOString().slice(0, 10)}`;
+  const puzzleId = `v4-${chart.chartCategoryId}-${chart.id}-${chart.weekNumber}-${new Date(chart.dateCreated).toISOString().slice(0, 10)}`;
   const random = seededRandom(hashSeed(puzzleId));
   let best: ReturnType<typeof growLayout> | null = null;
   let bestScore = -1;
