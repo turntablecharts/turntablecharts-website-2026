@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 const NAV_LINKS = [
   { label: 'Charts', href: '/charts' },
+  { label: 'Crossword', href: '/crossword' },
   { label: 'News', href: '/news' },
   { label: 'Magazines', href: '/magazine' },
   { label: 'Business', href: '/business' },

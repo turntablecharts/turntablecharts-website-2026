@@ -393,25 +393,7 @@ const NavbarStyling = styled.div<{ pathname: string }>`
         flex-direction: column;
         gap: 55px;
         align-items: center;
-        width: fit-content;
-        margin: 0 auto;
-        padding-top: 1rem;
-
-       
-      }
-
-      .mobile_socials {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 28px;
-        padding: 24px 0 0;
-        margin-top: auto;
-
-        a {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        width:
           color: rgba(255, 255, 255, 0.7);
           transition: color 0.2s;
 
