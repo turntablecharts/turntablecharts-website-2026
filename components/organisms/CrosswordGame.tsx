@@ -500,7 +500,7 @@ const Header = styled.header`
   > p {
     margin: 15px auto 18px;
     color: #333;
-    font-family: 'Mermaid', 'Nohemi', cursive;
+    font-family: 'Work Sans', 'Nohemi', sans-serif;
     font-size: clamp(1rem, 2vw, 1.45rem);
     font-weight: 400;
     letter-spacing: .01em;
@@ -537,7 +537,7 @@ const MetaLine = styled.div`
     min-width: 58px;
     padding: 4px 9px 5px;
     color: #c42d1e;
-    font-family: 'Mermaid', 'Nohemi', cursive;
+    font-family: 'Work Sans', 'Nohemi', sans-serif;
     font-size: .86rem;
     font-weight: 400;
     letter-spacing: .03em;
